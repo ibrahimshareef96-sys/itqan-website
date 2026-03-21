@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import { InstagramLogo, LinkedinLogo, PaperPlaneTilt } from '@phosphor-icons/react/dist/ssr';
+import { InstagramLogo, LinkedinLogo } from '@phosphor-icons/react/dist/ssr';
+import { NewsletterForm } from './NewsletterForm';
 
 export function Footer() {
   return (
@@ -25,19 +26,7 @@ export function Footer() {
             <p className="text-brand-cream text-sm font-semibold mb-3.5 tracking-wide">
               Subscribe to Our Newsletter
             </p>
-            <div className="flex items-center gap-2.5">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 bg-white/[0.07] border border-white/[0.13] rounded-full px-4 py-2.5 text-sm text-brand-cream placeholder:text-brand-cream/30 focus:outline-none focus:border-brand-accent/50 transition-colors"
-              />
-              <button
-                className="w-10 h-10 flex-shrink-0 bg-brand-accent rounded-full flex items-center justify-center text-brand-dark hover:bg-brand-accent/80 transition-colors"
-                aria-label="Subscribe to newsletter"
-              >
-                <PaperPlaneTilt size={15} weight="fill" />
-              </button>
-            </div>
+            <NewsletterForm />
           </div>
         </div>
 

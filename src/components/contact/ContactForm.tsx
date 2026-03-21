@@ -30,15 +30,10 @@ export function ContactForm() {
   } = useForm<FormValues>();
 
   const onSubmit = async (data: FormValues) => {
-    const body = new URLSearchParams({
-      'form-name': 'contact',
-      ...Object.fromEntries(Object.entries(data).filter(([, v]) => v)),
-    });
-
-    await fetch('/', {
+    await fetch('/api/contact', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: body.toString(),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
     });
 
     router.push('/thank-you');
@@ -49,12 +44,7 @@ export function ContactForm() {
       onSubmit={handleSubmit(onSubmit)}
       className="space-y-5"
       noValidate
-      data-netlify="true"
-      name="contact"
     >
-      {/* Hidden field required by Netlify */}
-      <input type="hidden" name="form-name" value="contact" />
-
       <div className="grid sm:grid-cols-2 gap-5">
         <div>
           <label htmlFor="name" className={labelClass}>Name</label>
