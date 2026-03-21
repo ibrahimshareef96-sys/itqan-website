@@ -89,7 +89,6 @@ export function ContactForm() {
           <input
             id="company"
             type="text"
-            name="company"
             placeholder="Company name"
             className={inputClass}
             {...register('company')}
@@ -100,7 +99,6 @@ export function ContactForm() {
           <input
             id="website"
             type="text"
-            name="website"
             placeholder="yoursite.com"
             className={inputClass}
             {...register('website')}
@@ -113,7 +111,6 @@ export function ContactForm() {
           <label htmlFor="budget" className={labelClass}>Budget</label>
           <select
             id="budget"
-            name="budget"
             className={`${inputClass} appearance-none cursor-pointer`}
             {...register('budget')}
           >
@@ -129,7 +126,6 @@ export function ContactForm() {
           <input
             id="phone"
             type="tel"
-            name="phone"
             placeholder="+1 (000) 000-0000"
             className={inputClass}
             {...register('phone')}
