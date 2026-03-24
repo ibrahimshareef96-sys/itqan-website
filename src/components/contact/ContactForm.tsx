@@ -138,7 +138,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full inline-flex items-center justify-center gap-2 bg-brand-dark text-brand-cream py-4 rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity duration-200 disabled:opacity-60"
+        className="w-full inline-flex items-center justify-center gap-2 bg-brand-dark text-brand-cream py-4 rounded-xl text-sm font-semibold hover:opacity-90 active:scale-[0.98] transition-all duration-200 disabled:opacity-60"
       >
         {isSubmitting ? 'Sending…' : 'Send Message'}
         <ArrowRight size={15} weight="bold" />

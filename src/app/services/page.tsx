@@ -45,10 +45,10 @@ export default function ServicesPage() {
           </FadeUp>
 
           <FadeUp delay={0.2} className="mt-7">
-            <h1 className="font-sans font-bold text-5xl md:text-6xl lg:text-7xl text-brand-cream leading-tight tracking-tight">
+            <h1 className="font-sans font-bold text-[2rem] sm:text-4xl md:text-6xl lg:text-7xl text-brand-cream leading-tight tracking-tight">
               Our Services
             </h1>
-            <p className="font-serif italic text-5xl md:text-6xl lg:text-7xl text-brand-accent leading-tight tracking-tight mt-1">
+            <p className="font-serif italic text-[2rem] sm:text-4xl md:text-6xl lg:text-7xl text-brand-accent leading-tight tracking-tight mt-1">
               Excellence in every detail.
             </p>
           </FadeUp>
@@ -64,7 +64,7 @@ export default function ServicesPage() {
             <div className="mt-10">
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2.5 bg-brand-accent text-brand-dark px-7 py-3.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity duration-200"
+                className="inline-flex items-center gap-2.5 bg-brand-accent text-brand-dark px-7 py-3.5 rounded-full text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200"
               >
                 Book a meeting
                 <ArrowRight size={15} weight="bold" />
@@ -81,7 +81,7 @@ export default function ServicesPage() {
             <FadeUp>
               <div>
                 <Palette size={28} className="text-brand-accent-on-light mb-6" />
-                <h2 className="font-sans font-bold text-4xl md:text-5xl text-brand-dark leading-tight tracking-tight">
+                <h2 className="font-sans font-bold text-[1.875rem] sm:text-4xl md:text-5xl text-brand-dark leading-tight tracking-tight">
                   Brand Identity
                   <br />
                   <span className="font-serif font-normal italic text-brand-accent-on-light">
@@ -114,7 +114,7 @@ export default function ServicesPage() {
                 <div className="mt-10">
                   <Link
                     href="/contact"
-                    className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-6 py-3 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity duration-200"
+                    className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-6 py-3 rounded-full text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200"
                   >
                     Start your brand project
                     <ArrowRight size={14} weight="bold" />
@@ -162,7 +162,7 @@ export default function ServicesPage() {
             <FadeUp>
               <div>
                 <Lightning size={28} className="text-brand-accent-on-light mb-6" />
-                <h2 className="font-sans font-bold text-4xl md:text-5xl text-brand-dark leading-tight tracking-tight">
+                <h2 className="font-sans font-bold text-[1.875rem] sm:text-4xl md:text-5xl text-brand-dark leading-tight tracking-tight">
                   Automation &amp;
                   <br />
                   <span className="font-serif font-normal italic text-brand-accent-on-light">
@@ -194,7 +194,7 @@ export default function ServicesPage() {
                 <div className="mt-10">
                   <Link
                     href="/contact"
-                    className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-6 py-3 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity duration-200"
+                    className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-6 py-3 rounded-full text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200"
                   >
                     Automate your workflow
                     <ArrowRight size={14} weight="bold" />
@@ -213,7 +213,7 @@ export default function ServicesPage() {
             <FadeUp>
               <div>
                 <PencilSimpleLine size={28} className="text-brand-accent-on-light mb-6" />
-                <h2 className="font-sans font-bold text-4xl md:text-5xl text-brand-dark leading-tight tracking-tight">
+                <h2 className="font-sans font-bold text-[1.875rem] sm:text-4xl md:text-5xl text-brand-dark leading-tight tracking-tight">
                   UI/UX Design
                   <br />
                   <span className="font-serif font-normal italic text-brand-accent-on-light">
@@ -246,7 +246,7 @@ export default function ServicesPage() {
                 <div className="mt-10">
                   <Link
                     href="/contact"
-                    className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-6 py-3 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity duration-200"
+                    className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-6 py-3 rounded-full text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200"
                   >
                     Start your design project
                     <ArrowRight size={14} weight="bold" />
@@ -300,10 +300,10 @@ export default function ServicesPage() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_60%_50%,rgba(204,164,194,0.12),transparent)]" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 text-center">
           <FadeUp delay={0.1}>
-            <h2 className="font-sans font-bold text-4xl md:text-5xl text-brand-cream leading-tight tracking-tight">
+            <h2 className="font-sans font-bold text-[1.875rem] sm:text-4xl md:text-5xl text-brand-cream leading-tight tracking-tight">
               Ready to start your project?
             </h2>
-            <p className="font-serif italic text-4xl md:text-5xl text-brand-accent leading-tight tracking-tight mt-2">
+            <p className="font-serif italic text-[1.875rem] sm:text-4xl md:text-5xl text-brand-accent leading-tight tracking-tight mt-2">
               Let&apos;s build something excellent together.
             </p>
           </FadeUp>
@@ -311,7 +311,7 @@ export default function ServicesPage() {
             <div className="mt-10">
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2.5 bg-brand-accent text-brand-dark px-8 py-4 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity duration-200"
+                className="inline-flex items-center gap-2.5 bg-brand-accent text-brand-dark px-8 py-4 rounded-full text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200"
               >
                 Book a meeting
                 <ArrowRight size={15} weight="bold" />

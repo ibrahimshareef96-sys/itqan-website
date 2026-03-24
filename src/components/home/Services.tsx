@@ -75,7 +75,7 @@ export function Services() {
         <div className="mt-14 grid md:grid-cols-3 gap-6 items-stretch">
           {services.map(({ Icon, title, description, images }, i) => (
             <FadeUp key={title} delay={0.1 + i * 0.09} className="h-full">
-              <div className="bg-brand-cream rounded-2xl p-8 flex flex-col h-full border border-brand-accent/15 shadow-[0_4px_24px_rgba(47,28,44,0.04)] overflow-hidden">
+              <div className="bg-brand-cream rounded-2xl p-8 flex flex-col h-full border border-brand-accent/15 shadow-[0_4px_24px_rgba(47,28,44,0.04)] hover:shadow-[0_8px_40px_rgba(47,28,44,0.09)] hover:-translate-y-0.5 transition-all duration-300 overflow-hidden">
                 <Icon size={22} className="text-brand-accent mb-5" />
                 <h3 className="font-sans font-semibold text-xl text-brand-dark leading-snug mb-4">
                   {title}

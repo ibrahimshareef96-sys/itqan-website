@@ -40,10 +40,10 @@ export function Navbar() {
           className="max-w-5xl mx-auto"
         >
           <nav
-            className={`bg-[#fffbf5]/85 backdrop-blur-xl rounded-full border border-brand-accent/35 px-4 md:px-5 h-14 flex items-center justify-between gap-4 transition-shadow duration-300 ${
+            className={`bg-[#fffbf5]/85 backdrop-blur-xl rounded-full border px-4 md:px-5 h-14 flex items-center justify-between gap-4 transition-all duration-300 ${
               scrolled
-                ? 'shadow-[0_8px_32px_rgba(47,28,44,0.15),inset_0_1px_0_rgba(255,255,255,0.5)]'
-                : 'shadow-[0_4px_20px_rgba(47,28,44,0.08),inset_0_1px_0_rgba(255,255,255,0.4)]'
+                ? 'border-brand-accent/50 shadow-[0_8px_40px_rgba(47,28,44,0.18),inset_0_1px_0_rgba(255,255,255,0.6),0_0_0_1px_rgba(204,164,194,0.12)]'
+                : 'border-brand-accent/35 shadow-[0_4px_20px_rgba(47,28,44,0.08),inset_0_1px_0_rgba(255,255,255,0.4)]'
             }`}
           >
             <Link href="/" className="flex-shrink-0" aria-label="Itqan Studio — home">
@@ -71,7 +71,7 @@ export function Navbar() {
             <div className="hidden md:block flex-shrink-0">
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity duration-200"
+                className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200"
               >
                 Book a meeting
                 <ArrowRight size={14} weight="bold" />

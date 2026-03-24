@@ -21,7 +21,7 @@ export function CTABanner() {
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10">
         <div className="max-w-2xl">
           <FadeUp delay={0.1}>
-            <h2 className="font-sans font-bold text-4xl md:text-5xl text-brand-cream leading-tight tracking-tight">
+            <h2 className="font-sans font-bold text-[1.75rem] sm:text-3xl md:text-4xl lg:text-5xl text-brand-cream leading-tight tracking-tight">
               Partner with Us and Elevate Your Business to New Heights!
             </h2>
           </FadeUp>
@@ -37,7 +37,7 @@ export function CTABanner() {
             <div className="mt-10 flex flex-wrap gap-4">
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 bg-brand-accent text-brand-dark px-6 py-3.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity duration-200"
+                className="inline-flex items-center gap-2 bg-brand-accent text-brand-dark px-6 py-3.5 rounded-full text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200"
               >
                 Book a meeting
                 <ArrowRight size={14} weight="bold" />

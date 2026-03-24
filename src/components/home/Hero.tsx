@@ -16,9 +16,9 @@ export function Hero() {
         sizes="100vw"
       />
 
-      {/* Asymmetric gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-brand-dark/92 via-brand-dark/65 to-brand-dark/25" />
-      <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/50 via-transparent to-transparent" />
+      {/* Asymmetric gradient overlay — stronger for mobile readability */}
+      <div className="absolute inset-0 bg-gradient-to-r from-brand-dark/95 via-brand-dark/78 to-brand-dark/45" />
+      <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/60 via-transparent to-transparent" />
 
       {/* Premium inset frame */}
       <div className="absolute inset-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.09)] pointer-events-none z-20" />
@@ -28,11 +28,11 @@ export function Hero() {
         <div className="max-w-[820px]">
           <FadeUp delay={0.25}>
             {/* Line 1: Manrope Bold */}
-            <h1 className="font-sans font-bold text-[2.5rem] md:text-[3.25rem] lg:text-[4rem] text-brand-cream leading-tight tracking-tight whitespace-nowrap">
+            <h1 className="font-sans font-bold text-[1.75rem] sm:text-[2.25rem] md:text-[3.25rem] lg:text-[4rem] text-brand-cream leading-tight tracking-tight">
               Your brand has potential.
             </h1>
             {/* Line 2: Playfair Display Italic, accent color */}
-            <p className="font-serif italic text-[2.5rem] md:text-[3.25rem] lg:text-[4rem] text-brand-accent leading-tight tracking-tight mt-1 whitespace-nowrap">
+            <p className="font-serif italic text-[1.75rem] sm:text-[2.25rem] md:text-[3.25rem] lg:text-[4rem] text-brand-accent leading-tight tracking-tight mt-1">
               We give it direction.
             </p>
           </FadeUp>
@@ -45,17 +45,17 @@ export function Hero() {
           </FadeUp>
 
           <FadeUp delay={0.55}>
-            <div className="mt-10 flex flex-wrap gap-4">
+            <div className="mt-10 flex flex-col sm:flex-row gap-3">
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2.5 bg-brand-cream text-brand-dark px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-brand-cream/90 transition-colors duration-200"
+                className="inline-flex items-center justify-center gap-2.5 bg-brand-cream text-brand-dark px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-brand-cream/90 active:scale-[0.97] transition-all duration-200"
               >
                 Book a meeting
                 <ArrowRight size={15} weight="bold" />
               </Link>
               <Link
                 href="/work"
-                className="inline-flex items-center gap-2.5 border border-brand-cream/35 text-brand-cream px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-brand-cream/10 transition-colors duration-200"
+                className="inline-flex items-center justify-center gap-2.5 border border-brand-cream/35 text-brand-cream px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-brand-cream/10 active:scale-[0.97] transition-all duration-200"
               >
                 View our work
                 <ArrowRight size={15} weight="bold" />

@@ -60,7 +60,7 @@ export function Benefits() {
             <div className="mt-8">
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 bg-brand-accent text-brand-dark px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity duration-200"
+                className="inline-flex items-center gap-2 bg-brand-accent text-brand-dark px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200"
               >
                 Book a meeting
                 <ArrowRight size={14} weight="bold" />

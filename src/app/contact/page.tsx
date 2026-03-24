@@ -24,10 +24,10 @@ export default function ContactPage() {
             </FadeUp>
 
             <FadeUp delay={0.08} className="mt-6">
-              <h1 className="font-sans font-bold text-5xl md:text-6xl text-brand-dark leading-tight tracking-tight">
+              <h1 className="font-sans font-bold text-[2rem] sm:text-4xl md:text-5xl lg:text-6xl text-brand-dark leading-tight tracking-tight">
                 Book A Call with Us.
               </h1>
-              <p className="font-serif italic text-5xl md:text-6xl text-brand-accent-on-light leading-tight tracking-tight mt-1">
+              <p className="font-serif italic text-[2rem] sm:text-4xl md:text-5xl lg:text-6xl text-brand-accent-on-light leading-tight tracking-tight mt-1">
                 And Let&apos;s Work Together.
               </p>
             </FadeUp>

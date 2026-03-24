@@ -22,7 +22,7 @@ export function BrandStatement() {
           {/* Left */}
           <div>
             <FadeUp>
-              <h2 className="font-sans font-bold text-4xl md:text-[2.75rem] text-brand-dark leading-tight tracking-tight">
+              <h2 className="font-sans font-bold text-[1.75rem] sm:text-3xl md:text-[2.75rem] text-brand-dark leading-tight tracking-tight">
                 Your Brand, Engineered for Performance.
               </h2>
             </FadeUp>
@@ -37,7 +37,7 @@ export function BrandStatement() {
               <div className="mt-8">
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity duration-200"
+                  className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200"
                 >
                   Book a meeting
                   <ArrowRight size={14} weight="bold" />
@@ -51,11 +51,11 @@ export function BrandStatement() {
                 <p className="text-[10px] font-bold tracking-[0.22em] text-text-secondary uppercase mb-5">
                   Trusted by Leading Brands:
                 </p>
-                <div className="flex items-center gap-5 flex-wrap">
+                <div className="flex items-center gap-4 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                   {clients.map(({ name, src }) => (
                     <div
                       key={name}
-                      className="relative h-8 w-20 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300"
+                      className="relative h-6 w-14 sm:h-8 sm:w-20 flex-shrink-0 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300"
                     >
                       <Image
                         src={src}

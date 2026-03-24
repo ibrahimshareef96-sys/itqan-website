@@ -22,7 +22,7 @@ export default function WorkPage() {
           </FadeUp>
 
           <FadeUp delay={0.08} className="mt-6">
-            <h1 className="font-sans font-bold text-5xl md:text-6xl text-brand-dark leading-tight tracking-tight">
+            <h1 className="font-sans font-bold text-[1.875rem] sm:text-4xl md:text-5xl lg:text-6xl text-brand-dark leading-tight tracking-tight">
               A Collection of Projects{' '}
               <span className="font-serif font-normal italic text-brand-accent-on-light">
                 We&apos;ve Worked On.
@@ -33,7 +33,7 @@ export default function WorkPage() {
           <FadeUp delay={0.16} className="mt-8 flex flex-wrap gap-4">
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-6 py-3 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-6 py-3 rounded-full text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200"
             >
               Book a meeting
               <ArrowRight size={14} weight="bold" />

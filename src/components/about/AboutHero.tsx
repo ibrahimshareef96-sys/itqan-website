@@ -14,7 +14,7 @@ export function AboutHero() {
           <p className="text-[10px] font-bold tracking-[0.22em] text-brand-accent uppercase mb-6">
             About Itqan Studio
           </p>
-          <h1 className="font-sans font-bold text-5xl md:text-6xl lg:text-7xl text-brand-cream leading-tight tracking-tight max-w-2xl">
+          <h1 className="font-sans font-bold text-[2.25rem] sm:text-5xl md:text-6xl lg:text-7xl text-brand-cream leading-tight tracking-tight max-w-2xl">
             About Itqan
           </h1>
           <p className="mt-5 text-brand-cream/55 text-lg leading-relaxed max-w-[44ch]">
@@ -26,7 +26,7 @@ export function AboutHero() {
           <div className="mt-10">
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 bg-brand-accent text-brand-dark px-6 py-3 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity duration-200"
+              className="inline-flex items-center gap-2 bg-brand-accent text-brand-dark px-6 py-3 rounded-full text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200"
             >
               Book a meeting
               <ArrowRight size={14} weight="bold" />
