@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ArrowRight } from '@phosphor-icons/react';
 
@@ -22,55 +21,29 @@ const labelClass = 'block text-xs font-semibold text-text-primary tracking-wide 
 const errorClass = 'text-red-500 text-xs mt-1.5';
 
 export function ContactForm() {
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
-
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>();
 
-  const onSubmit = async (data: FormValues) => {
-    try {
-      const res = await fetch('https://formspree.io/f/xlgpqnjl', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (res.ok) {
-        setStatus('success');
-      } else {
-        setStatus('error');
-      }
-    } catch {
-      setStatus('error');
-    }
+  // handleSubmit runs validation; on success the form submits naturally to Formspree
+  const onValid = () => {
+    const form = document.getElementById('contact-form') as HTMLFormElement;
+    form.submit();
   };
 
-  if (status === 'success') {
-    return (
-      <div className="py-12 text-center space-y-3">
-        <p className="text-2xl font-bold text-text-primary">Thank you!</p>
-        <p className="text-text-secondary">We'll be in touch within 24 hours.</p>
-      </div>
-    );
-  }
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
-      {status === 'error' && (
-        <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-3">
-          Something went wrong. Please try again or email us at{' '}
-          <a href="mailto:info@itqanstudio.com" className="underline">
-            info@itqanstudio.com
-          </a>
-          .
-        </p>
-      )}
+    <form
+      id="contact-form"
+      onSubmit={handleSubmit(onValid)}
+      action="https://formspree.io/f/xlgpqnjl"
+      method="POST"
+      className="space-y-5"
+      noValidate
+    >
+      <input type="hidden" name="_next" value="https://itqanstudio.com/thank-you" />
+      <input type="hidden" name="_subject" value="New inquiry from Itqan Studio website" />
 
       <div className="grid sm:grid-cols-2 gap-5">
         <div>
