@@ -101,7 +101,7 @@ export function Navbar() {
           >
             <div className="px-5 h-16 flex items-center justify-between">
               <Image
-                src="/images/brand/light-logo.svg"
+                src="/images/brand/white-logo.svg"
                 alt="Itqan Studio"
                 width={108}
                 height={30}
@@ -140,7 +140,7 @@ export function Navbar() {
                 <Link
                   href="/contact"
                   onClick={() => setOpen(false)}
-                  className="inline-flex items-center gap-2 bg-brand-accent text-brand-dark px-8 py-3.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity"
+                  className="inline-flex items-center gap-2 bg-brand-cream text-brand-dark px-8 py-3.5 rounded-full text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200"
                 >
                   Book a meeting
                   <ArrowRight size={14} weight="bold" />
