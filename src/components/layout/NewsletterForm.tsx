@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { PaperPlaneTilt } from '@phosphor-icons/react';
+import { SPRING_SNAPPY } from '@/lib/motion';
 
 export function NewsletterForm() {
   const [email, setEmail] = useState('');
@@ -54,14 +56,16 @@ export function NewsletterForm() {
           required
           className="flex-1 bg-white/[0.07] border border-white/[0.13] rounded-full px-4 py-2.5 text-sm text-brand-cream placeholder:text-brand-cream/30 focus:outline-none focus:border-brand-accent/50 transition-colors"
         />
-        <button
+        <motion.button
           type="submit"
           disabled={isSubmitting}
           className="w-10 h-10 flex-shrink-0 bg-brand-accent rounded-full flex items-center justify-center text-brand-dark hover:bg-brand-accent/80 transition-colors disabled:opacity-60"
           aria-label="Subscribe to newsletter"
+          whileTap={{ scale: 0.93 }}
+          transition={SPRING_SNAPPY}
         >
           <PaperPlaneTilt size={15} weight="fill" />
-        </button>
+        </motion.button>
       </form>
       {status === 'error' && (
         <p className="text-red-400 text-xs mt-2">Something went wrong. Please try again.</p>

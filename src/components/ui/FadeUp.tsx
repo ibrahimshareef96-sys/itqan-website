@@ -1,7 +1,7 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
-import { useRef, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 interface Props {
   children: ReactNode;
@@ -9,19 +9,14 @@ interface Props {
   className?: string;
 }
 
+/**
+ * Backward-compatible fade-up animation wrapper.
+ * Delegates to ScrollReveal with direction="up" and the original defaults.
+ */
 export function FadeUp({ children, delay = 0, className }: Props) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-72px 0px' });
-
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, delay, ease: [0.16, 1, 0.3, 1] }}
-      className={className}
-    >
+    <ScrollReveal direction="up" distance={24} delay={delay} className={className}>
       {children}
-    </motion.div>
+    </ScrollReveal>
   );
 }

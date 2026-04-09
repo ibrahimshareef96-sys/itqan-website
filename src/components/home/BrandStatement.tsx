@@ -1,7 +1,11 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight } from '@phosphor-icons/react/dist/ssr';
-import { FadeUp } from '@/components/ui/FadeUp';
+import { ArrowRight } from '@phosphor-icons/react';
+import { motion } from 'framer-motion';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import { MagneticButton } from '@/components/ui/MagneticButton';
 import { TestimonialCarousel } from '@/components/ui/TestimonialCarousel';
 import { testimonials } from '@/data/testimonials';
 
@@ -19,34 +23,38 @@ export function BrandStatement() {
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
 
-          {/* Left */}
+          {/* Left — slides in from left */}
           <div>
-            <FadeUp>
+            <ScrollReveal direction="left" distance={32}>
               <h2 className="font-sans font-bold text-[1.75rem] sm:text-3xl md:text-[2.75rem] text-brand-dark leading-tight tracking-tight">
                 Your Brand, Engineered for Performance.
               </h2>
-            </FadeUp>
+            </ScrollReveal>
 
-            <FadeUp delay={0.1}>
+            <ScrollReveal direction="left" distance={32} delay={0.1}>
               <p className="mt-5 text-text-secondary text-base leading-relaxed max-w-[54ch]">
                 Your brand deserves a digital experience engineered with excellence.
               </p>
-            </FadeUp>
+            </ScrollReveal>
 
-            <FadeUp delay={0.18}>
+            <ScrollReveal direction="left" distance={32} delay={0.18}>
               <div className="mt-8">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200"
-                >
-                  Book a meeting
-                  <ArrowRight size={14} weight="bold" />
-                </Link>
+                <MagneticButton strength={0.15}>
+                  <motion.div whileTap={{ scale: 0.96 }}>
+                    <Link
+                      href="/contact"
+                      className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity duration-200"
+                    >
+                      Book a meeting
+                      <ArrowRight size={14} weight="bold" />
+                    </Link>
+                  </motion.div>
+                </MagneticButton>
               </div>
-            </FadeUp>
+            </ScrollReveal>
 
             {/* Client logos */}
-            <FadeUp delay={0.28}>
+            <ScrollReveal direction="up" delay={0.28}>
               <div className="mt-12">
                 <p className="text-[10px] font-bold tracking-[0.22em] text-text-secondary uppercase mb-5">
                   Trusted by Leading Brands:
@@ -68,13 +76,13 @@ export function BrandStatement() {
                   ))}
                 </div>
               </div>
-            </FadeUp>
+            </ScrollReveal>
           </div>
 
-          {/* Right — Testimonial carousel */}
-          <FadeUp delay={0.12} className="lg:pt-2">
+          {/* Right — testimonial slides in from right */}
+          <ScrollReveal direction="right" distance={32} delay={0.12} className="lg:pt-2">
             <TestimonialCarousel testimonials={testimonials} variant="inline" />
-          </FadeUp>
+          </ScrollReveal>
 
         </div>
       </div>

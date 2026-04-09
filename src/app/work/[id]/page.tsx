@@ -4,6 +4,9 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, ArrowUpRight } from '@phosphor-icons/react/dist/ssr';
 import { FadeUp } from '@/components/ui/FadeUp';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import { ScaleReveal } from '@/components/ui/ScaleReveal';
+import { StaggerContainer, StaggerItem } from '@/components/ui/StaggerContainer';
 import { caseStudies, getCaseStudy, getAdjacentProjects } from '@/data/case-studies';
 
 interface Props {
@@ -73,17 +76,16 @@ export default function CaseStudyPage({ params }: Props) {
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
 
           {/* Services tags */}
-          <FadeUp>
-            <div className="flex flex-wrap gap-2.5 mb-16">
-              {cs.services.map((s) => (
-                <span
-                  key={s}
-                  className="px-4 py-2 rounded-full border border-brand-dark/18 bg-brand-accent/10 text-[11px] font-medium text-brand-dark tracking-wide"
-                >
+          <StaggerContainer stagger={0.04} className="flex flex-wrap gap-2.5 mb-16">
+            {cs.services.map((s) => (
+              <StaggerItem key={s}>
+                <span className="px-4 py-2 rounded-full border border-brand-dark/18 bg-brand-accent/10 text-[11px] font-medium text-brand-dark tracking-wide">
                   {s}
                 </span>
-              ))}
-              {cs.behanceUrl && (
+              </StaggerItem>
+            ))}
+            {cs.behanceUrl && (
+              <StaggerItem>
                 <a
                   href={cs.behanceUrl}
                   target="_blank"
@@ -93,25 +95,25 @@ export default function CaseStudyPage({ params }: Props) {
                   View on Behance
                   <ArrowUpRight size={12} weight="bold" />
                 </a>
-              )}
-            </div>
-          </FadeUp>
+              </StaggerItem>
+            )}
+          </StaggerContainer>
 
           {/* Challenge / Approach / Result */}
           <div className="grid md:grid-cols-3 gap-10">
-            {[
-              { heading: 'The Challenge', body: cs.challenge },
-              { heading: 'Our Approach', body: cs.approach },
-              { heading: 'The Result', body: cs.result },
-            ].map(({ heading, body }, i) => (
-              <FadeUp key={heading} delay={0.08 + i * 0.1}>
+            {([
+              { heading: 'The Challenge', body: cs.challenge, dir: 'left' as const },
+              { heading: 'Our Approach', body: cs.approach, dir: 'up' as const },
+              { heading: 'The Result', body: cs.result, dir: 'right' as const },
+            ]).map(({ heading, body, dir }, i) => (
+              <ScrollReveal key={heading} direction={dir} distance={24} delay={0.08 + i * 0.1}>
                 <div>
                   <h2 className="font-sans font-semibold text-xl text-brand-dark mb-4">
                     {heading}
                   </h2>
                   <p className="text-text-secondary text-sm leading-relaxed">{body}</p>
                 </div>
-              </FadeUp>
+              </ScrollReveal>
             ))}
           </div>
 
@@ -128,17 +130,17 @@ export default function CaseStudyPage({ params }: Props) {
           </FadeUp>
           <div className="grid md:grid-cols-3 gap-6">
             {cs.mockups.map((src, i) => (
-              <FadeUp key={src} delay={0.08 + i * 0.09}>
-                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+              <ScaleReveal key={src} delay={0.08 + i * 0.09}>
+                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden group">
                   <Image
                     src={src}
                     alt={`${cs.title} mockup ${i + 1}`}
                     fill
-                    className="object-cover"
+                    className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />
                 </div>
-              </FadeUp>
+              </ScaleReveal>
             ))}
           </div>
         </div>

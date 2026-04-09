@@ -1,7 +1,9 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
+import { motion } from 'framer-motion';
 import { ArrowRight } from '@phosphor-icons/react';
+import { SPRING_SNAPPY } from '@/lib/motion';
 
 type FormValues = {
   name: string;
@@ -14,7 +16,7 @@ type FormValues = {
 };
 
 const inputClass =
-  'w-full bg-white border border-brand-accent/20 rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:border-brand-accent/60 transition-colors';
+  'w-full bg-white border border-brand-accent/20 rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:border-brand-accent-on-light/50 focus:ring-2 focus:ring-brand-accent/20 focus:shadow-[0_0_0_3px_rgba(109,74,102,0.1)] transition-all duration-300';
 
 const labelClass = 'block text-xs font-semibold text-text-primary tracking-wide mb-2';
 
@@ -135,14 +137,17 @@ export function ContactForm() {
         {errors.message && <p className={errorClass}>{errors.message.message}</p>}
       </div>
 
-      <button
+      <motion.button
         type="submit"
         disabled={isSubmitting}
-        className="w-full inline-flex items-center justify-center gap-2 bg-brand-dark text-brand-cream py-4 rounded-xl text-sm font-semibold hover:opacity-90 active:scale-[0.98] transition-all duration-200 disabled:opacity-60"
+        className="w-full inline-flex items-center justify-center gap-2 bg-brand-dark text-brand-cream py-4 rounded-xl text-sm font-semibold hover:opacity-90 transition-all duration-200 disabled:opacity-60"
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.97 }}
+        transition={SPRING_SNAPPY}
       >
         {isSubmitting ? 'Sending…' : 'Send Message'}
         <ArrowRight size={15} weight="bold" />
-      </button>
+      </motion.button>
     </form>
   );
 }

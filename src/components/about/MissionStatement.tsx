@@ -1,4 +1,6 @@
-import { FadeUp } from '@/components/ui/FadeUp';
+'use client';
+
+import { TextReveal } from '@/components/ui/TextReveal';
 
 export function MissionStatement() {
   return (
@@ -52,16 +54,16 @@ export function MissionStatement() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_20%_50%,rgba(204,164,194,0.08),transparent)] pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10">
-        <FadeUp>
+        <TextReveal direction="left" delay={0}>
           <p className="font-sans text-[1.75rem] sm:text-3xl md:text-4xl lg:text-5xl text-brand-cream font-bold leading-tight tracking-tight max-w-3xl">
             Itqan comes from the Arabic word meaning Excellence.
           </p>
-        </FadeUp>
-        <FadeUp delay={0.14}>
+        </TextReveal>
+        <TextReveal direction="right" delay={0.14}>
           <p className="font-serif italic text-[1.75rem] sm:text-3xl md:text-4xl lg:text-5xl text-brand-accent leading-tight tracking-tight mt-4 max-w-3xl">
             And Excellence is defined by the values that shape it.
           </p>
-        </FadeUp>
+        </TextReveal>
       </div>
     </section>
   );

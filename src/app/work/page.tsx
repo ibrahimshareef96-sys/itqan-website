@@ -3,12 +3,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, FolderOpen } from '@phosphor-icons/react/dist/ssr';
 import { FadeUp } from '@/components/ui/FadeUp';
+import { StaggerContainer, StaggerItem } from '@/components/ui/StaggerContainer';
 import { SectionLabel } from '@/components/ui/SectionLabel';
 import { projects } from '@/data/projects';
 
 export const metadata: Metadata = {
-  title: 'Work',
-  description: 'Explore our portfolio of brand identity, UI/UX, and digital platform projects.',
+  title: 'Our Work — Brand Identity, UI/UX & Web Development Projects',
+  description:
+    'Explore the Itqan Studio portfolio. See how we deliver brand identity design, UI/UX systems, custom web applications, and digital platforms for clients across industries.',
 };
 
 export default function WorkPage() {
@@ -52,9 +54,9 @@ export default function WorkPage() {
       {/* Project grid */}
       <section className="bg-brand-cream pb-32">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="grid md:grid-cols-2 gap-6">
-            {projects.map((project, i) => (
-              <FadeUp key={project.id} delay={0.06 + i * 0.08}>
+          <StaggerContainer stagger={0.08} className="grid md:grid-cols-2 gap-6">
+            {projects.map((project) => (
+              <StaggerItem key={project.id}>
                 <div className="relative rounded-2xl overflow-hidden group aspect-[4/3]">
                   <Image
                     src={project.coverImage}
@@ -101,9 +103,9 @@ export default function WorkPage() {
                     </div>
                   </div>
                 </div>
-              </FadeUp>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
         </div>
       </section>
     </>

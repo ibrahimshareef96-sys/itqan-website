@@ -1,6 +1,12 @@
+'use client';
+
 import Link from 'next/link';
-import { ArrowRight, CheckCircle, XCircle } from '@phosphor-icons/react/dist/ssr';
+import { ArrowRight, CheckCircle, XCircle } from '@phosphor-icons/react';
+import { motion } from 'framer-motion';
 import { FadeUp } from '@/components/ui/FadeUp';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import { MagneticButton } from '@/components/ui/MagneticButton';
+import { SPRING_SNAPPY } from '@/lib/motion';
 
 const withItqan = [
   {
@@ -58,26 +64,34 @@ export function Benefits() {
 
           <FadeUp delay={0.1}>
             <div className="mt-8">
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 bg-brand-accent text-brand-dark px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200"
-              >
-                Book a meeting
-                <ArrowRight size={14} weight="bold" />
-              </Link>
+              <MagneticButton strength={0.15}>
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={SPRING_SNAPPY}
+                >
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center gap-2 bg-brand-accent text-brand-dark px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity duration-200"
+                  >
+                    Book a meeting
+                    <ArrowRight size={14} weight="bold" />
+                  </Link>
+                </motion.div>
+              </MagneticButton>
             </div>
           </FadeUp>
         </div>
 
         <div className="mt-16 grid md:grid-cols-2 gap-5">
 
-          {/* With Itqan */}
+          {/* With Itqan — slides from left */}
           <div className="space-y-4">
             <p className="text-[10px] font-bold tracking-[0.22em] text-brand-accent uppercase mb-5">
               With Itqan:
             </p>
             {withItqan.map(({ title, desc }, i) => (
-              <FadeUp key={title} delay={0.1 + i * 0.07}>
+              <ScrollReveal key={title} direction="left" distance={28} delay={0.1 + i * 0.07}>
                 <div className="bg-brand-cream/[0.08] border border-brand-cream/[0.1] rounded-2xl p-6 flex gap-4">
                   <CheckCircle size={19} weight="fill" className="text-brand-accent shrink-0 mt-0.5" />
                   <div>
@@ -85,17 +99,17 @@ export function Benefits() {
                     <p className="text-brand-cream/50 text-xs mt-1.5 leading-relaxed">{desc}</p>
                   </div>
                 </div>
-              </FadeUp>
+              </ScrollReveal>
             ))}
           </div>
 
-          {/* Without Itqan */}
+          {/* Without Itqan — slides from right */}
           <div className="space-y-4">
             <p className="text-[10px] font-bold tracking-[0.22em] text-text-secondary uppercase mb-5">
               Without Itqan:
             </p>
             {withoutItqan.map(({ title, desc }, i) => (
-              <FadeUp key={title} delay={0.15 + i * 0.07}>
+              <ScrollReveal key={title} direction="right" distance={28} delay={0.15 + i * 0.07}>
                 <div className="bg-white/[0.03] border border-white/[0.07] rounded-2xl p-6 flex gap-4">
                   <XCircle size={19} weight="fill" className="text-text-secondary/50 shrink-0 mt-0.5" />
                   <div>
@@ -103,7 +117,7 @@ export function Benefits() {
                     <p className="text-brand-cream/25 text-xs mt-1.5 leading-relaxed">{desc}</p>
                   </div>
                 </div>
-              </FadeUp>
+              </ScrollReveal>
             ))}
           </div>
 

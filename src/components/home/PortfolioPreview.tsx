@@ -1,8 +1,16 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, ArrowUpRight, FolderOpen } from '@phosphor-icons/react/dist/ssr';
+import { ArrowRight, ArrowUpRight, FolderOpen } from '@phosphor-icons/react';
+import { motion } from 'framer-motion';
 import { FadeUp } from '@/components/ui/FadeUp';
+import { SplitText } from '@/components/ui/SplitText';
+import { ScaleReveal } from '@/components/ui/ScaleReveal';
+import { Parallax } from '@/components/ui/Parallax';
+import { MagneticButton } from '@/components/ui/MagneticButton';
 import { SectionLabel } from '@/components/ui/SectionLabel';
+import { SPRING_SNAPPY } from '@/lib/motion';
 import { projects } from '@/data/projects';
 
 export function PortfolioPreview() {
@@ -18,23 +26,32 @@ export function PortfolioPreview() {
         </FadeUp>
 
         <div className="mt-6 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-          <FadeUp delay={0.08} className="max-w-xl">
+          <div className="max-w-xl">
             <h2 className="font-sans font-bold text-4xl md:text-[2.75rem] text-brand-dark leading-tight tracking-tight">
-              A Collection of Projects{' '}
+              <SplitText text="A Collection of Projects" stagger={0.04} delay={0.08} />
+              {' '}
               <span className="font-serif font-normal italic text-brand-accent-on-light">
-                We&apos;ve Worked On.
+                <SplitText text="We've Worked On." stagger={0.04} delay={0.3} />
               </span>
             </h2>
-          </FadeUp>
+          </div>
 
           <FadeUp delay={0.16}>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity duration-200 whitespace-nowrap"
-            >
-              Book a meeting
-              <ArrowRight size={14} weight="bold" />
-            </Link>
+            <MagneticButton strength={0.15}>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                transition={SPRING_SNAPPY}
+              >
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity duration-200 whitespace-nowrap"
+                >
+                  Book a meeting
+                  <ArrowRight size={14} weight="bold" />
+                </Link>
+              </motion.div>
+            </MagneticButton>
           </FadeUp>
         </div>
 
@@ -43,14 +60,20 @@ export function PortfolioPreview() {
 
           {/* Featured large card */}
           <FadeUp delay={0.12} className="lg:w-[55%]">
-            <div className="relative rounded-2xl overflow-hidden aspect-[4/5] lg:aspect-auto lg:h-full min-h-[420px] group">
-              <Image
-                src={featured.coverImage}
-                alt={featured.title}
+            <motion.div
+              whileHover={{ scale: 1.01 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+              className="relative rounded-2xl overflow-hidden aspect-[4/5] lg:aspect-auto lg:h-full min-h-[420px] group"
+            >
+              <Parallax speed={0.08} className="absolute inset-0">
+                <Image
+                  src={featured.coverImage}
+                alt={`${featured.title} — ${featured.subtitle}`}
                 fill
-                className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                sizes="(max-width: 1024px) 100vw, 55vw"
-              />
+                  className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  sizes="(max-width: 1024px) 100vw, 55vw"
+                />
+              </Parallax>
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/20 to-transparent" />
 
               {/* Cover link */}
@@ -90,17 +113,21 @@ export function PortfolioPreview() {
                   <ArrowUpRight size={15} weight="bold" />
                 </a>
               )}
-            </div>
+            </motion.div>
           </FadeUp>
 
           {/* Two supporting cards stacked */}
           <div className="lg:w-[45%] flex flex-col gap-6">
             {supporting.map((project, i) => (
-              <FadeUp key={project.id} delay={0.2 + i * 0.1} className="flex-1">
-                <div className="relative rounded-2xl overflow-hidden min-h-[200px] h-full group">
+              <ScaleReveal key={project.id} delay={0.2 + i * 0.1} className="flex-1">
+                <motion.div
+                  whileHover={{ scale: 1.015 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                  className="relative rounded-2xl overflow-hidden min-h-[200px] h-full group"
+                >
                   <Image
                     src={project.coverImage}
-                    alt={project.title}
+                    alt={`${project.title} — ${project.subtitle}`}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                     sizes="(max-width: 1024px) 100vw, 45vw"
@@ -121,21 +148,27 @@ export function PortfolioPreview() {
                     <h3 className="font-sans font-semibold text-lg text-brand-cream">{project.title}</h3>
                     <p className="text-brand-cream/55 text-sm mt-0.5">{project.subtitle}</p>
                   </div>
-                </div>
-              </FadeUp>
+                </motion.div>
+              </ScaleReveal>
             ))}
           </div>
 
         </div>
 
         <FadeUp delay={0.4} className="mt-10 flex justify-center">
-          <Link
-            href="/work"
-            className="inline-flex items-center gap-2 border border-brand-dark/30 text-brand-dark px-6 py-3 rounded-full text-sm font-semibold hover:bg-brand-dark hover:text-brand-cream transition-colors duration-300"
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.97 }}
+            transition={SPRING_SNAPPY}
           >
-            View All Projects
-            <ArrowRight size={14} weight="bold" />
-          </Link>
+            <Link
+              href="/work"
+              className="inline-flex items-center gap-2 border border-brand-dark/30 text-brand-dark px-6 py-3 rounded-full text-sm font-semibold hover:bg-brand-dark hover:text-brand-cream transition-colors duration-300"
+            >
+              View All Projects
+              <ArrowRight size={14} weight="bold" />
+            </Link>
+          </motion.div>
         </FadeUp>
 
       </div>

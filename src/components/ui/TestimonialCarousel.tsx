@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Quotes } from '@phosphor-icons/react';
+import { EASE_SMOOTH } from '@/lib/motion';
 import type { Testimonial } from '@/data/testimonials';
 
 interface Props {
@@ -49,7 +50,7 @@ export function TestimonialCarousel({ testimonials, variant = 'card' }: Props) {
             initial="initial"
             animate="animate"
             exit="exit"
-            transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.38, ease: EASE_SMOOTH }}
           >
             <Quotes size={28} className="text-brand-accent mb-4" weight="fill" />
             <blockquote className="text-text-primary text-base leading-relaxed">
@@ -118,7 +119,7 @@ export function TestimonialCarousel({ testimonials, variant = 'card' }: Props) {
           initial="initial"
           animate="animate"
           exit="exit"
-          transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.38, ease: EASE_SMOOTH }}
         >
           <Quotes size={30} className="text-brand-accent mb-5" weight="fill" />
           <blockquote className="text-text-primary text-base leading-relaxed">

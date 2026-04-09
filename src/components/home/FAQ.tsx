@@ -5,7 +5,9 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CaretDown, Question, EnvelopeSimple, Phone } from '@phosphor-icons/react';
 import { FadeUp } from '@/components/ui/FadeUp';
+import { StaggerContainer, StaggerItem } from '@/components/ui/StaggerContainer';
 import { SectionLabel } from '@/components/ui/SectionLabel';
+import { EASE_SMOOTH } from '@/lib/motion';
 
 const faqs = [
   {
@@ -58,9 +60,9 @@ export function FAQ() {
         </FadeUp>
 
         {/* Accordion */}
-        <div className="mt-12 space-y-3 max-w-3xl">
+        <StaggerContainer stagger={0.06} className="mt-12 space-y-3 max-w-3xl">
           {faqs.map(({ q, a }, i) => (
-            <FadeUp key={q} delay={0.06 + i * 0.04}>
+            <StaggerItem key={q}>
               <div className="bg-brand-cream rounded-2xl border border-brand-accent/12 overflow-hidden">
                 <button
                   onClick={() => toggle(i)}
@@ -70,7 +72,7 @@ export function FAQ() {
                   <span className="font-semibold text-brand-dark text-sm leading-snug">{q}</span>
                   <motion.span
                     animate={{ rotate: openIndex === i ? 180 : 0 }}
-                    transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.28, ease: EASE_SMOOTH }}
                     className="flex-shrink-0 text-text-secondary group-hover:text-brand-dark transition-colors duration-200"
                   >
                     <CaretDown size={17} />
@@ -83,7 +85,7 @@ export function FAQ() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                      transition={{ duration: 0.3, ease: EASE_SMOOTH }}
                       className="overflow-hidden"
                     >
                       <p className="px-7 pb-6 text-text-secondary text-sm leading-relaxed">
@@ -93,9 +95,9 @@ export function FAQ() {
                   )}
                 </AnimatePresence>
               </div>
-            </FadeUp>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
 
         {/* Help box */}
         <FadeUp delay={0.3} className="mt-12 max-w-3xl">

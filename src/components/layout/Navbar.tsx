@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { List, X, ArrowRight } from '@phosphor-icons/react';
+import { EASE_SMOOTH, SPRING_SNAPPY } from '@/lib/motion';
 
 const navLinks = [
   { href: '/work', label: 'OUR WORK' },
@@ -15,6 +17,7 @@ const navLinks = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -36,10 +39,11 @@ export function Navbar() {
         <motion.div
           initial={{ y: -72, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+          transition={{ duration: 0.7, ease: EASE_SMOOTH, delay: 0.1 }}
           className="max-w-5xl mx-auto"
         >
           <nav
+            aria-label="Main navigation"
             className={`bg-[#fffbf5]/85 backdrop-blur-xl rounded-full border px-4 md:px-5 h-14 flex items-center justify-between gap-4 transition-all duration-300 ${
               scrolled
                 ? 'border-brand-accent/50 shadow-[0_8px_40px_rgba(47,28,44,0.18),inset_0_1px_0_rgba(255,255,255,0.6),0_0_0_1px_rgba(204,164,194,0.12)]'
@@ -56,17 +60,39 @@ export function Navbar() {
               />
             </Link>
 
-            <nav className="hidden md:flex items-center gap-8" aria-label="Primary navigation">
-              {navLinks.map((l) => (
-                <Link
-                  key={l.href}
-                  href={l.href}
-                  className="text-[11px] font-medium tracking-[0.18em] text-text-primary hover:text-brand-dark transition-colors duration-200 uppercase"
-                >
-                  {l.label}
-                </Link>
-              ))}
-            </nav>
+            <div className="hidden md:flex items-center gap-8">
+              {navLinks.map((l) => {
+                const isActive = pathname.startsWith(l.href);
+                return (
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    className={`relative text-[11px] font-medium tracking-[0.18em] uppercase group ${
+                      isActive ? 'text-brand-dark' : 'text-text-primary'
+                    }`}
+                  >
+                    {/* Text slide container — overflow hidden clips the rolling text */}
+                    <span className="block overflow-hidden relative h-[1.2em]">
+                      {/* Primary label — slides up and out on hover */}
+                      <span className="block transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-full">
+                        {l.label}
+                      </span>
+                      {/* Duplicate label — slides up into view on hover */}
+                      <span className="block absolute left-0 top-full transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-full text-brand-dark">
+                        {l.label}
+                      </span>
+                    </span>
+                    {isActive && (
+                      <motion.span
+                        layoutId="nav-active-indicator"
+                        className="absolute -bottom-1.5 left-0 right-0 h-[2px] bg-brand-dark rounded-full"
+                        transition={SPRING_SNAPPY}
+                      />
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
 
             <div className="hidden md:block flex-shrink-0">
               <Link
@@ -98,6 +124,9 @@ export function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.22 }}
             className="fixed inset-0 z-50 bg-brand-dark flex flex-col"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
           >
             <div className="px-5 h-16 flex items-center justify-between">
               <Image
@@ -115,27 +144,34 @@ export function Navbar() {
               </button>
             </div>
 
-            <div className="flex flex-col items-center justify-center flex-1 gap-9">
-              {navLinks.map((l, i) => (
-                <motion.div
-                  key={l.href}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.07 + i * 0.06, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <Link
-                    href={l.href}
-                    onClick={() => setOpen(false)}
-                    className="text-2xl font-semibold text-brand-cream hover:text-brand-accent transition-colors tracking-widest"
+            <nav className="flex flex-col items-center justify-center flex-1 gap-9" aria-label="Mobile navigation">
+              {navLinks.map((l, i) => {
+                const isActive = pathname.startsWith(l.href);
+                return (
+                  <motion.div
+                    key={l.href}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.07 + i * 0.06, ease: EASE_SMOOTH }}
                   >
-                    {l.label}
-                  </Link>
-                </motion.div>
-              ))}
+                    <Link
+                      href={l.href}
+                      onClick={() => setOpen(false)}
+                      className={`text-2xl font-semibold tracking-widest transition-colors ${
+                        isActive
+                          ? 'text-brand-accent'
+                          : 'text-brand-cream hover:text-brand-accent'
+                      }`}
+                    >
+                      {l.label}
+                    </Link>
+                  </motion.div>
+                );
+              })}
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ delay: 0.2, ease: EASE_SMOOTH }}
               >
                 <Link
                   href="/contact"
@@ -146,7 +182,7 @@ export function Navbar() {
                   <ArrowRight size={14} weight="bold" />
                 </Link>
               </motion.div>
-            </div>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>

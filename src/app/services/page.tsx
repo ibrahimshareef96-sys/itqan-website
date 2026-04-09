@@ -6,15 +6,19 @@ import {
   Palette,
   Lightning,
   PencilSimpleLine,
+  Code,
   CheckCircle,
 } from '@phosphor-icons/react/dist/ssr';
 import { FadeUp } from '@/components/ui/FadeUp';
+import { TextReveal } from '@/components/ui/TextReveal';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import { StaggerContainer, StaggerItem } from '@/components/ui/StaggerContainer';
 import { SectionLabel } from '@/components/ui/SectionLabel';
 
 export const metadata: Metadata = {
-  title: 'Services',
+  title: 'Services — Brand Design, UI/UX, Web Development & Automation',
   description:
-    'Purpose-led brand strategy, refined design systems, bespoke websites, and seamless digital execution — crafted for founders who value detail, direction, and distinction.',
+    'Itqan Studio offers brand identity design, UI/UX research, custom web and mobile app development, CRM systems, and workflow automation. Crafted for founders who value detail and distinction.',
 };
 
 const capabilities = [
@@ -29,6 +33,10 @@ const capabilities = [
   'Content Creation Strategy',
   'Funnel Architecture',
   'Automation',
+  'Custom CRM Development',
+  'Native Mobile Apps',
+  'Internal Tools',
+  'System Architecture',
 ];
 
 export default function ServicesPage() {
@@ -44,14 +52,14 @@ export default function ServicesPage() {
             <SectionLabel icon={<Palette size={13} />} label="Services" light />
           </FadeUp>
 
-          <FadeUp delay={0.2} className="mt-7">
+          <TextReveal direction="left" delay={0.2} className="mt-7">
             <h1 className="font-sans font-bold text-[2rem] sm:text-4xl md:text-6xl lg:text-7xl text-brand-cream leading-tight tracking-tight">
               Our Services
             </h1>
             <p className="font-serif italic text-[2rem] sm:text-4xl md:text-6xl lg:text-7xl text-brand-accent leading-tight tracking-tight mt-1">
               Excellence in every detail.
             </p>
-          </FadeUp>
+          </TextReveal>
 
           <FadeUp delay={0.32}>
             <p className="mt-8 text-brand-cream/60 text-base md:text-lg leading-relaxed max-w-[54ch]">
@@ -78,7 +86,7 @@ export default function ServicesPage() {
       <section className="bg-brand-cream py-24 lg:py-32">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            <FadeUp>
+            <ScrollReveal direction="left" distance={28}>
               <div>
                 <Palette size={28} className="text-brand-accent-on-light mb-6" />
                 <h2 className="font-sans font-bold text-[1.875rem] sm:text-4xl md:text-5xl text-brand-dark leading-tight tracking-tight">
@@ -121,9 +129,9 @@ export default function ServicesPage() {
                   </Link>
                 </div>
               </div>
-            </FadeUp>
+            </ScrollReveal>
 
-            <FadeUp delay={0.16} className="grid grid-cols-2 gap-4">
+            <ScrollReveal direction="right" distance={28} delay={0.16} className="grid grid-cols-2 gap-4">
               {[
                 '/images/portfolio/shareefico/cover.png',
                 '/images/portfolio/oud-closet/cover.png',
@@ -140,7 +148,7 @@ export default function ServicesPage() {
                   />
                 </div>
               ))}
-            </FadeUp>
+            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -149,7 +157,7 @@ export default function ServicesPage() {
       <section className="bg-brand-accent/[0.12] py-24 lg:py-32">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            <FadeUp delay={0.16} className="order-last lg:order-first relative aspect-[4/3] rounded-2xl overflow-hidden">
+            <ScrollReveal direction="left" distance={28} delay={0.16} className="order-last lg:order-first relative aspect-[4/3] rounded-2xl overflow-hidden">
               <Image
                 src="/images/portfolio/nexilink/cover.png"
                 alt=""
@@ -157,9 +165,9 @@ export default function ServicesPage() {
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
-            </FadeUp>
+            </ScrollReveal>
 
-            <FadeUp>
+            <ScrollReveal direction="right" distance={28}>
               <div>
                 <Lightning size={28} className="text-brand-accent-on-light mb-6" />
                 <h2 className="font-sans font-bold text-[1.875rem] sm:text-4xl md:text-5xl text-brand-dark leading-tight tracking-tight">
@@ -201,7 +209,7 @@ export default function ServicesPage() {
                   </Link>
                 </div>
               </div>
-            </FadeUp>
+            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -210,7 +218,7 @@ export default function ServicesPage() {
       <section className="bg-brand-cream py-24 lg:py-32">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            <FadeUp>
+            <ScrollReveal direction="left" distance={28}>
               <div>
                 <PencilSimpleLine size={28} className="text-brand-accent-on-light mb-6" />
                 <h2 className="font-sans font-bold text-[1.875rem] sm:text-4xl md:text-5xl text-brand-dark leading-tight tracking-tight">
@@ -253,9 +261,9 @@ export default function ServicesPage() {
                   </Link>
                 </div>
               </div>
-            </FadeUp>
+            </ScrollReveal>
 
-            <FadeUp delay={0.16} className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+            <ScrollReveal direction="right" distance={28} delay={0.16} className="relative aspect-[4/3] rounded-2xl overflow-hidden">
               <Image
                 src="/images/portfolio/medacs/cover.png"
                 alt=""
@@ -263,7 +271,76 @@ export default function ServicesPage() {
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
-            </FadeUp>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Systems & Development ──────────────────────────── */}
+      <section className="bg-brand-accent/[0.12] py-24 lg:py-32">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+            <ScrollReveal direction="left" distance={28} delay={0.16} className="order-last lg:order-first relative aspect-[4/3] rounded-2xl overflow-hidden">
+              <Image
+                src="/images/itqan-crm.png"
+                alt="Itqan Studio custom CRM dashboard"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </ScrollReveal>
+
+            <ScrollReveal direction="right" distance={28}>
+              <div>
+                <Code size={28} className="text-brand-accent-on-light mb-6" />
+                <h2 className="font-sans font-bold text-[1.875rem] sm:text-4xl md:text-5xl text-brand-dark leading-tight tracking-tight">
+                  Systems &amp;
+                  <br />
+                  <span className="font-serif font-normal italic text-brand-accent-on-light">
+                    Development
+                  </span>
+                </h2>
+                <p className="mt-4 mb-2 font-serif italic text-base text-brand-accent-on-light">
+                  Built to fit your brand — not borrowed from a template.
+                </p>
+                <p className="mt-4 text-text-secondary text-base leading-relaxed">
+                  From custom CRM systems to web and native applications, we build the digital
+                  products your business actually needs. Every system is designed and developed
+                  in-house — so your product looks, feels, and functions like an extension of your
+                  brand, not an afterthought bolted on top of it.
+                </p>
+
+                <ul className="mt-8 space-y-3">
+                  {[
+                    'Custom CRM Development',
+                    'Web Applications',
+                    'Native Mobile Apps',
+                    'Internal Tools',
+                    'Brand-Aligned UI',
+                    'System Architecture',
+                  ].map((item) => (
+                    <li key={item} className="flex items-center gap-3">
+                      <CheckCircle size={17} weight="fill" className="text-brand-accent-on-light shrink-0" />
+                      <span className="text-sm text-text-primary">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <p className="mt-6 text-xs text-text-secondary tracking-wide uppercase">
+                  Typical delivery: 4–12 weeks
+                </p>
+
+                <div className="mt-8">
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-6 py-3 rounded-full text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200"
+                  >
+                    Start your project
+                    <ArrowRight size={14} weight="bold" />
+                  </Link>
+                </div>
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -280,18 +357,15 @@ export default function ServicesPage() {
               your brand&apos;s growth.
             </p>
           </FadeUp>
-          <FadeUp delay={0.14} className="mt-10">
-            <div className="flex flex-wrap gap-3">
-              {capabilities.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-4 py-2.5 rounded-full border border-brand-dark/18 bg-brand-cream text-[11px] font-medium text-brand-dark tracking-wide"
-                >
+          <StaggerContainer stagger={0.03} delay={0.1} className="mt-10 flex flex-wrap gap-3">
+            {capabilities.map((tag) => (
+              <StaggerItem key={tag}>
+                <span className="px-4 py-2.5 rounded-full border border-brand-dark/18 bg-brand-cream text-[11px] font-medium text-brand-dark tracking-wide">
                   {tag}
                 </span>
-              ))}
-            </div>
-          </FadeUp>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
         </div>
       </section>
 
