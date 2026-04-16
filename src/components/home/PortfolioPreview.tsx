@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { ArrowRight, ArrowUpRight, FolderOpen } from '@phosphor-icons/react';
 import { motion } from 'framer-motion';
 import { FadeUp } from '@/components/ui/FadeUp';
-import { SplitText } from '@/components/ui/SplitText';
 import { ScaleReveal } from '@/components/ui/ScaleReveal';
 import { Parallax } from '@/components/ui/Parallax';
 import { MagneticButton } from '@/components/ui/MagneticButton';
@@ -28,10 +27,10 @@ export function PortfolioPreview() {
         <div className="mt-6 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div className="max-w-xl">
             <h2 className="font-sans font-bold text-4xl md:text-[2.75rem] text-brand-dark leading-tight tracking-tight">
-              <SplitText text="A Collection of Projects" stagger={0.04} delay={0.08} />
+              Selected work.
               {' '}
               <span className="font-serif font-normal italic text-brand-accent-on-light">
-                <SplitText text="We've Worked On." stagger={0.04} delay={0.3} />
+                Real results.
               </span>
             </h2>
           </div>
@@ -47,7 +46,7 @@ export function PortfolioPreview() {
                   href="/contact"
                   className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity duration-200 whitespace-nowrap"
                 >
-                  Book a meeting
+                  Start a conversation
                   <ArrowRight size={14} weight="bold" />
                 </Link>
               </motion.div>
@@ -165,7 +164,7 @@ export function PortfolioPreview() {
               href="/work"
               className="inline-flex items-center gap-2 border border-brand-dark/30 text-brand-dark px-6 py-3 rounded-full text-sm font-semibold hover:bg-brand-dark hover:text-brand-cream transition-colors duration-300"
             >
-              View All Projects
+              All work
               <ArrowRight size={14} weight="bold" />
             </Link>
           </motion.div>

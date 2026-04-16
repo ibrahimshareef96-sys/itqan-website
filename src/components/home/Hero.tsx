@@ -38,17 +38,16 @@ export function Hero() {
         <div className="max-w-[820px]">
           {/* Line 1: Manrope Bold — word-by-word reveal */}
           <h1 className="font-sans font-bold text-[1.75rem] sm:text-[2.25rem] md:text-[3.25rem] lg:text-[4rem] text-brand-cream leading-tight tracking-tight">
-            <SplitText text="Your brand has potential." stagger={0.04} delay={0.3} />
+            <SplitText text="The agency founders trust" stagger={0.04} delay={0.3} />
           </h1>
           {/* Line 2: Playfair Display Italic — word-by-word reveal, delayed */}
           <p className="font-serif italic text-[1.75rem] sm:text-[2.25rem] md:text-[3.25rem] lg:text-[4rem] text-brand-accent leading-tight tracking-tight mt-1">
-            <SplitText text="We give it direction." stagger={0.04} delay={0.6} />
+            <SplitText text="to get it right." stagger={0.04} delay={0.6} />
           </p>
 
           <TextReveal direction="up" delay={0.85}>
             <p className="mt-7 text-brand-cream/65 text-base md:text-lg leading-relaxed max-w-[46ch]">
-              Strategic brand design and digital execution, crafted for founders who value
-              detail, direction, and distinction.
+              Brand, product, and systems — designed with the precision your business deserves.
             </p>
           </TextReveal>
 
@@ -64,7 +63,7 @@ export function Hero() {
                     href="/contact"
                     className="inline-flex items-center justify-center gap-2.5 bg-brand-cream text-brand-dark px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-brand-cream/90 transition-colors duration-200"
                   >
-                    Book a meeting
+                    Start a conversation
                     <ArrowRight size={15} weight="bold" />
                   </Link>
                 </motion.div>
@@ -78,7 +77,7 @@ export function Hero() {
                   href="/work"
                   className="inline-flex items-center justify-center gap-2.5 border border-brand-cream/35 text-brand-cream px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-brand-cream/10 transition-colors duration-200"
                 >
-                  View our work
+                  See the work
                   <ArrowRight size={15} weight="bold" />
                 </Link>
               </motion.div>

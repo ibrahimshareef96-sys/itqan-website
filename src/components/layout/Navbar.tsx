@@ -99,7 +99,7 @@ export function Navbar() {
                 href="/contact"
                 className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200"
               >
-                Book a meeting
+                Start a conversation
                 <ArrowRight size={14} weight="bold" />
               </Link>
             </div>
@@ -178,7 +178,7 @@ export function Navbar() {
                   onClick={() => setOpen(false)}
                   className="inline-flex items-center gap-2 bg-brand-cream text-brand-dark px-8 py-3.5 rounded-full text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200"
                 >
-                  Book a meeting
+                  Start a conversation
                   <ArrowRight size={14} weight="bold" />
                 </Link>
               </motion.div>

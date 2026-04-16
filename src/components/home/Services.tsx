@@ -14,7 +14,7 @@ const services = [
     Icon: Palette,
     title: 'Brand Identity & Strategy',
     description:
-      'We transform your vision into a cohesive, unforgettable digital identity architected from the ground up and built to scale.',
+      'We don\'t decorate brands. We engineer them — identities built to outlast trends and outperform competitors.',
     images: [
       '/images/portfolio/shareefico/cover.png',
       '/images/portfolio/oud-closet/cover.png',
@@ -22,44 +22,29 @@ const services = [
   },
   {
     Icon: Lightning,
-    title: 'Automation & Systems Setup',
+    title: 'Automation & Systems',
     description:
-      'We create seamless workflows, automation systems, and integrated platforms that save time, reduce friction, and scale your operations.',
+      'Your operations should run without you watching. We build the workflows, integrations, and platforms that make that possible.',
     images: ['/images/portfolio/nexilink/cover.png'],
   },
   {
     Icon: PencilSimpleLine,
     title: 'UI/UX Design & Research',
     description:
-      'We design user-centered digital experiences rooted in research, clarity, and usability. From wireframes to high-fidelity prototypes, every decision is informed by user behavior.',
+      'Interfaces your users understand the first time. Research-driven, tested, and designed to convert — not just look good.',
     images: ['/images/portfolio/medacs/cover.png'],
   },
   {
     Icon: Code,
     title: 'Systems & Development',
     description:
-      'From custom CRM systems to web and native applications, we build the digital products your business actually needs. Every system is designed and developed in-house — so your product looks, feels, and functions like an extension of your brand, not an afterthought bolted on top of it.',
+      'Custom-built products that feel like your brand, not a template. Web apps, CRMs, and native tools — designed and developed in-house.',
     images: ['/images/itqan-crm.png'],
   },
 ];
 
-const tags = [
-  'Web Development',
-  'Integrations',
-  'Prototyping',
-  'Design System',
-  'UI & UX Strategy',
-  'Copywriting',
-  'Branding',
-  'SEO',
-  'Content Creation Strategy',
-  'Funnel Architecture',
-  'Automation',
-  'Custom CRM Development',
-  'Native Mobile Apps',
-  'Internal Tools',
-  'System Architecture',
-];
+/* Capability tags removed — they read like a resume, not a pitch.
+   Full capability list lives on the /services page. */
 
 export function Services() {
   return (
@@ -72,18 +57,17 @@ export function Services() {
 
         <TextReveal direction="left" delay={0.08} className="mt-6">
           <h2 className="font-sans font-bold text-3xl md:text-[2.5rem] text-brand-dark leading-tight tracking-tight">
-            Where clarity becomes identity.
+            What we do.
             <br />
             <span className="font-serif font-normal italic text-brand-accent-on-light">
-              Where identity becomes growth.
+              And why it works.
             </span>
           </h2>
         </TextReveal>
 
         <FadeUp delay={0.16} className="mt-5">
           <p className="text-text-secondary text-base leading-relaxed max-w-[62ch]">
-            Purpose-led brand strategy, refined design systems, bespoke websites, and seamless
-            digital execution, crafted for founders who value detail, direction, and distinction.
+            Four disciplines. One team. Every project gets senior-level thinking from strategy through delivery.
           </p>
         </FadeUp>
 
@@ -122,7 +106,7 @@ export function Services() {
                       href="/services"
                       className="inline-flex items-center gap-1.5 text-brand-dark text-sm font-semibold group hover:opacity-70 transition-opacity duration-200"
                     >
-                      View our services
+                      What we do
                       <ArrowRight
                         size={14}
                         weight="bold"
@@ -136,16 +120,7 @@ export function Services() {
           ))}
         </StaggerContainer>
 
-        {/* Capability tag pills */}
-        <StaggerContainer stagger={0.03} delay={0.1} className="mt-12 flex flex-wrap gap-2.5">
-          {tags.map((tag) => (
-            <StaggerItem key={tag}>
-              <span className="px-4 py-2 rounded-full border border-brand-dark/18 bg-brand-cream/50 text-[11px] font-medium text-brand-dark tracking-wide hover:bg-brand-cream hover:border-brand-dark/30 transition-colors duration-200">
-                {tag}
-              </span>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+        {/* Full capabilities on /services page */}
 
       </div>
     </section>
