@@ -5,13 +5,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { List, X, ArrowRight } from '@phosphor-icons/react';
-import { EASE_SMOOTH, SPRING_SNAPPY } from '@/lib/motion';
+import { List, X } from '@phosphor-icons/react';
+import { EASE_SMOOTH } from '@/lib/motion';
 
 const navLinks = [
-  { href: '/work', label: 'OUR WORK' },
-  { href: '/services', label: 'SERVICES' },
-  { href: '/about', label: 'ABOUT US' },
+  { href: '/work', label: 'Work' },
+  { href: '/services', label: 'Services' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
 ];
 
 export function Navbar() {
@@ -20,7 +21,7 @@ export function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -34,86 +35,71 @@ export function Navbar() {
 
   return (
     <>
-      {/* Floating pill wrapper */}
-      <div className="fixed top-4 left-0 right-0 z-50 px-3 sm:px-4 md:px-6">
-        <motion.div
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 bg-brand-dark transition-[border-color] duration-300 ${
+          scrolled
+            ? 'border-b border-[rgba(255,251,245,0.08)]'
+            : 'border-b border-transparent'
+        }`}
+      >
+        <motion.nav
           initial={{ y: -72, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.7, ease: EASE_SMOOTH, delay: 0.1 }}
-          className="max-w-5xl mx-auto"
+          aria-label="Main navigation"
+          className="max-w-[1440px] mx-auto h-[72px] flex items-center justify-between px-5 md:px-8"
         >
-          <nav
-            aria-label="Main navigation"
-            className={`bg-[#fffbf5]/85 backdrop-blur-xl rounded-full border px-4 md:px-5 h-14 flex items-center justify-between gap-4 transition-all duration-300 ${
-              scrolled
-                ? 'border-brand-accent/50 shadow-[0_8px_40px_rgba(47,28,44,0.18),inset_0_1px_0_rgba(255,255,255,0.6),0_0_0_1px_rgba(204,164,194,0.12)]'
-                : 'border-brand-accent/35 shadow-[0_4px_20px_rgba(47,28,44,0.08),inset_0_1px_0_rgba(255,255,255,0.4)]'
-            }`}
-          >
-            <Link href="/" className="flex-shrink-0" aria-label="Itqan Studio — home">
-              <Image
-                src="/images/brand/dark-logo.svg"
-                alt="Itqan Studio"
-                width={108}
-                height={30}
-                priority
-              />
-            </Link>
+          {/* Logo */}
+          <Link href="/" className="flex-shrink-0" aria-label="Itqan Studio — home">
+            <Image
+              src="/images/brand/light-icon.svg"
+              alt="Itqan Studio"
+              width={28}
+              height={28}
+              priority
+            />
+          </Link>
 
-            <div className="hidden md:flex items-center gap-8">
-              {navLinks.map((l) => {
-                const isActive = pathname.startsWith(l.href);
-                return (
-                  <Link
-                    key={l.href}
-                    href={l.href}
-                    className={`relative text-[11px] font-medium tracking-[0.18em] uppercase group ${
-                      isActive ? 'text-brand-dark' : 'text-text-primary'
-                    }`}
-                  >
-                    {/* Text slide container — overflow hidden clips the rolling text */}
-                    <span className="block overflow-hidden relative h-[1.2em]">
-                      {/* Primary label — slides up and out on hover */}
-                      <span className="block transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-full">
-                        {l.label}
-                      </span>
-                      {/* Duplicate label — slides up into view on hover */}
-                      <span className="block absolute left-0 top-full transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-full text-brand-dark">
-                        {l.label}
-                      </span>
-                    </span>
-                    {isActive && (
-                      <motion.span
-                        layoutId="nav-active-indicator"
-                        className="absolute -bottom-1.5 left-0 right-0 h-[2px] bg-brand-dark rounded-full"
-                        transition={SPRING_SNAPPY}
-                      />
-                    )}
-                  </Link>
-                );
-              })}
-            </div>
+          {/* Desktop links */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((l) => {
+              const isActive = pathname === l.href || pathname.startsWith(l.href + '/');
+              return (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className={`relative text-[0.9375rem] font-medium transition-opacity duration-200 ${
+                    isActive
+                      ? 'text-brand-cream opacity-100'
+                      : 'text-brand-cream/75 hover:text-brand-cream hover:opacity-100'
+                  }`}
+                >
+                  {l.label}
+                </Link>
+              );
+            })}
+          </div>
 
-            <div className="hidden md:block flex-shrink-0">
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200"
-              >
-                Book a meeting
-                <ArrowRight size={14} weight="bold" />
-              </Link>
-            </div>
-
-            <button
-              onClick={() => setOpen(true)}
-              className="md:hidden p-1.5 -mr-1 text-brand-dark"
-              aria-label="Open navigation menu"
+          {/* Desktop CTA */}
+          <div className="hidden md:block flex-shrink-0">
+            <Link
+              href="/contact"
+              className="inline-flex items-center h-[42px] px-6 rounded-[10px] border border-brand-cream text-brand-cream text-sm font-semibold hover:bg-brand-cream hover:text-brand-dark transition-colors duration-200"
             >
-              <List size={22} />
-            </button>
-          </nav>
-        </motion.div>
-      </div>
+              Book a discovery call
+            </Link>
+          </div>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setOpen(true)}
+            className="md:hidden p-1.5 -mr-1 text-brand-cream"
+            aria-label="Open navigation menu"
+          >
+            <List size={22} />
+          </button>
+        </motion.nav>
+      </header>
 
       {/* Mobile full-screen overlay */}
       <AnimatePresence>
@@ -128,12 +114,12 @@ export function Navbar() {
             aria-modal="true"
             aria-label="Navigation menu"
           >
-            <div className="px-5 h-16 flex items-center justify-between">
+            <div className="px-5 h-[72px] flex items-center justify-between">
               <Image
-                src="/images/brand/white-logo.svg"
+                src="/images/brand/light-icon.svg"
                 alt="Itqan Studio"
-                width={108}
-                height={30}
+                width={28}
+                height={28}
               />
               <button
                 onClick={() => setOpen(false)}
@@ -146,7 +132,7 @@ export function Navbar() {
 
             <nav className="flex flex-col items-center justify-center flex-1 gap-9" aria-label="Mobile navigation">
               {navLinks.map((l, i) => {
-                const isActive = pathname.startsWith(l.href);
+                const isActive = pathname === l.href || pathname.startsWith(l.href + '/');
                 return (
                   <motion.div
                     key={l.href}
@@ -157,10 +143,10 @@ export function Navbar() {
                     <Link
                       href={l.href}
                       onClick={() => setOpen(false)}
-                      className={`text-2xl font-semibold tracking-widest transition-colors ${
+                      className={`text-2xl font-semibold tracking-wide transition-colors ${
                         isActive
-                          ? 'text-brand-accent'
-                          : 'text-brand-cream hover:text-brand-accent'
+                          ? 'text-brand-cream'
+                          : 'text-brand-cream/75 hover:text-brand-cream'
                       }`}
                     >
                       {l.label}
@@ -171,15 +157,14 @@ export function Navbar() {
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, ease: EASE_SMOOTH }}
+                transition={{ delay: 0.3, ease: EASE_SMOOTH }}
               >
                 <Link
                   href="/contact"
                   onClick={() => setOpen(false)}
-                  className="inline-flex items-center gap-2 bg-brand-cream text-brand-dark px-8 py-3.5 rounded-full text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200"
+                  className="inline-flex items-center h-[56px] px-8 rounded-[10px] border border-brand-cream text-brand-cream text-sm font-semibold hover:bg-brand-cream hover:text-brand-dark transition-colors duration-200"
                 >
-                  Book a meeting
-                  <ArrowRight size={14} weight="bold" />
+                  Book a discovery call
                 </Link>
               </motion.div>
             </nav>

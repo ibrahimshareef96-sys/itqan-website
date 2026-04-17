@@ -16,11 +16,11 @@ type FormValues = {
 };
 
 const inputClass =
-  'w-full bg-white border border-brand-accent/20 rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:border-brand-accent-on-light/50 focus:ring-2 focus:ring-brand-accent/20 focus:shadow-[0_0_0_3px_rgba(109,74,102,0.1)] transition-all duration-300';
+  'w-full bg-[rgba(255,251,245,0.04)] border border-[rgba(255,251,245,0.15)] rounded-xl px-4 py-3 text-sm text-[#fffbf5] placeholder:text-[rgba(255,251,245,0.4)] focus:outline-none focus:border-[rgba(255,251,245,0.35)] focus:ring-2 focus:ring-[rgba(255,251,245,0.1)] transition-all duration-300';
 
-const labelClass = 'block text-xs font-semibold text-text-primary tracking-wide mb-2';
+const labelClass = 'block text-xs font-semibold text-[rgba(255,251,245,0.75)] tracking-wide mb-2';
 
-const errorClass = 'text-red-500 text-xs mt-1.5';
+const errorClass = 'text-red-400 text-xs mt-1.5';
 
 export function ContactForm() {
   const {
@@ -140,7 +140,7 @@ export function ContactForm() {
       <motion.button
         type="submit"
         disabled={isSubmitting}
-        className="w-full inline-flex items-center justify-center gap-2 bg-brand-dark text-brand-cream py-4 rounded-xl text-sm font-semibold hover:opacity-90 transition-all duration-200 disabled:opacity-60"
+        className="btn-gloss w-full inline-flex items-center justify-center gap-2 bg-brand-cream text-brand-dark py-4 rounded-[10px] text-sm font-semibold hover:bg-brand-cream/90 transition-all duration-200 disabled:opacity-60"
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.97 }}
         transition={SPRING_SNAPPY}

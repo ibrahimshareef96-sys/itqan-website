@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <section className="bg-brand-cream min-h-[100dvh] pt-28 pb-24">
+    <section className="min-h-[100dvh] pt-28 pb-24">
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
 
@@ -27,16 +27,16 @@ export default function ContactPage() {
             </FadeUp>
 
             <TextReveal direction="up" delay={0.08} className="mt-6">
-              <h1 className="font-sans font-bold text-[2rem] sm:text-4xl md:text-5xl lg:text-6xl text-brand-dark leading-tight tracking-tight">
-                Book A Call with Us.
+              <h1 className="font-sans font-bold text-[2rem] sm:text-4xl md:text-5xl lg:text-6xl text-brand-cream leading-tight tracking-tight">
+                Book a discovery call.
               </h1>
-              <p className="font-serif italic text-[2rem] sm:text-4xl md:text-5xl lg:text-6xl text-brand-accent-on-light leading-tight tracking-tight mt-1">
-                And Let&apos;s Work Together.
+              <p className="font-sans font-normal text-[1.25rem] sm:text-2xl text-[rgba(255,251,245,0.65)] leading-relaxed mt-3">
+                And let&apos;s work together.
               </p>
             </TextReveal>
 
             <FadeUp delay={0.16}>
-              <p className="mt-7 text-text-secondary text-base leading-relaxed max-w-[50ch]">
+              <p className="mt-7 text-[rgba(255,251,245,0.6)] text-base leading-relaxed max-w-[50ch]">
                 Ready to discuss your project? Book a call with our experts to explore how we can
                 help you achieve your vision.
               </p>
@@ -49,8 +49,8 @@ export default function ContactPage() {
 
           {/* Right column — form */}
           <ScrollReveal direction="right" distance={28} delay={0.14} className="lg:pt-2">
-            <div className="bg-brand-cream/50 rounded-2xl border border-brand-accent/15 p-8 shadow-[0_8px_40px_rgba(47,28,44,0.05)]">
-              <p className="font-semibold text-brand-dark text-lg mb-6">Send us a message</p>
+            <div className="rounded-2xl border border-[rgba(255,251,245,0.08)] p-8">
+              <p className="font-semibold text-brand-cream text-lg mb-6">Send us a message</p>
               <ContactForm />
             </div>
           </ScrollReveal>

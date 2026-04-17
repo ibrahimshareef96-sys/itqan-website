@@ -4,11 +4,11 @@ import { teamLanguages } from '@/data/team';
 
 export function Languages() {
   return (
-    <section className="bg-brand-accent/[0.18] py-24 lg:py-32">
+    <section className="py-24 lg:py-32">
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
 
         <FadeUp>
-          <h2 className="font-serif italic text-4xl md:text-5xl text-brand-dark leading-tight">
+          <h2 className="font-sans font-semibold text-4xl md:text-5xl text-brand-cream leading-tight">
             We may speak your language!
           </h2>
         </FadeUp>
@@ -18,7 +18,13 @@ export function Languages() {
             {teamLanguages.map((lang) => (
               <span
                 key={lang}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-brand-cream border border-brand-accent/25 text-sm font-medium text-brand-dark"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium text-[rgba(255,251,245,0.95)]"
+                style={{
+                  background: 'rgba(255, 251, 245, 0.12)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255, 251, 245, 0.2)',
+                }}
               >
                 <Globe size={14} className="text-brand-accent flex-shrink-0" />
                 {lang}

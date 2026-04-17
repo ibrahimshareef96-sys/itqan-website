@@ -1,23 +1,21 @@
 import { Hero } from '@/components/home/Hero';
-import { BrandStatement } from '@/components/home/BrandStatement';
+import { FeaturedWork } from '@/components/home/FeaturedWork';
 import { Services } from '@/components/home/Services';
-import { ProcessSteps } from '@/components/home/ProcessSteps';
-import { Benefits } from '@/components/home/Benefits';
-import { PortfolioPreview } from '@/components/home/PortfolioPreview';
+import { Industries } from '@/components/home/Industries';
+import { StatsLine } from '@/components/home/StatsLine';
+import { Portrait } from '@/components/home/Portrait';
 import { CTABanner } from '@/components/home/CTABanner';
-import { FAQ } from '@/components/home/FAQ';
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <BrandStatement />
+      <FeaturedWork />
       <Services />
-      <ProcessSteps />
-      <Benefits />
-      <PortfolioPreview />
+      <Industries />
+      <StatsLine />
+      <Portrait />
       <CTABanner />
-      <FAQ />
     </>
   );
 }

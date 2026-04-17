@@ -8,17 +8,17 @@ import { team } from '@/data/team';
 
 export function TeamSection() {
   return (
-    <section className="bg-brand-cream py-24 lg:py-32">
+    <section className="py-24 lg:py-32">
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
 
         <ScrollReveal direction="up">
-          <h2 className="font-serif italic text-4xl md:text-5xl text-brand-dark leading-tight">
+          <h2 className="font-sans font-semibold text-4xl md:text-5xl text-brand-cream leading-tight">
             Meet the Team
           </h2>
         </ScrollReveal>
 
         <ScrollReveal direction="up" delay={0.1}>
-          <p className="mt-4 text-text-secondary text-base leading-relaxed max-w-[54ch]">
+          <p className="mt-4 text-[rgba(255,251,245,0.65)] text-base leading-relaxed max-w-[54ch]">
             At Itqan Studio, our team blends industry expertise with genuine human connection.
           </p>
         </ScrollReveal>
@@ -27,9 +27,9 @@ export function TeamSection() {
           {team.map(({ id, name, role, image }) => (
             <StaggerItem key={id}>
               <SpringCard>
-                <div className="group overflow-hidden rounded-2xl border border-brand-accent/15 shadow-[0_4px_24px_rgba(47,28,44,0.05)]">
+                <div className="group overflow-hidden rounded-2xl border border-[rgba(255,251,245,0.08)]">
                   {/* Photo */}
-                  <div className="relative aspect-[3/4] overflow-hidden bg-brand-accent/10">
+                  <div className="relative aspect-[3/4] overflow-hidden">
                     <Image
                       src={image}
                       alt={`${name}, ${role} at Itqan Studio`}
@@ -39,9 +39,9 @@ export function TeamSection() {
                     />
                   </div>
                   {/* Name banner */}
-                  <div className="bg-brand-accent px-6 py-5">
-                    <p className="font-sans font-semibold text-brand-dark text-base">{name}</p>
-                    <p className="text-brand-dark/65 text-sm mt-0.5">{role}</p>
+                  <div className="px-6 py-5 border-t border-[rgba(255,251,245,0.08)]">
+                    <p className="font-sans font-semibold text-brand-cream text-base">{name}</p>
+                    <p className="text-[rgba(255,251,245,0.55)] text-sm mt-0.5">{role}</p>
                   </div>
                 </div>
               </SpringCard>
