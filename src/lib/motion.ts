@@ -1,8 +1,8 @@
 import type { Transition, Variants } from 'framer-motion';
 
 // ── Easing curves ──────────────────────────────────────────────
-export const EASE_SMOOTH: [number, number, number, number] = [0.16, 1, 0.3, 1];
-export const EASE_OUT_EXPO: [number, number, number, number] = [0.19, 1, 0.22, 1];
+export const EASE_SMOOTH: [number, number, number, number] = [0.22, 1, 0.36, 1];
+export const EASE_OUT_EXPO: [number, number, number, number] = [0.22, 1, 0.36, 1];
 export const EASE_IN_OUT: [number, number, number, number] = [0.4, 0, 0.2, 1];
 
 // ── Spring configs ─────────────────────────────────────────────
@@ -26,7 +26,7 @@ export const SPRING_BOUNCY: Transition = {
 
 // ── Default durations ──────────────────────────────────────────
 export const DURATION_FAST = 0.28;
-export const DURATION_DEFAULT = 0.55;
+export const DURATION_DEFAULT = 0.8;
 export const DURATION_SLOW = 0.8;
 
 // ── Default reveal transition ──────────────────────────────────

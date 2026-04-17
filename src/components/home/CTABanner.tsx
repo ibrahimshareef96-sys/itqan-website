@@ -1,79 +1,52 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight } from '@phosphor-icons/react';
 import { motion } from 'framer-motion';
-import { FadeUp } from '@/components/ui/FadeUp';
-import { TextReveal } from '@/components/ui/TextReveal';
-import { Parallax } from '@/components/ui/Parallax';
-import { MagneticButton } from '@/components/ui/MagneticButton';
-import { SPRING_SNAPPY } from '@/lib/motion';
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 32 } as const,
+  whileInView: { opacity: 1, y: 0 } as const,
+  viewport: { once: true, amount: 0.3 } as const,
+  transition: { duration: 0.8, ease: EASE, delay },
+});
 
 export function CTABanner() {
   return (
-    <section className="relative py-28 lg:py-40 overflow-hidden">
-      {/* Background — hero image with parallax and heavy overlay for texture */}
-      <Parallax speed={-0.15} className="absolute inset-0">
-        <Image
-          src="/images/hero/hero-main.png"
-          alt=""
-          fill
-          className="object-cover object-center"
-          sizes="100vw"
-        />
-      </Parallax>
-      <div className="absolute inset-0 bg-brand-dark/82" />
-      {/* Subtle radial accent glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_60%_50%,rgba(204,164,194,0.12),transparent)]" />
+    <section className="py-40" aria-labelledby="cta-banner">
+      <div className="max-w-[1440px] mx-auto px-5 md:px-8">
+        <motion.h2
+          id="cta-banner"
+          className="font-sans font-medium text-brand-cream leading-[1.1] tracking-[-0.02em]"
+          style={{
+            fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
+            maxWidth: 'min(100%, 20ch)',
+          }}
+          {...fadeUp(0)}
+        >
+          Let&rsquo;s build something that earns its place.
+        </motion.h2>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10">
-        <div className="max-w-2xl">
-          <TextReveal direction="left" delay={0.1}>
-            <h2 className="font-sans font-bold text-[1.75rem] sm:text-3xl md:text-4xl lg:text-5xl text-brand-cream leading-tight tracking-tight">
-              Ready to build something worth talking about?
-            </h2>
-          </TextReveal>
+        <motion.p
+          className="mt-6 font-sans font-normal text-[rgba(255,251,245,0.65)] leading-[1.5]"
+          style={{
+            fontSize: '1.125rem',
+            maxWidth: 'min(100%, 48ch)',
+          }}
+          {...fadeUp(0.1)}
+        >
+          Book a discovery call &mdash; we&rsquo;ll tell you honestly whether we&rsquo;re the right fit.
+        </motion.p>
 
-          <FadeUp delay={0.2}>
-            <p className="mt-5 text-brand-cream/60 text-base leading-relaxed max-w-[54ch]">
-              Tell us what you&apos;re building. We&apos;ll show you how to make it exceptional.
-            </p>
-          </FadeUp>
-
-          <FadeUp delay={0.3}>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <MagneticButton strength={0.15}>
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.97 }}
-                  transition={SPRING_SNAPPY}
-                >
-                  <Link
-                    href="/contact"
-                    className="inline-flex items-center gap-2 bg-brand-accent text-brand-dark px-6 py-3.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity duration-200"
-                  >
-                    Start a conversation
-                    <ArrowRight size={14} weight="bold" />
-                  </Link>
-                </motion.div>
-              </MagneticButton>
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.97 }}
-                transition={SPRING_SNAPPY}
-              >
-                <Link
-                  href="/about"
-                  className="inline-flex items-center gap-2 border border-brand-cream/30 text-brand-cream px-6 py-3.5 rounded-full text-sm font-semibold hover:bg-brand-cream/10 transition-colors duration-200"
-                >
-                  About us
-                  <ArrowRight size={14} weight="bold" />
-                </Link>
-              </motion.div>
-            </div>
-          </FadeUp>
-        </div>
+        <motion.div {...fadeUp(0.2)}>
+          <Link
+            href="/contact"
+            className="btn-gloss inline-flex items-center justify-center h-[56px] px-8 rounded-[10px] bg-brand-cream text-brand-dark font-semibold text-base hover:bg-brand-cream/90 transition-colors duration-200 mt-10"
+          >
+            Book a discovery call
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { PageTransition } from '@/components/layout/PageTransition';
+import { SmoothScrollProvider } from '@/components/providers/SmoothScrollProvider';
 import './globals.css';
 
 const siteUrl = 'https://itqanstudio.com';
@@ -111,11 +112,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <Navbar />
-        <main>
-          <PageTransition>{children}</PageTransition>
-        </main>
-        <Footer />
+        <SmoothScrollProvider>
+          <Navbar />
+          <main>
+            <PageTransition>{children}</PageTransition>
+          </main>
+          <Footer />
+        </SmoothScrollProvider>
       </body>
     </html>
   );

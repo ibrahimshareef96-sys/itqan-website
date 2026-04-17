@@ -11,7 +11,7 @@ import { SPRING_SNAPPY } from '@/lib/motion';
 
 export function AboutHero() {
   return (
-    <section className="relative min-h-[60vh] flex items-center bg-brand-dark overflow-hidden">
+    <section className="relative min-h-[60vh] flex items-center overflow-hidden">
       {/* Subtle radial gradient accent */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_30%_60%,rgba(204,164,194,0.12),transparent)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_80%_20%,rgba(209,194,165,0.06),transparent)]" />
@@ -41,9 +41,9 @@ export function AboutHero() {
               >
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 bg-brand-accent text-brand-dark px-6 py-3 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity duration-200"
+                  className="btn-gloss inline-flex items-center gap-2 bg-brand-cream text-brand-dark px-6 py-3 rounded-[10px] text-sm font-semibold hover:bg-brand-cream/90 transition-colors duration-200"
                 >
-                  Book a meeting
+                  Book a discovery call
                   <ArrowRight size={14} weight="bold" />
                 </Link>
               </motion.div>

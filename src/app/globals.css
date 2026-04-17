@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,400;1,500&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --brand-dark: #2f1c2c;
+  --brand-dark: #1f1420;
   --brand-accent: #cca4c2;
   --brand-accent-secondary: #d1c2a5;
   --brand-cream: #fffbf5;
@@ -16,16 +16,111 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
+    /* scroll-behavior handled by Lenis; native smooth disabled to avoid conflict */
   }
 
   body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: 'Manrope', sans-serif;
-    color: var(--text-primary);
-    background-color: var(--brand-cream);
+    color: var(--brand-cream);
+    background-color: #130a14;
+    min-height: 100vh;
   }
+}
+
+/* Fixed gradient background via pseudo-element — avoids recomposition on scroll */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(180deg, #1f1420 0%, #1a0f1c 55%, #130a14 100%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Focus states — visible keyboard focus ring on all interactive elements */
+*:focus {
+  outline: none;
+}
+*:focus-visible {
+  outline: 2px solid #fffbf5;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Featured Work card links: softer inset ring */
+.featured-card:focus-visible {
+  outline: 2px solid rgba(255,251,245,0.6);
+  outline-offset: -2px;
+}
+
+/* Gradient text — used on hero "pixel" word */
+.pixel-gradient {
+  background-image: linear-gradient(105deg, #ffe8f3 0%, #f8c8e0 35%, #d9a8c8 70%, #cca4c2 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* Primary button gloss — subtle dimensional surface */
+.btn-gloss {
+  background-image: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.05) 100%);
+  background-size: 100% 200%;
+  background-position: 0% 0%;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 1px 3px rgba(0,0,0,0.08);
+  transition: background-position 300ms ease-out, box-shadow 300ms ease-out;
+}
+.btn-gloss:hover {
+  background-position: 0% 5%;
+}
+
+/* Stats + portrait gradient — pink gradient text */
+.stats-gradient {
+  background-image: linear-gradient(105deg, #ffe8f3 0%, #f8c8e0 35%, #d9a8c8 70%, #cca4c2 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+/* Stats line mobile wrap */
+@media (max-width: 500px) {
+  .stats-line {
+    white-space: normal !important;
+  }
+}
+
+/* Portrait video responsive aspect ratio */
+.portrait-video-wrapper {
+  aspect-ratio: 3 / 4;
+}
+@media (max-width: 639px) {
+  .portrait-video-wrapper {
+    aspect-ratio: 4 / 5;
+  }
+}
+
+/* Featured Work: sibling dimming on hover — desktop only */
+@media (hover: hover) {
+  .featured-grid:has(.featured-card:hover) .featured-card:not(:hover) {
+    opacity: 0.6;
+    transition: opacity 300ms ease-out;
+  }
+  .featured-card {
+    transition: opacity 300ms ease-out;
+  }
+}
+
+/* Industries grid overlay — softens on hover via parent .group */
+.industry-overlay {
+  background: linear-gradient(180deg, rgba(25,15,25,0.4) 0%, rgba(25,15,25,0.85) 100%);
+}
+.group:hover .industry-overlay {
+  background: linear-gradient(180deg, rgba(25,15,25,0.15) 0%, rgba(25,15,25,0.65) 100%);
 }
 
 /* Reduced motion: disable all non-essential animations */

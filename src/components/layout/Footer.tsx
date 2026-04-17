@@ -1,97 +1,129 @@
 'use client';
 
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { InstagramLogo, LinkedinLogo } from '@phosphor-icons/react';
-import { NewsletterForm } from './NewsletterForm';
-import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { FadeUp } from '@/components/ui/FadeUp';
-import { StaggerContainer, StaggerItem } from '@/components/ui/StaggerContainer';
-import { EASE_OUT_EXPO, SPRING_BOUNCY } from '@/lib/motion';
+
+const navLinks = [
+  { href: '/work', label: 'Work' },
+  { href: '/services', label: 'Services' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const socials = [
+  {
+    href: 'https://www.instagram.com/madebyitqan/',
+    label: 'Instagram',
+    Icon: InstagramLogo,
+  },
+  {
+    href: 'https://www.linkedin.com/company/110338926/',
+    label: 'LinkedIn',
+    Icon: LinkedinLogo,
+  },
+];
 
 export function Footer() {
   return (
-    <footer className="bg-brand-dark">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 pt-16 pb-10">
+    <footer className="py-20">
+      <div className="max-w-[1440px] mx-auto px-5 md:px-8">
 
-        {/* Top row */}
-        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12 mb-12">
-          <ScrollReveal direction="left" distance={20}>
-            <div className="flex-shrink-0">
-              <Image
-                src="/images/brand/light-logo.svg"
-                alt="Itqan Studio"
-                width={128}
-                height={36}
-              />
-              <p className="mt-5 text-brand-cream/45 text-sm leading-relaxed max-w-[220px]">
-                Your brand has potential.<br />
-                We give it direction.
-              </p>
-            </div>
-          </ScrollReveal>
+        {/* 3-column grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12 lg:gap-16">
 
-          <ScrollReveal direction="right" distance={20} delay={0.1}>
-            <div className="lg:max-w-[380px] w-full">
-              <p className="text-brand-cream text-sm font-semibold mb-3.5 tracking-wide">
-                Subscribe to Our Newsletter
-              </p>
-              <NewsletterForm />
-            </div>
-          </ScrollReveal>
-        </div>
-
-        {/* Animated divider */}
-        <motion.div
-          className="h-px bg-white/[0.1] mb-8 origin-left"
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          viewport={{ once: true, margin: '-48px 0px' as `${number}px` }}
-          transition={{ duration: 0.7, ease: EASE_OUT_EXPO }}
-        />
-
-        {/* Bottom row */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <FadeUp delay={0.1}>
-            <p className="text-brand-cream/40 text-sm">
-              Copyright &copy; 2026 &mdash; Itqan Studio FZ LLC
+          {/* Column 1 — Brand */}
+          <div>
+            <Image
+              src="/images/brand/light-icon.svg"
+              alt="Itqan Studio"
+              width={40}
+              height={40}
+            />
+            <p
+              className="mt-4 font-serif italic text-brand-accent leading-[1.4]"
+              style={{ fontSize: '0.875rem' }}
+            >
+              Crafted by Itqan.
             </p>
-          </FadeUp>
-          <StaggerContainer stagger={0.08} delay={0.15} className="flex items-center gap-4">
-            <StaggerItem>
-              <motion.a
-                href="https://www.instagram.com/madebyitqan/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="text-brand-cream/45 hover:text-brand-cream transition-colors duration-200"
-                whileHover={{ scale: 1.15, y: -2 }}
-                transition={SPRING_BOUNCY}
-              >
-                <InstagramLogo size={18} />
-              </motion.a>
-            </StaggerItem>
-            <StaggerItem>
-              <motion.a
-                href="https://www.linkedin.com/company/110338926/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3B07ZgNyX0RYqqdIn%2FtdL06w%3D%3D"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="text-brand-cream/45 hover:text-brand-cream transition-colors duration-200"
-                whileHover={{ scale: 1.15, y: -2 }}
-                transition={SPRING_BOUNCY}
-              >
-                <LinkedinLogo size={18} />
-              </motion.a>
-            </StaggerItem>
-          </StaggerContainer>
+            <p className="mt-3 font-sans font-normal text-[0.875rem] text-[rgba(255,251,245,0.55)] leading-[1.6] max-w-[28ch]">
+              Brand, digital, and systems studio. UAE and Sweden.
+            </p>
+          </div>
+
+          {/* Column 2 — Navigation */}
+          <div>
+            <p
+              className="font-sans font-semibold text-[0.75rem] uppercase text-[rgba(255,251,245,0.45)] mb-6"
+              style={{ letterSpacing: '0.15em' }}
+            >
+              Explore
+            </p>
+            <nav aria-label="Footer navigation">
+              <ul className="flex flex-col gap-3">
+                {navLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="font-sans font-normal text-base text-[rgba(255,251,245,0.75)] hover:text-brand-cream transition-colors duration-200"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+
+          {/* Column 3 — Contact + Social */}
+          <div className="sm:col-span-2 lg:col-span-1">
+            <p
+              className="font-sans font-semibold text-[0.75rem] uppercase text-[rgba(255,251,245,0.45)] mb-6"
+              style={{ letterSpacing: '0.15em' }}
+            >
+              Contact
+            </p>
+            <a
+              href="mailto:info@itqanstudio.com"
+              className="font-sans font-normal text-base text-[rgba(255,251,245,0.75)] hover:text-brand-cream transition-colors duration-200"
+            >
+              info@itqanstudio.com
+            </a>
+            <p className="mt-3 font-sans font-normal text-[0.875rem] text-[rgba(255,251,245,0.55)]">
+              Dubai, UAE
+            </p>
+
+            {/* Social icons */}
+            <div className="mt-8 flex items-center gap-4">
+              {socials.map(({ href, label, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="text-[rgba(255,251,245,0.55)] hover:text-brand-accent transition-colors duration-200"
+                >
+                  <Icon size={20} />
+                </a>
+              ))}
+            </div>
+          </div>
+
         </div>
 
-        <FadeUp delay={0.2}>
-          <p className="mt-4 text-brand-cream/20 text-xs">
-            Made with &#9829; by The Itqan Team
-          </p>
-        </FadeUp>
+        {/* Bottom bar */}
+        <div className="mt-16 pt-8 border-t border-[rgba(255,251,245,0.08)]">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <p className="font-sans font-normal text-[0.75rem] text-[rgba(255,251,245,0.4)]">
+              &copy; 2026 Itqan Studio FZ LLC. All rights reserved.
+            </p>
+            <p className="font-sans font-normal text-[0.75rem] text-[rgba(255,251,245,0.4)]">
+              Privacy &middot; Terms
+            </p>
+          </div>
+        </div>
+
       </div>
     </footer>
   );

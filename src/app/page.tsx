@@ -1,16 +1,20 @@
 import { Hero } from '@/components/home/Hero';
-import { SocialProof } from '@/components/home/SocialProof';
+import { FeaturedWork } from '@/components/home/FeaturedWork';
 import { Services } from '@/components/home/Services';
-import { PortfolioPreview } from '@/components/home/PortfolioPreview';
+import { Industries } from '@/components/home/Industries';
+import { StatsLine } from '@/components/home/StatsLine';
+import { Portrait } from '@/components/home/Portrait';
 import { CTABanner } from '@/components/home/CTABanner';
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <SocialProof />
+      <FeaturedWork />
       <Services />
-      <PortfolioPreview />
+      <Industries />
+      <StatsLine />
+      <Portrait />
       <CTABanner />
     </>
   );

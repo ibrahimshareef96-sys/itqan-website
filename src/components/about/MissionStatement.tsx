@@ -4,7 +4,7 @@ import { TextReveal } from '@/components/ui/TextReveal';
 
 export function MissionStatement() {
   return (
-    <section className="relative bg-brand-dark py-24 lg:py-32 overflow-hidden">
+    <section className="relative py-24 lg:py-32 overflow-hidden">
 
       {/* Islamic geometric pattern watermark — pure decorative SVG, right-positioned */}
       <div className="absolute right-0 top-0 bottom-0 w-[60%] pointer-events-none select-none opacity-[0.06]" aria-hidden="true">
@@ -60,7 +60,7 @@ export function MissionStatement() {
           </p>
         </TextReveal>
         <TextReveal direction="right" delay={0.14}>
-          <p className="font-serif italic text-[1.75rem] sm:text-3xl md:text-4xl lg:text-5xl text-brand-accent leading-tight tracking-tight mt-4 max-w-3xl">
+          <p className="font-sans font-medium text-[1.75rem] sm:text-3xl md:text-4xl lg:text-5xl text-[rgba(255,251,245,0.65)] leading-tight tracking-tight mt-4 max-w-3xl">
             And Excellence is defined by the values that shape it.
           </p>
         </TextReveal>
