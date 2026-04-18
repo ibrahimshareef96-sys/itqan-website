@@ -85,7 +85,7 @@ export function Hero() {
         preload="metadata"
         poster="/images/hero/hero-main.png"
         aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full hero-video"
       >
         <source src="/videos/hero-bg.mp4" type="video/mp4" />
       </video>

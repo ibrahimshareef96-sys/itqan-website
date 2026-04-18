@@ -19,10 +19,13 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const isHomepage = pathname === '/';
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => setScrolled(window.scrollY > 80);
     window.addEventListener('scroll', onScroll, { passive: true });
+    // Set initial state
+    setScrolled(window.scrollY > 80);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
@@ -33,14 +36,21 @@ export function Navbar() {
     };
   }, [open]);
 
+  // On non-homepage routes, navbar is always solid
+  const showSolid = !isHomepage || scrolled;
+
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 bg-brand-dark transition-[border-color] duration-300 ${
-          scrolled
-            ? 'border-b border-[rgba(255,251,245,0.08)]'
-            : 'border-b border-transparent'
-        }`}
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        style={{
+          backgroundColor: showSolid ? '#1f1420' : 'transparent',
+          backdropFilter: showSolid ? 'blur(12px)' : 'none',
+          WebkitBackdropFilter: showSolid ? 'blur(12px)' : 'none',
+          borderBottom: showSolid
+            ? '1px solid rgba(255,251,245,0.08)'
+            : '1px solid transparent',
+        }}
       >
         <motion.nav
           initial={{ y: -72, opacity: 0 }}
@@ -70,7 +80,7 @@ export function Navbar() {
                   href={l.href}
                   className={`relative text-[0.9375rem] font-medium transition-opacity duration-200 ${
                     isActive
-                      ? 'text-brand-cream opacity-100'
+                      ? 'nav-active-gradient'
                       : 'text-brand-cream/75 hover:text-brand-cream hover:opacity-100'
                   }`}
                 >
@@ -101,7 +111,7 @@ export function Navbar() {
         </motion.nav>
       </header>
 
-      {/* Mobile full-screen overlay */}
+      {/* Mobile full-screen overlay — UNCHANGED */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -143,7 +153,7 @@ export function Navbar() {
                     <Link
                       href={l.href}
                       onClick={() => setOpen(false)}
-                      className={`text-2xl font-semibold tracking-wide transition-colors ${
+                      className={`text-2xl font-semibold tracking-wide uppercase transition-colors ${
                         isActive
                           ? 'text-brand-cream'
                           : 'text-brand-cream/75 hover:text-brand-cream'
