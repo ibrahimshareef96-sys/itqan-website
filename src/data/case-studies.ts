@@ -53,21 +53,21 @@ export const caseStudies: CaseStudy[] = [
   {
     id: 'shareefico',
     title: 'Shareefico',
-    subtitle: 'Personal Brand',
+    subtitle: 'Personal Brand & Custom CMS',
     industry: 'Personal Brand',
     category: 'Branding',
     coverImage: '/images/portfolio/shareefico/cover.png',
     mockups: [
-      '/images/portfolio/shareefico/mockup-1.png',
+      '/images/portfolio/shareefico/SHRFCO-CMS-MKP.png',
       '/images/portfolio/shareefico/mockup-2.png',
       '/images/portfolio/shareefico/mockup-3.png',
     ],
     challenge:
-      'The project began as a single podcast concept but rapidly evolved into a full personal brand. With no prior experience running a brand at this scale, the journey involved multiple pivots and strategic re-alignments. The key challenge was maintaining clarity, coherence, and long-term direction while deliberately avoiding scope creep during a highly exploratory phase.',
+      'Shareefico began as a single podcast concept and rapidly evolved into a full personal brand and content operation. With no prior infrastructure, the journey required building a clear brand identity, a consistent visual direction, and a purpose-built content management system to handle the full workflow — from idea to script to publish — across two brands.',
     approach:
-      "To build a timeless, authentic personal brand that reflects Ibrahim Shareef's identity, values, and voice—while remaining professional, scalable, and suitable for a global audience and future production studio.",
+      "We built the Shareefico brand from the ground up — positioning, visual identity, creative direction, and brand guidelines — then extended that foundation into a fully custom CMS. The system covers idea generation, script development, episode management, clip tracking, and content distribution for both Shareefico and the Barakah Blueprint podcast. Every module was designed around how Ibrahim's content operation actually runs.",
     result:
-      'Shareefico emerged as a clearly positioned, scalable personal brand with a strong strategic foundation, consistent creative direction, and room for long-term growth. The brand now functions as a platform for content, thought leadership, and future media production—while remaining deeply authentic to its founder.',
+      'A strategically positioned personal brand with a strong visual identity, and a bespoke content management system that runs the entire content workflow. Shareefico now operates as a scalable platform for content, thought leadership, and media production — with the infrastructure to match.',
     services: [
       'Brand Identity & Strategy',
       'Creative Direction',
@@ -135,6 +135,62 @@ export const caseStudies: CaseStudy[] = [
     testimonialName: 'Adel Habib',
     testimonialCompany: 'Medacs',
     testimonialImage: '/images/testimonials/adel-habib.jpeg',
+  },
+  {
+    id: 'itqan-crm',
+    title: 'Itqan Studio CRM',
+    subtitle: 'Custom CRM & Operations Platform',
+    industry: 'Internal Tools',
+    category: 'Application Development',
+    coverImage: '/images/portfolio/ITQAN-CRM-MKP-MCBK2.png',
+    mockups: [
+      '/images/portfolio/ITQAN-CRM-MB-MKP.png',
+      '/images/portfolio/ITQAN-CRM-MKP-MCBK2.png',
+      '/images/portfolio/ITQAN-CRM-MB-MKP2.png',
+    ],
+    challenge:
+      'Generic CRMs, ERP platforms, and project management tools each solve one piece of the puzzle — and none of them are built for how a design and development studio actually operates. Running Itqan across disconnected systems meant constant context-switching, manual reconciliation, and no single view of project health or financial performance.',
+    approach:
+      'We built the entire platform from scratch — a single system covering project management, client pipeline, invoicing, expense tracking, and financial reporting in one place. UAE-compliant e-invoicing was built in from the ground up, not bolted on. Every screen, every workflow, and every data model was designed around how Itqan specifically operates. Built with Next.js 14 and Supabase.',
+    result:
+      'A fully custom operations platform that replaced every disconnected tool the studio used. Projects, pipeline, tasks, invoices, credit notes, expenses, and financial reporting all live in one system — with real-time data, mobile access, and e-invoicing built to UAE standards.',
+    services: [
+      'Application Development',
+      'System Architecture',
+      'UI/UX',
+      'Internal Tools',
+    ],
+    testimonialQuote:
+      "We didn't adapt our workflow to fit a tool. We built the tool to fit how we actually work. The difference is felt every single day.",
+    testimonialName: 'Ibrahim Shareef',
+    testimonialCompany: 'Itqan Studio (Internal)',
+  },
+  {
+    id: 'project-you',
+    title: 'Project You',
+    subtitle: 'Personal Life OS',
+    industry: 'Consumer Product',
+    category: 'Application Development',
+    coverImage: '/images/portfolio/project-you-mkp-mkbk.png',
+    mockups: [
+      '/images/portfolio/project-you-mkp-mb.png',
+      '/images/app-hand-v2-render.png',
+    ],
+    challenge:
+      "Productivity apps treat life as a flat to-do list. But goals, habits, spiritual practice, health, and finance don't exist in isolation — they interact. For young Muslims in particular, no platform existed that brought Qur'an memorisation, prayer accountability, and deen-centred living together with real productivity infrastructure. Every tool solved one thing. Nothing solved everything.",
+    approach:
+      "Apply real project management principles — planning, tracking, iteration — to how you live. One unified platform covering goals, habits, projects, Qur'an tracking, health, and personal finance. Designed specifically for young Muslims who want structure without compromising what matters most. Built with Next.js and Supabase. Live at projectyou.app.",
+    result:
+      'The first personal life OS built for the young Muslim market — unifying productivity, spiritual practice, and life management in a single platform. No comparable product exists. Live at projectyou.app with active users across multiple countries.',
+    services: [
+      'Application Development',
+      'Product Design',
+      'UI/UX',
+    ],
+    testimonialQuote:
+      'There was a gap in the market that nobody was filling. Young Muslims needed a platform that took both their productivity and their deen seriously. Project You is that platform — and Itqan built it end to end.',
+    testimonialName: 'Ibrahim Shareef',
+    testimonialCompany: 'Itqan Studio (Product)',
   },
 ];
 

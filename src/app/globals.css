@@ -144,6 +144,54 @@ body::before {
   background: linear-gradient(180deg, rgba(25,15,25,0.15) 0%, rgba(25,15,25,0.65) 100%);
 }
 
+/* Legal pages — simple prose hierarchy in Manrope only */
+.legal-prose h2 {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1.3;
+  color: var(--brand-cream);
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+.legal-prose h2:first-child {
+  margin-top: 0;
+}
+.legal-prose h3 {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--brand-cream);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.legal-prose p {
+  color: rgba(255, 251, 245, 0.75);
+}
+.legal-prose a {
+  color: var(--brand-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 200ms ease;
+}
+.legal-prose a:hover {
+  color: var(--brand-cream);
+}
+.legal-prose ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+  color: rgba(255, 251, 245, 0.75);
+}
+.legal-prose ul li {
+  margin-bottom: 0.5rem;
+}
+.legal-prose strong {
+  color: var(--brand-cream);
+  font-weight: 500;
+}
+
 /* Reduced motion: disable all non-essential animations */
 @media (prefers-reduced-motion: reduce) {
   html {

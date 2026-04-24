@@ -118,9 +118,28 @@ export function Footer() {
             <p className="font-sans font-normal text-[0.75rem] text-[rgba(255,251,245,0.4)]">
               &copy; 2026 Itqan Studio FZ LLC. All rights reserved.
             </p>
-            <p className="font-sans font-normal text-[0.75rem] text-[rgba(255,251,245,0.4)]">
-              Privacy &middot; Terms
-            </p>
+            <div className="flex items-center gap-4 text-[0.75rem] text-[rgba(255,251,245,0.4)]">
+              <Link
+                href="/privacy"
+                className="font-sans font-normal hover:text-brand-cream transition-colors duration-200"
+              >
+                Privacy Policy
+              </Link>
+              <span aria-hidden="true">&middot;</span>
+              <Link
+                href="/terms"
+                className="font-sans font-normal hover:text-brand-cream transition-colors duration-200"
+              >
+                Terms
+              </Link>
+              <span aria-hidden="true">&middot;</span>
+              <Link
+                href="/cookies"
+                className="font-sans font-normal hover:text-brand-cream transition-colors duration-200"
+              >
+                Cookie Policy
+              </Link>
+            </div>
           </div>
         </div>
 

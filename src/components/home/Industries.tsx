@@ -11,11 +11,11 @@ const industries = [
   },
   {
     name: 'SaaS',
-    image: '/images/portfolio/nexilink/mockup-1.png',
+    image: '/images/portfolio/project-you-mkp-mb.png',
   },
   {
     name: 'Fintech',
-    image: '/images/itqan-crm.png',
+    image: '/images/portfolio/ITQAN-CRM-MKP-MCBK2.png',
   },
   {
     name: 'Healthcare',
