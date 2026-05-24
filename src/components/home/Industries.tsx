@@ -6,10 +6,6 @@ import { FadeUp } from '@/components/ui/FadeUp';
 
 const industries = [
   {
-    name: 'Brand',
-    image: '/images/portfolio/shareefico/cover.png',
-  },
-  {
     name: 'SaaS',
     image: '/images/portfolio/project-you-mkp-mb.png',
   },
@@ -18,16 +14,20 @@ const industries = [
     image: '/images/portfolio/ITQAN-CRM-MKP-MCBK2.png',
   },
   {
+    name: 'Productized service',
+    image: '/images/portfolio/nexilink/cover.png',
+  },
+  {
+    name: 'Creator brand',
+    image: '/images/portfolio/shareefico/cover.png',
+  },
+  {
+    name: 'Knowledge business',
+    image: '/images/founder-render.png',
+  },
+  {
     name: 'Healthcare',
     image: '/images/portfolio/medacs/cover.png',
-  },
-  {
-    name: 'Commerce',
-    image: '/images/portfolio/oud-closet/cover.png',
-  },
-  {
-    name: 'GCC Markets',
-    image: '/images/founder-render.png',
   },
 ];
 
@@ -51,10 +51,10 @@ export function Industries() {
         {/* Eyebrow */}
         <FadeUp>
           <p
-            className="font-sans font-medium text-[0.75rem] uppercase text-[rgba(255,251,245,0.45)]"
-            style={{ letterSpacing: '0.15em' }}
+            className="font-sans font-medium text-[0.75rem] uppercase text-brand-accent"
+            style={{ letterSpacing: '0.22em' }}
           >
-            Areas of focus
+            Where we work
           </p>
         </FadeUp>
 
@@ -62,11 +62,22 @@ export function Industries() {
         <FadeUp delay={0.05}>
           <h2
             id="industries-heading"
-            className="mt-6 font-sans font-medium text-brand-cream leading-[1.05] tracking-[-0.02em]"
-            style={{ fontSize: 'clamp(2.5rem, 4.5vw, 4rem)' }}
+            className="mt-6 font-sans font-semibold text-brand-cream leading-[1.05] tracking-[-0.02em]"
+            style={{ fontSize: 'clamp(2.5rem, 5vw, 4.25rem)', maxWidth: '22ch' }}
           >
-            Built for the industries we understand.
+            Built for tech-adjacent founders.
           </h2>
+        </FadeUp>
+
+        {/* Supporting line */}
+        <FadeUp delay={0.1}>
+          <p
+            className="mt-6 text-brand-cream/65 leading-[1.55]"
+            style={{ fontSize: 'clamp(1rem, 1.25vw, 1.125rem)', maxWidth: '58ch' }}
+          >
+            SaaS, fintech, productized service, creator brand, knowledge business.
+            Mostly GCC. Always craft-respecting.
+          </p>
         </FadeUp>
 
         {/* Grid */}

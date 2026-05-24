@@ -24,10 +24,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
   return {
     title: `${magnet.title} · Free Guide by Itqan Studio`,
-    description: magnet.body.slice(0, 160).replace(/[#*\n]+/g, " ").trim(),
+    description: magnet.landingTeaser
+      .slice(0, 160)
+      .replace(/[#*\n]+/g, " ")
+      .trim(),
     openGraph: {
       title: magnet.title,
-      description: magnet.body.slice(0, 200).replace(/[#*\n]+/g, " ").trim(),
+      description: magnet.landingTeaser
+        .slice(0, 200)
+        .replace(/[#*\n]+/g, " ")
+        .trim(),
       type: "article",
     },
   };

@@ -20,13 +20,13 @@ const fadeUpStatement = (delay = 0) => ({
 
 export function Portrait() {
   return (
-    <section className="py-40" aria-labelledby="portrait-statement">
+    <section className="py-32 md:py-40" aria-labelledby="portrait-statement">
       <div className="max-w-[1440px] mx-auto px-5 md:px-8">
-        <div className="flex flex-col md:flex-row items-center gap-12 md:gap-12">
+        <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16">
 
-          {/* Left column — video (55% on desktop) */}
+          {/* Left column — video (50% on desktop) */}
           <motion.div
-            className="w-full md:w-[55%] flex justify-center"
+            className="w-full md:w-[50%] flex justify-center"
             {...fadeUp(0)}
           >
             <div
@@ -51,27 +51,59 @@ export function Portrait() {
             </div>
           </motion.div>
 
-          {/* Right column — brand statement (45% on desktop) */}
-          <div className="w-full md:w-[45%] flex flex-col justify-center">
-            {/* Outer motion.div controls opacity for gradient text fade-in */}
+          {/* Right column — Identity statement (50% on desktop) */}
+          <div className="w-full md:w-[50%] flex flex-col justify-center">
+            {/* Eyebrow */}
+            <motion.p
+              className="font-sans font-medium text-[0.6875rem] uppercase text-brand-accent"
+              style={{ letterSpacing: '0.22em' }}
+              {...fadeUpStatement(0)}
+            >
+              The founder
+            </motion.p>
+
+            {/* Identity statement */}
             <motion.div {...fadeUpStatement(0.1)}>
-              <blockquote id="portrait-statement">
+              <blockquote id="portrait-statement" className="mt-6">
                 <p
-                  className="stats-gradient font-sans font-bold leading-[1.2] tracking-[-0.02em]"
+                  className="stats-gradient font-sans font-bold leading-[1.1] tracking-[-0.02em]"
                   style={{
-                    fontSize: 'clamp(1.875rem, 3.2vw, 3rem)',
-                    maxWidth: 'min(100%, 32ch)',
+                    fontSize: 'clamp(2rem, 3.6vw, 3.25rem)',
+                    maxWidth: 'min(100%, 18ch)',
                   }}
                 >
-                  We&rsquo;re craftspeople first, consultants second. Every project earns our full attention or it doesn&rsquo;t earn a place on the page.
+                  Engineer. Designer. Storyteller.{' '}
+                  <span
+                    style={{
+                      fontFamily: "'Playfair Display', serif",
+                      fontStyle: 'italic',
+                      fontWeight: 500,
+                    }}
+                  >
+                    All in one.
+                  </span>
                 </p>
               </blockquote>
             </motion.div>
 
+            {/* Supporting line */}
             <motion.p
-              className="mt-8 font-sans font-medium text-[0.875rem] text-[rgba(255,251,245,0.55)]"
+              className="mt-7 font-sans font-normal text-brand-cream/70 leading-[1.6]"
+              style={{
+                fontSize: 'clamp(1rem, 1.2vw, 1.125rem)',
+                maxWidth: 'min(100%, 46ch)',
+              }}
+              {...fadeUpStatement(0.18)}
+            >
+              Ibrahim Shareef. Solo founder of Itqan Studio. The rare person who can
+              build the brand, code the system, and tell the story &mdash; without
+              handing it off three times.
+            </motion.p>
+
+            <motion.p
+              className="mt-7 font-sans font-medium text-[0.8125rem] text-brand-cream/45"
               style={{ letterSpacing: '0.02em' }}
-              {...fadeUpStatement(0.2)}
+              {...fadeUpStatement(0.26)}
             >
               &mdash; Ibrahim Shareef, Founder
             </motion.p>

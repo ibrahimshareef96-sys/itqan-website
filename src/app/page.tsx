@@ -1,8 +1,9 @@
 import { Hero } from '@/components/home/Hero';
 import { FeaturedWork } from '@/components/home/FeaturedWork';
-import { Services } from '@/components/home/Services';
+import { FounderOS } from '@/components/home/FounderOS';
+import { WhoFor } from '@/components/home/WhoFor';
+import { Guarantee } from '@/components/home/Guarantee';
 import { Industries } from '@/components/home/Industries';
-import { StatsLine } from '@/components/home/StatsLine';
 import { Portrait } from '@/components/home/Portrait';
 import { CTABanner } from '@/components/home/CTABanner';
 
@@ -11,9 +12,10 @@ export default function HomePage() {
     <>
       <Hero />
       <FeaturedWork />
-      <Services />
+      <FounderOS />
+      <WhoFor />
+      <Guarantee />
       <Industries />
-      <StatsLine />
       <Portrait />
       <CTABanner />
     </>

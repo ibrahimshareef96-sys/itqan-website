@@ -1,5 +1,15 @@
 import type { Project } from './projects';
 
+export type FounderPillar = 'identity' | 'system' | 'automation';
+
+export interface CaseStudyPhase {
+  pillar: FounderPillar;
+  /** e.g. "Days 1-30" or "Week 1-2" — string, not enum, so older shorter engagements can describe their own cadence */
+  days: string;
+  /** What actually shipped in this phase */
+  deliverables: string[];
+}
+
 export interface CaseStudy {
   id: string;
   title: string;
@@ -17,6 +27,18 @@ export interface CaseStudy {
   testimonialCompany: string;
   testimonialImage?: string;
   behanceUrl?: string;
+  /** Real duration string, e.g. "3 weeks", "<30 days" */
+  duration?: string;
+  /** Industry average for comparable scope, e.g. "8-16 weeks" */
+  industryAverage?: string;
+  /** Quantified outcome — headline stat. e.g. "Won 1st place at investor competition" */
+  outcomeMetric?: string;
+  /** One-liner scope summary for the at-a-glance strip. e.g. "Brand + product UX redesign" */
+  scope?: string;
+  /** Client's voice about the pain that triggered the engagement */
+  beforeQuote?: string;
+  /** Phases of the 90-Day Founder OS that ran for this client. Only the ones in scope. */
+  phases?: CaseStudyPhase[];
 }
 
 export const caseStudies: CaseStudy[] = [
@@ -33,11 +55,11 @@ export const caseStudies: CaseStudy[] = [
       '/images/portfolio/nexilink/mockup-3.png',
     ],
     challenge:
-      'The client started from zero—with no prior product, branding, or UX experience—making early decision-making complex and time-intensive. With no existing direction, references, or mood boards, the entire strategic, creative, and experiential foundation had to be defined from scratch.',
+      'No product. No brand. No deck. A competition deadline in 21 days. The founder needed to walk on stage with something investors could actually see, click, and believe.',
     approach:
-      'Nexilink partnered with Itqan to build an investor-ready recruitment platform from the ground up—combining brand strategy, creative direction, UX research, and UI/UX design to create a clear, credible product experience for recruiters and companies.',
+      'We compressed a 4-month engagement into 3 weeks. Brand strategy + identity in Week 1. UX research with real recruiters + employers in Week 2. Full UI design + tested prototype in Week 3. No phase ran past its deadline.',
     result:
-      'We delivered a fully articulated brand, product strategy, and user experience rooted in deep research, user personas, and usability testing. The outcome was a compelling, market-ready platform and brand identity that helped Nexilink win first place at a major investor competition in 2024, unlocking their next stage of growth.',
+      "Nexilink walked into the 2024 investor competition with a brand investors couldn't ignore and a product they could click through. They placed first. The full identity + UX system became the foundation for the next phase of growth.",
     services: [
       'Brand Strategy & Identity',
       'UX Research',
@@ -49,6 +71,33 @@ export const caseStudies: CaseStudy[] = [
     testimonialName: 'Abdi Mohamud',
     testimonialCompany: 'Nexilink',
     testimonialImage: '/images/testimonials/abdi-mohamud.jpeg',
+    duration: '3 weeks',
+    industryAverage: '8-16 weeks',
+    outcomeMetric: 'Won 1st place at investor competition (2024)',
+    scope: 'Brand + investor-ready product UX',
+    beforeQuote:
+      "We had no product, no brand, and no investor story. We needed it all — and we needed it before the competition.",
+    phases: [
+      {
+        pillar: 'identity',
+        days: 'Week 1',
+        deliverables: [
+          'Brand strategy + naming validation',
+          'Positioning brief + investor narrative',
+          'Visual identity system (logo, type, color)',
+        ],
+      },
+      {
+        pillar: 'system',
+        days: 'Weeks 2-3',
+        deliverables: [
+          'UX research with recruiters + employers',
+          'User personas + journey mapping',
+          'Full product UI design (web + dashboard)',
+          'Usability-tested prototype ready for build',
+        ],
+      },
+    ],
   },
   {
     id: 'shareefico',
@@ -63,11 +112,11 @@ export const caseStudies: CaseStudy[] = [
       '/images/portfolio/shareefico/mockup-3.png',
     ],
     challenge:
-      'Shareefico began as a single podcast concept and rapidly evolved into a full personal brand and content operation. With no prior infrastructure, the journey required building a clear brand identity, a consistent visual direction, and a purpose-built content management system to handle the full workflow — from idea to script to publish — across two brands.',
+      'One founder, two podcasts, zero infrastructure. Every episode rebuilt from scratch in a notebook. Every clip lost in a folder. Shareefico needed a brand and a system before it became a content operation it could no longer scale.',
     approach:
-      "We built the Shareefico brand from the ground up — positioning, visual identity, creative direction, and brand guidelines — then extended that foundation into a fully custom CMS. The system covers idea generation, script development, episode management, clip tracking, and content distribution for both Shareefico and the Barakah Blueprint podcast. Every module was designed around how Ibrahim's content operation actually runs.",
+      "We ran all three pillars in 30 days. Week 1 — brand identity for Shareefico + Barakah Blueprint as two coexisting marks. Weeks 2-3 — custom CMS covering idea → script → episode → clip → publish. Week 4 — automation layer that distributes across platforms without manual touchpoints.",
     result:
-      'A strategically positioned personal brand with a strong visual identity, and a bespoke content management system that runs the entire content workflow. Shareefico now operates as a scalable platform for content, thought leadership, and media production — with the infrastructure to match.',
+      "Shareefico runs as a productized content engine, not a founder's pile of notebooks. Two brands ship 4+ pieces per week from one CMS. The hand-off docs mean the next hire can run it without rebuilding the playbook.",
     services: [
       'Brand Identity & Strategy',
       'Creative Direction',
@@ -80,6 +129,41 @@ export const caseStudies: CaseStudy[] = [
     testimonialCompany: 'Shareefico',
     testimonialImage: '/images/testimonials/ibrahim-shareef.png',
     behanceUrl: 'https://www.behance.net/gallery/238575625/Shareefico-Personal-Brand',
+    duration: 'under 30 days',
+    industryAverage: '12-24 weeks',
+    outcomeMetric: 'Brand + custom CMS + podcasting workflow shipped end-to-end',
+    scope: 'Personal brand + custom CMS + content engine',
+    beforeQuote:
+      "I was running everything from one notebook. No system, no consistency. Every episode took twice as long as it should have.",
+    phases: [
+      {
+        pillar: 'identity',
+        days: 'Week 1',
+        deliverables: [
+          'Personal brand strategy + voice guidelines',
+          'Visual identity system + creative direction',
+          'Two-brand architecture (Shareefico + Barakah Blueprint)',
+        ],
+      },
+      {
+        pillar: 'system',
+        days: 'Weeks 2-3',
+        deliverables: [
+          'Custom CMS for idea → script → episode → clip workflow',
+          'Episode management + clip tracking modules',
+          'Content distribution pipeline across both brands',
+        ],
+      },
+      {
+        pillar: 'automation',
+        days: 'Week 4',
+        deliverables: [
+          'Automated content scheduling + cross-platform repurposing',
+          'CRM workflow integration',
+          'Hand-off documentation so future hires can run it',
+        ],
+      },
+    ],
   },
   {
     id: 'oud-closet',
@@ -94,16 +178,34 @@ export const caseStudies: CaseStudy[] = [
       '/images/portfolio/oud-closet/mockup-3.png',
     ],
     challenge:
-      "The challenge was striking the right balance between tradition and modernity. Oud carries deep cultural significance, and the brand needed to communicate authenticity without appearing dated, while also standing out in a saturated luxury fragrance market.",
+      "A heritage product sitting behind a logo the founders were embarrassed to show. In a luxury fragrance market drowning in look-alike branding, Oud Closet needed to look as old as the oud and as sharp as the price point. Two weeks. No prior brand to evolve.",
     approach:
-      "To build a refined and timeless luxury brand that authentically represents the heritage of 'oud' while appealing to a contemporary market seeking quality, meaning, and sophistication.",
+      "We treated the identity as a positioning problem, not a logo problem. Brand strategy first — what 'oud' means to this audience, and what it absolutely cannot look like. Then the visual system: type, color, motif, photography guidelines. Brand guidelines doc so the team can hold the line after we leave.",
     result:
-      "We delivered a cohesive brand identity and creative direction that elevated Oud Closet's presence and clarified its positioning in the luxury space. The brand now communicates confidence, heritage, and premium craftsmanship, allowing it to connect more deeply with its audience and stand out with clarity and distinction.",
+      "Oud Closet now reads as a luxury brand at every touchpoint — packaging, web, social, retail. The identity carries the heritage without looking dated. The team has the guidelines to scale every new SKU and campaign without diluting what we built.",
     services: ['Brand Identity & Strategy', 'Creative Direction'],
     testimonialQuote:
       'Itqan understood the essence of our brand from the very beginning. They treated our product with respect for its heritage while giving it a modern, premium presence. The outcome felt intentional, refined, and truly representative of who we are.',
     testimonialName: 'Oud Closet',
     testimonialCompany: 'Oud Closet',
+    duration: '2 weeks',
+    industryAverage: '8-12 weeks',
+    outcomeMetric: 'Full identity + visual system shipped from zero',
+    scope: 'Brand identity + visual system',
+    beforeQuote:
+      "We had a beautiful product and a logo we were embarrassed by. The brand wasn't matching the heritage we were trying to sell.",
+    phases: [
+      {
+        pillar: 'identity',
+        days: 'Weeks 1-2',
+        deliverables: [
+          'Brand strategy + heritage positioning',
+          'Visual identity system (logo, type, color, motif)',
+          'Creative direction + photography guidelines',
+          'Brand guidelines document',
+        ],
+      },
+    ],
   },
   {
     id: 'medacs',
@@ -118,11 +220,11 @@ export const caseStudies: CaseStudy[] = [
       '/images/portfolio/medacs/mockup-3.png',
     ],
     challenge:
-      'Medacs operates in a highly complex environment that combines healthcare, policy, and technology across emerging markets. The challenge was designing intuitive user experiences for multiple stakeholders—patients, providers, and administrators—while ensuring the platform remained accessible, scalable, and aligned with real-world healthcare workflows.',
+      'Three user types — patients, providers, administrators. Four different workflows. One UI that none of them could navigate. Engineering was ready to build, but nobody was sure what to build. Two weeks to find out.',
     approach:
-      'To design a clear, efficient, and user-friendly healthcare platform that connects public and private healthcare providers, enabling seamless booking, scheduling, and care coordination in a growing digital health ecosystem.',
+      'Research first — sat with each stakeholder type and watched them actually try to book, schedule, and coordinate care. Mapped the journeys until the friction points were obvious. Designed flows that respected each role without forking the codebase. Tested the prototype with real users before hand-off.',
     result:
-      'Through in-depth UX research, usability testing, and iterative prototyping, we delivered validated user flows and interface concepts that simplified complex healthcare processes. The outcome was a more intuitive, efficient platform experience, helping Medacs move forward with confidence in both product direction and stakeholder alignment.',
+      'Engineering unblocked. The product team walked into the build with validated flows for all three stakeholder types and a usability-tested prototype to reference. The 4-month UX phase that was originally scoped became a 2-week sprint.',
     services: [
       'UI/UX',
       'User Interface Design',
@@ -135,12 +237,30 @@ export const caseStudies: CaseStudy[] = [
     testimonialName: 'Adel Habib',
     testimonialCompany: 'Medacs',
     testimonialImage: '/images/testimonials/adel-habib.jpeg',
+    duration: '2 weeks',
+    industryAverage: '10-16 weeks',
+    outcomeMetric: 'Multi-stakeholder flows validated + dev-ready in 14 days',
+    scope: 'Healthcare platform UX + UI',
+    beforeQuote:
+      "Three stakeholder types, four different workflows, and a UI nobody could navigate. We needed clarity before we could build.",
+    phases: [
+      {
+        pillar: 'system',
+        days: 'Weeks 1-2',
+        deliverables: [
+          'UX research with patients, providers, administrators',
+          'Validated user journeys across all three stakeholder types',
+          'Full UI design + usability-tested prototype',
+          'Hand-off package for engineering',
+        ],
+      },
+    ],
   },
   {
     id: 'itqan-crm',
     title: 'Itqan Studio CRM',
-    subtitle: 'Custom CRM & Operations Platform',
-    industry: 'Internal Tools',
+    subtitle: 'Internal operations platform',
+    industry: 'Internal — we eat our own cooking',
     category: 'Application Development',
     coverImage: '/images/portfolio/ITQAN-CRM-MKP-MCBK2.png',
     mockups: [
@@ -149,11 +269,11 @@ export const caseStudies: CaseStudy[] = [
       '/images/portfolio/ITQAN-CRM-MB-MKP2.png',
     ],
     challenge:
-      'Generic CRMs, ERP platforms, and project management tools each solve one piece of the puzzle — and none of them are built for how a design and development studio actually operates. Running Itqan across disconnected systems meant constant context-switching, manual reconciliation, and no single view of project health or financial performance.',
+      "We were running Itqan across five disconnected tools. Every Friday I rebuilt the project P&L by hand. Invoices lived in one place, expenses in another, project health in a third. A full day of every week disappeared into reconciliation.",
     approach:
-      'We built the entire platform from scratch — a single system covering project management, client pipeline, invoicing, expense tracking, and financial reporting in one place. UAE-compliant e-invoicing was built in from the ground up, not bolted on. Every screen, every workflow, and every data model was designed around how Itqan specifically operates. Built with Next.js 14 and Supabase.',
+      "We stopped duct-taping and built the system we wanted. One platform — projects, pipeline, tasks, invoices, expenses, financial reporting. UAE-compliant e-invoicing built in from day one, not bolted on. Every screen designed for how the studio actually runs.",
     result:
-      'A fully custom operations platform that replaced every disconnected tool the studio used. Projects, pipeline, tasks, invoices, credit notes, expenses, and financial reporting all live in one system — with real-time data, mobile access, and e-invoicing built to UAE standards.',
+      "Friday reconciliation collapsed from 8 hours to 15 minutes. Every metric — pipeline value, project margin, cash position — live, on phone or laptop. The studio runs on one system instead of five, and the tool now ships as a product to other studios.",
     services: [
       'Application Development',
       'System Architecture',
@@ -163,13 +283,40 @@ export const caseStudies: CaseStudy[] = [
     testimonialQuote:
       "We didn't adapt our workflow to fit a tool. We built the tool to fit how we actually work. The difference is felt every single day.",
     testimonialName: 'Ibrahim Shareef',
-    testimonialCompany: 'Itqan Studio (Internal)',
+    testimonialCompany: 'Founder, Itqan Studio',
+    duration: '6 weeks',
+    industryAverage: '4-6 months',
+    outcomeMetric: 'Replaced 5 tools. Friday P&L: 8h → 15 min.',
+    scope: 'Studio CRM, invoicing, financial reporting, e-invoicing',
+    beforeQuote:
+      "I was running the studio across five tools. Every Friday I rebuilt the project P&L by hand. I was losing a full day a week to reconciliation.",
+    phases: [
+      {
+        pillar: 'system',
+        days: 'Weeks 1-4',
+        deliverables: [
+          'Full data model — projects, pipeline, tasks, invoices, expenses',
+          'Mobile + desktop UI built end-to-end',
+          'Project P&L + studio cash position dashboards',
+          'Migration from 5 legacy tools',
+        ],
+      },
+      {
+        pillar: 'automation',
+        days: 'Weeks 5-6',
+        deliverables: [
+          'UAE-compliant e-invoicing built in (not bolted on)',
+          'Automatic credit notes + expense categorization',
+          'Real-time KPI digests piped to founder phone',
+        ],
+      },
+    ],
   },
   {
     id: 'project-you',
     title: 'Project You',
-    subtitle: 'Personal Life OS',
-    industry: 'Consumer Product',
+    subtitle: 'Personal life OS for young Muslims',
+    industry: 'Product — our own SaaS',
     category: 'Application Development',
     coverImage: '/images/portfolio/project-you-mkp-mkbk.png',
     mockups: [
@@ -177,20 +324,55 @@ export const caseStudies: CaseStudy[] = [
       '/images/app-hand-v2-render.png',
     ],
     challenge:
-      "Productivity apps treat life as a flat to-do list. But goals, habits, spiritual practice, health, and finance don't exist in isolation — they interact. For young Muslims in particular, no platform existed that brought Qur'an memorisation, prayer accountability, and deen-centred living together with real productivity infrastructure. Every tool solved one thing. Nothing solved everything.",
+      "Every productivity app treated faith as an afterthought. Qur'an memorisation in one app. Prayer tracking in another. Goals and habits in a third. Nothing connected the deen with the to-do list. For a generation of Muslims building serious lives, nothing fit.",
     approach:
-      "Apply real project management principles — planning, tracking, iteration — to how you live. One unified platform covering goals, habits, projects, Qur'an tracking, health, and personal finance. Designed specifically for young Muslims who want structure without compromising what matters most. Built with Next.js and Supabase. Live at projectyou.app.",
+      "We ran the full Founder OS on ourselves. Identity — positioning for the young Muslim segment, brand voice that respects both ambition and faith. System — full product UX across goals, habits, Qur'an, health, finance. Automation — onboarding, daily reminders, habit nudges.",
     result:
-      'The first personal life OS built for the young Muslim market — unifying productivity, spiritual practice, and life management in a single platform. No comparable product exists. Live at projectyou.app with active users across multiple countries.',
+      "Project You is live at projectyou.app with users across multiple countries. The first life OS that treats the deen as a first-class citizen, not a side widget. Proof that the 90-day Founder OS works on our own products before we sell it.",
     services: [
       'Application Development',
       'Product Design',
       'UI/UX',
     ],
     testimonialQuote:
-      'There was a gap in the market that nobody was filling. Young Muslims needed a platform that took both their productivity and their deen seriously. Project You is that platform — and Itqan built it end to end.',
+      'There was a gap in the market that nobody was filling. Young Muslims needed a platform that took both their productivity and their deen seriously. Project You is that platform — and we built it end to end on the same system we sell.',
     testimonialName: 'Ibrahim Shareef',
-    testimonialCompany: 'Itqan Studio (Product)',
+    testimonialCompany: 'Founder, Itqan Studio',
+    duration: '12 weeks (full Founder OS)',
+    industryAverage: '6-12 months',
+    outcomeMetric: 'Live SaaS — users across multiple countries',
+    scope: 'Consumer SaaS — identity + product + automation',
+    beforeQuote:
+      "Every productivity app I tried treated Qur'an and prayer as afterthoughts. Nothing connected the deen with the to-do list. So we built it.",
+    phases: [
+      {
+        pillar: 'identity',
+        days: 'Weeks 1-4',
+        deliverables: [
+          'Audience positioning — young Muslims building serious lives',
+          'Brand strategy + voice that respects ambition AND faith',
+          'Visual identity + product naming',
+        ],
+      },
+      {
+        pillar: 'system',
+        days: 'Weeks 5-9',
+        deliverables: [
+          "Full product UX — goals, habits, Qur'an, health, finance modules",
+          'Next.js + Supabase stack shipped to production at projectyou.app',
+          'Onboarding flow tested with real users',
+        ],
+      },
+      {
+        pillar: 'automation',
+        days: 'Weeks 10-12',
+        deliverables: [
+          'Daily habit nudges + prayer accountability automation',
+          'Automated user onboarding sequence',
+          'Cross-platform sync + push notifications',
+        ],
+      },
+    ],
   },
 ];
 

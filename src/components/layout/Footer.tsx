@@ -46,8 +46,8 @@ export function Footer() {
             >
               Crafted by Itqan.
             </p>
-            <p className="mt-3 font-sans font-normal text-[0.875rem] text-[rgba(255,251,245,0.55)] leading-[1.6] max-w-[28ch]">
-              Brand, digital, and systems studio. UAE and Sweden.
+            <p className="mt-3 font-sans font-normal text-[0.875rem] text-[rgba(255,251,245,0.55)] leading-[1.6] max-w-[30ch]">
+              The founder studio. Brand, system, and agentic automation in 90 days.
             </p>
           </div>
 

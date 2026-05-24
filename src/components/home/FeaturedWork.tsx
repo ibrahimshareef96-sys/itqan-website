@@ -11,6 +11,7 @@ const tiles = [
     slug: 'nexilink',
     name: 'Nexilink',
     categories: ['Brand', 'Digital'],
+    duration: '3 weeks',
     image: '/images/portfolio/nexilink/cover.png',
     quote: 'Itqan rebuilt our entire product design with speed and precision. The result is functional, beautiful and perfectly aligned with our goals.',
     attribution: 'Abdi Mohamud',
@@ -20,6 +21,7 @@ const tiles = [
     slug: 'shareefico',
     name: 'Shareefico',
     categories: ['Brand', 'Content'],
+    duration: 'under 30 days',
     image: '/images/portfolio/shareefico/cover.png',
     quote: 'Every detail feels thoughtfully crafted, and the final result elevated the brand far beyond what we imagined at the start.',
     attribution: 'Ibrahim Shareef',
@@ -29,6 +31,7 @@ const tiles = [
     slug: 'oud-closet',
     name: 'Oud Closet',
     categories: ['Brand', 'Strategy'],
+    duration: '2 weeks',
     image: '/images/portfolio/oud-closet/cover.png',
     quote: 'Itqan understood the essence of our brand from the very beginning. The outcome felt intentional, refined, and truly representative of who we are.',
     attribution: 'Oud Closet',
@@ -38,6 +41,7 @@ const tiles = [
     slug: 'medacs',
     name: 'Medacs',
     categories: ['UI/UX', 'Research'],
+    duration: '2 weeks',
     image: '/images/portfolio/medacs/cover.png',
     quote: 'Itqan transformed our complex systems into clean, intuitive designs that finally make sense. Fast, clear and genuinely impressive work.',
     attribution: 'Adel Habib',
@@ -51,6 +55,7 @@ function Tile({
   slug,
   name,
   categories,
+  duration,
   image,
   quote,
   attribution,
@@ -115,6 +120,19 @@ function Tile({
         animate={{ opacity: hovered ? 1 : 0 }}
         transition={{ duration: 0.45, ease: EASING }}
       />
+
+      {/* Duration pill — top-right, always visible */}
+      <div className="absolute top-5 right-5 md:top-6 md:right-6 z-20 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[0.6875rem] md:text-[0.75rem] font-semibold tracking-[0.02em] text-brand-accent"
+        style={{
+          background: 'rgba(47, 28, 44, 0.55)',
+          backdropFilter: 'blur(14px)',
+          WebkitBackdropFilter: 'blur(14px)',
+          border: '1px solid rgba(204, 164, 194, 0.25)',
+        }}
+      >
+        <span className="inline-block w-1.5 h-1.5 rounded-full bg-brand-accent" aria-hidden="true" />
+        Delivered in {duration}
+      </div>
 
       {/* Content layer: covers card, flex-end pushes group to bottom */}
       <div className="absolute inset-0 z-10 flex flex-col justify-end p-8">

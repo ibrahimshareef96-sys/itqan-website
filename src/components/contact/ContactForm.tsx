@@ -22,7 +22,12 @@ const labelClass = 'block text-xs font-semibold text-[rgba(255,251,245,0.75)] tr
 
 const errorClass = 'text-red-400 text-xs mt-1.5';
 
-export function ContactForm() {
+interface ContactFormProps {
+  /** Optional CTA intent (e.g. "audit", "founder-os-core"). Sent to Formspree as hidden field. */
+  intent?: string;
+}
+
+export function ContactForm({ intent }: ContactFormProps) {
   const {
     register,
     handleSubmit,
@@ -46,6 +51,7 @@ export function ContactForm() {
     >
       <input type="hidden" name="_next" value="https://itqanstudio.com/thank-you" />
       <input type="hidden" name="_subject" value="New inquiry from Itqan Studio website" />
+      {intent && <input type="hidden" name="intent" value={intent} />}
 
       <div className="grid sm:grid-cols-2 gap-5">
         <div>

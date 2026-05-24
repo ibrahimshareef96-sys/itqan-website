@@ -6,6 +6,14 @@
 // from shareefi.co (separate codebase, same Notion DB).
 //
 // Used by /magnet/[slug]/page.tsx to render the public landing pages.
+//
+// SCHEMA CONTRACT (v2.1, Agent 5 split as of 2026-05-23):
+//   - "Body" property        → landing_teaser (~150 words, page-visible)
+//   - page children blocks   → magnet_content_full (~1200 words, PDF only)
+//                              followed by drip subject lines
+// The landing page reads ONLY the Body property. The full content lives in
+// page children and is consumed by /api/magnet-pdf/[slug] when the PDF
+// generation route is wired (Phase 3).
 
 import { Client } from "@notionhq/client";
 
@@ -26,7 +34,13 @@ export interface LeadMagnet {
   topicSlug: string;
   dmKeyword: string;
   status: string;
-  body: string; // full markdown body joined from children blocks
+  /**
+   * The ~150-word page-visible landing teaser written by Agent 5 (v2.1).
+   * This is what shows above the email signup form. The full ~1200-word PDF
+   * body lives in the page's children blocks and is fetched separately by
+   * the PDF generation route.
+   */
+  landingTeaser: string;
 }
 
 // Notion API property reader helpers (typed loosely since we don't pull
@@ -79,32 +93,55 @@ export async function findItqanMagnetBySlug(
   );
   if (!matched) return null;
 
-  // Pull the full body from the page's children blocks. Agent 5 stored the
-  // magnet as a series of paragraph blocks (each ~1900 chars), so we
-  // concatenate them here.
-  type Paragraph = {
-    type: string;
-    paragraph?: { rich_text?: RichTextRun[] };
-  };
-  const blocks = await notion().blocks.children.list({
-    block_id: matched.id,
-    page_size: 100,
-  });
-  const body = (blocks.results as Paragraph[])
-    .filter((b) => b.type === "paragraph")
-    .map((b) =>
-      (b.paragraph?.rich_text ?? [])
-        .map((r) => r.plain_text ?? "")
-        .join("")
-    )
-    .join("\n\n");
-
+  // Landing teaser comes from the Body property ONLY. Page children blocks
+  // hold the full 1200-word PDF content and must NOT leak onto the public
+  // landing page (that would defeat the email-gate).
   return {
     pageId: matched.id,
     title: readTitle(matched, "Title"),
     topicSlug: readText(matched, "Topic slug"),
     dmKeyword: readText(matched, "DM keyword"),
     status: readSelect(matched, "Status") ?? "Draft",
-    body,
+    landingTeaser: readText(matched, "Body"),
   };
+}
+
+/**
+ * Fetch the full magnet content (the ~1200-word PDF body) from the page's
+ * children blocks. Used by /api/magnet-pdf/[slug] to render the PDF.
+ *
+ * NOT used by the public landing page — that would expose the full content
+ * to anyone who finds the URL, bypassing the email signup gate.
+ *
+ * Returns plain markdown joined from paragraph blocks. Heading blocks (the
+ * "Magnet content (PDF body)" and "Kit drip subject lines" markers Agent 5
+ * writes) are skipped so the PDF doesn't include them.
+ */
+export async function findItqanMagnetFullContent(
+  pageId: string
+): Promise<string> {
+  type Block = {
+    type: string;
+    paragraph?: { rich_text?: RichTextRun[] };
+  };
+  const blocks = await notion().blocks.children.list({
+    block_id: pageId,
+    page_size: 100,
+  });
+  return (blocks.results as Block[])
+    .filter((b) => b.type === "paragraph")
+    .map((b) =>
+      (b.paragraph?.rich_text ?? [])
+        .map((r) => r.plain_text ?? "")
+        .join("")
+    )
+    .filter((line) => {
+      // Skip drip subject lines (Agent 5 appends them as numbered paragraphs
+      // after the "Kit drip subject lines" heading). They start with "1. ",
+      // "2. ", "3. " and are short.
+      const trimmed = line.trim();
+      if (/^[1-3]\.\s+.{0,60}$/.test(trimmed)) return false;
+      return trimmed.length > 0;
+    })
+    .join("\n\n");
 }

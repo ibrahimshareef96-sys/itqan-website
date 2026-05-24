@@ -11,19 +11,20 @@ const siteUrl = 'https://itqanstudio.com';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Itqan Studio — Brand Design & Digital Agency in Dubai',
+    default: 'Itqan Studio — From invisible to inevitable in 90 days',
     template: '%s | Itqan Studio',
   },
   description:
-    'Itqan Studio is a premium brand design and digital agency in Dubai. We craft brand identities, UI/UX design, custom web applications, and automation systems for ambitious businesses.',
+    "Itqan is the founder studio that takes ambitious companies from invisible to inevitable in 90 days — with a brand, a system, and an agentic automation engine you can run from Telegram. Guaranteed.",
   keywords: [
+    'founder studio',
+    '90-day Founder OS',
+    'brand identity Dubai',
+    'brand strategy GCC',
+    'agentic automation',
+    'founder operating system',
+    'UI UX design Dubai',
     'brand design agency Dubai',
-    'UI UX design studio',
-    'brand identity design',
-    'web development agency',
-    'custom CRM development',
-    'digital agency Dubai',
-    'brand strategy',
     'Itqan Studio',
   ],
   authors: [{ name: 'Itqan Studio', url: siteUrl }],
@@ -33,23 +34,23 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: siteUrl,
     siteName: 'Itqan Studio',
-    title: 'Itqan Studio — Brand Design & Digital Agency in Dubai',
+    title: 'Itqan Studio — From invisible to inevitable in 90 days',
     description:
-      'We craft brand identities, UI/UX design, custom web applications, and automation systems for ambitious businesses.',
+      "The founder studio that takes ambitious companies from invisible to inevitable in 90 days — with a brand, a system, and an agentic automation engine. Guaranteed.",
     images: [
       {
         url: '/images/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Itqan Studio — Your brand has potential. We give it direction.',
+        alt: 'Itqan Studio — From invisible to inevitable in 90 days.',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Itqan Studio — Brand Design & Digital Agency in Dubai',
+    title: 'Itqan Studio — From invisible to inevitable in 90 days',
     description:
-      'We craft brand identities, UI/UX design, custom web applications, and automation systems for ambitious businesses.',
+      "The founder studio that takes ambitious companies from invisible to inevitable in 90 days. Brand. System. Automation. Guaranteed.",
     images: ['/images/og-image.png'],
   },
   robots: {

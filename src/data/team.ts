@@ -9,24 +9,24 @@ export const team: TeamMember[] = [
   {
     id: 'ibrahim',
     name: 'Ibrahim Shareef',
-    role: 'CEO & Co-founder',
+    role: 'Founder',
     image: '/images/team/ibrahim-shareef.png',
   },
   {
     id: 'bisma',
     name: 'Bisma Aslam',
-    role: 'Chief of Design & Co-founder',
+    role: 'Design collaborator',
     image: '/images/team/bisma-aslam.png',
   },
   {
     id: 'jonny',
     name: 'Jonny Olejak',
-    role: 'Chief of Growth & Co-founder',
+    role: 'Growth collaborator',
     image: '/images/team/jonny-olejak.png',
   },
 ];
 
-// Languages are a COLLECTIVE team capability, not assigned to individuals
+// Languages spoken across the founder + collaborator network.
 export const teamLanguages: string[] = [
   'Arabic', 'English', 'Spanish', 'German', 'Urdu', 'Swedish', 'Norwegian', 'Bosnian',
 ];

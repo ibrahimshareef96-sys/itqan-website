@@ -11,10 +11,64 @@ import { ChatCircle } from '@phosphor-icons/react/dist/ssr';
 export const metadata: Metadata = {
   title: 'Contact — Book a Call or Send Us a Message',
   description:
-    'Ready to start your project? Book a discovery call with Itqan Studio or send us a message. We respond within 24 hours to discuss brand design, development, and strategy.',
+    'Ready to start your project? Book a discovery call with Itqan Studio or send us a message. We respond within 24 hours.',
 };
 
-export default function ContactPage() {
+interface IntentCopy {
+  label: string;
+  heading: string;
+  subheading: string;
+  body: string;
+}
+
+const INTENT_COPY: Record<string, IntentCopy> = {
+  audit: {
+    label: '$497 Brand Audit',
+    heading: 'Book your $497 Brand Audit.',
+    subheading: '1 hour. Diagnostic report. 3 specific fixes.',
+    body: 'Tell us about your company and what you want clarity on. We respond within 24 hours and book the call from there.',
+  },
+  'identity-sprint': {
+    label: 'Identity Sprint',
+    heading: 'Start the Identity Sprint.',
+    subheading: '14 days. Strategy + visual system + content positioning.',
+    body: 'Share a bit about your business and the deadline. We schedule a discovery call to confirm fit before kickoff.',
+  },
+  'system-automation': {
+    label: 'System + Automation',
+    heading: 'Build the system + automation.',
+    subheading: '60 days. For founders whose brand is already strong.',
+    body: 'Tell us where you are with your brand and what manual work is eating your week.',
+  },
+  'founder-os-core': {
+    label: 'Founder OS Core',
+    heading: 'Book a Founder OS discovery call.',
+    subheading: 'The full 90-day program. Identity → System → Automation.',
+    body: "Tell us about your company and where you are today. We'll confirm fit on the call.",
+  },
+  'founder-os-quarterly': {
+    label: 'Founder OS Quarterly+',
+    heading: 'Founder OS + 90 days of support.',
+    subheading: 'For founders who want runway after the build.',
+    body: 'Share your context. We schedule a call to talk through scope and timing.',
+  },
+};
+
+const DEFAULT_COPY: IntentCopy = {
+  label: "Let's Chat",
+  heading: 'Book a discovery call.',
+  subheading: "And let's work together.",
+  body: 'Ready to discuss your project? Book a call with our experts to explore how we can help you achieve your vision.',
+};
+
+interface Props {
+  searchParams: { intent?: string };
+}
+
+export default function ContactPage({ searchParams }: Props) {
+  const intent = typeof searchParams.intent === 'string' ? searchParams.intent : undefined;
+  const copy = (intent && INTENT_COPY[intent]) || DEFAULT_COPY;
+
   return (
     <section className="min-h-[100dvh] pt-28 pb-24">
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
@@ -23,22 +77,21 @@ export default function ContactPage() {
           {/* Left column */}
           <div>
             <FadeUp>
-              <SectionLabel icon={<ChatCircle size={13} />} label="Let's Chat" />
+              <SectionLabel icon={<ChatCircle size={13} />} label={copy.label} />
             </FadeUp>
 
             <TextReveal direction="up" delay={0.08} className="mt-6">
-              <h1 className="font-sans font-bold text-[2rem] sm:text-4xl md:text-5xl lg:text-6xl text-brand-cream leading-tight tracking-tight">
-                Book a discovery call.
+              <h1 className="font-sans font-semibold text-[2rem] sm:text-4xl md:text-5xl lg:text-6xl text-brand-cream leading-tight tracking-tight">
+                {copy.heading}
               </h1>
-              <p className="font-sans font-normal text-[1.25rem] sm:text-2xl text-[rgba(255,251,245,0.65)] leading-relaxed mt-3">
-                And let&apos;s work together.
+              <p className="font-sans font-normal text-[1.25rem] sm:text-2xl text-brand-cream/65 leading-relaxed mt-3">
+                {copy.subheading}
               </p>
             </TextReveal>
 
             <FadeUp delay={0.16}>
-              <p className="mt-7 text-[rgba(255,251,245,0.6)] text-base leading-relaxed max-w-[50ch]">
-                Ready to discuss your project? Book a call with our experts to explore how we can
-                help you achieve your vision.
+              <p className="mt-7 text-brand-cream/60 text-base leading-relaxed max-w-[50ch]">
+                {copy.body}
               </p>
             </FadeUp>
 
@@ -49,9 +102,9 @@ export default function ContactPage() {
 
           {/* Right column — form */}
           <ScrollReveal direction="right" distance={28} delay={0.14} className="lg:pt-2">
-            <div className="rounded-2xl border border-[rgba(255,251,245,0.08)] p-8">
+            <div className="rounded-2xl border border-brand-cream/[0.08] p-8">
               <p className="font-semibold text-brand-cream text-lg mb-6">Send us a message</p>
-              <ContactForm />
+              <ContactForm intent={intent} />
             </div>
           </ScrollReveal>
 
