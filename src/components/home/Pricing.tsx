@@ -84,12 +84,7 @@ export function Pricing() {
             style={{ fontSize: 'clamp(2.5rem, 5vw, 4.25rem)', maxWidth: '18ch' }}
           >
             Built to fit{' '}
-            <span
-              className="text-brand-accent"
-              style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic' }}
-            >
-              where you are.
-            </span>
+            <span className="accent-italic">where you are.</span>
           </h2>
         </FadeUp>
 

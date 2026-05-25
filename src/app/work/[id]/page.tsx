@@ -330,12 +330,7 @@ function PhaseArc({ phases }: { phases: CaseStudyPhase[] }) {
             style={{ fontSize: 'clamp(2.25rem, 4.5vw, 3.75rem)', maxWidth: '22ch' }}
           >
             What we{' '}
-            <span
-              className="text-brand-accent"
-              style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic' }}
-            >
-              actually built.
-            </span>
+            <span className="accent-italic">actually built.</span>
           </h2>
         </FadeUp>
 
@@ -434,15 +429,7 @@ function AfterBlock({ cs }: { cs: CaseStudy }) {
               style={{ fontSize: 'clamp(2.25rem, 4.5vw, 3.75rem)', maxWidth: '22ch' }}
             >
               From invisible to{' '}
-              <span
-                className="text-brand-accent"
-                style={{
-                  fontFamily: "'Playfair Display', serif",
-                  fontStyle: 'italic',
-                }}
-              >
-                inevitable.
-              </span>
+              <span className="accent-italic">inevitable.</span>
             </h2>
           </FadeUp>
 

@@ -31,12 +31,7 @@ export function AboutHero() {
           style={{ fontSize: 'clamp(2.5rem, 6vw, 5.25rem)' }}
         >
           <SplitText text="Engineer. Designer. Storyteller." stagger={0.05} delay={0.2} />
-          <span
-            className="block mt-2 text-brand-accent"
-            style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 500 }}
-          >
-            All in one.
-          </span>
+          <span className="accent-italic block mt-2">All in one.</span>
         </h1>
 
         <TextReveal direction="up" delay={0.55}>

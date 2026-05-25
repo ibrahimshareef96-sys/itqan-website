@@ -107,10 +107,8 @@ export function Hero() {
 
       {/* Dark overlay — between video and content for text readability */}
       <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: 'linear-gradient(180deg, rgba(19, 10, 20, 0.55) 0%, rgba(19, 10, 20, 0.75) 100%)',
-        }}
+        className="hero-overlay absolute inset-0 pointer-events-none"
+        aria-hidden="true"
       />
 
       {/* Content — left-aligned */}

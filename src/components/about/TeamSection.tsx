@@ -53,15 +53,7 @@ export function TeamSection() {
                   style={{ fontSize: 'clamp(2rem, 3.6vw, 3rem)' }}
                 >
                   One operator. Three crafts.{' '}
-                  <span
-                    className="text-brand-accent"
-                    style={{
-                      fontFamily: "'Playfair Display', serif",
-                      fontStyle: 'italic',
-                    }}
-                  >
-                    No hand-offs.
-                  </span>
+                  <span className="accent-italic">No hand-offs.</span>
                 </h2>
                 <p
                   className="mt-6 text-brand-cream/75 leading-[1.65] max-w-[58ch]"

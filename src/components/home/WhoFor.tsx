@@ -5,18 +5,18 @@ import { FadeUp } from '@/components/ui/FadeUp';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 const forYou = [
-  "You're a solo founder or 2-3 person team",
-  'Building tech-adjacent — SaaS, fintech, productized service, creator brand, knowledge business',
+  'Solo founders or 2-3 person teams',
+  'Tech-adjacent — SaaS, fintech, productized service, creator brand, knowledge business',
   'GCC-based or relocating to GCC',
   'You care about craft and intelligence',
   "You're tired of looking smaller than you are",
 ];
 
 const notForYou = [
-  "You're shopping for a logo",
-  'You run a commodity business and need decoration',
-  'You want a friend discount',
-  'You need this done in less than 30 days',
+  'You need logo-only work',
+  "Positioning isn't part of the goal",
+  'Budget needs a friend rate to work',
+  'You want a vendor to take orders, not a partner to think with',
 ];
 
 export function WhoFor() {
@@ -32,7 +32,7 @@ export function WhoFor() {
             className="font-sans font-medium text-[0.75rem] uppercase text-brand-accent"
             style={{ letterSpacing: '0.22em' }}
           >
-            Honest filter
+            Fit notes
           </p>
         </FadeUp>
 
@@ -44,12 +44,7 @@ export function WhoFor() {
             style={{ fontSize: 'clamp(2.5rem, 5vw, 4.25rem)', maxWidth: '20ch' }}
           >
             We are{' '}
-            <span
-              className="text-brand-accent"
-              style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic' }}
-            >
-              not
-            </span>{' '}
+            <span className="accent-italic">not</span>{' '}
             for everyone.
           </h2>
         </FadeUp>
@@ -59,8 +54,8 @@ export function WhoFor() {
             className="mt-8 text-brand-cream/65 leading-[1.55]"
             style={{ fontSize: 'clamp(1rem, 1.25vw, 1.125rem)', maxWidth: '58ch' }}
           >
-            We work with a small number of founders per quarter. Reading these lists honestly
-            saves both of us a call.
+            We work with a small number of founders per quarter. These notes save us both
+            a call if the shape isn&apos;t right.
           </p>
         </FadeUp>
 
@@ -102,7 +97,7 @@ export function WhoFor() {
                   <X size={14} weight="bold" />
                 </span>
                 <h3 className="font-sans font-semibold text-brand-cream/55 text-[0.9375rem] tracking-[0.02em] uppercase">
-                  This isn&apos;t for you if
+                  We&apos;re probably not the fit if
                 </h3>
               </div>
               <ul role="list" className="space-y-4">

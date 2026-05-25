@@ -56,12 +56,7 @@ export function Guarantee() {
                 style={{ fontSize: 'clamp(2.25rem, 4.2vw, 3.5rem)' }}
               >
                 Phase-gated outputs.{' '}
-                <span
-                  className="text-brand-accent"
-                  style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic' }}
-                >
-                  No surprises.
-                </span>
+                <span className="accent-italic">No surprises.</span>
               </h2>
             </FadeUp>
 

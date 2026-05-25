@@ -31,12 +31,7 @@ export function CTABanner() {
           From{' '}
           <span className="text-brand-cream/45">invisible</span>{' '}
           to{' '}
-          <span
-            className="text-brand-accent"
-            style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic' }}
-          >
-            inevitable
-          </span>{' '}
+          <span className="accent-italic">inevitable</span>{' '}
           in 90 days.
         </motion.h2>
 

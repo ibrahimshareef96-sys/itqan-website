@@ -36,3 +36,6 @@ node_modules/
 # Local agent + dev tooling
 .claude/
 agent-work/
+
+# Creative-direction reference videos (kept local, not shipped)
+public/videos/new/

@@ -98,12 +98,7 @@ export default function ServicesPage() {
               style={{ fontSize: 'clamp(3rem, 6.5vw, 5.75rem)', maxWidth: '20ch' }}
             >
               The 90-Day Founder{' '}
-              <span
-                className="text-brand-accent"
-                style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic' }}
-              >
-                Operating System.
-              </span>
+              <span className="accent-italic">Operating System.</span>
             </h1>
           </FadeUp>
 

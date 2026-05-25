@@ -75,12 +75,7 @@ export function FounderOS() {
             style={{ fontSize: 'clamp(2.5rem, 5vw, 4.25rem)', maxWidth: '20ch' }}
           >
             The 90-Day Founder{' '}
-            <span
-              className="text-brand-accent"
-              style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic' }}
-            >
-              Operating System
-            </span>
+            <span className="accent-italic">Operating System</span>
           </h2>
         </FadeUp>
 
