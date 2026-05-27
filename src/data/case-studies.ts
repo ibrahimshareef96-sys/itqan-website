@@ -17,6 +17,8 @@ export interface CaseStudy {
   industry: string;
   category: string;
   coverImage: string;
+  /** Optional cover video that replaces coverImage on the detail-page hero. coverImage stays the poster + the fallback for listing cards. */
+  coverVideo?: string;
   mockups: string[];
   challenge: string;
   approach: string;
@@ -27,6 +29,8 @@ export interface CaseStudy {
   testimonialCompany: string;
   testimonialImage?: string;
   behanceUrl?: string;
+  /** Public-facing live URL for the shipped work, e.g. https://shareefi.co. Surfaces as a "Visit live site" CTA. */
+  liveUrl?: string;
   /** Real duration string, e.g. "3 weeks", "<30 days" */
   duration?: string;
   /** Industry average for comparable scope, e.g. "8-16 weeks" */
@@ -105,11 +109,13 @@ export const caseStudies: CaseStudy[] = [
     subtitle: 'Personal Brand & Custom CMS',
     industry: 'Personal Brand',
     category: 'Branding',
-    coverImage: '/images/portfolio/shareefico/cover.png',
+    coverImage: '/images/portfolio/shareefico/cover-poster.jpg',
+    coverVideo: '/videos/shareefico-cover.mp4',
+    liveUrl: 'https://shareefi.co',
     mockups: [
+      '/images/portfolio/shareefico/website.png',
+      '/images/portfolio/shareefico/tokens.png',
       '/images/portfolio/shareefico/SHRFCO-CMS-MKP.png',
-      '/images/portfolio/shareefico/mockup-2.png',
-      '/images/portfolio/shareefico/mockup-3.png',
     ],
     challenge:
       'One founder, two podcasts, zero infrastructure. Every episode rebuilt from scratch in a notebook. Every clip lost in a folder. Shareefico needed a brand and a system before it became a content operation it could no longer scale.',

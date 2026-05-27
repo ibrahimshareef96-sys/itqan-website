@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import {
   ArrowRight,
+  ArrowUpRight,
   CheckCircle,
   Quotes,
 } from '@phosphor-icons/react/dist/ssr';
@@ -75,30 +76,55 @@ export default function CaseStudyPage({ params }: Props) {
             </h1>
           </FadeUp>
 
-          {/* Duration vs. industry average */}
-          {cs.duration && (
+          {/* Duration vs. industry average + live site link */}
+          {(cs.duration || cs.liveUrl) && (
             <FadeUp delay={0.14}>
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:gap-4">
-                <div
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[0.8125rem] font-semibold text-brand-accent"
-                  style={{
-                    background: 'rgba(47, 28, 44, 0.55)',
-                    backdropFilter: 'blur(14px)',
-                    WebkitBackdropFilter: 'blur(14px)',
-                    border: '1px solid rgba(204, 164, 194, 0.25)',
-                  }}
-                >
-                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-brand-accent" aria-hidden="true" />
-                  Delivered in {cs.duration}
-                </div>
+                {cs.duration && (
+                  <div
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[0.8125rem] font-semibold text-brand-accent"
+                    style={{
+                      background: 'rgba(47, 28, 44, 0.55)',
+                      backdropFilter: 'blur(14px)',
+                      WebkitBackdropFilter: 'blur(14px)',
+                      border: '1px solid rgba(204, 164, 194, 0.25)',
+                    }}
+                  >
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-brand-accent" aria-hidden="true" />
+                    Delivered in {cs.duration}
+                  </div>
+                )}
 
-                {cs.industryAverage && (
+                {cs.duration && cs.industryAverage && (
                   <span className="text-[0.8125rem] text-brand-cream/40">
                     industry average{' '}
                     <span className="line-through decoration-from-font">
                       {cs.industryAverage}
                     </span>
                   </span>
+                )}
+
+                {cs.liveUrl && (
+                  <a
+                    href={cs.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-center gap-2 px-4 py-2 rounded-full text-[0.8125rem] font-semibold text-brand-cream transition-colors duration-200 hover:text-brand-accent"
+                    style={{
+                      background: 'rgba(204, 164, 194, 0.12)',
+                      backdropFilter: 'blur(14px)',
+                      WebkitBackdropFilter: 'blur(14px)',
+                      border: '1px solid rgba(204, 164, 194, 0.35)',
+                    }}
+                    aria-label={`Visit ${cs.title} live site (opens in new tab)`}
+                  >
+                    Visit live site
+                    <ArrowUpRight
+                      size={14}
+                      weight="bold"
+                      className="transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                    />
+                  </a>
                 )}
               </div>
             </FadeUp>
@@ -122,20 +148,11 @@ export default function CaseStudyPage({ params }: Props) {
         </div>
       </section>
 
-      {/* ── Hero image ── */}
-      <section className="pb-16 md:pb-24" aria-label="Case study hero image">
+      {/* ── Hero (video preferred, image fallback) ── */}
+      <section className="pb-16 md:pb-24" aria-label="Case study hero">
         <div className="max-w-[1440px] mx-auto px-5 md:px-8">
           <FadeUp delay={0.16}>
-            <div className="relative w-full aspect-[16/9] md:aspect-[2/1] rounded-[14px] overflow-hidden">
-              <Image
-                src={cs.coverImage}
-                alt={`${cs.title} — ${cs.subtitle}`}
-                fill
-                priority
-                className="object-cover"
-                sizes="100vw"
-              />
-            </div>
+            <CaseStudyHero cs={cs} />
           </FadeUp>
         </div>
       </section>
@@ -187,6 +204,63 @@ export default function CaseStudyPage({ params }: Props) {
       {/* ── Next case study — full-bleed visual card ── */}
       {next && <NextCaseCard next={next} />}
     </>
+  );
+}
+
+// ────────────────────────────────────────────────────────────
+// Hero — video preferred, image fallback. Optional live-site CTA overlay.
+// ────────────────────────────────────────────────────────────
+function CaseStudyHero({ cs }: { cs: CaseStudy }) {
+  const hasVideo = Boolean(cs.coverVideo);
+  return (
+    <div className="relative w-full aspect-[16/9] md:aspect-[2/1] rounded-[14px] overflow-hidden bg-brand-dark">
+      {hasVideo ? (
+        <video
+          src={cs.coverVideo}
+          poster={cs.coverImage}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          className="absolute inset-0 w-full h-full object-cover"
+          aria-label={`${cs.title} — animated cover`}
+        />
+      ) : (
+        <Image
+          src={cs.coverImage}
+          alt={`${cs.title} — ${cs.subtitle}`}
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+        />
+      )}
+
+      {cs.liveUrl && (
+        <a
+          href={cs.liveUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group absolute bottom-5 right-5 md:bottom-7 md:right-7 z-10 inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-[0.8125rem] md:text-[0.875rem] font-semibold text-brand-cream transition-colors duration-200 hover:text-brand-accent"
+          style={{
+            background: 'rgba(20, 12, 20, 0.7)',
+            backdropFilter: 'blur(14px)',
+            WebkitBackdropFilter: 'blur(14px)',
+            border: '1px solid rgba(204, 164, 194, 0.35)',
+          }}
+          aria-label={`Visit ${cs.title} live site (opens in new tab)`}
+        >
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-brand-accent" aria-hidden="true" />
+          Visit live site
+          <ArrowUpRight
+            size={15}
+            weight="bold"
+            className="transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          />
+        </a>
+      )}
+    </div>
   );
 }
 
