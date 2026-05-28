@@ -10,6 +10,7 @@ import {
 } from '@phosphor-icons/react/dist/ssr';
 import { FadeUp } from '@/components/ui/FadeUp';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import { CoverMedia } from '@/components/ui/CoverMedia';
 import {
   caseStudies,
   getCaseStudy,
@@ -211,31 +212,15 @@ export default function CaseStudyPage({ params }: Props) {
 // Hero — video preferred, image fallback. Optional live-site CTA overlay.
 // ────────────────────────────────────────────────────────────
 function CaseStudyHero({ cs }: { cs: CaseStudy }) {
-  const hasVideo = Boolean(cs.coverVideo);
   return (
     <div className="relative w-full aspect-[16/9] md:aspect-[2/1] rounded-[14px] overflow-hidden bg-brand-dark">
-      {hasVideo ? (
-        <video
-          src={cs.coverVideo}
-          poster={cs.coverImage}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          className="absolute inset-0 w-full h-full object-cover"
-          aria-label={`${cs.title} — animated cover`}
-        />
-      ) : (
-        <Image
-          src={cs.coverImage}
-          alt={`${cs.title} — ${cs.subtitle}`}
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
-        />
-      )}
+      <CoverMedia
+        src={cs.coverImage}
+        video={cs.coverVideo}
+        alt={cs.coverVideo ? `${cs.title} — animated cover` : `${cs.title} — ${cs.subtitle}`}
+        priority
+        sizes="100vw"
+      />
 
       {cs.liveUrl && (
         <a
@@ -619,12 +604,12 @@ function NextCaseCard({ next }: { next: CaseStudy }) {
             className="group relative block overflow-hidden rounded-[14px]"
           >
             <div className="relative w-full aspect-[16/9] md:aspect-[21/9]">
-              <Image
+              <CoverMedia
                 src={next.coverImage}
+                video={next.coverVideo}
                 alt={next.title}
-                fill
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                 sizes="100vw"
+                className="transition-transform duration-700 ease-out group-hover:scale-[1.03]"
               />
               {/* Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/95 via-brand-dark/40 to-transparent" />

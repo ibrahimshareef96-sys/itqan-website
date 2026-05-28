@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FadeUp } from '@/components/ui/FadeUp';
+import { CoverMedia } from '@/components/ui/CoverMedia';
 
 const tiles = [
   {
@@ -22,7 +22,8 @@ const tiles = [
     name: 'Shareefico',
     categories: ['Brand', 'Content'],
     duration: 'under 30 days',
-    image: '/images/portfolio/shareefico/cover.png',
+    image: '/images/portfolio/shareefico/cover-poster.jpg',
+    video: '/videos/shareefico-cover.mp4',
     quote: 'Every detail feels thoughtfully crafted, and the final result elevated the brand far beyond what we imagined at the start.',
     attribution: 'Ibrahim Shareef',
     company: 'Shareefico',
@@ -57,12 +58,13 @@ function Tile({
   categories,
   duration,
   image,
+  video,
   quote,
   attribution,
   company,
   className,
   priority,
-}: (typeof tiles)[number] & { className?: string; priority?: boolean }) {
+}: (typeof tiles)[number] & { className?: string; priority?: boolean; video?: string }) {
   const [hovered, setHovered] = useState(false);
   const cardRef = useRef<HTMLAnchorElement>(null);
   const groupRef = useRef<HTMLDivElement>(null);
@@ -92,18 +94,17 @@ function Tile({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Image with hover scale */}
+      {/* Cover (video or image) with hover scale */}
       <motion.div
         className="absolute inset-0"
         animate={{ scale: hovered ? 1.03 : 1 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        <Image
+        <CoverMedia
           src={image}
+          video={video}
           alt={name}
-          fill
           priority={priority}
-          className="object-cover"
           sizes="(max-width: 768px) 100vw, 50vw"
         />
       </motion.div>

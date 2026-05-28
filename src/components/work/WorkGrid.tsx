@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { FadeUp } from '@/components/ui/FadeUp';
+import { CoverMedia } from '@/components/ui/CoverMedia';
 import type { Project } from '@/data/projects';
 
 const FILTERS = ['All', 'Brand & Identity', 'UI/UX Design', 'Application Development'] as const;
@@ -51,12 +51,12 @@ export function WorkGrid({ projects }: WorkGridProps) {
               href={`/work/${project.id}`}
               className="group relative block overflow-hidden rounded-[12px] aspect-[4/3]"
             >
-              <Image
+              <CoverMedia
                 src={project.coverImage}
+                video={project.coverVideo}
                 alt={project.title}
-                fill
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                className="transition-transform duration-700 ease-out group-hover:scale-[1.03]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent pointer-events-none" />
 

@@ -4,6 +4,8 @@ export interface Project {
   subtitle: string;
   category: string;
   coverImage: string;
+  /** Optional cover video used by listing cards. coverImage acts as the poster + fallback. */
+  coverVideo?: string;
   mockups: string[];
   description: string;
   behanceUrl?: string;
@@ -17,11 +19,12 @@ export const projects: Project[] = [
     title: 'Shareefico',
     subtitle: 'Personal Brand & Custom CMS',
     category: 'branding',
-    coverImage: '/images/portfolio/shareefico/cover.png',
+    coverImage: '/images/portfolio/shareefico/cover-poster.jpg',
+    coverVideo: '/videos/shareefico-cover.mp4',
     mockups: [
-      '/images/portfolio/shareefico/mockup-1.png',
-      '/images/portfolio/shareefico/mockup-2.png',
-      '/images/portfolio/shareefico/mockup-3.png',
+      '/images/portfolio/shareefico/website.png',
+      '/images/portfolio/shareefico/tokens.png',
+      '/images/portfolio/shareefico/SHRFCO-CMS-MKP.png',
     ],
     description: 'A cohesive personal brand identity built from the ground up.',
     behanceUrl: 'https://www.behance.net/gallery/238575625/Shareefico-Personal-Brand',
