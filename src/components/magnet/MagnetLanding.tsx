@@ -216,7 +216,7 @@ export function MagnetLanding({ magnet }: { magnet: LeadMagnet }) {
               ...reveal.visible.transition,
               delay: reduce ? 0 : 0.12,
             }}
-            className="font-serif font-medium leading-[0.94] tracking-[-0.025em] max-w-[14ch]"
+            className="font-sans font-bold leading-[0.94] tracking-[-0.025em] max-w-[14ch]"
             style={{
               fontSize: "clamp(48px, 8vw, 116px)",
               background:
@@ -227,7 +227,7 @@ export function MagnetLanding({ magnet }: { magnet: LeadMagnet }) {
               color: "transparent",
             }}
           >
-            {magnet.title}
+            {renderTitleWithItalicAccent(magnet.title)}
           </motion.h1>
 
           <motion.p
@@ -768,4 +768,51 @@ function pickTestimonial(slug: string): Testimonial {
     .reduce((acc, c) => (acc + c.charCodeAt(0)) | 0, 0);
   const idx = Math.abs(hash) % testimonials.length;
   return testimonials[idx];
+}
+
+// ─── Hero title with Playfair Italic accent (v3.1, 2026-05-28) ─────────────
+// Convention: Agent 5 wraps ONE editorial word in single asterisks in the
+// title (e.g. "The Founder OS *Diagnostic*: 10 Questions..."). This helper
+// splits on those markers and renders the wrapped word as Playfair Display
+// italic against the Manrope Bold backbone, creating an editorial accent.
+//
+// Backward compatible: if the title has no asterisks (legacy v2.1 magnets),
+// the whole title renders in Manrope Bold with no italic — the parent
+// gradient text-clip still applies uniformly.
+//
+// The italic word breaks out of the cream-mauve-sand gradient and renders
+// in solid mauve (#cca4c2) so it pops as a deliberate accent, not a tint
+// caught accidentally by the gradient position.
+function renderTitleWithItalicAccent(title: string): React.ReactNode {
+  if (!title) return null;
+  // Split on single-asterisk pairs (non-greedy, no nested asterisks).
+  // The capturing group keeps the markers so we can detect them.
+  const parts = title.split(/(\*[^*\n]+\*)/);
+  return parts.map((part, i) => {
+    if (
+      part.startsWith("*") &&
+      part.endsWith("*") &&
+      part.length > 2 &&
+      !part.startsWith("**")
+    ) {
+      const inner = part.slice(1, -1);
+      return (
+        <em
+          key={i}
+          className="italic"
+          style={{
+            fontFamily: 'var(--font-serif, "Playfair Display"), Georgia, serif',
+            fontWeight: 500,
+            // Override the parent H1's transparent text-fill so this word
+            // shows in solid mauve instead of inheriting the gradient.
+            color: "#cca4c2",
+            WebkitTextFillColor: "#cca4c2",
+          }}
+        >
+          {inner}
+        </em>
+      );
+    }
+    return <span key={i}>{part}</span>;
+  });
 }
