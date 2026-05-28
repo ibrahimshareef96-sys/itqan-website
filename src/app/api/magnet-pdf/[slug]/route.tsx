@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { renderToStream } from "@react-pdf/renderer";
 import {
   findItqanMagnetBySlug,
   findItqanMagnetFullContent,
@@ -29,6 +30,10 @@ export const dynamic = "force-dynamic";
  * Errors:
  *   - 404 if no magnet row matches the slug (or Brand !== "Itqan")
  *   - 500 if Notion or react-pdf fails (Notion outage, malformed content, etc.)
+ *
+ * Bundling note: @react-pdf/renderer is marked as a serverComponentsExternal
+ * package in next.config.mjs. Without that, Netlify Functions crash because
+ * pdfkit/fontkit's internal dynamic requires can't be webpack-bundled.
  */
 export async function GET(
   _req: NextRequest,
@@ -43,7 +48,7 @@ export async function GET(
     const msg = err instanceof Error ? err.message : String(err);
     console.error(`[magnet-pdf] Notion lookup failed for ${slug}:`, msg);
     return NextResponse.json(
-      { error: "Failed to look up magnet" },
+      { error: "Failed to look up magnet", detail: msg },
       { status: 500 }
     );
   }
@@ -62,7 +67,7 @@ export async function GET(
       msg
     );
     return NextResponse.json(
-      { error: "Failed to fetch magnet body" },
+      { error: "Failed to fetch magnet body", detail: msg },
       { status: 500 }
     );
   }
@@ -75,41 +80,45 @@ export async function GET(
       {
         error:
           "Magnet content is empty or too short. Regenerate via /magnet command in Telegram.",
+        contentLength: fullContent?.length ?? 0,
       },
       { status: 422 }
     );
   }
 
-  // Lazy-import the renderer so route bundling stays lean and the
-  // @react-pdf module only loads on actual PDF requests.
-  const { renderToStream } = await import("@react-pdf/renderer");
-
   let stream;
   try {
     stream = await renderToStream(
-      MagnetPDF({ magnet, fullContent }) as React.ReactElement
+      <MagnetPDF magnet={magnet} fullContent={fullContent} />
     );
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    console.error(`[magnet-pdf] PDF render failed for ${slug}:`, msg);
+    const stack = err instanceof Error ? err.stack : undefined;
+    console.error(
+      `[magnet-pdf] PDF render failed for ${slug}:`,
+      msg,
+      stack
+    );
     return NextResponse.json(
-      { error: "Failed to render PDF" },
+      { error: "Failed to render PDF", detail: msg },
       { status: 500 }
     );
   }
 
-  // Buffer the Node readable stream. react-pdf's renderToStream returns a
-  // ReadableStream<Uint8Array> in modern versions; iterate and concat.
+  // Buffer the Node readable stream into a single Buffer for the response.
+  // react-pdf's renderToStream returns a Node Readable stream of Buffer chunks
+  // (NOT a Web ReadableStream — important on Netlify Functions where the
+  // distinction matters).
   const chunks: Buffer[] = [];
   try {
     for await (const chunk of stream as AsyncIterable<Buffer | Uint8Array>) {
-      chunks.push(Buffer.from(chunk));
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
     }
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
     console.error(`[magnet-pdf] Stream buffer failed for ${slug}:`, msg);
     return NextResponse.json(
-      { error: "Failed to assemble PDF" },
+      { error: "Failed to assemble PDF", detail: msg },
       { status: 500 }
     );
   }
@@ -124,10 +133,8 @@ export async function GET(
     headers: {
       "Content-Type": "application/pdf",
       "Content-Disposition": `attachment; filename="${safeFilename}"`,
+      "Content-Length": String(pdfBuffer.length),
       "Cache-Control": "no-store",
-      // CORS: allow Kit emails (rendered in any browser) to direct-download.
-      // The PDF is public for now (no signed-token gate yet); we can tighten
-      // this in v2 if abuse appears.
       "X-Content-Type-Options": "nosniff",
     },
   });
