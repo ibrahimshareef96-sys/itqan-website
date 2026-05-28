@@ -23,7 +23,7 @@ The site reads case studies from [src/data/case-studies.ts](src/data/case-studie
 
 2. **Optional: compress the video for delivery.** Source MP4 is 3.2 MB at high bitrate. For LCP, re-encode: `ffmpeg -i public/videos/shareefico-cover.mp4 -c:v libx264 -crf 24 -preset slow -an public/videos/shareefico-cover-web.mp4` then update `coverVideo` path.
 
-3. **Consider: video preview on listing cards.** Currently the WorkGrid and FeaturedWork tiles show only `coverImage`. If we want the Shareefico tile to show the animation too, add a hover-trigger `<video>` with `preload="none"` to avoid LCP hit. Out of scope for this turn — discussed and deferred.
+3. **Done in follow-up commit c86245d:** Shareefico animation now plays on every listing card too (homepage FeaturedWork tile + work-page WorkGrid card + NextCaseCard hand-off). All four spots share a `CoverMedia` component at [src/components/ui/CoverMedia.tsx](src/components/ui/CoverMedia.tsx) which renders `<video>` when a video src exists, else `<Image>`. Other case studies stay on static images — they just don't set `coverVideo`. To add a video cover for another client, set `coverVideo` on both their `CaseStudy` entry (case-studies.ts) AND `Project` entry (projects.ts), then add a `video` field to their FeaturedWork tile if they're in the homepage rotation.
 
 4. **Watch out for:** Next/Image with very large source PNGs (the mockups in `public/images/portfolio/` are 5–30 MB each — they get optimized down by Next, but they bloat the repo). Consider running them through `cwebp -q 80` and switching to .webp sources at some point.
 
