@@ -88,8 +88,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 2. Tag the subscriber with the magnet's DM keyword (e.g. "magnet-foundation")
-    const tagName = `magnet-${dmKeyword.toLowerCase()}`;
+    // 2. Tag the subscriber with brand-prefixed magnet keyword
+    // (e.g. "magnet-itqan-foundation"). Mirrors the Shareefico-side
+    // pattern in shareefico-website ("magnet-shareefico-{kw}") so Kit
+    // visual automations can be wired cleanly per brand without
+    // filtering on subscriber-side fields.
+    const tagName = `magnet-itqan-${dmKeyword.toLowerCase()}`;
 
     const tagsRes = await fetch("https://api.kit.com/v4/tags", {
       headers: { "X-Kit-Api-Key": kitApiKey, Accept: "application/json" },
