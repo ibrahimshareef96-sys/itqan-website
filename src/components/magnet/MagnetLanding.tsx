@@ -47,6 +47,9 @@ export function MagnetLanding({ magnet }: { magnet: LeadMagnet }) {
     "idle" | "submitting" | "success" | "error"
   >("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  // PDF URL confirmed by the capture API on success, used for the instant
+  // on-page download button. Falls back to the magnet's own pdfUrl.
+  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
 
   const reduce = useReducedMotion();
 
@@ -74,6 +77,7 @@ export function MagnetLanding({ magnet }: { magnet: LeadMagnet }) {
           firstName: firstName || undefined,
           magnetSlug: magnet.topicSlug,
           dmKeyword: magnet.dmKeyword,
+          pdfUrl: magnet.pdfUrl ?? undefined,
         }),
       });
       const data = await res.json();
@@ -82,6 +86,8 @@ export function MagnetLanding({ magnet }: { magnet: LeadMagnet }) {
         setErrorMsg(data.error || "Something went wrong. Try again.");
         return;
       }
+      // Prefer the URL the server confirmed; fall back to the magnet's own.
+      setDownloadUrl(data.pdfUrl ?? magnet.pdfUrl ?? null);
       setStatus("success");
     } catch {
       setStatus("error");
@@ -162,6 +168,15 @@ export function MagnetLanding({ magnet }: { magnet: LeadMagnet }) {
                 {status === "submitting" ? "Sending" : "Get the blueprint"}
               </button>
             </form>
+          ) : downloadUrl ? (
+            <a
+              href={downloadUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-md px-5 py-2 text-xs font-semibold tracking-[0.08em] uppercase bg-brand-accent text-[#2f1c2c] hover:bg-brand-cream transition whitespace-nowrap"
+            >
+              Download your guide
+            </a>
           ) : (
             <div className="text-sm text-brand-accent font-semibold">
               ✓ Sent. Check your inbox.
@@ -548,9 +563,25 @@ export function MagnetLanding({ magnet }: { magnet: LeadMagnet }) {
             <div className="text-2xl font-semibold mb-2">
               ✓ You&apos;re in.
             </div>
-            <div className="text-brand-cream/70">
-              Check your inbox in the next couple of minutes.
-            </div>
+            {downloadUrl ? (
+              <>
+                <a
+                  href={downloadUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block mt-4 mb-4 rounded-lg px-6 py-3.5 text-sm font-semibold tracking-[0.12em] uppercase bg-brand-accent text-[#2f1c2c] hover:bg-brand-cream transition"
+                >
+                  Download your guide
+                </a>
+                <div className="text-brand-cream/70 text-sm">
+                  We also emailed it to you.
+                </div>
+              </>
+            ) : (
+              <div className="text-brand-cream/70">
+                Check your inbox in the next couple of minutes.
+              </div>
+            )}
           </motion.div>
         )}
       </section>

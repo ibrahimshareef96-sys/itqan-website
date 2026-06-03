@@ -41,6 +41,13 @@ export interface LeadMagnet {
    * the PDF generation route.
    */
   landingTeaser: string;
+  /**
+   * Public URL of the deliverable PDF (Notion "PDF URL" property). Used for
+   * the instant on-page download button and passed to the capture route so
+   * Kit stores it on the subscriber's `magnet_pdf_url` custom field for the
+   * delivery email. Null when the magnet has no PDF URL set yet.
+   */
+  pdfUrl: string | null;
 }
 
 // Notion API property reader helpers (typed loosely since we don't pull
@@ -50,6 +57,7 @@ type NotionProp = {
   title?: RichTextRun[];
   rich_text?: RichTextRun[];
   select?: { name?: string } | null;
+  url?: string | null;
 };
 type NotionPage = {
   id: string;
@@ -68,6 +76,10 @@ function readText(page: NotionPage, field: string): string {
 }
 function readSelect(page: NotionPage, field: string): string | null {
   return page.properties?.[field]?.select?.name ?? null;
+}
+function readUrl(page: NotionPage, field: string): string | null {
+  const url = page.properties?.[field]?.url;
+  return typeof url === "string" && url.trim() ? url.trim() : null;
 }
 
 /**
@@ -103,6 +115,7 @@ export async function findItqanMagnetBySlug(
     dmKeyword: readText(matched, "DM keyword"),
     status: readSelect(matched, "Status") ?? "Draft",
     landingTeaser: readText(matched, "Body"),
+    pdfUrl: readUrl(matched, "PDF URL"),
   };
 }
 
