@@ -48,6 +48,16 @@ The site reads case studies from [src/data/case-studies.ts](src/data/case-studie
 
 **Pivots:** Nothing structural this session — this is a polish/asset upgrade on an existing case study, not a redesign.
 
+## What was just done (2026-06-14 — center collaborator faces)
+
+**Committed (`5ba2fe9`) and pushed to `main` (Netlify auto-deploys).** Build clean.
+
+The About-page TeamSection "Trusted collaborators" cards (`aspect-[4/3]` landscape) were cropping the portrait headshots with `object-cover object-top`, leaving Bisma's and Jonny's faces high and inconsistent. Fix = per-image `object-position`:
+- [src/data/team.ts](src/data/team.ts) — added optional `objectPosition?: string` to `TeamMember`; set Bisma `'50% 31%'`, Jonny `'50% 16%'` (tuned so each head/nose sits on the vertical center of the 4:3 crop — different values because their faces sit at different heights in their source frames).
+- [src/components/about/TeamSection.tsx](src/components/about/TeamSection.tsx) — collaborator `Image` now uses `style={{ objectPosition: objectPosition ?? 'center' }}` instead of the `object-top` class (object-cover kept). Founder card unchanged.
+
+Verified by injecting a fixed crop-preview overlay at scroll-0 (the site's Lenis smooth-scroll blocks below-fold screenshots — see memory `lenis-preview-screenshots`) with a red center-line guide, comparing candidate values, and confirming against the real hot-reloaded cards' computed `object-position`. Both faces now centered + consistent.
+
 ## What was just done (2026-06-14 session — added Mutqin)
 
 **Branch `main`, committed (`08f130e`) and pushed to origin. Build passes clean.**
