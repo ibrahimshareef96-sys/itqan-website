@@ -11,6 +11,8 @@ Lightweight tracking via TaskCreate (in-session). For longer initiatives use `ag
 
 ## Handover prompt (self-contained for the next session)
 
+**LATEST (2026-06-14): Mutqin cover image replaced with a Noor-style poster — SHIPPED.** Committed (`4ecf5cd`), pushed to `main` (Netlify auto-deploys). The old cover (`mutqin/hero.webp`) was the dark "From raw idea to investor-ready" slide: heavy body paragraph, a "Web-app · React" footer, and BLANK device screens — Ibrahim disliked it. Replaced with a premium on-brand poster modelled on the Project You "Noor" reference he loves: plum→mauve→cream dawn gradient + soft glow, "Mutqin" + Arabic متقن, and REAL product mockups — the founder portal in a clean browser window + the mobile portal on the 3D plum phone, with Mu waving. Only the single shared asset `public/images/portfolio/mutqin/hero.webp` changed (3200×2400, 131KB), so it updates all 3 surfaces at once: the `/work` listing card, the `/work/mutqin` case hero (2:1), and the homepage `FeaturedWork` tile. Production build clean (21/21, /work/mutqin SSG); all 3 surfaces screenshot-verified. **Reproducible** from the Mutqin repo: `startup-companion/public/_behance/cover-itqan.html` + `node scripts/cover-itqan.mjs` → `cwebp` → copy. Known tradeoff (matches the Noor reference + the prior cover): the poster bakes a "Mutqin" title, so it appears under the page h1 on the case page and under the overlaid name on the landing tile — a titleless variant is a one-line change (drop the `.title` block, re-render) if preferred. NOTE: a long-running itqan dev server had a stale `.next` cache 500ing /work/mutqin ("Cannot find module ./vendor-chunks/framer-motion.js") — cleared `.next` + rebuilt; unrelated to the asset.
+
 **LATEST (2026-06-14): Mutqin added as a featured project + full case study + homepage tile — SHIPPED.** Committed (`08f130e`) and pushed to `main`; Netlify auto-deploys from `main`. Mutqin (Itqan's own AI startup companion, live at https://mutqin.xyz) is now the **first/lead card** on `/work`, has a full detail page at `/work/mutqin`, and **replaces the Medacs tile on the homepage `FeaturedWork` grid** (Medacs stays in `/work` + its detail page). Files touched: (1) [src/data/projects.ts](src/data/projects.ts) — `mutqin` `Project` entry, first; (2) [src/data/case-studies.ts](src/data/case-studies.ts) — `mutqin` `CaseStudy` entry first + two new OPTIONAL interface fields `brandShowcase?: string[]` and `stack?: string`; (3) [src/app/work/[id]/page.tsx](src/app/work/%5Bid%5D/page.tsx) — gated `BrandShowcase` section (brand-cover + character-poses after the mockup gallery), a `Stack` stat in `AtAGlance`, and the emphasised Outcome stat now spans 1–2 cols adaptively so the 5-col strip never overflows; (4) [src/components/home/FeaturedWork.tsx](src/components/home/FeaturedWork.tsx) — explicit `FeaturedTile` type (optional `duration`/`status`); Mutqin tile shows a **"Live"** pill (no fabricated delivery window); pill is omitted entirely if a tile sets neither; (5) `public/images/portfolio/mutqin/` — 6 optimized WebP (hero, wizard, portal, mobile, brand, character; 348K total, from the 3200px source PNGs via cwebp). `npm run build` clean (21/21 pages, /work/mutqin in SSG). Decisions taken with Ibrahim: keep Mutqin first in the grid; feature on homepage in place of Medacs. **Nothing outstanding on Mutqin.** Source assets + brief live at `/Users/ibrahimshareef/Desktop/startup-companion/handover/itqan-website/`.
 
 **Still open (2026-06-03): Lead-magnet DELIVERY is wired + capture route hardened.** On branch `feat/magnet-delivery-wiring` (commit `33ad091`, pushed to origin, NOT merged to main). When someone opts in on `/magnet/[slug]`, they now (a) get an instant on-page "Download your guide" button and (b) get enrolled in the shared Kit "Magnet Delivery" sequence (id `2777738`) which emails them the PDF. Three files changed: [src/app/api/leads/capture/route.ts](src/app/api/leads/capture/route.ts) (full rewrite), [src/lib/magnet-lookup.ts](src/lib/magnet-lookup.ts) (added `pdfUrl`), [src/components/magnet/MagnetLanding.tsx](src/components/magnet/MagnetLanding.tsx) (passes `pdfUrl`, shows download button). **ACTION NEEDED before this works in prod: set `KIT_API_KEY` in Netlify env** (no `.env` in repo; both `KIT_API_KEY` and `NOTION_TOKEN` live in Netlify host env). Also ensure each Itqan magnet's Notion "PDF URL" property is populated, or the on-page button falls back silently to "Check your inbox" and the delivery email's `{{ subscriber.magnet_pdf_url }}` will be empty. Shared Kit account = Shareefico's (account 2383668); custom field `magnet_pdf_url` (id 1279519) already exists. Canonical tag format: `magnet-itqan-<dmKeyword>` lowercase. To merge: open a PR from `feat/magnet-delivery-wiring` into `main`.
@@ -47,6 +49,33 @@ The site reads case studies from [src/data/case-studies.ts](src/data/case-studie
 - **Wrapping the entire hero in `<a>` to make the whole cover clickable.** Rejected: surprising UX (people don't expect case-study heroes to be clickable). Used a clearly visible CTA chip instead.
 
 **Pivots:** Nothing structural this session — this is a polish/asset upgrade on an existing case study, not a redesign.
+
+## What was just done (2026-06-14 — Mutqin cover regenerated)
+
+**Committed (`4ecf5cd`) and pushed to `main` (Netlify auto-deploys). Production build clean.**
+
+Ibrahim disliked the Mutqin cover (`public/images/portfolio/mutqin/hero.webp`) — the dark
+"From raw idea to investor-ready" slide with a body paragraph, a "Web-app · React" footer, and
+blank device screens. He referenced the Project You "Noor — a journey through light" poster as
+"exactly what I want" and asked for a Mutqin equivalent: real mockups, no small text, applied to
+the work page + landing.
+
+- **Replaced ONLY `mutqin/hero.webp`** (3200×2400, 131KB). All 3 itqan surfaces reference this one
+  asset (projects.ts coverImage, case-studies.ts coverImage, FeaturedWork tile image), so the swap
+  updates the `/work` card + `/work/mutqin` 2:1 hero + homepage tile together — no code edits.
+- **The poster** (Mutqin Play brand): plum→mauve→cream dawn gradient + soft "Noor" glow, "Mutqin"
+  (Manrope 800) + subtitle "From raw idea to investor-ready" + Arabic متقن, then real product
+  mockups rising from the bottom — the founder portal in a clean browser window (`portal-light`) +
+  the mobile portal (`portal-mobile`) on the 3D plum phone shell — with Mu waving. No paragraph,
+  no footer. Composed center-safe so it survives the 2:1 case-hero crop AND the portrait mobile tile.
+- **Built in the Mutqin repo** (where the brand assets + Mu + 3D shells live), NOT here:
+  `startup-companion/public/_behance/cover-itqan.html` (relative asset paths → renders over file://)
+  + `scripts/cover-itqan.mjs` (Puppeteer dsf2 screenshot) → PNG → `cwebp -q 82` → copied here.
+  Old cover backed up at `startup-companion/handover/itqan-cover/hero-OLD.webp`.
+- **Verified:** `npm run build` clean (21/21 pages, /work/mutqin in SSG); served via `next start` and
+  screenshot-checked all 3 surfaces. (Had to clear a stale `.next` dev cache that was 500ing
+  /work/mutqin with "Cannot find module ./vendor-chunks/framer-motion.js" — a long-running-dev-server
+  artifact, unrelated to the image swap.)
 
 ## What was just done (2026-06-14 — center collaborator faces)
 
