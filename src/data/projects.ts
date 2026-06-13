@@ -15,6 +15,22 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: 'mutqin',
+    title: 'Mutqin',
+    subtitle: 'AI Startup Companion',
+    category: 'Application Development',
+    coverImage: '/images/portfolio/mutqin/hero.webp',
+    mockups: [
+      '/images/portfolio/mutqin/wizard.webp',
+      '/images/portfolio/mutqin/portal.webp',
+      '/images/portfolio/mutqin/mobile.webp',
+    ],
+    description:
+      'An AI startup companion that turns one onboarding chat into a living company portal — coaching, investor-grade documents, and a readiness score. Designed, branded and engineered end to end at Itqan on React, TypeScript, Supabase and Claude. Live at mutqin.xyz.',
+    tags: ['Application Development', 'Product Design', 'AI'],
+    filters: ['Application Development', 'Brand & Identity', 'UI/UX Design'],
+  },
+  {
     id: 'shareefico',
     title: 'Shareefico',
     subtitle: 'Personal Brand & Custom CMS',

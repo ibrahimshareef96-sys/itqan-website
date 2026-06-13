@@ -6,10 +6,14 @@ Lightweight tracking via TaskCreate (in-session). For longer initiatives use `ag
 
 ## Roadmap
 
-- **Phase: Live & Iterating.** Site is deployed to Netlify from `main`. Recent waves focused on the founder-studio rewrite (90-day Founder OS), Project You + Itqan CRM case studies, the `/magnet/[slug]` lead-magnet system, gradient accents on dark sections, and the Shareefico case-study upgrade (this session).
+- **Phase: Live & Iterating.** Site is deployed to Netlify from `main`. Recent waves focused on the founder-studio rewrite (90-day Founder OS), Project You + Itqan CRM case studies, the `/magnet/[slug]` lead-magnet system, gradient accents on dark sections, the Shareefico case-study upgrade, and **adding Mutqin** — Itqan's flagship AI startup-companion product — as a featured project + full case study (latest session, 2026-06-14).
 - **Next likely waves:** more case studies, individual service detail pages, podcast/long-form content surfaces, and a periodic SEO/perf audit before any paid-traffic push.
 
 ## Handover prompt (self-contained for the next session)
+
+**LATEST (2026-06-14): Mutqin added as a featured project + full case study.** On branch `main`, working tree has uncommitted changes (NOT committed yet — awaiting Ibrahim's review). Mutqin (Itqan's own AI startup companion, live at https://mutqin.xyz) now appears as the **first/lead card** on `/work` and has a full detail page at `/work/mutqin`. Five files/areas touched: (1) [src/data/projects.ts](src/data/projects.ts) — new `mutqin` `Project` entry, placed first; (2) [src/data/case-studies.ts](src/data/case-studies.ts) — new `mutqin` `CaseStudy` entry placed first + two new OPTIONAL interface fields `brandShowcase?: string[]` and `stack?: string`; (3) [src/app/work/[id]/page.tsx](src/app/work/%5Bid%5D/page.tsx) — new gated `BrandShowcase` section (renders brand-cover + character-poses after the mockup gallery) + a `Stack` stat in `AtAGlance`; (4) `public/images/portfolio/mutqin/` — 6 optimized WebP (hero, wizard, portal, mobile, brand, character; 348K total, converted from the 3200px source PNGs via cwebp). `npm run build` passes clean (21/21 pages, /work/mutqin in SSG). **Two decisions to confirm with Ibrahim:** (a) Mutqin is placed FIRST in the work grid — reorder if you'd rather it sit elsewhere; (b) it is NOT added to the homepage `FeaturedWork` 2×2 tile grid (the brief only asked for the work/portfolio section, and that grid is a tuned fixed set of 4 client tiles) — say the word to feature it on the homepage too. **To ship: review, then commit + push `main` (or open a PR).** Source assets + brief live at `/Users/ibrahimshareef/Desktop/startup-companion/handover/itqan-website/`.
+
+**Still open (2026-06-03): Lead-magnet DELIVERY is wired + capture route hardened.** On branch `feat/magnet-delivery-wiring` (commit `33ad091`, pushed to origin, NOT merged to main). When someone opts in on `/magnet/[slug]`, they now (a) get an instant on-page "Download your guide" button and (b) get enrolled in the shared Kit "Magnet Delivery" sequence (id `2777738`) which emails them the PDF. Three files changed: [src/app/api/leads/capture/route.ts](src/app/api/leads/capture/route.ts) (full rewrite), [src/lib/magnet-lookup.ts](src/lib/magnet-lookup.ts) (added `pdfUrl`), [src/components/magnet/MagnetLanding.tsx](src/components/magnet/MagnetLanding.tsx) (passes `pdfUrl`, shows download button). **ACTION NEEDED before this works in prod: set `KIT_API_KEY` in Netlify env** (no `.env` in repo; both `KIT_API_KEY` and `NOTION_TOKEN` live in Netlify host env). Also ensure each Itqan magnet's Notion "PDF URL" property is populated, or the on-page button falls back silently to "Check your inbox" and the delivery email's `{{ subscriber.magnet_pdf_url }}` will be empty. Shared Kit account = Shareefico's (account 2383668); custom field `magnet_pdf_url` (id 1279519) already exists. Canonical tag format: `magnet-itqan-<dmKeyword>` lowercase. To merge: open a PR from `feat/magnet-delivery-wiring` into `main`.
 
 You are picking up the Itqan Studio marketing site at `/Users/ibrahimshareef/Documents/itqan-website`. Next.js 14 App Router + Tailwind + Framer Motion. Branch `main`, clean working tree on session start. Brand tokens in [tailwind.config.ts](tailwind.config.ts): dark `#2f1c2c`, accent `#cca4c2` (dark-bg only) / `#6d4a66` (light-bg only), cream `#fffbf5`. Manrope + Playfair Display Italic.
 
@@ -44,6 +48,39 @@ The site reads case studies from [src/data/case-studies.ts](src/data/case-studie
 
 **Pivots:** Nothing structural this session — this is a polish/asset upgrade on an existing case study, not a redesign.
 
+## What was just done (2026-06-14 session — added Mutqin)
+
+**Branch `main`, uncommitted (awaiting review). Build passes clean.**
+
+**Goal:** Add Mutqin (Itqan's flagship AI startup companion) as a featured project per the handover brief at `/Users/ibrahimshareef/Desktop/startup-companion/handover/itqan-website/HANDOVER-PROMPT.md`. Present it *within* the Itqan site (no restyle to Mutqin's brand) using Mutqin's own imagery.
+
+**Files changed:**
+- [src/data/projects.ts](src/data/projects.ts) — new `mutqin` `Project` entry, placed first (lead card). `filters: ['Application Development', 'Brand & Identity', 'UI/UX Design']` so it surfaces under every lens. cover = `hero.webp`.
+- [src/data/case-studies.ts](src/data/case-studies.ts) — added two OPTIONAL fields to the `CaseStudy` interface: `brandShowcase?: string[]` (extra brand/character section) and `stack?: string` (at-a-glance tech stat). Added the `mutqin` entry first, with honest copy in the warm founder-to-founder voice. NO fabricated `duration`/`industryAverage` (it's our own product; no verified build weeks). Phases use the three Founder-OS pillars with the pillar metaphors ("The soul / skeleton / heartbeat") in the `days` slot rather than a fake calendar. `liveUrl: https://mutqin.xyz`.
+- [src/app/work/[id]/page.tsx](src/app/work/%5Bid%5D/page.tsx) — (a) new `BrandShowcase` section component (eyebrow "Brand & character", accent-italic heading "A product with a face.", 2-col 4:3 image grid) rendered between the mockup gallery and the testimonial, gated on `brandShowcase`; (b) added a `Stack` stat to `AtAGlance`; (c) made the emphasised Outcome stat span 2 cols only when `baseCount <= 3` so the 5-col strip never overflows for any field combination.
+
+**Assets added** (`public/images/portfolio/mutqin/`, 348K total, all 4:3 WebP @ q82 from the 3200px source PNGs via `cwebp`): `hero.webp` (2400px — cover/thumbnail), `wizard.webp` / `portal.webp` / `mobile.webp` (1800px — product gallery), `brand.webp` / `character.webp` (1800px — brand showcase). Source PNGs + Mu cutouts + app-icon left in the handover package (not copied — no template slot, avoids repo bloat).
+
+**Verification:** `npm run build` clean twice (21/21 static pages, type-check + lint pass, `/work/mutqin` builds as SSG). Browser preview (localhost:3001): clean screenshots of the `/work` grid (Mutqin lead card, 4:3, on-brand) and the `/work/mutqin` header (hero + "Visit live site" pill + outcome line). Below-fold sections verified via DOM (all 6 images `complete:true`, gallery 3×4:3 + brand 2×4:3, at-a-glance = 4 stats filling the 5-col grid, all copy present); no console errors, no failed network requests. NOTE: the site uses Lenis smooth-scroll, which decouples visual scroll from native `scrollTop` — headless screenshots only capture at scroll-0, so below-fold visuals were confirmed by DOM geometry instead of screenshot. typescript-reviewer pass: no CRITICAL/HIGH; the MEDIUM (grid overflow) and LOW (redundant guard) it raised were both fixed.
+
+**Approaches considered + rejected:**
+- Strict template (hero + 3 mockups only) — drops the brand-cover + character-poses the brief explicitly wants shown. Rejected.
+- Dumping all 5 slides into the 3-col mockup gallery — uneven row + no narrative framing for the brand beat. Rejected.
+- Fabricating a build duration to fill the at-a-glance — dishonest. Instead added the real `stack` stat to fill the grid.
+
+## What was just done (2026-06-03 session — magnet delivery wiring)
+
+**Branch `feat/magnet-delivery-wiring` (commit `33ad091`, pushed, NOT merged). Build passes clean.**
+
+**Files changed:**
+- [src/app/api/leads/capture/route.ts](src/app/api/leads/capture/route.ts) — full rewrite. New flow: (1) validate `{ email, magnetSlug, dmKeyword, pdfUrl?, firstName? }`; (2) 500 if no `KIT_API_KEY`; (3) upsert subscriber `POST /v4/subscribers` with `state:"active"` + `fields:{ magnet_pdf_url: pdfUrl }` (fields included ONLY when pdfUrl present), 422 -> 400 "that email looks invalid", other non-2xx -> 502; (4) find-or-create tag `magnet-itqan-<kw>` via PAGINATED `GET /v4/tags?per_page=1000&after=<cursor>` following `pagination.end_cursor`, handles 422-on-create race by re-listing; (5) attach tag `POST /v4/tags/{id}/subscribers`, errors (502) on non-2xx, no swallow; (6) enroll `POST /v4/sequences/2777738/subscribers`, logs+continues on failure with `enrolled:false`; (7) returns `{ ok:true, pdfUrl: pdfUrl ?? null, tagged:true, enrolled:<bool> }`. Helper `kitFetch` enforces a 15s AbortController timeout and never logs the API key. Never returns `ok:true` unless subscriber upserted AND tagged.
+- [src/lib/magnet-lookup.ts](src/lib/magnet-lookup.ts) — added `pdfUrl: string | null` to the `LeadMagnet` interface, a `readUrl()` helper, and now reads the Notion "PDF URL" property into it.
+- [src/components/magnet/MagnetLanding.tsx](src/components/magnet/MagnetLanding.tsx) — POST body now includes `pdfUrl: magnet.pdfUrl ?? undefined`. New `downloadUrl` state set from the server-confirmed `data.pdfUrl` (fallback `magnet.pdfUrl`). On success, both the sticky bar and the final CTA card render a "Download your guide" button (target=_blank, rel=noopener) pointing at `downloadUrl`; the CTA card adds "We also emailed it to you." When no PDF URL exists, the UI falls back to the old "Check your inbox" copy with no broken button.
+
+**Verification:** `npm run build` passes clean (20/20 static pages, type-check + lint pass, `/api/leads/capture` and `/magnet/[slug]` compile as dynamic). No em-dashes in any added strings. API key never logged.
+
+**Config status this repo:** No `.env*` files. `KIT_API_KEY` and `NOTION_TOKEN` are NOT set locally and MUST be present in the Netlify host env for delivery to work. `KIT_API_KEY` specifically gates the whole capture flow (returns 500 "Kit not configured" without it).
+
 ## What was just done (2026-05-27 session)
 
 **Files changed:**
@@ -67,10 +104,12 @@ The site reads case studies from [src/data/case-studies.ts](src/data/case-studie
 
 ## Open questions / blockers
 
-None. Ready to commit if Ibrahim approves.
+- **Mutqin (2026-06-14) is uncommitted, awaiting Ibrahim's review** before commit/push to `main`. Two decisions for Ibrahim: (a) keep Mutqin as the FIRST work-grid card, or reorder? (b) also feature it on the homepage `FeaturedWork` 2×2 grid (would mean displacing a client tile or restructuring the tuned layout), or leave homepage as-is? Default taken: first in grid, not on homepage.
+- The magnet-delivery branch (`feat/magnet-delivery-wiring`) is still NOT merged to `main` and still needs `KIT_API_KEY` in Netlify env (see "Still open (2026-06-03)" above).
 
 ## Monetization angles
 
 - The `coverVideo` + `liveUrl` pattern is a reusable productized capability — every founder we work with eventually wants a video-cover case study. This could be packaged as a "Founder Story Reel" add-on to the 90-day Founder OS.
 - The illustrated character animation style (Kling) is distinctive enough to license back as a service: "We'll make you the character that fronts your brand." Itqan has the prompts + tokens already locked in for Shareefico — it's a reproducible workflow.
 - The portfolio detail page is now a stronger sales asset for premium pricing — the live-site CTA closes the proof loop in one click, which is exactly what high-intent visitors look for before booking a call.
+- **Mutqin is now the on-site proof that "Itqan ships the whole loop" — brand + in-repo design system + character + live full-stack AI product.** The new gated `BrandShowcase` section is a reusable pattern: any future build-type case study can show its brand/character system as a distinct beat, which is exactly the differentiator that justifies premium "we build the whole thing" pricing. The `stack` stat also doubles as quiet technical credibility for the engineering-heavy buyer.

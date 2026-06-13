@@ -20,6 +20,8 @@ export interface CaseStudy {
   /** Optional cover video that replaces coverImage on the detail-page hero. coverImage stays the poster + the fallback for listing cards. */
   coverVideo?: string;
   mockups: string[];
+  /** Optional brand/character showcase images (e.g. a brand cover + a mascot/expression sheet). Renders an extra "Brand & character" section on the detail page. Only set for projects with a brand system worth showing on its own. */
+  brandShowcase?: string[];
   challenge: string;
   approach: string;
   result: string;
@@ -39,6 +41,8 @@ export interface CaseStudy {
   outcomeMetric?: string;
   /** One-liner scope summary for the at-a-glance strip. e.g. "Brand + product UX redesign" */
   scope?: string;
+  /** Optional tech stack for build-type projects. Surfaces as an at-a-glance stat. e.g. "React, TypeScript, Supabase, Claude" */
+  stack?: string;
   /** Client's voice about the pain that triggered the engagement */
   beforeQuote?: string;
   /** Phases of the 90-Day Founder OS that ran for this client. Only the ones in scope. */
@@ -46,6 +50,77 @@ export interface CaseStudy {
 }
 
 export const caseStudies: CaseStudy[] = [
+  {
+    id: 'mutqin',
+    title: 'Mutqin',
+    subtitle: 'AI Startup Companion',
+    industry: 'Product — our own AI companion',
+    category: 'Application Development',
+    coverImage: '/images/portfolio/mutqin/hero.webp',
+    liveUrl: 'https://mutqin.xyz',
+    mockups: [
+      '/images/portfolio/mutqin/wizard.webp',
+      '/images/portfolio/mutqin/portal.webp',
+      '/images/portfolio/mutqin/mobile.webp',
+    ],
+    brandShowcase: [
+      '/images/portfolio/mutqin/brand.webp',
+      '/images/portfolio/mutqin/character.webp',
+    ],
+    challenge:
+      "Founders stall in the gap between 'I have an idea' and 'an investor would fund this.' The tools that promise to close it are cold and form-heavy — a deck builder here, a task app there, a financial model in a spreadsheet nobody opens. Nothing walks a founder from raw idea to a story worth backing, and nothing remembers what they said yesterday.",
+    approach:
+      'Own the whole loop in one founder-owned product — and give it a face. Mu, a 3D companion, asks a few warm questions instead of printing a form. Those answers auto-populate a living portal: a readiness score, a focused task list, an AI coach that pushes back, generated investor-grade documents, and a public readiness link to share. We designed the brand and the character, built the product on React, TypeScript, Supabase and Claude, and produced every 3D asset in-house.',
+    result:
+      'Mutqin is live at mutqin.xyz — one onboarding chat becomes a portal a founder actually returns to. It is the clearest proof of how Itqan builds: a brand kit, an in-repo design system and a character system, shipped with the product instead of bolted on afterwards.',
+    services: [
+      'Product Design',
+      'Brand & Character Direction',
+      'Full-Stack Engineering',
+      'AI Asset Production',
+    ],
+    testimonialQuote:
+      'Every founder we coached hit the same wall — a real idea, but no story an investor would back. So we built the companion we wished they had, and gave it a face. Mutqin is the sharpest example of how we work: brand, system and product shipped as one thing.',
+    testimonialName: 'Ibrahim Shareef',
+    testimonialCompany: 'Founder, Itqan Studio',
+    testimonialImage: '/images/testimonials/ibrahim-shareef.png',
+    outcomeMetric:
+      'Live AI product — one onboarding chat becomes an investor-ready portal',
+    scope: 'AI product — brand, character, product UX and full-stack build',
+    stack: 'React, TypeScript, Supabase, Claude',
+    beforeQuote:
+      'Founders kept stalling between idea and investor-ready. Every tool that promised to help was cold, form-heavy, and forgot them the moment they closed the tab.',
+    phases: [
+      {
+        pillar: 'identity',
+        days: 'The soul',
+        deliverables: [
+          'Mutqin brand identity — name, mark and a mauve-on-plum system',
+          'Mu, the 3D founder companion — a six-pose expression system',
+          'In-repo design system: tokens, components, voice and motion',
+        ],
+      },
+      {
+        pillar: 'system',
+        days: 'The skeleton',
+        deliverables: [
+          'The onboarding wizard — Mu asks warm questions, never a form',
+          'The founder portal — readiness score, tasks, progress and documents',
+          'Full-stack build on React, TypeScript and Supabase, shipped to mutqin.xyz',
+          'Responsive down to a thumb-friendly mobile portal',
+        ],
+      },
+      {
+        pillar: 'automation',
+        days: 'The heartbeat',
+        deliverables: [
+          'An AI coach on Claude that pushes back instead of cheerleading',
+          "Investor-grade documents generated from the founder's own answers",
+          'A live readiness score plus a shareable public readiness link',
+        ],
+      },
+    ],
+  },
   {
     id: 'nexilink',
     title: 'Nexilink',

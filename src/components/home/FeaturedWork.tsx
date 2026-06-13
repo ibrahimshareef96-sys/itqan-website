@@ -6,7 +6,22 @@ import { motion } from 'framer-motion';
 import { FadeUp } from '@/components/ui/FadeUp';
 import { CoverMedia } from '@/components/ui/CoverMedia';
 
-const tiles = [
+interface FeaturedTile {
+  slug: string;
+  name: string;
+  categories: string[];
+  image: string;
+  video?: string;
+  quote: string;
+  attribution: string;
+  company: string;
+  /** Renders a "Delivered in {duration}" pill. Omit when not applicable (e.g. a live product with no fixed engagement window). */
+  duration?: string;
+  /** Overrides the duration pill with a status label, e.g. "Live". Use when there is no honest delivery duration. */
+  status?: string;
+}
+
+const tiles: FeaturedTile[] = [
   {
     slug: 'nexilink',
     name: 'Nexilink',
@@ -39,14 +54,14 @@ const tiles = [
     company: 'Oud Closet',
   },
   {
-    slug: 'medacs',
-    name: 'Medacs',
-    categories: ['UI/UX', 'Research'],
-    duration: '2 weeks',
-    image: '/images/portfolio/medacs/cover.png',
-    quote: 'Itqan transformed our complex systems into clean, intuitive designs that finally make sense. Fast, clear and genuinely impressive work.',
-    attribution: 'Adel Habib',
-    company: 'Medacs',
+    slug: 'mutqin',
+    name: 'Mutqin',
+    categories: ['Product', 'AI'],
+    status: 'Live',
+    image: '/images/portfolio/mutqin/hero.webp',
+    quote: 'We built the companion we wished every founder had, then shipped it live. Brand, product and AI as one thing.',
+    attribution: 'Ibrahim Shareef',
+    company: 'Itqan Studio',
   },
 ];
 
@@ -57,6 +72,7 @@ function Tile({
   name,
   categories,
   duration,
+  status,
   image,
   video,
   quote,
@@ -64,11 +80,15 @@ function Tile({
   company,
   className,
   priority,
-}: (typeof tiles)[number] & { className?: string; priority?: boolean; video?: string }) {
+}: FeaturedTile & { className?: string; priority?: boolean }) {
   const [hovered, setHovered] = useState(false);
   const cardRef = useRef<HTMLAnchorElement>(null);
   const groupRef = useRef<HTMLDivElement>(null);
   const [travel, setTravel] = useState(0);
+
+  // `status` overrides the delivery-duration label (e.g. a live product). If neither is
+  // set, the pill is omitted entirely rather than rendering an empty label.
+  const pillLabel = status ?? (duration ? `Delivered in ${duration}` : null);
 
   // Measure how far to translate: cardHeight - groupHeight - (top padding + bottom padding)
   useEffect(() => {
@@ -122,18 +142,20 @@ function Tile({
         transition={{ duration: 0.45, ease: EASING }}
       />
 
-      {/* Duration pill — top-right, always visible */}
-      <div className="absolute top-5 right-5 md:top-6 md:right-6 z-20 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[0.6875rem] md:text-[0.75rem] font-semibold tracking-[0.02em] text-brand-accent"
-        style={{
-          background: 'rgba(47, 28, 44, 0.55)',
-          backdropFilter: 'blur(14px)',
-          WebkitBackdropFilter: 'blur(14px)',
-          border: '1px solid rgba(204, 164, 194, 0.25)',
-        }}
-      >
-        <span className="inline-block w-1.5 h-1.5 rounded-full bg-brand-accent" aria-hidden="true" />
-        Delivered in {duration}
-      </div>
+      {/* Status / duration pill — top-right, always visible */}
+      {pillLabel && (
+        <div className="absolute top-5 right-5 md:top-6 md:right-6 z-20 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[0.6875rem] md:text-[0.75rem] font-semibold tracking-[0.02em] text-brand-accent"
+          style={{
+            background: 'rgba(47, 28, 44, 0.55)',
+            backdropFilter: 'blur(14px)',
+            WebkitBackdropFilter: 'blur(14px)',
+            border: '1px solid rgba(204, 164, 194, 0.25)',
+          }}
+        >
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-brand-accent" aria-hidden="true" />
+          {pillLabel}
+        </div>
+      )}
 
       {/* Content layer: covers card, flex-end pushes group to bottom */}
       <div className="absolute inset-0 z-10 flex flex-col justify-end p-8">

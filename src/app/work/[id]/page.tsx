@@ -199,6 +199,11 @@ export default function CaseStudyPage({ params }: Props) {
         </div>
       </section>
 
+      {/* ── Brand & character — optional, gated on brandShowcase ── */}
+      {cs.brandShowcase && cs.brandShowcase.length > 0 && (
+        <BrandShowcase title={cs.title} images={cs.brandShowcase} />
+      )}
+
       {/* ── Large testimonial ── */}
       <TestimonialBlock cs={cs} />
 
@@ -258,9 +263,16 @@ function AtAGlance({ cs }: { cs: CaseStudy }) {
   if (cs.duration) stats.push({ label: 'Timeline', value: cs.duration });
   if (cs.scope) stats.push({ label: 'Scope', value: cs.scope });
   stats.push({ label: 'Industry', value: cs.industry });
+  if (cs.stack) stats.push({ label: 'Stack', value: cs.stack });
   if (cs.outcomeMetric) {
     stats.push({ label: 'Outcome', value: cs.outcomeMetric, emphasis: true });
   }
+
+  // 5-col grid on md: the emphasised Outcome spans 2 cols when there's room, else 1, so
+  // any combination of the optional stats (duration / scope / stack) fills the row
+  // without overflowing onto a second line.
+  const baseCount = stats.filter((s) => !s.emphasis).length;
+  const outcomeSpansTwo = baseCount <= 3;
 
   return (
     <section className="py-12 md:py-16" aria-label="Engagement at a glance">
@@ -275,7 +287,7 @@ function AtAGlance({ cs }: { cs: CaseStudy }) {
                 key={stat.label}
                 className={`bg-brand-dark/50 p-6 md:p-7 ${
                   stat.emphasis
-                    ? 'sm:col-span-2 md:col-span-2 bg-brand-accent/[0.05]'
+                    ? `sm:col-span-2 ${outcomeSpansTwo ? 'md:col-span-2' : 'md:col-span-1'} bg-brand-accent/[0.05]`
                     : ''
                 }`}
               >
@@ -503,6 +515,65 @@ function AfterBlock({ cs }: { cs: CaseStudy }) {
               {cs.result}
             </p>
           </FadeUp>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ────────────────────────────────────────────────────────────
+// Brand & character — optional showcase (brand cover + mascot system).
+// Renders only when cs.brandShowcase has images. On-brand dark section;
+// reuses the gallery's framing so it sits naturally after "What we shipped".
+// ────────────────────────────────────────────────────────────
+function BrandShowcase({ title, images }: { title: string; images: string[] }) {
+  return (
+    <section className="py-20 md:py-24" aria-labelledby="brand-showcase-heading">
+      <div className="max-w-[1440px] mx-auto px-5 md:px-8">
+        <FadeUp>
+          <p
+            className="font-sans font-medium text-[0.6875rem] uppercase text-brand-accent"
+            style={{ letterSpacing: '0.22em' }}
+          >
+            Brand & character
+          </p>
+        </FadeUp>
+
+        <FadeUp delay={0.06}>
+          <h2
+            id="brand-showcase-heading"
+            className="mt-6 font-sans font-semibold text-brand-cream leading-[1.05] tracking-[-0.02em]"
+            style={{ fontSize: 'clamp(2.25rem, 4.5vw, 3.75rem)', maxWidth: '20ch' }}
+          >
+            A product with a <span className="accent-italic">face.</span>
+          </h2>
+        </FadeUp>
+
+        <FadeUp delay={0.12}>
+          <p
+            className="mt-6 text-brand-cream/70 leading-[1.65]"
+            style={{ fontSize: 'clamp(1rem, 1.2vw, 1.125rem)', maxWidth: '58ch' }}
+          >
+            The personality is built with the product, not added after — a brand
+            kit, an in-repo design system, and Mu, a six-pose companion who asks the
+            questions. That is the Itqan standard.
+          </p>
+        </FadeUp>
+
+        <div className="mt-12 md:mt-16 grid md:grid-cols-2 gap-4 md:gap-5">
+          {images.map((src, i) => (
+            <FadeUp key={src} delay={0.08 + i * 0.08}>
+              <div className="relative aspect-[4/3] rounded-[14px] overflow-hidden">
+                <Image
+                  src={src}
+                  alt={`${title} brand and character — view ${i + 1}`}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </div>
+            </FadeUp>
+          ))}
         </div>
       </div>
     </section>
