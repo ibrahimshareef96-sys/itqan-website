@@ -98,7 +98,7 @@ export function TeamSection() {
             </ScrollReveal>
 
             <StaggerContainer stagger={0.1} delay={0.18} className="mt-12 grid sm:grid-cols-2 gap-6 md:gap-8 max-w-[760px]">
-              {collaborators.map(({ id, name, role, image }) => (
+              {collaborators.map(({ id, name, role, image, objectPosition }) => (
                 <StaggerItem key={id}>
                   <SpringCard>
                     <div className="group overflow-hidden rounded-2xl border border-[rgba(255,251,245,0.08)]">
@@ -107,7 +107,8 @@ export function TeamSection() {
                           src={image}
                           alt={`${name}, ${role}`}
                           fill
-                          className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
+                          className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                          style={{ objectPosition: objectPosition ?? 'center' }}
                           sizes="(max-width: 640px) 100vw, 50vw"
                         />
                       </div>
