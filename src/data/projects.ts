@@ -48,6 +48,22 @@ export const projects: Project[] = [
     filters: ['Brand & Identity'],
   },
   {
+    id: 'project-you',
+    title: 'Project You',
+    subtitle: 'A calm life-OS that begins at first light',
+    category: 'Application Development',
+    coverImage: '/images/portfolio/project-you/dawn.webp',
+    mockups: [
+      '/images/portfolio/project-you/today.webp',
+      '/images/portfolio/project-you/quran.webp',
+      '/images/portfolio/project-you/habits.webp',
+    ],
+    description:
+      "A calm life-operating-system with a faith soul — goals, habits, projects, journal, focus, health, finance and a verse-by-verse Qur'an companion in one gentle place that begins each day at first light. Rebranded from 'Aurora' to 'Noor' and built end to end at Itqan on React, TypeScript, Supabase and Claude. Live at projectyou.app.",
+    tags: ['Product Design', 'Brand & Identity', 'Application Development'],
+    filters: ['Application Development', 'Brand & Identity', 'UI/UX Design'],
+  },
+  {
     id: 'medacs',
     title: 'Medacs',
     subtitle: 'Healthcare Platform',
@@ -106,20 +122,6 @@ export const projects: Project[] = [
     description:
       'A bespoke internal operations platform built for Itqan Studio — managing projects, pipeline, invoicing, expenses, and financial reporting in one unified system. Built with Next.js 14 and Supabase.',
     tags: ['Application Development', 'CRM', 'Platform'],
-    filters: ['Application Development'],
-  },
-  {
-    id: 'project-you',
-    title: 'Project You',
-    subtitle: 'Personal Life OS',
-    category: 'Application Development',
-    coverImage: '/images/portfolio/project-you-mkp-mb.png',
-    mockups: [
-      '/images/portfolio/project-you-mkp-mb.png',
-    ],
-    description:
-      "A personal life operating system that applies real project management principles to how you live — goals, habits, projects, Qur'an tracking, health, and finance in one platform. Built with Next.js and Supabase. Live at projectyou.app.",
-    tags: ['Application Development', 'Product', 'Platform'],
     filters: ['Application Development'],
   },
 ];

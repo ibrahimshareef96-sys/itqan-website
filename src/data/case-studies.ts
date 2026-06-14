@@ -247,6 +247,80 @@ export const caseStudies: CaseStudy[] = [
     ],
   },
   {
+    id: 'project-you',
+    title: 'Project You',
+    subtitle: 'A calm life-OS that begins at first light',
+    industry: 'Product — our own SaaS',
+    category: 'Application Development',
+    coverImage: '/images/portfolio/project-you/dawn.webp',
+    coverVideo: '/videos/project-you-transition.mp4',
+    liveUrl: 'https://projectyou.app',
+    mockups: [
+      '/images/portfolio/project-you/today.webp',
+      '/images/portfolio/project-you/quran.webp',
+      '/images/portfolio/project-you/habits.webp',
+      '/images/portfolio/project-you/coach.webp',
+      '/images/portfolio/project-you/finance.webp',
+      '/images/portfolio/project-you/health.webp',
+    ],
+    challenge:
+      "Every productivity app treats faith as an afterthought — Qur'an memorisation in one app, prayer in another, goals and habits in a third. People carry a whole life in scattered, loud apps that all compete for the same tired attention, with streaks to defend and badges to chase. And the part that matters most — time with the Qur'an, the rhythm of the day's prayers — sits outside all of it, in yet another app that knows nothing about the rest of their life.",
+    approach:
+      "One calm system, faith woven in, framed as a journey through light. Goals become weeks, weeks become a short list for today; habits, journal, focus, health, finance and calendar share one gentle system instead of ten loud apps. A verse-by-verse Qur'an reader with reading tracking and khatm progress sits beside your goals, and the ambient background follows the five daily prayers, Fajr through Isha. An AI coach reflects on your week and offers the smallest next step — never another alarm. One discipline runs through all of it: never gamified.",
+    result:
+      "Project You is live at projectyou.app — one quiet home for a whole life, and the first to treat the deen as a first-class citizen rather than a side widget. Two hand-tuned themes, day and night, led by one breathing orb of light, backed by a versioned in-repo design system. A private beta with invitations rolling out — and proof that the Itqan way, a brand kit and a design system shipped with the product, works on our own products before we sell it.",
+    services: [
+      'Brand & Identity Direction',
+      'Product Design',
+      'Full-Stack Engineering',
+      'AI Asset Production',
+    ],
+    testimonialQuote:
+      "Our first build was 'Aurora' — premium, executive, and a little cold. Exactly the wrong feeling for an app you open at 6am on the day you've fallen behind. So we kept the engineering and swapped the soul: Noor — نور, light. Same code, warmer heart, framed around the moment the day begins at first light.",
+    testimonialName: 'Ibrahim Shareef',
+    testimonialCompany: 'Founder, Itqan Studio',
+    testimonialImage: '/images/testimonials/ibrahim-shareef.png',
+    outcomeMetric:
+      "Live product — a whole life in one calm place, with the Qur'an beside your goals",
+    scope: 'Consumer SaaS — brand pivot, product UX and full-stack build',
+    stack: 'React, TypeScript, Supabase, Claude',
+    beforeQuote:
+      "Every productivity app I tried treated Qur'an and prayer as afterthoughts. Nothing connected the deen with the to-do list. So we built it.",
+    phases: [
+      {
+        pillar: 'identity',
+        days: 'The soul',
+        deliverables: [
+          'The pivot from Aurora (cool mauve, executive, cold) to Noor (warm dawn, faith-rooted)',
+          'The orb — sun by day, crescent by night, no face: logo, app icon, loader and in-app companion at once',
+          'A warm dawn palette with one accent that means light; Nunito for the UI, Amiri for the Arabic',
+          'The signature "hill" curve and a bespoke, emoji-free icon family',
+        ],
+      },
+      {
+        pillar: 'system',
+        days: 'The skeleton',
+        deliverables: [
+          'A dashboard that opens at your real time of day; goals → projects → tasks',
+          'Gentle habits with a weekly review, a journal, focus sessions, health and finance',
+          "A verse-by-verse Qur'an reader with reading tracking and khatm progress, beside your goals",
+          'Two hand-tuned themes (day + night) on React, TypeScript and Supabase, shipped to projectyou.app',
+          'A versioned in-repo design system that mirrors the live code — the Itqan standard',
+        ],
+      },
+      {
+        pillar: 'automation',
+        days: 'The heartbeat',
+        deliverables: [
+          'An AI coach (Anthropic Claude) that reflects on your week, grounded in your own data',
+          'An ambient sky that follows the five daily prayers, Fajr through Isha',
+          'Higgsfield-generated dawn art for the landing and the cover',
+          'Gentle daily nudges — an open door when you miss a day, never a broken streak',
+        ],
+      },
+    ],
+  },
+  {
     id: 'oud-closet',
     title: 'Oud Closet',
     subtitle: 'E-commerce Brand',
@@ -389,68 +463,6 @@ export const caseStudies: CaseStudy[] = [
           'UAE-compliant e-invoicing built in (not bolted on)',
           'Automatic credit notes + expense categorization',
           'Real-time KPI digests piped to founder phone',
-        ],
-      },
-    ],
-  },
-  {
-    id: 'project-you',
-    title: 'Project You',
-    subtitle: 'Personal life OS for young Muslims',
-    industry: 'Product — our own SaaS',
-    category: 'Application Development',
-    coverImage: '/images/portfolio/project-you-mkp-mkbk.png',
-    mockups: [
-      '/images/portfolio/project-you-mkp-mb.png',
-      '/images/app-hand-v2-render.png',
-    ],
-    challenge:
-      "Every productivity app treated faith as an afterthought. Qur'an memorisation in one app. Prayer tracking in another. Goals and habits in a third. Nothing connected the deen with the to-do list. For a generation of Muslims building serious lives, nothing fit.",
-    approach:
-      "We ran the full Founder OS on ourselves. Identity — positioning for the young Muslim segment, brand voice that respects both ambition and faith. System — full product UX across goals, habits, Qur'an, health, finance. Automation — onboarding, daily reminders, habit nudges.",
-    result:
-      "Project You is live at projectyou.app with users across multiple countries. The first life OS that treats the deen as a first-class citizen, not a side widget. Proof that the 90-day Founder OS works on our own products before we sell it.",
-    services: [
-      'Application Development',
-      'Product Design',
-      'UI/UX',
-    ],
-    testimonialQuote:
-      'There was a gap in the market that nobody was filling. Young Muslims needed a platform that took both their productivity and their deen seriously. Project You is that platform — and we built it end to end on the same system we sell.',
-    testimonialName: 'Ibrahim Shareef',
-    testimonialCompany: 'Founder, Itqan Studio',
-    duration: '12 weeks (full Founder OS)',
-    industryAverage: '6-12 months',
-    outcomeMetric: 'Live SaaS — users across multiple countries',
-    scope: 'Consumer SaaS — identity + product + automation',
-    beforeQuote:
-      "Every productivity app I tried treated Qur'an and prayer as afterthoughts. Nothing connected the deen with the to-do list. So we built it.",
-    phases: [
-      {
-        pillar: 'identity',
-        days: 'Weeks 1-4',
-        deliverables: [
-          'Audience positioning — young Muslims building serious lives',
-          'Brand strategy + voice that respects ambition AND faith',
-          'Visual identity + product naming',
-        ],
-      },
-      {
-        pillar: 'system',
-        days: 'Weeks 5-9',
-        deliverables: [
-          "Full product UX — goals, habits, Qur'an, health, finance modules",
-          'Next.js + Supabase stack shipped to production at projectyou.app',
-          'Onboarding flow tested with real users',
-        ],
-      },
-      {
-        pillar: 'automation',
-        days: 'Weeks 10-12',
-        deliverables: [
-          'Daily habit nudges + prayer accountability automation',
-          'Automated user onboarding sequence',
-          'Cross-platform sync + push notifications',
         ],
       },
     ],
