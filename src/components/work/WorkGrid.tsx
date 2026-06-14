@@ -58,16 +58,20 @@ export function WorkGrid({ projects }: WorkGridProps) {
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 className="transition-transform duration-700 ease-out group-hover:scale-[1.03]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent pointer-events-none" />
+              {!project.coverHasTitle && (
+                <>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent pointer-events-none" />
 
-              <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
-                <h2 className="font-sans font-semibold text-xl text-brand-cream leading-snug">
-                  {project.title}
-                </h2>
-                <p className="text-[rgba(255,251,245,0.6)] text-sm mt-1">
-                  {project.subtitle}
-                </p>
-              </div>
+                  <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
+                    <h2 className="font-sans font-semibold text-xl text-brand-cream leading-snug">
+                      {project.title}
+                    </h2>
+                    <p className="text-[rgba(255,251,245,0.6)] text-sm mt-1">
+                      {project.subtitle}
+                    </p>
+                  </div>
+                </>
+              )}
             </Link>
           </FadeUp>
         ))}

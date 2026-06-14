@@ -19,6 +19,8 @@ interface FeaturedTile {
   duration?: string;
   /** Overrides the duration pill with a status label, e.g. "Live". Use when there is no honest delivery duration. */
   status?: string;
+  /** Set when the cover image already bakes in the project name, so the tile suppresses its overlaid name to avoid a double title. */
+  coverHasTitle?: boolean;
 }
 
 const tiles: FeaturedTile[] = [
@@ -48,7 +50,10 @@ const tiles: FeaturedTile[] = [
     name: 'Project You',
     categories: ['Product', 'Faith'],
     status: 'Live',
-    image: '/images/portfolio/project-you/dawn.webp',
+    // Titled "Noor — a journey through light" poster (self-titled), so the tile
+    // suppresses its overlaid name to avoid a double title.
+    image: '/images/portfolio/project-you/cover-poster.webp',
+    coverHasTitle: true,
     quote: 'We kept the engineering and swapped the soul — Aurora, cold and executive, became Noor: warm, faith-rooted, the day begins at first light.',
     attribution: 'Ibrahim Shareef',
     company: 'Itqan Studio',
@@ -80,6 +85,7 @@ function Tile({
   quote,
   attribution,
   company,
+  coverHasTitle,
   className,
   priority,
 }: FeaturedTile & { className?: string; priority?: boolean }) {
@@ -186,13 +192,15 @@ function Tile({
             ))}
           </div>
 
-          {/* Case name */}
-          <h2
-            className="font-sans font-semibold text-brand-cream leading-[1.05] tracking-[-0.015em]"
-            style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}
-          >
-            {name}
-          </h2>
+          {/* Case name — suppressed when the cover already bakes in the title */}
+          {!coverHasTitle && (
+            <h2
+              className="font-sans font-semibold text-brand-cream leading-[1.05] tracking-[-0.015em]"
+              style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}
+            >
+              {name}
+            </h2>
+          )}
 
           {/* Mobile: always-visible testimonial */}
           <div className="block md:hidden mt-4">

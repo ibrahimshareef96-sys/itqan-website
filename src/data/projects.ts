@@ -11,6 +11,8 @@ export interface Project {
   behanceUrl?: string;
   tags: string[];
   filters: string[];
+  /** Set when the cover image already bakes in the project title, so the listing card suppresses its overlaid title/subtitle to avoid a double title. */
+  coverHasTitle?: boolean;
 }
 
 export const projects: Project[] = [
@@ -20,6 +22,7 @@ export const projects: Project[] = [
     subtitle: 'AI Startup Companion',
     category: 'Application Development',
     coverImage: '/images/portfolio/mutqin/hero.webp',
+    coverHasTitle: true,
     mockups: [
       '/images/portfolio/mutqin/wizard.webp',
       '/images/portfolio/mutqin/portal.webp',
@@ -52,7 +55,8 @@ export const projects: Project[] = [
     title: 'Project You',
     subtitle: 'A calm life-OS that begins at first light',
     category: 'Application Development',
-    coverImage: '/images/portfolio/project-you/dawn.webp',
+    coverImage: '/images/portfolio/project-you/cover-poster.webp',
+    coverHasTitle: true,
     mockups: [
       '/images/portfolio/project-you/today.webp',
       '/images/portfolio/project-you/quran.webp',
