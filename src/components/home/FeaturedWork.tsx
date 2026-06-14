@@ -58,7 +58,9 @@ const tiles: FeaturedTile[] = [
     name: 'Mutqin',
     categories: ['Product', 'AI'],
     status: 'Live',
-    image: '/images/portfolio/mutqin/hero.webp',
+    // Landing-specific cover: titleless product scene (the tile overlays its own
+    // name + testimonial). The titled poster (hero.webp) stays on /work + the case page.
+    image: '/images/portfolio/mutqin/hero-landing.webp',
     quote: 'We built the companion we wished every founder had, then shipped it live. Brand, product and AI as one thing.',
     attribution: 'Ibrahim Shareef',
     company: 'Itqan Studio',
