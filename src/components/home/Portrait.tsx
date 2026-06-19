@@ -59,7 +59,7 @@ export function Portrait() {
               style={{ letterSpacing: '0.22em' }}
               {...fadeUpStatement(0)}
             >
-              The founder
+              The co-founder
             </motion.p>
 
             {/* Identity statement */}
@@ -95,7 +95,7 @@ export function Portrait() {
               }}
               {...fadeUpStatement(0.18)}
             >
-              Ibrahim Shareef. Solo founder of Itqan Studio. The rare person who can
+              Ibrahim Shareef. Co-founder of Itqan Studio. The rare person who can
               build the brand, code the system, and tell the story &mdash; without
               handing it off three times.
             </motion.p>
@@ -105,7 +105,7 @@ export function Portrait() {
               style={{ letterSpacing: '0.02em' }}
               {...fadeUpStatement(0.26)}
             >
-              &mdash; Ibrahim Shareef, Founder
+              &mdash; Ibrahim Shareef, Co-founder
             </motion.p>
           </div>
 
