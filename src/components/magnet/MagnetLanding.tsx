@@ -709,7 +709,7 @@ const AUDIENCE_PANEL_DEFAULTS = {
   items: [
     "GCC founders preparing a Series A raise",
     "Operators building a category-defining product in F&B, retail, fashion, or wellness",
-    "Solo founders who refuse to start with a logo",
+    "Founders who refuse to start with a logo",
     "Anyone who's been burned by a freelance brand engagement that produced moodboards and nothing else",
     "The team that wants the strategist in the room, not the deck",
   ],

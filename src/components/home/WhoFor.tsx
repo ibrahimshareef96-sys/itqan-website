@@ -5,7 +5,7 @@ import { FadeUp } from '@/components/ui/FadeUp';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 const forYou = [
-  'Solo founders or 2-3 person teams',
+  'Early-stage founders or 2-3 person teams',
   'Tech-adjacent — SaaS, fintech, productized service, creator brand, knowledge business',
   'GCC-based or relocating to GCC',
   'You care about craft and intelligence',

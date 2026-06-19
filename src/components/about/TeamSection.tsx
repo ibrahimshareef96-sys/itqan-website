@@ -14,7 +14,7 @@ export function TeamSection() {
     <section className="py-24 lg:py-32" aria-labelledby="team-heading">
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
 
-        {/* Founder block — Ibrahim, solo */}
+        {/* Founder block — Ibrahim, standalone */}
         {founder && (
           <ScrollReveal direction="up">
             <div className="grid md:grid-cols-[280px_1fr] gap-10 md:gap-14 items-start">
