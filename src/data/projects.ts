@@ -100,7 +100,7 @@ export const projects: Project[] = [
   {
     id: 'oud-closet',
     title: 'Oud Closet',
-    subtitle: 'E-commerce Brand',
+    subtitle: 'Luxury Modest Fashion',
     category: 'branding',
     coverImage: '/images/portfolio/oud-closet/cover.png',
     mockups: [
@@ -108,8 +108,9 @@ export const projects: Project[] = [
       '/images/portfolio/oud-closet/mockup-2.png',
       '/images/portfolio/oud-closet/mockup-3.png',
     ],
-    description: 'A luxury e-commerce brand identity for premium oud products.',
-    tags: ['Branding', 'E-commerce', 'Luxury'],
+    description:
+      'Brand identity, AI-generated imagery & video, and a bespoke Shopify storefront for a founder-led luxury abaya house.',
+    tags: ['Branding', 'Web Design', 'E-commerce', 'Luxury'],
     filters: ['Brand & Identity'],
   },
   {
