@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import {
   ArrowRight,
   ArrowUpRight,
+  BehanceLogo,
   CheckCircle,
   Quotes,
 } from '@phosphor-icons/react/dist/ssr';
@@ -78,7 +79,7 @@ export default function CaseStudyPage({ params }: Props) {
           </FadeUp>
 
           {/* Duration vs. industry average + live site link */}
-          {(cs.duration || cs.liveUrl) && (
+          {(cs.duration || cs.liveUrl || (cs.links && cs.links.length > 0)) && (
             <FadeUp delay={0.14}>
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:gap-4">
                 {cs.duration && (
@@ -127,6 +128,36 @@ export default function CaseStudyPage({ params }: Props) {
                     />
                   </a>
                 )}
+
+                {cs.links?.map((lnk) => {
+                  const isBehance = lnk.href.includes('behance.net');
+                  return (
+                    <a
+                      key={lnk.href}
+                      href={lnk.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-flex items-center gap-2 px-4 py-2 rounded-full text-[0.8125rem] font-semibold text-brand-cream transition-colors duration-200 hover:text-brand-accent"
+                      style={{
+                        background: 'rgba(204, 164, 194, 0.12)',
+                        backdropFilter: 'blur(14px)',
+                        WebkitBackdropFilter: 'blur(14px)',
+                        border: '1px solid rgba(204, 164, 194, 0.35)',
+                      }}
+                      aria-label={`${lnk.label} (opens in new tab)`}
+                    >
+                      {isBehance && (
+                        <BehanceLogo size={15} weight="fill" aria-hidden="true" />
+                      )}
+                      {lnk.label}
+                      <ArrowUpRight
+                        size={14}
+                        weight="bold"
+                        className="transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      />
+                    </a>
+                  );
+                })}
               </div>
             </FadeUp>
           )}

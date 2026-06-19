@@ -33,6 +33,8 @@ export interface CaseStudy {
   behanceUrl?: string;
   /** Public-facing live URL for the shipped work, e.g. https://shareefi.co. Surfaces as a "Visit live site" CTA. */
   liveUrl?: string;
+  /** Extra external links (e.g. Behance case studies) — surface as pills beside the live-site CTA. */
+  links?: Array<{ label: string; href: string }>;
   /** Real duration string, e.g. "3 weeks", "<30 days" */
   duration?: string;
   /** Industry average for comparable scope, e.g. "8-16 weeks" */
@@ -327,6 +329,17 @@ export const caseStudies: CaseStudy[] = [
     industry: 'Modest Fashion & Luxury',
     category: 'Branding',
     coverImage: '/images/portfolio/oud-closet/cover.png',
+    liveUrl: 'https://oudcloset.se',
+    links: [
+      {
+        label: 'Website on Behance',
+        href: 'https://www.behance.net/gallery/251406253/Oud-Closet-Luxury-Modest-Fashion-Website-Design',
+      },
+      {
+        label: 'Brand identity on Behance',
+        href: 'https://www.behance.net/gallery/251390379/Oud-Closet-Brand-Identity-for-Modest-Fashion-Luxury',
+      },
+    ],
     mockups: [
       '/images/portfolio/oud-closet/mockup-1.png',
       '/images/portfolio/oud-closet/mockup-2.png',
