@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,400;1,500&display=swap');
+/* Fonts are loaded via a <link> in the document <head> (see app/layout.tsx) with
+   preconnect hints — earlier discovery + one fewer request hop than a CSS @import,
+   which improves text paint (LCP). */
 
 @tailwind base;
 @tailwind components;

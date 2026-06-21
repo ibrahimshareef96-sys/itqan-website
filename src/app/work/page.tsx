@@ -2,16 +2,29 @@ import type { Metadata } from 'next';
 import { FadeUp } from '@/components/ui/FadeUp';
 import { WorkGrid } from '@/components/work/WorkGrid';
 import { projects } from '@/data/projects';
+import { caseStudies } from '@/data/case-studies';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { workCollectionLd, breadcrumbLd } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'Our Work — Brand Identity, UI/UX & Web Development Projects',
+  title: 'Our Work — Brand, Product & Automation Case Studies',
   description:
-    'Explore the Itqan Studio portfolio. See how we deliver brand identity design, UI/UX systems, custom web applications, and digital platforms for clients across industries.',
+    'Case studies from Itqan Studio — brand identity, UI/UX, web and app development, and AI automation projects delivered for founders in Dubai and beyond.',
+  alternates: { canonical: '/work' },
 };
 
 export default function WorkPage() {
   return (
     <>
+      {/* ItemList is built from caseStudies — the same source /work/[id] uses — so
+          it can never link to a slug without a detail page. */}
+      <JsonLd data={workCollectionLd(caseStudies)} />
+      <JsonLd
+        data={breadcrumbLd([
+          { name: 'Home', path: '/' },
+          { name: 'Work', path: '/work' },
+        ])}
+      />
       {/* Header */}
       <section className="pt-32 pb-16" aria-label="Work page header">
         <div className="max-w-[1440px] mx-auto px-5 md:px-8">

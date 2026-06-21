@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: 'Cookie Policy',
   description:
     'What cookies Itqan Studio uses, why we use them, and how you can control or opt out of non-essential cookies.',
+  alternates: { canonical: '/cookies' },
 };
 
 export default function CookiesPage() {

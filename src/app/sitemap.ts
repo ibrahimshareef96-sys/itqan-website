@@ -1,28 +1,40 @@
 import type { MetadataRoute } from 'next';
+import { caseStudies } from '@/data/case-studies';
+import { SITE_URL } from '@/lib/seo';
 
-const baseUrl = 'https://itqanstudio.com';
-
+/**
+ * Data-driven sitemap. Case-study URLs are derived from src/data/case-studies.ts
+ * (the same source generateStaticParams uses for /work/[id]) so the sitemap can
+ * never drift out of sync again when a project is added or removed.
+ */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticPages = [
-    { path: '', priority: 1.0 },
-    { path: '/about', priority: 0.8 },
-    { path: '/services', priority: 0.9 },
-    { path: '/work', priority: 0.8 },
-    { path: '/contact', priority: 0.7 },
+  const lastModified = new Date();
+
+  const staticPages: Array<{
+    path: string;
+    priority: number;
+    changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'];
+  }> = [
+    { path: '', priority: 1.0, changeFrequency: 'weekly' },
+    { path: '/services', priority: 0.9, changeFrequency: 'monthly' },
+    { path: '/work', priority: 0.8, changeFrequency: 'weekly' },
+    { path: '/about', priority: 0.7, changeFrequency: 'monthly' },
+    { path: '/contact', priority: 0.7, changeFrequency: 'monthly' },
+    { path: '/privacy', priority: 0.2, changeFrequency: 'yearly' },
+    { path: '/terms', priority: 0.2, changeFrequency: 'yearly' },
+    { path: '/cookies', priority: 0.2, changeFrequency: 'yearly' },
   ];
 
-  const caseStudies = ['nexilink', 'shareefico', 'oud-closet', 'medacs'];
-
   return [
-    ...staticPages.map(({ path, priority }) => ({
-      url: `${baseUrl}${path}`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+    ...staticPages.map(({ path, priority, changeFrequency }) => ({
+      url: `${SITE_URL}${path}`,
+      lastModified,
+      changeFrequency,
       priority,
     })),
-    ...caseStudies.map((slug) => ({
-      url: `${baseUrl}/work/${slug}`,
-      lastModified: new Date(),
+    ...caseStudies.map((cs) => ({
+      url: `${SITE_URL}/work/${cs.id}`,
+      lastModified,
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     })),

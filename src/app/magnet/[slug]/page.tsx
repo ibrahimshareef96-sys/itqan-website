@@ -28,6 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       .slice(0, 160)
       .replace(/[#*\n]+/g, " ")
       .trim(),
+    alternates: { canonical: `/magnet/${slug}` },
     openGraph: {
       title: magnet.title,
       description: magnet.landingTeaser

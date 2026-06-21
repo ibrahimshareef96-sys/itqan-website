@@ -7,11 +7,14 @@ import { TextReveal } from '@/components/ui/TextReveal';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { testimonials } from '@/data/testimonials';
 import { ChatCircle } from '@phosphor-icons/react/dist/ssr';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { breadcrumbLd } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'Contact — Book a Call or Send Us a Message',
+  title: 'Contact — Book a Call With Our Dubai Studio',
   description:
-    'Ready to start your project? Book a discovery call with Itqan Studio or send us a message. We respond within 24 hours.',
+    'Book a discovery call with Itqan Studio — a Dubai design, automation and AI studio — or send a message. We respond within 24 hours.',
+  alternates: { canonical: '/contact' },
 };
 
 interface IntentCopy {
@@ -71,6 +74,12 @@ export default function ContactPage({ searchParams }: Props) {
 
   return (
     <section className="min-h-[100dvh] pt-28 pb-24">
+      <JsonLd
+        data={breadcrumbLd([
+          { name: 'Home', path: '/' },
+          { name: 'Contact', path: '/contact' },
+        ])}
+      />
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
 

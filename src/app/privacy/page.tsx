@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: 'Privacy Policy',
   description:
     'How Itqan Studio FZ LLC collects, uses, stores, and protects your personal data. Read our commitments to data privacy and your rights under UAE law.',
+  alternates: { canonical: '/privacy' },
 };
 
 export default function PrivacyPage() {

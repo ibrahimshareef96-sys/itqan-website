@@ -1,57 +1,41 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { PageTransition } from '@/components/layout/PageTransition';
 import { SmoothScrollProvider } from '@/components/providers/SmoothScrollProvider';
 import { CookieBanner } from '@/components/CookieBanner';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { SITE_URL, SITE_NAME, TARGET_KEYWORDS, siteGraphLd } from '@/lib/seo';
 import './globals.css';
 
-const siteUrl = 'https://itqanstudio.com';
-
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Itqan Studio — From invisible to inevitable in 90 days',
+    default: 'Itqan Studio — Design, Automation & AI Agency in Dubai',
     template: '%s | Itqan Studio',
   },
   description:
-    "Itqan is the founder studio that takes ambitious companies from invisible to inevitable in 90 days — with a brand, a system, and an agentic automation engine you can run from Telegram. Guaranteed.",
-  keywords: [
-    'founder studio',
-    '90-day Founder OS',
-    'brand identity Dubai',
-    'brand strategy GCC',
-    'agentic automation',
-    'founder operating system',
-    'UI UX design Dubai',
-    'brand design agency Dubai',
-    'Itqan Studio',
-  ],
-  authors: [{ name: 'Itqan Studio', url: siteUrl }],
+    'Itqan Studio is a Dubai design, automation and AI agency. We build brand identity, UI/UX, custom development and agentic automation systems that take founders from invisible to inevitable in 90 days. Guaranteed.',
+  keywords: [...TARGET_KEYWORDS],
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
   creator: 'Itqan Studio FZ LLC',
+  publisher: 'Itqan Studio FZ LLC',
   openGraph: {
     type: 'website',
-    locale: 'en_US',
-    url: siteUrl,
-    siteName: 'Itqan Studio',
-    title: 'Itqan Studio — From invisible to inevitable in 90 days',
+    locale: 'en_AE',
+    alternateLocale: ['ar_AE'],
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: 'Itqan Studio — Design, Automation & AI Agency in Dubai',
     description:
-      "The founder studio that takes ambitious companies from invisible to inevitable in 90 days — with a brand, a system, and an agentic automation engine. Guaranteed.",
-    images: [
-      {
-        url: '/images/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Itqan Studio — From invisible to inevitable in 90 days.',
-      },
-    ],
+      'The Dubai studio that builds brand, system and agentic automation — taking founders from invisible to inevitable in 90 days. Guaranteed.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Itqan Studio — From invisible to inevitable in 90 days',
+    title: 'Itqan Studio — Design, Automation & AI Agency in Dubai',
     description:
-      "The founder studio that takes ambitious companies from invisible to inevitable in 90 days. Brand. System. Automation. Guaranteed.",
-    images: ['/images/og-image.png'],
+      'The Dubai studio that builds brand, system and agentic AI automation. From invisible to inevitable in 90 days.',
   },
   robots: {
     index: true,
@@ -80,38 +64,27 @@ export const metadata: Metadata = {
   },
 };
 
-const organizationJsonLd = JSON.stringify({
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Itqan Studio FZ LLC',
-  url: siteUrl,
-  logo: `${siteUrl}/images/brand/dark-logo.svg`,
-  description:
-    'Premium brand design and digital agency crafting brand identities, UI/UX design, custom web applications, and automation systems.',
-  sameAs: [
-    'https://www.instagram.com/itqanstudio',
-    'https://www.linkedin.com/company/itqanstudio',
-  ],
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Dubai',
-    addressCountry: 'AE',
-  },
-  contactPoint: {
-    '@type': 'ContactPoint',
-    email: 'info@itqanstudio.com',
-    contactType: 'sales',
-  },
-});
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#1f1420',
+  colorScheme: 'dark',
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: organizationJsonLd }}
+        {/* Speed up the critical Google Fonts request (LCP): warm the connection,
+            then load the stylesheet from <head> (earlier than a CSS @import). */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,400;1,500&display=swap"
         />
+        {/* Site-wide entity graph: Organization + WebSite + founder Person */}
+        <JsonLd data={siteGraphLd()} />
       </head>
       <body>
         <SmoothScrollProvider>

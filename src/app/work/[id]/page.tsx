@@ -12,6 +12,8 @@ import {
 import { FadeUp } from '@/components/ui/FadeUp';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { CoverMedia } from '@/components/ui/CoverMedia';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { caseStudyLd, breadcrumbLd } from '@/lib/seo';
 import {
   caseStudies,
   getCaseStudy,
@@ -31,10 +33,23 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const cs = getCaseStudy(params.id);
-  if (!cs) return { title: 'Project Not Found' };
+  if (!cs) {
+    return { title: 'Project Not Found', robots: { index: false, follow: false } };
+  }
+  const title = `${cs.title} — ${cs.scope ?? cs.subtitle}`;
+  const description = cs.outcomeMetric ?? cs.result.slice(0, 155);
+  const path = `/work/${cs.id}`;
   return {
-    title: `${cs.title} — ${cs.scope ?? cs.subtitle}`,
-    description: cs.outcomeMetric ?? cs.result.slice(0, 155),
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      type: 'article',
+      url: path,
+      title: `${title} | Itqan Studio`,
+      description,
+      images: [{ url: cs.coverImage, alt: `${cs.title} — ${cs.subtitle}` }],
+    },
   };
 }
 
@@ -55,6 +70,15 @@ export default function CaseStudyPage({ params }: Props) {
 
   return (
     <>
+      <JsonLd data={caseStudyLd(cs)} />
+      <JsonLd
+        data={breadcrumbLd([
+          { name: 'Home', path: '/' },
+          { name: 'Work', path: '/work' },
+          { name: cs.title, path: `/work/${cs.id}` },
+        ])}
+      />
+
       {/* ── Header — centered, editorial ── */}
       <section className="pt-32 md:pt-40 pb-10 md:pb-12" aria-label="Case study header">
         <div className="max-w-[1440px] mx-auto px-5 md:px-8 text-center">

@@ -7,11 +7,15 @@ import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { FounderOS } from '@/components/home/FounderOS';
 import { Guarantee } from '@/components/home/Guarantee';
 import { CTABanner } from '@/components/home/CTABanner';
+import { ServiceFAQ, SERVICE_FAQ } from '@/components/services/ServiceFAQ';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { servicesGraphLd, breadcrumbLd, faqLd } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'The 90-Day Founder Operating System — Itqan Studio',
+  title: 'AI Automation, Brand & Web Design — Dubai',
   description:
-    'Identity, system, and an agentic automation engine in 90 days. The founder studio that takes ambitious companies from invisible to inevitable. Guaranteed.',
+    'Brand identity, UI/UX and web design, custom development, and agentic AI automation — Itqan Studio’s 90-Day Founder Operating System. Dubai-based, serving the UAE and beyond.',
+  alternates: { canonical: '/services' },
 };
 
 interface PillarDetail {
@@ -72,6 +76,15 @@ const pillars: PillarDetail[] = [
 export default function ServicesPage() {
   return (
     <>
+      <JsonLd data={servicesGraphLd()} />
+      <JsonLd
+        data={breadcrumbLd([
+          { name: 'Home', path: '/' },
+          { name: 'Services', path: '/services' },
+        ])}
+      />
+      <JsonLd data={faqLd(SERVICE_FAQ)} />
+
       {/* ── Header — the offer ── */}
       <section className="relative pt-32 pb-16 md:pt-40 md:pb-20" aria-label="Services header">
         <div
@@ -224,6 +237,9 @@ export default function ServicesPage() {
           </FadeUp>
         </div>
       </section>
+
+      {/* ── FAQ — founder questions (GEO/AEO + on-page depth) ── */}
+      <ServiceFAQ />
 
       {/* ── Guarantee (shared) ── */}
       <Guarantee />
