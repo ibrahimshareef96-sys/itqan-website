@@ -47,11 +47,15 @@ export const BUSINESS = {
     'https://www.instagram.com/madebyitqan/',
     'https://www.linkedin.com/company/110338926/',
   ],
+  // Job titles match the on-page copy (Portrait + AboutHero + TeamSection) exactly —
+  // entity consistency for E-E-A-T. The site was deliberately reframed off "solo founder".
   founder: {
     name: 'Ibrahim Shareef',
-    // "Co-founder" matches the on-page copy (Portrait + AboutHero) exactly — entity
-    // consistency for E-E-A-T. The site was deliberately reframed off "solo founder".
-    jobTitle: 'Co-founder',
+    jobTitle: 'CEO & Co-founder',
+  },
+  cofounder: {
+    name: 'Bisma Aslam',
+    jobTitle: 'Head of Design & Co-founder',
   },
   /** Dubai-based, serves UAE → GCC → globally. Expressed as areaServed. */
   areaServed: ['Dubai', 'United Arab Emirates', 'GCC', 'Worldwide'],
@@ -116,6 +120,7 @@ export function absoluteUrl(path = '/'): string {
 const ORG_ID = `${SITE_URL}/#organization`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
 const FOUNDER_ID = `${SITE_URL}/#founder`;
+const COFOUNDER_ID = `${SITE_URL}/#cofounder`;
 
 type JsonLd = Record<string, unknown>;
 
@@ -149,7 +154,7 @@ export function organizationNode(): JsonLd {
     areaServed: BUSINESS.areaServed,
     knowsAbout: KNOWS_ABOUT,
     sameAs: BUSINESS.sameAs,
-    founder: { '@id': FOUNDER_ID },
+    founder: [{ '@id': FOUNDER_ID }, { '@id': COFOUNDER_ID }],
     contactPoint: {
       '@type': 'ContactPoint',
       email: BUSINESS.email,
@@ -194,11 +199,23 @@ export function founderNode(): JsonLd {
   };
 }
 
-/** Site-wide graph injected on every page (root layout): Organization + WebSite + founder Person. */
+/** The co-founder Person node — second founder entity, referenced by Organization.founder. */
+export function cofounderNode(): JsonLd {
+  return {
+    '@type': 'Person',
+    '@id': COFOUNDER_ID,
+    name: BUSINESS.cofounder.name,
+    jobTitle: BUSINESS.cofounder.jobTitle,
+    worksFor: { '@id': ORG_ID },
+    url: `${SITE_URL}/about`,
+  };
+}
+
+/** Site-wide graph injected on every page (root layout): Organization + WebSite + both founder Persons. */
 export function siteGraphLd(): JsonLd {
   return {
     '@context': 'https://schema.org',
-    '@graph': [organizationNode(), websiteNode(), founderNode()],
+    '@graph': [organizationNode(), websiteNode(), founderNode(), cofounderNode()],
   };
 }
 

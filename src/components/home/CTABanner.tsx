@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight } from '@phosphor-icons/react';
 import { MagneticButton } from '@/components/ui/MagneticButton';
 import { SPRING_SNAPPY } from '@/lib/motion';
 
@@ -28,11 +27,8 @@ export function CTABanner() {
           }}
           {...fadeUp(0)}
         >
-          From{' '}
-          <span className="text-brand-cream/45">invisible</span>{' '}
-          to{' '}
-          <span className="accent-italic">inevitable</span>{' '}
-          in 90 days.
+          Make the call you can&apos;t afford to get{' '}
+          <span className="accent-italic">wrong</span>.
         </motion.h2>
 
         <motion.p
@@ -43,12 +39,13 @@ export function CTABanner() {
           }}
           {...fadeUp(0.1)}
         >
-          Two ways to start. Pick the one that fits where you are.
+          A private conversation with the people who will do the work. No funnel.
+          No junior on the other end.
         </motion.p>
 
         <motion.div {...fadeUp(0.2)}>
           <div className="mt-10 flex flex-col sm:flex-row items-start gap-4 sm:gap-5">
-            {/* Primary CTA */}
+            {/* Single CTA — a private, senior conversation (no lead-funnel tripwire) */}
             <MagneticButton strength={0.15}>
               <motion.div
                 whileHover={{ scale: 1.02 }}
@@ -59,25 +56,7 @@ export function CTABanner() {
                   href="/contact"
                   className="btn-gloss inline-flex items-center justify-center h-[56px] px-8 rounded-[10px] bg-brand-cream text-brand-dark font-semibold text-base hover:bg-brand-cream/90 transition-colors duration-200"
                 >
-                  Book a discovery call
-                </Link>
-              </motion.div>
-            </MagneticButton>
-
-            {/* Secondary CTA — $497 audit */}
-            <MagneticButton strength={0.12}>
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.97 }}
-                transition={SPRING_SNAPPY}
-              >
-                <Link
-                  href="/contact?intent=audit"
-                  className="inline-flex items-center justify-center gap-2 h-[56px] px-7 rounded-[10px] border border-brand-cream/30 bg-brand-cream/[0.04] text-brand-cream font-semibold text-[0.9375rem] hover:border-brand-cream/55 hover:bg-brand-cream/[0.08] transition-colors duration-200"
-                >
-                  <span className="text-brand-accent">$497</span>
-                  <span>Brand Audit</span>
-                  <ArrowRight size={14} weight="bold" className="opacity-70" />
+                  Start a conversation
                 </Link>
               </motion.div>
             </MagneticButton>

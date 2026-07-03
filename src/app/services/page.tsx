@@ -53,7 +53,7 @@ const pillars: PillarDetail[] = [
     outputs: [
       'Tooling stack chosen, configured, and connected',
       'Three documented workflows (content, sales, ops)',
-      'Content engine producing 4+ pieces/week',
+      'Social-media marketing + content engine, built to ship 4+ pieces/week',
       'Hand-off docs so a future hire can run it',
     ],
   },
@@ -223,7 +223,7 @@ export default function ServicesPage() {
                 href="/contact"
                 className="btn-gloss inline-flex items-center justify-center h-[56px] px-8 rounded-[10px] bg-brand-cream text-brand-dark font-semibold text-base hover:bg-brand-cream/90 transition-colors duration-200"
               >
-                Book a discovery call
+                Start a conversation
               </Link>
               <Link
                 href="/contact?intent=audit"

@@ -10,6 +10,8 @@ interface FeaturedTile {
   slug: string;
   name: string;
   categories: string[];
+  /** Stakes + real outcome, leads the caption. Pulled from src/data/case-studies.ts. */
+  outcome: string;
   image: string;
   video?: string;
   quote: string;
@@ -28,6 +30,7 @@ const tiles: FeaturedTile[] = [
     slug: 'nexilink',
     name: 'Nexilink',
     categories: ['Brand', 'Digital'],
+    outcome: 'Investor-ready in 3 weeks. Placed first.',
     duration: '3 weeks',
     image: '/images/portfolio/nexilink/cover.png',
     quote: 'Itqan rebuilt our entire product design with speed and precision. The result is functional, beautiful and perfectly aligned with our goals.',
@@ -38,10 +41,11 @@ const tiles: FeaturedTile[] = [
     slug: 'shareefico',
     name: 'Shareefico',
     categories: ['Brand', 'Content'],
+    outcome: 'Brand + content engine, live in under 30 days.',
     duration: 'under 30 days',
     image: '/images/portfolio/shareefico/cover-poster.jpg',
     video: '/videos/shareefico-cover.mp4',
-    quote: 'Every detail feels thoughtfully crafted, and the final result elevated the brand far beyond what we imagined at the start.',
+    quote: 'Every detail felt deliberate. The final result went far beyond what we imagined at the start.',
     attribution: 'Ibrahim Shareef',
     company: 'Shareefico',
   },
@@ -49,6 +53,7 @@ const tiles: FeaturedTile[] = [
     slug: 'project-you',
     name: 'Project You',
     categories: ['Product', 'Faith'],
+    outcome: 'Rebranded soul, same engine. Live.',
     status: 'Live',
     // Titled "Noor — a journey through light" poster (self-titled), so the tile
     // suppresses its overlaid name to avoid a double title.
@@ -62,6 +67,7 @@ const tiles: FeaturedTile[] = [
     slug: 'mutqin',
     name: 'Mutqin',
     categories: ['Product', 'AI'],
+    outcome: 'Brand, product and AI shipped as one. Live.',
     status: 'Live',
     // Landing-specific cover: titleless product scene (the tile overlays its own
     // name + testimonial). The titled poster (hero.webp) stays on /work + the case page.
@@ -78,6 +84,7 @@ function Tile({
   slug,
   name,
   categories,
+  outcome,
   duration,
   status,
   image,
@@ -173,6 +180,15 @@ function Tile({
           animate={{ y: hovered ? -travel : 0 }}
           transition={{ duration: 0.45, ease: EASING }}
         >
+          {/* Stakes + outcome — leads the caption. text-shadow keeps mauve legible
+              over bright cover images during the hover translate. */}
+          <p
+            className="font-sans font-semibold text-brand-accent text-[0.875rem] md:text-[0.9375rem] leading-[1.35] mb-3"
+            style={{ textShadow: '0 1px 8px rgba(0,0,0,0.55)' }}
+          >
+            {outcome}
+          </p>
+
           {/* Category badges */}
           <div className="flex flex-wrap gap-2 mb-3">
             {categories.map((cat) => (
@@ -239,8 +255,27 @@ function Tile({
 
 export function FeaturedWork() {
   return (
-    <section className="py-[80px] md:py-[120px]" aria-label="Featured case studies">
+    <section className="py-[80px] md:py-[120px]" aria-labelledby="work-heading">
       <div className="max-w-[1440px] mx-auto px-5 md:px-8">
+        {/* Section heading — evidence, framed for decision-makers */}
+        <FadeUp>
+          <p
+            className="font-sans font-medium text-[0.75rem] uppercase text-brand-accent"
+            style={{ letterSpacing: '0.22em' }}
+          >
+            Selected work
+          </p>
+        </FadeUp>
+        <FadeUp delay={0.06}>
+          <h2
+            id="work-heading"
+            className="mt-6 mb-12 md:mb-16 font-sans font-semibold text-brand-cream leading-[1.05] tracking-[-0.02em]"
+            style={{ fontSize: 'clamp(2.5rem, 5vw, 4.25rem)', maxWidth: '18ch' }}
+          >
+            Proof, not <span className="accent-italic">promises</span>.
+          </h2>
+        </FadeUp>
+
         <FadeUp>
           <div className="featured-grid grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-4 md:gap-5">
             <Tile {...tiles[0]} className="min-h-[480px] md:min-h-[520px]" priority />

@@ -58,10 +58,10 @@ const INTENT_COPY: Record<string, IntentCopy> = {
 };
 
 const DEFAULT_COPY: IntentCopy = {
-  label: "Let's Chat",
-  heading: 'Book a discovery call.',
-  subheading: "And let's work together.",
-  body: 'Ready to discuss your project? Book a call with our experts to explore how we can help you achieve your vision.',
+  label: 'Start a conversation',
+  heading: 'Start a conversation.',
+  subheading: 'Private. Senior. No sales team.',
+  body: "Tell us what you're deciding. You'll hear back from a principal — not a bot, not a junior — within 24 hours.",
 };
 
 interface Props {

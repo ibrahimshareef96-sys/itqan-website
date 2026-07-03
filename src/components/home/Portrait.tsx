@@ -59,7 +59,7 @@ export function Portrait() {
               style={{ letterSpacing: '0.22em' }}
               {...fadeUpStatement(0)}
             >
-              The co-founder
+              The team in the room
             </motion.p>
 
             {/* Identity statement */}
@@ -72,7 +72,7 @@ export function Portrait() {
                     maxWidth: 'min(100%, 18ch)',
                   }}
                 >
-                  Engineer. Designer. Storyteller.{' '}
+                  Senior hands.{' '}
                   <span
                     style={{
                       fontFamily: "'Playfair Display', serif",
@@ -80,7 +80,7 @@ export function Portrait() {
                       fontWeight: 500,
                     }}
                   >
-                    All in one.
+                    No hand-offs.
                   </span>
                 </p>
               </blockquote>
@@ -95,9 +95,9 @@ export function Portrait() {
               }}
               {...fadeUpStatement(0.18)}
             >
-              Ibrahim Shareef. Co-founder of Itqan Studio. The rare person who can
-              build the brand, code the system, and tell the story &mdash; without
-              handing it off three times.
+              Ibrahim Shareef, CEO and co-founder &mdash; engineer, designer and storyteller
+              in one. With co-founder Bisma Aslam leading design, the people who pitch your
+              work are the people who build it. No juniors. No relay race.
             </motion.p>
 
             <motion.p
@@ -105,7 +105,7 @@ export function Portrait() {
               style={{ letterSpacing: '0.02em' }}
               {...fadeUpStatement(0.26)}
             >
-              &mdash; Ibrahim Shareef, Co-founder
+              &mdash; Ibrahim Shareef, CEO &amp; Co-founder
             </motion.p>
           </div>
 

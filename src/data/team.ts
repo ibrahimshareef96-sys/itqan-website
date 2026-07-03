@@ -15,26 +15,20 @@ export const team: TeamMember[] = [
   {
     id: 'ibrahim',
     name: 'Ibrahim Shareef',
-    role: 'Founder',
+    role: 'CEO & Co-Founder',
     image: '/images/team/ibrahim-shareef.png',
   },
   {
     id: 'bisma',
     name: 'Bisma Aslam',
-    role: 'Design collaborator',
+    role: 'Head of Design & Co-Founder',
     image: '/images/team/bisma-aslam.png',
     objectPosition: '50% 31%',
   },
-  {
-    id: 'jonny',
-    name: 'Jonny Olejak',
-    role: 'Growth collaborator',
-    image: '/images/team/jonny-olejak.png',
-    objectPosition: '50% 16%',
-  },
 ];
 
-// Languages spoken across the founder + collaborator network.
+// Languages spoken across the founding team + senior bench.
+// TODO(ibrahim): confirm which languages drop now that Jonny is off the page.
 export const teamLanguages: string[] = [
   'Arabic', 'English', 'Spanish', 'German', 'Urdu', 'Swedish', 'Norwegian', 'Bosnian',
 ];

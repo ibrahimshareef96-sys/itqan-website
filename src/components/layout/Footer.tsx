@@ -44,10 +44,10 @@ export function Footer() {
               className="mt-4 font-serif italic text-brand-accent leading-[1.4]"
               style={{ fontSize: '0.875rem' }}
             >
-              Crafted by Itqan.
+              Excellence, by name.
             </p>
-            <p className="mt-3 font-sans font-normal text-[0.875rem] text-[rgba(255,251,245,0.55)] leading-[1.6] max-w-[30ch]">
-              The founder studio. Brand, system, and agentic automation in 90 days.
+            <p className="mt-3 font-sans font-normal text-[0.875rem] text-[rgba(255,251,245,0.55)] leading-[1.6] max-w-[32ch]">
+              The studio companies trust with the one asset they can&apos;t afford to break.
             </p>
           </div>
 

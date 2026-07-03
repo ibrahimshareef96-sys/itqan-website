@@ -54,7 +54,7 @@ export function Industries() {
             className="font-sans font-medium text-[0.75rem] uppercase text-brand-accent"
             style={{ letterSpacing: '0.22em' }}
           >
-            Where we work
+            Built for the region
           </p>
         </FadeUp>
 
@@ -65,7 +65,8 @@ export function Industries() {
             className="mt-6 font-sans font-semibold text-brand-cream leading-[1.05] tracking-[-0.02em]"
             style={{ fontSize: 'clamp(2.5rem, 5vw, 4.25rem)', maxWidth: '22ch' }}
           >
-            Built for tech-adjacent founders.
+            World-class thinking. Regional{' '}
+            <span className="accent-italic">fluency</span>.
           </h2>
         </FadeUp>
 
@@ -73,10 +74,11 @@ export function Industries() {
         <FadeUp delay={0.1}>
           <p
             className="mt-6 text-brand-cream/65 leading-[1.55]"
-            style={{ fontSize: 'clamp(1rem, 1.25vw, 1.125rem)', maxWidth: '58ch' }}
+            style={{ fontSize: 'clamp(1rem, 1.25vw, 1.125rem)', maxWidth: '60ch' }}
           >
-            SaaS, fintech, productized service, creator brand, knowledge business.
-            Mostly GCC. Always craft-respecting.
+            Global brand standards, read through the Gulf. We work in Arabic and English,
+            design for Khaleeji taste, and build for a market moving on Vision 2030 &mdash;
+            across SaaS, fintech, commerce and beyond.
           </p>
         </FadeUp>
 

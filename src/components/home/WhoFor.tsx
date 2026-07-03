@@ -5,18 +5,18 @@ import { FadeUp } from '@/components/ui/FadeUp';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 const forYou = [
-  'Early-stage founders or 2-3 person teams',
-  'Tech-adjacent — SaaS, fintech, productized service, creator brand, knowledge business',
-  'GCC-based or relocating to GCC',
-  'You care about craft and intelligence',
-  "You're tired of looking smaller than you are",
+  'Founders, CEOs and owners who carry the final call',
+  'Companies where the brand is a material asset — funded, growth-stage, or family-held',
+  'GCC-based, or building for the GCC from abroad',
+  "You've decided to rebrand and refuse to gamble it",
+  'You want senior hands, not a junior team learning on your brand',
 ];
 
 const notForYou = [
-  'You need logo-only work',
-  "Positioning isn't part of the goal",
-  'Budget needs a friend rate to work',
-  'You want a vendor to take orders, not a partner to think with',
+  'You need a logo and nothing behind it',
+  'The decision goes to a committee with no owner',
+  "You're shopping on price alone",
+  'You want a vendor to take orders, not a partner who pushes back',
 ];
 
 export function WhoFor() {
@@ -32,7 +32,7 @@ export function WhoFor() {
             className="font-sans font-medium text-[0.75rem] uppercase text-brand-accent"
             style={{ letterSpacing: '0.22em' }}
           >
-            Fit notes
+            Who we take on
           </p>
         </FadeUp>
 
@@ -54,8 +54,8 @@ export function WhoFor() {
             className="mt-8 text-brand-cream/65 leading-[1.55]"
             style={{ fontSize: 'clamp(1rem, 1.25vw, 1.125rem)', maxWidth: '58ch' }}
           >
-            We work with a small number of founders per quarter. These notes save us both
-            a call if the shape isn&apos;t right.
+            We take on a small number of companies each quarter. These notes tell you
+            fast whether we&apos;re the team for this decision.
           </p>
         </FadeUp>
 

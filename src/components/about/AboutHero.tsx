@@ -39,7 +39,7 @@ export function AboutHero() {
             className="mt-9 text-brand-cream/75 leading-[1.6]"
             style={{ fontSize: 'clamp(1.0625rem, 1.35vw, 1.25rem)', maxWidth: '56ch' }}
           >
-            Ibrahim Shareef. Co-founder of Itqan Studio. The rare person who can{' '}
+            Ibrahim Shareef. CEO and co-founder of Itqan Studio. The rare person who can{' '}
             <span className="text-brand-cream">build the brand</span>,{' '}
             <span className="text-brand-cream">code the system</span>, and{' '}
             <span className="text-brand-cream">tell the story</span> &mdash; without
@@ -59,7 +59,7 @@ export function AboutHero() {
                   href="/contact"
                   className="btn-gloss inline-flex items-center gap-2 bg-brand-cream text-brand-dark px-6 py-3 rounded-[10px] text-sm font-semibold hover:bg-brand-cream/90 transition-colors duration-200"
                 >
-                  Book a discovery call
+                  Start a conversation
                   <ArrowRight size={14} weight="bold" />
                 </Link>
               </motion.div>

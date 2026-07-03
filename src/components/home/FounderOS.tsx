@@ -28,7 +28,7 @@ const pillars: Pillar[] = [
     days: 'Days 31–60',
     metaphor: 'the skeleton',
     description:
-      'Tooling stack, three documented workflows, content engine producing 4+ pieces/week.',
+      'Social-media marketing and a content engine built to ship 4+ pieces/week, on a tooling stack with three documented workflows.',
   },
   {
     number: '03',
@@ -63,7 +63,7 @@ export function FounderOS() {
             className="font-sans font-medium text-[0.75rem] uppercase text-brand-accent"
             style={{ letterSpacing: '0.22em' }}
           >
-            The offer
+            The method
           </p>
         </FadeUp>
 
@@ -88,11 +88,12 @@ export function FounderOS() {
               maxWidth: '62ch',
             }}
           >
-            Every alive business has three things: a{' '}
+            Strategy that can&apos;t be run is decoration. Our method turns the rebrand into
+            something that operates. Every alive business has a{' '}
             <span className="text-brand-cream">soul</span>, a{' '}
             <span className="text-brand-cream">skeleton</span>, and a{' '}
-            <span className="text-brand-cream">heartbeat</span>. Most founders only have one.
-            Some have two. Almost none have all three.{' '}
+            <span className="text-brand-cream">heartbeat</span>. Most have one.
+            Some have two.{' '}
             <span className="text-brand-cream font-medium">We build all three.</span>
           </p>
         </FadeUp>

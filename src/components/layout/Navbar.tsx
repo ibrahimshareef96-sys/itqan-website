@@ -96,7 +96,7 @@ export function Navbar() {
               href="/contact"
               className="inline-flex items-center h-[42px] px-6 rounded-[10px] border border-brand-cream text-brand-cream text-sm font-semibold hover:bg-brand-cream hover:text-brand-dark transition-colors duration-200"
             >
-              Book a discovery call
+              Start a conversation
             </Link>
           </div>
 
@@ -174,7 +174,7 @@ export function Navbar() {
                   onClick={() => setOpen(false)}
                   className="inline-flex items-center h-[56px] px-8 rounded-[10px] border border-brand-cream text-brand-cream text-sm font-semibold hover:bg-brand-cream hover:text-brand-dark transition-colors duration-200"
                 >
-                  Book a discovery call
+                  Start a conversation
                 </Link>
               </motion.div>
             </nav>

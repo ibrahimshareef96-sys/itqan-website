@@ -9,23 +9,23 @@ import { StaggerContainer, StaggerItem } from '@/components/ui/StaggerContainer'
 const values = [
   {
     Icon: Palette,
-    title: 'Excellence in Craftmanship',
+    title: 'Excellence in Craftsmanship',
     description:
-      'We transform your vision into a cohesive, unforgettable digital identity architected from the ground up and built to scale.',
+      'The brand still looks deliberate at 200 touchpoints and two years out. We build identities that compound instead of dating — a system, not a logo.',
     image: '/images/founder-render.png',
   },
   {
     Icon: Lightning,
     title: 'Excellence in Precision',
     description:
-      'We create seamless workflows, automation systems, and integrated platforms that save time, reduce friction, and scale your operations. From CRM setups to content dashboards to custom workflows, your business becomes effortlessly efficient.',
+      'Automation, workflows and platforms that take manual work off your plate. From CRM to content operations, the business runs without you holding it together.',
     image: '/images/itqan-crm.png',
   },
   {
     Icon: PencilSimpleLine,
     title: 'Excellence in Function',
     description:
-      'We design user-centered digital experiences rooted in research, clarity, and usability. From wireframes to high-fidelity prototypes, every decision is informed by user behavior and crafted to deliver frictionless interaction.',
+      'Every screen earns its place through research and testing, not taste. We design for how people actually behave, then prove it before we build.',
     image: '/images/app-hand-v2-render.png',
   },
 ];
