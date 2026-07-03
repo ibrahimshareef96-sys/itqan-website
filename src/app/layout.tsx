@@ -3,6 +3,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { PageTransition } from '@/components/layout/PageTransition';
 import { SmoothScrollProvider } from '@/components/providers/SmoothScrollProvider';
+import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { CookieBanner } from '@/components/CookieBanner';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { SITE_URL, SITE_NAME, TARGET_KEYWORDS, siteGraphLd } from '@/lib/seo';
@@ -68,12 +69,13 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   themeColor: '#1f1420',
-  colorScheme: 'dark',
+  colorScheme: 'light dark',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    // suppressHydrationWarning: next-themes mutates <html> class before hydration.
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Speed up the critical Google Fonts request (LCP): warm the connection,
             then load the stylesheet from <head> (earlier than a CSS @import). */}
@@ -87,14 +89,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JsonLd data={siteGraphLd()} />
       </head>
       <body>
-        <SmoothScrollProvider>
-          <Navbar />
-          <main>
-            <PageTransition>{children}</PageTransition>
-          </main>
-          <Footer />
-          <CookieBanner />
-        </SmoothScrollProvider>
+        <ThemeProvider>
+          <SmoothScrollProvider>
+            <Navbar />
+            <main>
+              <PageTransition>{children}</PageTransition>
+            </main>
+            <Footer />
+            <CookieBanner />
+          </SmoothScrollProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

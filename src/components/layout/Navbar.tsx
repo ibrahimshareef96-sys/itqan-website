@@ -39,6 +39,10 @@ export function Navbar() {
   // On non-homepage routes, navbar is always solid
   const showSolid = !isHomepage || scrolled;
 
+  // The Axion-style homepage carries its own pill nav inside the hero (HeroAxion);
+  // the fixed navbar would double up and its cream links vanish on the light hero.
+  if (isHomepage) return null;
+
   return (
     <>
       <header

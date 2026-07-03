@@ -1,6 +1,9 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
+  // Class strategy: next-themes toggles `.dark` on <html>. Legacy dark-hardcoded
+  // components are unaffected; only components using `dark:` variants respond.
+  darkMode: 'class',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
