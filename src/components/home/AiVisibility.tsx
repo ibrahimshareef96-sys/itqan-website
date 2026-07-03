@@ -71,7 +71,6 @@ export function AiVisibility({ className }: { className?: string }) {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     let cancelled = false;
-    let current = 0;
 
     function schedule(fn: () => void, ms: number) {
       timer.current = setTimeout(() => {
@@ -102,10 +101,7 @@ export function AiVisibility({ className }: { className?: string }) {
         if (w < words) schedule(streamA, A_WORD_MS);
         else {
           setAnimating(false);
-          schedule(() => {
-            current = (i + 1) % SCRIPT.length;
-            playExchange(current);
-          }, HOLD_MS);
+          schedule(() => playExchange((i + 1) % SCRIPT.length), HOLD_MS);
         }
       }
 
@@ -140,7 +136,7 @@ export function AiVisibility({ className }: { className?: string }) {
               className={`px-3 py-1 rounded-full text-[0.6875rem] font-semibold tracking-[0.02em] transition-colors duration-300 ${
                 i === idx
                   ? 'bg-brand-dark text-brand-cream dark:bg-brand-cream dark:text-brand-dark'
-                  : 'text-text-secondary dark:text-brand-cream/45 border border-black/[0.07] dark:border-brand-cream/[0.12]'
+                  : 'text-text-secondary dark:text-brand-cream/60 border border-black/[0.07] dark:border-brand-cream/[0.12]'
               }`}
             >
               {s.provider}
@@ -168,10 +164,14 @@ export function AiVisibility({ className }: { className?: string }) {
         </div>
       </div>
 
-      {/* Caption */}
-      <p className="mt-3 px-1 text-[0.75rem] font-medium tracking-[0.01em] text-text-secondary dark:text-brand-cream/50">
-        AI visibility &mdash; when buyers ask, the machines answer with{' '}
-        <span className="text-brand-accent-on-light dark:text-brand-accent font-semibold">your name</span>.
+      {/* Caption — describes the service aim (not a guaranteed outcome) + simulation disclosure */}
+      <p className="mt-3 px-1 text-[0.75rem] font-medium tracking-[0.01em] text-[#4a4a4a] dark:text-brand-cream/60">
+        AI visibility &mdash; getting{' '}
+        <span className="text-brand-accent-on-light dark:text-brand-accent font-semibold">your name</span>{' '}
+        into the answers buyers see.
+      </p>
+      <p className="mt-1 px-1 text-[0.6875rem] text-[#4a4a4a]/80 dark:text-brand-cream/40">
+        Simulated answers, for illustration.
       </p>
     </div>
   );

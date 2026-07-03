@@ -2,8 +2,7 @@
 
 import Link from 'next/link';
 import { ArrowRight } from '@phosphor-icons/react';
-
-const EASE = 'cubic-bezier(0.25, 0.1, 0.25, 1)';
+import { EASE_ROLL_CSS as EASE } from '@/lib/motion';
 
 interface RollButtonProps {
   href: string;
@@ -33,7 +32,7 @@ export function RollButton({ href, label, variant = 'primary', className }: Roll
       } ${className ?? ''}`}
     >
       {/* Text roll: duplicated label slides up 50% on hover */}
-      <span className="overflow-hidden h-[20px]" aria-hidden="false">
+      <span className="overflow-hidden h-[20px]">
         <span
           className="flex flex-col transition-transform duration-500 group-hover:-translate-y-1/2"
           style={{ transitionTimingFunction: EASE }}

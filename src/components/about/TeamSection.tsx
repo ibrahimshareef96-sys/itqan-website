@@ -36,8 +36,8 @@ export function TeamSection() {
             style={{ fontSize: 'clamp(1rem, 1.2vw, 1.0625rem)' }}
           >
             Itqan is run by its two co-founders. The people who pitch your work are
-            the people who build it &mdash; strategy, design, engineering and story,
-            with a senior bench behind them when a project calls for more hands.
+            the people who build it. Strategy, design, engineering and story &mdash;
+            with a senior bench when a project needs more hands.
           </p>
         </ScrollReveal>
 

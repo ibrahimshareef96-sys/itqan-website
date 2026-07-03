@@ -68,7 +68,11 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#1f1420',
+  // Light-first: browser chrome matches the default cream homepage; dark for dark-scheme UAs.
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#fffbf5' },
+    { media: '(prefers-color-scheme: dark)', color: '#1f1420' },
+  ],
   colorScheme: 'light dark',
 };
 

@@ -1,5 +1,3 @@
-'use client';
-
 import Image from 'next/image';
 import { FadeUp } from '@/components/ui/FadeUp';
 import { RollButton } from '@/components/ui/RollButton';

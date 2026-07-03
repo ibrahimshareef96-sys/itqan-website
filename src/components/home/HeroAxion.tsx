@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
@@ -52,7 +52,11 @@ function Starburst({ className }: { className?: string }) {
 
 export function HeroAxion() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showShader, setShowShader] = useState(false);
+  const [quarter, setQuarter] = useState('');
   const dubaiTime = useDubaiTime();
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const menuTriggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
@@ -60,6 +64,59 @@ export function HeroAxion() {
       document.body.style.overflow = '';
     };
   }, [menuOpen]);
+
+  // Mobile sheet modal contract: initial focus, Escape close, Tab trap, focus restore.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const sheet = sheetRef.current;
+    const focusables = () =>
+      sheet ? Array.from(sheet.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')) : [];
+    focusables()[0]?.focus();
+
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        setMenuOpen(false);
+        return;
+      }
+      if (e.key === 'Tab') {
+        const els = focusables();
+        if (!els.length) return;
+        const first = els[0];
+        const last = els[els.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      menuTriggerRef.current?.focus();
+    };
+  }, [menuOpen]);
+
+  // Defer the WebGPU shader chunk until after LCP, and never fetch it for
+  // reduced-motion users (the CSS gradient fallback covers both cases).
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const start = () => setShowShader(true);
+    if ('requestIdleCallback' in window) {
+      const id = window.requestIdleCallback(start, { timeout: 1500 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const t = setTimeout(start, 1200);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Availability quarter, derived from the real date so it never goes stale.
+  useEffect(() => {
+    const d = new Date();
+    setQuarter(`Q${Math.floor(d.getMonth() / 3) + 1} ${d.getFullYear()}`);
+  }, []);
 
   return (
     <section
@@ -84,8 +141,8 @@ export function HeroAxion() {
         }}
       />
 
-      {/* Animated shader overlay */}
-      <HeroShader />
+      {/* Animated shader overlay — mounted post-idle, skipped for reduced motion */}
+      {showShader && <HeroShader />}
 
       {/* ── Pill navbar ── */}
       <div className="relative z-20 max-w-[1440px] w-full mx-auto p-2 sm:p-3">
@@ -118,9 +175,11 @@ export function HeroAxion() {
 
           {/* Right cluster */}
           <div className="hidden md:flex items-center gap-4">
-            <span className="hidden lg:block text-[0.8125rem] text-text-secondary dark:text-brand-cream/55">
-              Taking on projects for Q3 2026
-            </span>
+            {quarter && (
+              <span className="hidden lg:block text-[0.8125rem] text-text-secondary dark:text-brand-cream/55">
+                Taking on projects for {quarter}
+              </span>
+            )}
             <span className="flex items-center gap-1.5 text-[0.8125rem] text-text-secondary dark:text-brand-cream/55 tabular-nums">
               <Clock size={14} aria-hidden="true" />
               {dubaiTime} in Dubai
@@ -133,9 +192,11 @@ export function HeroAxion() {
           <div className="flex md:hidden items-center gap-2 pr-1">
             <ThemeToggle />
             <button
+              ref={menuTriggerRef}
               type="button"
               onClick={() => setMenuOpen(true)}
               aria-label="Open navigation menu"
+              aria-expanded={menuOpen}
               className="inline-flex items-center gap-1.5 rounded-full bg-brand-dark text-brand-cream dark:bg-brand-cream dark:text-brand-dark px-4 py-2 text-[0.8125rem] font-semibold"
             >
               <List size={15} weight="bold" />
@@ -170,9 +231,9 @@ export function HeroAxion() {
           ChatGPT.
         </h1>
 
-        <p className="mt-5 sm:mt-6 text-[0.9375rem] sm:text-[1.0625rem] leading-[1.55] text-text-secondary dark:text-brand-cream/70 max-w-[52ch]">
-          Did your name come up? We make sure it does &mdash; and that your site converts
-          them when they land.
+        <p className="mt-5 sm:mt-6 text-[0.9375rem] sm:text-[1.0625rem] leading-[1.55] text-[#4a4a4a] dark:text-brand-cream/70 max-w-[52ch]">
+          Did your name come up? That&apos;s the work &mdash; getting you into the answer,
+          and converting the buyers who land.
         </p>
 
         {/* CTA row */}
@@ -185,8 +246,9 @@ export function HeroAxion() {
             className="self-start inline-flex items-center gap-2.5 rounded-[6px] bg-white dark:bg-[#2a1a28] px-3.5 py-2.5 shadow-[0_2px_8px_rgba(47,28,44,0.08)] hover:shadow-[0_4px_16px_rgba(47,28,44,0.14)] transition-shadow duration-300"
           >
             <Starburst className="w-5 h-5 sm:w-6 sm:h-6 text-brand-accent-on-light dark:text-brand-accent" />
+            {/* Real outcome (Nexilink, src/data/case-studies.ts) — not a slogan */}
             <span className="text-[0.8125rem] sm:text-[0.875rem] font-medium text-text-primary dark:text-brand-cream">
-              Proof, not promises
+              Client placed 1st &mdash; 2024
             </span>
             <span className="text-[0.625rem] sm:text-[0.6875rem] font-semibold bg-brand-dark text-brand-cream dark:bg-brand-cream dark:text-brand-dark px-2 py-0.5 rounded">
               See work
@@ -210,6 +272,7 @@ export function HeroAxion() {
             onClick={() => setMenuOpen(false)}
           >
             <motion.div
+              ref={sheetRef}
               initial={{ y: '100%' }}
               animate={{ y: 0 }}
               exit={{ y: '100%' }}

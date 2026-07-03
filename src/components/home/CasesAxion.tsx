@@ -1,12 +1,8 @@
-'use client';
-
 import Link from 'next/link';
-import Image from 'next/image';
-import { ArrowRight } from '@phosphor-icons/react';
+import { ArrowRight } from '@phosphor-icons/react/dist/ssr';
 import { FadeUp } from '@/components/ui/FadeUp';
 import { RollButton } from '@/components/ui/RollButton';
-
-const EASE = 'cubic-bezier(0.25, 0.1, 0.25, 1)';
+import { CaseMedia } from '@/components/ui/CaseMedia';
 
 interface CaseCard {
   href: string;
@@ -60,8 +56,7 @@ function HoverChip({ chip, chipWidth }: { chip: 'light' | 'dark'; chipWidth: str
       <ArrowRight
         size={14}
         weight="bold"
-        className="flex-shrink-0 -rotate-45 group-hover:rotate-0 transition-transform duration-300"
-        style={{ transitionTimingFunction: EASE }}
+        className="flex-shrink-0 -rotate-45 group-hover:rotate-0 transition-transform duration-300 ease-in-out"
       />
       <span className="text-[0.8125rem] font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
         View case study
@@ -117,28 +112,11 @@ export function CasesAxion() {
             <FadeUp key={card.href} delay={i * 0.08}>
               <Link href={card.href} className="group block cursor-pointer">
                 <div className={`relative ${card.aspect} rounded-2xl overflow-hidden bg-brand-dark/10`}>
-                  {card.media.video ? (
-                    <video
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      preload="metadata"
-                      poster={card.media.image}
-                      aria-label={card.media.alt}
-                      className="absolute inset-0 w-full h-full object-cover"
-                    >
-                      <source src={card.media.video} type="video/mp4" />
-                    </video>
-                  ) : (
-                    <Image
-                      src={card.media.image}
-                      alt={card.media.alt}
-                      fill
-                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                    />
-                  )}
+                  <CaseMedia
+                    video={card.media.video}
+                    image={card.media.image}
+                    alt={card.media.alt}
+                  />
                   <HoverChip chip={card.chip} chipWidth={card.chipWidth} />
                 </div>
                 <p className="mt-4 text-[0.8125rem] sm:text-[0.875rem] text-text-secondary dark:text-brand-cream/60 leading-relaxed">

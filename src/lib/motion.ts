@@ -4,6 +4,8 @@ import type { Transition, Variants } from 'framer-motion';
 export const EASE_SMOOTH: [number, number, number, number] = [0.22, 1, 0.36, 1];
 export const EASE_OUT_EXPO: [number, number, number, number] = [0.22, 1, 0.36, 1];
 export const EASE_IN_OUT: [number, number, number, number] = [0.4, 0, 0.2, 1];
+/** CSS-string easing for the Axion-style roll/expand micro-interactions (used in style attrs). */
+export const EASE_ROLL_CSS = 'cubic-bezier(0.25, 0.1, 0.25, 1)';
 
 // ── Spring configs ─────────────────────────────────────────────
 export const SPRING_SNAPPY: Transition = {

@@ -27,8 +27,8 @@ export const team: TeamMember[] = [
   },
 ];
 
-// Languages spoken across the founding team + senior bench.
-// TODO(ibrahim): confirm which languages drop now that Jonny is off the page.
-export const teamLanguages: string[] = [
-  'Arabic', 'English', 'Spanish', 'German', 'Urdu', 'Swedish', 'Norwegian', 'Bosnian',
-];
+// Languages spoken by the two founders. Trimmed to the CONFIRMED set after Jonny's
+// removal (honesty rule: an accurate short list beats an impressive wrong one).
+// TODO(ibrahim): re-add any of Spanish / German / Swedish / Norwegian / Bosnian
+// that someone on the page actually speaks.
+export const teamLanguages: string[] = ['Arabic', 'English', 'Urdu'];
