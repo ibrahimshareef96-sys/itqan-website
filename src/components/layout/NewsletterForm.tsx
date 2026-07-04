@@ -16,16 +16,14 @@ export function NewsletterForm() {
 
     setIsSubmitting(true);
     try {
-      const formData = new FormData();
-      formData.append('email_address', email);
-
-      const res = await fetch('https://app.kit.com/forms/9240792/subscriptions', {
+      const res = await fetch('/api/subscribe', {
         method: 'POST',
-        body: formData,
-        headers: { Accept: 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
       });
+      const data = await res.json();
 
-      if (res.ok) {
+      if (res.ok && data.ok) {
         setStatus('success');
       } else {
         setStatus('error');

@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { ArrowRight } from '@phosphor-icons/react';
@@ -27,36 +29,46 @@ const labelClass =
 const errorClass = 'text-red-500 dark:text-red-400 text-xs mt-1.5';
 
 interface ContactFormProps {
-  /** Optional CTA intent (e.g. "ai-check", "identity-sprint"). Sent to Formspree as hidden field. */
+  /** Optional CTA intent (e.g. "ai-check", "identity-sprint"). Sent to /api/contact for context. */
   intent?: string;
 }
 
 export function ContactForm({ intent }: ContactFormProps) {
+  const router = useRouter();
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>();
 
-  // handleSubmit runs validation; on success the form submits naturally to Formspree
-  const onValid = () => {
-    const form = document.getElementById('contact-form') as HTMLFormElement;
-    form.submit();
+  const onValid = async (values: FormValues) => {
+    setSubmitError(null);
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...values, intent }),
+      });
+      const data = await res.json();
+
+      if (res.ok && data.ok) {
+        router.push('/thank-you');
+      } else {
+        setSubmitError(data.error || 'Something went wrong. Please try again.');
+      }
+    } catch {
+      setSubmitError('Network error. Please try again.');
+    }
   };
 
   return (
     <form
       id="contact-form"
       onSubmit={handleSubmit(onValid)}
-      action="https://formspree.io/f/xlgpqnjl"
-      method="POST"
       className="space-y-5"
       noValidate
     >
-      <input type="hidden" name="_next" value="https://itqanstudio.com/thank-you" />
-      <input type="hidden" name="_subject" value="New inquiry from Itqan Studio website" />
-      {intent && <input type="hidden" name="intent" value={intent} />}
-
       <div className="grid sm:grid-cols-2 gap-5">
         <div>
           <label htmlFor="name" className={labelClass}>Name</label>
@@ -146,6 +158,8 @@ export function ContactForm({ intent }: ContactFormProps) {
         />
         {errors.message && <p className={errorClass}>{errors.message.message}</p>}
       </div>
+
+      {submitError && <p className={errorClass}>{submitError}</p>}
 
       <motion.button
         type="submit"
