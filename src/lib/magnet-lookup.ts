@@ -44,7 +44,7 @@ export interface LeadMagnet {
   /**
    * Public URL of the deliverable PDF (Notion "PDF URL" property). Used for
    * the instant on-page download button and passed to the capture route so
-   * Kit stores it on the subscriber's `magnet_pdf_url` custom field for the
+   * Listmonk stores it on the subscriber's `magnet_pdf_url` attrib for the
    * delivery email. Null when the magnet has no PDF URL set yet.
    */
   pdfUrl: string | null;
@@ -127,7 +127,7 @@ export async function findItqanMagnetBySlug(
  * to anyone who finds the URL, bypassing the email signup gate.
  *
  * Returns plain markdown joined from paragraph blocks. Heading blocks (the
- * "Magnet content (PDF body)" and "Kit drip subject lines" markers Agent 5
+ * "Magnet content (PDF body)" and "drip subject lines" markers Agent 5
  * writes) are skipped so the PDF doesn't include them.
  */
 export async function findItqanMagnetFullContent(
@@ -150,7 +150,7 @@ export async function findItqanMagnetFullContent(
     )
     .filter((line) => {
       // Skip drip subject lines (Agent 5 appends them as numbered paragraphs
-      // after the "Kit drip subject lines" heading). They start with "1. ",
+      // after the "drip subject lines" heading). They start with "1. ",
       // "2. ", "3. " and are short.
       const trimmed = line.trim();
       if (/^[1-3]\.\s+.{0,60}$/.test(trimmed)) return false;

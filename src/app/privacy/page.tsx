@@ -65,12 +65,12 @@ export default function PrivacyPage() {
       </p>
       <ul>
         <li>
-          <strong>Formspree</strong> &mdash; form submission handling for the contact
-          page.
+          <strong>Amazon SES</strong> &mdash; contact form and transactional email
+          delivery.
         </li>
         <li>
-          <strong>Kit (formerly ConvertKit)</strong> &mdash; newsletter and email
-          delivery.
+          <strong>Listmonk (self-hosted)</strong> &mdash; newsletter subscription
+          management and email delivery.
         </li>
         <li>
           <strong>Hosting providers</strong> &mdash; static site hosting and content
