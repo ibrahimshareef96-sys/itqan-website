@@ -38,6 +38,19 @@ StatsLine, Services, Pricing. Copy note: contact DEFAULT_COPY subheading is now 
 merge to main + Coolify deploy (pre-prune disk) → PostHog keys → parked: Founder OS fate, "Most rebrands fail"
 naming, PartnerHalo activation.
 
+**UPDATE (2026-07-04, later): "Ask the machines" section SHIPPED (`06880da`) + PostHog key clarification.**
+`src/components/home/AskAI.tsx` (home badge 9, between Portrait and CTABanner): neutral visible prompt, one-click
+prefill links — chatgpt.com/?q= and claude.ai/new?q= (pre-typed), perplexity.ai/search?q= (answers instantly),
+copy-button for Gemini; `data-attr` tags on all actions + ThemeToggle for PostHog autocapture filters. Cursor-
+reactive shader confirmed ALREADY live (shaders engine listens on window mousemove; no code change). Stale dev
+server on :3001 from an old session was killed (it served pre-redesign code — likely why feedback lagged); fresh
+dev on :3001. **PostHog key: Ibrahim created a `phx_` key = PERSONAL API key (secret; capture endpoints reject
+phx_). He needs the `phc_` PROJECT API key (Settings → Project → General) for NEXT_PUBLIC_POSTHOG_KEY.** His
+"Skool"/self-hosted access issue is likely a self-hosted PostHog instance on the Coolify box that has no public
+domain/route — recommended EU Cloud free tier instead (box is disk/RAM-tight; see AWS handover); awaiting his
+clarification + the phc_ key (then: .env.local for dev, Coolify env for prod). Shared-element page transitions =
+approved, queued next wave. Case-study films = discuss. tsc + build clean (24/24, home 158kB).
+
 **PREVIOUS (2026-07-03): Axion-style light-first redesign — EXPLORATION SLICE (superseded by the full rollout above).**
 Ibrahim pivoted the hero + design after the decision-maker copy pass. Interview answers (locked):
 hero = **"Your next customer just asked ChatGPT."** (accent = *asked*); build **in Next.js on a branch**;
