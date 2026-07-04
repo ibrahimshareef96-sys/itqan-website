@@ -93,6 +93,8 @@ interface PillarDetail {
   metaphor: string;
   lede: string;
   image: string;
+  /** Descriptive alt naming the real case work shown — image SEO + a11y. */
+  imageAlt: string;
   outputs: string[];
 }
 
@@ -104,6 +106,7 @@ const pillars: PillarDetail[] = [
     metaphor: 'the soul',
     lede: 'Most founders confuse a logo for an identity. We build the soul of the company — the positioning, the visual system, the voice — so every later asset compounds instead of contradicts.',
     image: '/images/founder-render.png',
+    imageAlt: 'Itqan Studio brand identity and creative direction',
     outputs: [
       'Brand strategy & positioning brief',
       'Full visual identity system (logo, type, color, imagery)',
@@ -117,7 +120,8 @@ const pillars: PillarDetail[] = [
     days: 'Days 31–60',
     metaphor: 'the skeleton',
     lede: "An identity that doesn't ship is decoration. We assemble the skeleton — the tooling stack, the workflows, the cadence — so the founder stops being the bottleneck.",
-    image: '/images/itqan-crm.png',
+    image: '/images/portfolio/mutqin/hero-landing.webp',
+    imageAlt: 'Mutqin founder portal — an operating system Itqan designed and built',
     outputs: [
       'Tooling stack chosen, configured, and connected',
       'Three documented workflows (content, sales, ops)',
@@ -131,7 +135,8 @@ const pillars: PillarDetail[] = [
     days: 'Days 61–90',
     metaphor: 'the heartbeat',
     lede: 'Workflows still need someone clicking buttons. The heartbeat is the agentic layer that runs your operating system without you in the loop — Telegram-runnable, audit-trailed, founder-controlled.',
-    image: '/images/close-app-render.png',
+    image: '/images/portfolio/project-you/coach.webp',
+    imageAlt: 'Project You AI coach — agentic automation built by Itqan Studio',
     outputs: [
       'Agentic Telegram-runnable operating layer',
       'Lead capture + qualification automation',
@@ -385,7 +390,7 @@ export default function ServicesPage() {
                   >
                     <Image
                       src={pillar.image}
-                      alt={pillar.name}
+                      alt={pillar.imageAlt}
                       fill
                       className="object-cover"
                       priority={i === 0}

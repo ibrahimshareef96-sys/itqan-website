@@ -14,20 +14,23 @@ const values = [
     description:
       'The brand still looks deliberate at 200 touchpoints and two years out. We build identities that compound instead of dating — a system, not a logo.',
     image: '/images/founder-render.png',
+    alt: 'Itqan Studio brand craft',
   },
   {
     Icon: Lightning,
     title: 'Excellence in Precision',
     description:
       'Automation, workflows and platforms that take manual work off your plate. From CRM to content operations, the business runs without you holding it together.',
-    image: '/images/itqan-crm.png',
+    image: '/images/portfolio/project-you/today.webp',
+    alt: 'Project You — a calm life dashboard built by Itqan Studio',
   },
   {
     Icon: PencilSimpleLine,
     title: 'Excellence in Function',
     description:
       'Every screen earns its place through research and testing, not taste. We design for how people actually behave, then prove it before we build.',
-    image: '/images/app-hand-v2-render.png',
+    image: '/images/portfolio/oud-closet/cover.png',
+    alt: 'Oud Closet — luxury modest-fashion storefront designed by Itqan Studio',
   },
 ];
 
@@ -76,7 +79,7 @@ export function Values() {
         </FadeUp>
 
         <div className="mt-12 sm:mt-14 grid md:grid-cols-3 gap-5 sm:gap-6">
-          {values.map(({ Icon, title, description, image }, i) => (
+          {values.map(({ Icon, title, description, image, alt }, i) => (
             <ScrollReveal key={title} direction={directions[i]} distance={28} delay={0.08 + i * 0.09}>
               <SpringCard className="h-full">
                 <div className="rounded-2xl p-7 sm:p-8 flex flex-col border border-black/[0.08] bg-white dark:border-brand-cream/[0.12] dark:bg-[#2a1a28] shadow-[0_2px_12px_rgba(47,28,44,0.06)] overflow-hidden h-full">
@@ -88,7 +91,7 @@ export function Values() {
                     {description}
                   </p>
                   <div className="mt-7 relative aspect-[4/3] rounded-xl overflow-hidden">
-                    <Image src={image} alt="" fill className="object-cover" sizes="(max-width: 768px) 100vw, 25vw" />
+                    <Image src={image} alt={alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 25vw" />
                   </div>
                 </div>
               </SpringCard>
