@@ -11,7 +11,34 @@ Lightweight tracking via TaskCreate (in-session). For longer initiatives use `ag
 
 ## Handover prompt (self-contained for the next session)
 
-**LATEST (2026-07-03): Axion-style light-first redesign — EXPLORATION SLICE SHIPPED on branch `feat/axion-redesign` (NOT main, NOT deployed).**
+**LATEST (2026-07-04): FULL-SITE Axion light/dark rollout — SHIPPED on branch `feat/axion-redesign` (commit `30b0676`; NOT main, NOT deployed).**
+Ibrahim reviewed the exploration slice: loves copy + AI animation + shader; directives executed this session:
+(1) Grok→**Gemini** in AiVisibility; (2) **ENTIRE site** now light-first with cohesive dark toggle — every page/
+section theme-aware (home badges 1–8, /work, /work/[id], /services, /about, /contact, thank-you, cookie banner;
+legal + magnet are deliberate dark-in-both surfaces); (3) **PillNav is global + sticky on every page** (active
+states, Dubai clock, dynamic quarter, mobile sheet w/ modal contract) — old Navbar file is now a shell around it;
+(4) full **SEO+GEO widening**: seo.ts SERVICES 4→7 (adds Content & Social, SEO, AI Visibility/GEO, Hosting),
+KNOWS_ABOUT/TARGET_KEYWORDS widened, one-partner titles/descriptions sitewide, 3 new GEO-first FAQ entries,
+llms.txt refreshed (two founders, real outcomes); (5) **languages = Arabic/English/Spanish/Urdu/Swedish/Norwegian**
+(Ibrahim confirmed); (6) one honest **AI-search scroll-stopper per page** (home CTA "The machines are already
+answering…", /work "When a buyer asks an AI who to trust…", /services GEO section reusing AiVisibility, /about
+"…legible to the machines your buyers now ask first", /contact "You found us. Your buyers should find you the
+same way."); (7) **PostHog** wired: `providers/PostHogProvider.tsx` — inits ONLY with NEXT_PUBLIC_POSTHOG_KEY set
+AND cookie consent accepted (key `itqan_cookie_consent`; CookieBanner now broadcasts a consent CustomEvent —
+logic unchanged), EU host default, DNT respected, opt-out on decline; **Ibrahim TODO: create free PostHog EU
+account + set NEXT_PUBLIC_POSTHOG_KEY / NEXT_PUBLIC_POSTHOG_HOST in Coolify** (guide: ANALYTICS-SETUP.md at root).
+Executed via an 8-agent Opus workflow (5 parallel restyle w/ disjoint file ownership → SEO → PostHog → integrator
+build gate; integrator found zero cross-file fixes). Design contract for future work:
+`agent-work/AXION-DESIGN-SYSTEM.md` (surfaces cream/white/#f5efe6 + dark #1f1420/#241626/#1a0f1c, dual-accent
+pairs, numbered badges, RollButton, honesty rules). globals.css: body + .accent-italic/.stats-gradient/
+.pixel-gradient are THEME-ADAPTIVE via html.dark. Verified: tsc + build 24/24, light+dark cohesion on all main
+pages, console clean. Dead legacy files (unused, kept): home/Hero.tsx, FounderOS (still on /services), FeaturedWork,
+StatsLine, Services, Pricing. Copy note: contact DEFAULT_COPY subheading is now "Private. Senior. No sales team."
+**NEXT:** Ibrahim eyeballs full site both themes → engagement-feature wave (brainstorm list in chat 2026-07-04) →
+merge to main + Coolify deploy (pre-prune disk) → PostHog keys → parked: Founder OS fate, "Most rebrands fail"
+naming, PartnerHalo activation.
+
+**PREVIOUS (2026-07-03): Axion-style light-first redesign — EXPLORATION SLICE (superseded by the full rollout above).**
 Ibrahim pivoted the hero + design after the decision-maker copy pass. Interview answers (locked):
 hero = **"Your next customer just asked ChatGPT."** (accent = *asked*); build **in Next.js on a branch**;
 **light DEFAULT + dark toggle** (system pref off); flagship motion = the **AI-visibility animation**.
