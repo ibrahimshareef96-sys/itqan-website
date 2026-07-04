@@ -11,6 +11,28 @@ Lightweight tracking via TaskCreate (in-session). For longer initiatives use `ag
 
 ## Handover prompt (self-contained for the next session)
 
+**🚀 LIVE IN PRODUCTION (2026-07-04): the full Axion redesign is DEPLOYED to itqanstudio.com.** Merged
+`feat/axion-redesign` → `main` (merge commit `dd900a3`, pushed). The branch predated the Kit→SES/Listmonk
+email migration on main (commits 4f6864b/47c792e), so I merged `origin/main` INTO the branch first: only
+`package.json`/`package-lock.json`/`ContactForm.tsx` conflicted — resolved to **main's email logic (fetch
+/api/contact, Listmonk /api/subscribe) + the redesign's theme-aware styling**; deps unioned (next-themes,
+posthog-js, shaders, nodemailer); lock regenerated via npm install. tsc + build clean (23 routes). Deployed via
+Coolify API (`GET /api/v1/deploy?uuid=cybvxnemzusk0yzjcwzrey3v&force=true`, deployment `nrr67gryescxc6ygh2lv62bi`,
+**finished** ~7 min) after pre-pruning disk (25G→37G free; builder+image prune only). **Prod verified:** all pages
+200 (/, /about, /work, /services, /contact, /thank-you, /work/mutqin); new hero "Your next customer just asked
+ChatGPT" live; Services shows "AI Visibility Check", no $497, no "90-Day Founder Operating System"; About shows
+Bisma, zero Jonny; email APIs alive (/api/contact + /api/subscribe → 405 to GET = POST-only routes exist);
+**PostHog key + eu.i.posthog.com baked into the prod layout chunk** (analytics live, inits on cookie consent).
+llms.txt refreshed (no Telegram). Coolify UI now allowlists Ibrahim's IP 94.234.93.40 on port 8000 (SG
+sg-0f411678e203783d5) — he can open http://52.212.71.212:8000 directly. Standing arrangement saved to memory:
+Claude manages Coolify (deploy/env/allowlist) on his behalf always. Backup tag `pre-merge-backup-20260704`.
+**OUTSTANDING (Phase B/C + parked):** shared-element page transitions (approved, not built); case-study film
+loops (Higgsfield/Kling — needs discussion); "Most rebrands fail" naming under the widened positioning (parked
+decision); PartnerHalo activation (gated, awaiting signed partnership); off-site GEO levers (Google Business
+Profile / Bing Webmaster / Clutch / listicles — Ibrahim's TODO, biggest AI-visibility lever); optional PostHog
+insights/dashboards. Cursor-reactive shader = ALREADY live (shader listens on window mousemove).
+
+
 **LATEST (2026-07-04): FULL-SITE Axion light/dark rollout — SHIPPED on branch `feat/axion-redesign` (commit `30b0676`; NOT main, NOT deployed).**
 Ibrahim reviewed the exploration slice: loves copy + AI animation + shader; directives executed this session:
 (1) Grok→**Gemini** in AiVisibility; (2) **ENTIRE site** now light-first with cohesive dark toggle — every page/
