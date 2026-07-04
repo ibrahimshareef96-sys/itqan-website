@@ -21,11 +21,12 @@ const gates = [
   },
   {
     day: 'Day 90',
-    delivers: 'Automation complete — agentic layer running from Telegram.',
+    delivers: 'Automation complete — the agentic layer running your operation.',
   },
 ];
 
-export function Guarantee() {
+/** `badge` sets the numbered pill (default 5 = home order; /services passes 7). */
+export function Guarantee({ badge = 5 }: { badge?: number }) {
   return (
     <section
       className="relative bg-[#f5efe6] dark:bg-[#1a0f1c] py-24 md:py-36 overflow-hidden"
@@ -54,7 +55,7 @@ export function Guarantee() {
         <FadeUp>
           <div className="flex items-center gap-3 mb-10 md:mb-14">
             <span className="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-brand-dark text-brand-cream dark:bg-brand-cream dark:text-brand-dark text-[0.6875rem] sm:text-[0.75rem] font-semibold">
-              5
+              {badge}
             </span>
             <span className="inline-flex items-center gap-2 text-[0.75rem] sm:text-[0.8125rem] font-medium text-text-primary dark:text-brand-cream border border-black/[0.12] dark:border-brand-cream/[0.18] rounded-full px-3 sm:px-4 py-1 sm:py-1.5">
               <ShieldCheck size={14} weight="bold" className="text-brand-accent-on-light dark:text-brand-accent" />

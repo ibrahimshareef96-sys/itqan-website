@@ -41,9 +41,9 @@ export const SERVICE_FAQ: readonly FaqItem[] = [
       'Most companies hand off disconnected deliverables — a logo from one agency, a website from another, SEO and content from a third, hosting from a fourth. Itqan is one partner for the whole stack: brand, web, content, SEO, AI visibility, hosting and automation, designed, built and run in-house. We build our own products, like Mutqin and Project You, the same way — so the method is proven before we sell it.',
   },
   {
-    question: 'What is the 90-Day Founder Operating System?',
+    question: 'How does an Itqan engagement work?',
     answer:
-      'It is Itqan’s core program, delivered in three phases. Identity (days 1–30) builds the brand and positioning. System (days 31–60) assembles the tooling and workflows. Automation (days 61–90) adds an agentic layer you can run from Telegram. Each phase ships working assets, not slide decks.',
+      'Itqan works in three connected phases. Identity builds the brand, positioning and voice. System assembles the tooling, workflows and content engine. Automation adds an agentic layer that runs the operation with a human in control. Each phase ships working assets, not slide decks — and one senior team stays to keep it running.',
   },
   {
     question: 'Do you build AI automation and agentic systems?',
@@ -58,7 +58,7 @@ export const SERVICE_FAQ: readonly FaqItem[] = [
   {
     question: 'How much does it cost to work with Itqan Studio?',
     answer:
-      'Engagements start with a $497 Brand Audit — a one-hour diagnostic with three specific fixes — and scale up to the full 90-Day Founder Operating System. Pricing depends on scope; the fastest way to a quote is to book a discovery call.',
+      'Every engagement can start with a free AI Visibility Check — we show you where your brand stands when buyers ask AI, with three fixes. From there, pricing depends on scope, from a single capability to the full brand-to-automation build. The fastest way to a quote is to start a conversation.',
   },
   {
     question: 'How do I start a project with Itqan Studio?',
@@ -77,7 +77,7 @@ export function ServiceFAQ() {
         <FadeUp>
           <div className="flex items-center gap-3">
             <span className="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-brand-dark text-brand-cream dark:bg-brand-cream dark:text-brand-dark text-[0.6875rem] sm:text-[0.75rem] font-semibold">
-              5
+              6
             </span>
             <span className="text-[0.75rem] sm:text-[0.8125rem] font-medium text-text-primary dark:text-brand-cream border border-black/[0.12] dark:border-brand-cream/[0.18] rounded-full px-3 sm:px-4 py-1 sm:py-1.5">
               Common questions

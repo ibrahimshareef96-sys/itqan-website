@@ -27,7 +27,7 @@ const labelClass =
 const errorClass = 'text-red-500 dark:text-red-400 text-xs mt-1.5';
 
 interface ContactFormProps {
-  /** Optional CTA intent (e.g. "audit", "founder-os-core"). Sent to Formspree as hidden field. */
+  /** Optional CTA intent (e.g. "ai-check", "identity-sprint"). Sent to Formspree as hidden field. */
   intent?: string;
 }
 

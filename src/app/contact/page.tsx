@@ -25,34 +25,34 @@ interface IntentCopy {
 }
 
 const INTENT_COPY: Record<string, IntentCopy> = {
-  audit: {
-    label: '$497 Brand Audit',
-    heading: 'Book your $497 Brand Audit.',
-    subheading: '1 hour. Diagnostic report. 3 specific fixes.',
-    body: 'Tell us about your company and what you want clarity on. We respond within 24 hours and book the call from there.',
+  'ai-check': {
+    label: 'AI Visibility Check',
+    heading: 'Get your free AI Visibility Check.',
+    subheading: 'See what ChatGPT, Claude and Gemini say about you.',
+    body: 'Tell us your brand and market. We run the check and send back where you stand — with three fixes to get named more often. Free, no obligation.',
   },
   'identity-sprint': {
     label: 'Identity Sprint',
     heading: 'Start the Identity Sprint.',
-    subheading: '14 days. Strategy + visual system + content positioning.',
+    subheading: 'Strategy, a visual system, and content positioning.',
     body: 'Share a bit about your business and the deadline. We schedule a discovery call to confirm fit before kickoff.',
   },
   'system-automation': {
     label: 'System + Automation',
     heading: 'Build the system + automation.',
-    subheading: '60 days. For founders whose brand is already strong.',
+    subheading: 'For teams whose brand is already strong.',
     body: 'Tell us where you are with your brand and what manual work is eating your week.',
   },
   'founder-os-core': {
-    label: 'Founder OS Core',
-    heading: 'Book a Founder OS discovery call.',
-    subheading: 'The full 90-day program. Identity → System → Automation.',
+    label: 'The full build',
+    heading: 'Book a discovery call.',
+    subheading: 'Identity → System → Automation, built and run by one team.',
     body: "Tell us about your company and where you are today. We'll confirm fit on the call.",
   },
   'founder-os-quarterly': {
-    label: 'Founder OS Quarterly+',
-    heading: 'Founder OS + 90 days of support.',
-    subheading: 'For founders who want runway after the build.',
+    label: 'Build + ongoing support',
+    heading: 'The build, plus a partner who stays.',
+    subheading: 'For teams who want runway after launch.',
     body: 'Share your context. We schedule a call to talk through scope and timing.',
   },
 };

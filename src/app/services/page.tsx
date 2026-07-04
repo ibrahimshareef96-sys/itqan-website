@@ -89,7 +89,6 @@ const capabilities: Capability[] = [
 interface PillarDetail {
   number: string;
   name: string;
-  days: string;
   metaphor: string;
   lede: string;
   image: string;
@@ -102,7 +101,6 @@ const pillars: PillarDetail[] = [
   {
     number: '01',
     name: 'Identity',
-    days: 'Days 1–30',
     metaphor: 'the soul',
     lede: 'Most founders confuse a logo for an identity. We build the soul of the company — the positioning, the visual system, the voice — so every later asset compounds instead of contradicts.',
     image: '/images/founder-render.png',
@@ -111,20 +109,19 @@ const pillars: PillarDetail[] = [
       'Brand strategy & positioning brief',
       'Full visual identity system (logo, type, color, imagery)',
       'Content positioning + voice guidelines',
-      '30-day content calendar to ship from Day 31',
+      'A content calendar ready to ship from',
     ],
   },
   {
     number: '02',
     name: 'System',
-    days: 'Days 31–60',
     metaphor: 'the skeleton',
     lede: "An identity that doesn't ship is decoration. We assemble the skeleton — the tooling stack, the workflows, the cadence — so the founder stops being the bottleneck.",
     image: '/images/portfolio/mutqin/hero-landing.webp',
-    imageAlt: 'Mutqin founder portal — an operating system Itqan designed and built',
+    imageAlt: 'Mutqin founder portal — a product Itqan designed and built',
     outputs: [
       'Tooling stack chosen, configured, and connected',
-      'Three documented workflows (content, sales, ops)',
+      'Documented workflows for content, sales, and ops',
       'Social-media marketing + content engine, built to ship 4+ pieces/week',
       'Hand-off docs so a future hire can run it',
     ],
@@ -132,13 +129,12 @@ const pillars: PillarDetail[] = [
   {
     number: '03',
     name: 'Automation',
-    days: 'Days 61–90',
     metaphor: 'the heartbeat',
-    lede: 'Workflows still need someone clicking buttons. The heartbeat is the agentic layer that runs your operating system without you in the loop — Telegram-runnable, audit-trailed, founder-controlled.',
+    lede: 'Workflows still need someone clicking buttons. The heartbeat is the agentic layer that runs the operation without you in the loop — audit-trailed and founder-controlled.',
     image: '/images/portfolio/project-you/coach.webp',
     imageAlt: 'Project You AI coach — agentic automation built by Itqan Studio',
     outputs: [
-      'Agentic Telegram-runnable operating layer',
+      'Agentic automation layer, founder-controlled',
       'Lead capture + qualification automation',
       'Content distribution + cross-platform repurposing',
       'Daily KPI digest so you always know the number',
@@ -354,7 +350,7 @@ export default function ServicesPage() {
       >
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
           <FadeUp>
-            <SectionBadge n={4} label="How it ships" />
+            <SectionBadge n={5} label="How it ships" />
           </FadeUp>
 
           <FadeUp delay={0.06}>
@@ -400,17 +396,12 @@ export default function ServicesPage() {
 
                   {/* Text */}
                   <div className={i % 2 === 1 ? 'md:order-1' : ''}>
-                    <div className="flex items-baseline gap-4">
-                      <span
-                        className="font-sans font-medium text-brand-accent-on-light/45 dark:text-brand-accent/45 tabular-nums leading-none"
-                        style={{ fontSize: 'clamp(2rem, 3vw, 2.75rem)' }}
-                      >
-                        {pillar.number}
-                      </span>
-                      <span className="text-[0.6875rem] font-bold tracking-[0.22em] uppercase text-text-secondary/70 dark:text-brand-cream/45">
-                        {pillar.days}
-                      </span>
-                    </div>
+                    <span
+                      className="font-sans font-medium text-brand-accent-on-light/45 dark:text-brand-accent/45 tabular-nums leading-none block"
+                      style={{ fontSize: 'clamp(2rem, 3vw, 2.75rem)' }}
+                    >
+                      {pillar.number}
+                    </span>
 
                     <h3
                       className="mt-5 font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.05] tracking-[-0.015em]"
@@ -467,13 +458,13 @@ export default function ServicesPage() {
                 <RollButton href="/contact" label="Start a conversation" />
 
                 <a
-                  href="/contact?intent=audit"
+                  href="/contact?intent=ai-check"
                   className="group inline-flex items-center gap-2.5 rounded-full border border-black/[0.14] dark:border-brand-cream/[0.2] bg-white dark:bg-[#2a1a28] pl-4 pr-4 py-2.5 text-[0.8125rem] sm:text-[0.875rem] font-semibold text-text-primary dark:text-brand-cream transition-colors duration-300 hover:border-black/[0.28] dark:hover:border-brand-cream/[0.35]"
                 >
-                  <span className="text-brand-accent-on-light dark:text-brand-accent tabular-nums">$497</span>
-                  <span>Brand Audit</span>
+                  <span className="text-brand-accent-on-light dark:text-brand-accent">Free</span>
+                  <span>AI Visibility Check</span>
                   <span className="text-text-secondary dark:text-brand-cream/50 text-[0.75rem] font-medium">
-                    — three fixes, one hour
+                    — see where you rank in AI answers
                   </span>
                 </a>
               </div>
@@ -485,8 +476,8 @@ export default function ServicesPage() {
       {/* ── FAQ — founder questions (GEO/AEO + on-page depth) ── */}
       <ServiceFAQ />
 
-      {/* ── Guarantee (shared) ── */}
-      <Guarantee />
+      {/* ── Guarantee (shared) — badge 7 in the Services sequence ── */}
+      <Guarantee badge={7} />
 
       {/* ── Closing CTA (shared) ── */}
       <CTABanner />

@@ -133,7 +133,7 @@ export const SERVICES: readonly ServiceDef[] = [
     name: 'AI & Agentic Automation',
     serviceType: 'AI automation',
     description:
-      'Agentic automation engines that run your operations — lead capture, content and reporting — controllable from Telegram.',
+      'Agentic automation engines that run your operations — lead capture, content and reporting — with a human in control.',
   },
 ];
 
