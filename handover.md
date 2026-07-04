@@ -34,9 +34,29 @@ pairs, numbered badges, RollButton, honesty rules). globals.css: body + .accent-
 .pixel-gradient are THEME-ADAPTIVE via html.dark. Verified: tsc + build 24/24, light+dark cohesion on all main
 pages, console clean. Dead legacy files (unused, kept): home/Hero.tsx, FounderOS (still on /services), FeaturedWork,
 StatsLine, Services, Pricing. Copy note: contact DEFAULT_COPY subheading is now "Private. Senior. No sales team."
-**NEXT:** Ibrahim eyeballs full site both themes → engagement-feature wave (brainstorm list in chat 2026-07-04) →
-merge to main + Coolify deploy (pre-prune disk) → PostHog keys → parked: Founder OS fate, "Most rebrands fail"
-naming, PartnerHalo activation.
+**UPDATE (2026-07-04, session 3): AskAI section, image refresh, PostHog LIVE, Founder OS reframe, AI Visibility Check.**
+Commits `06880da` (AskAI), `9cdb742` (images + PostHog key), `de11b21` (Founder OS reframe + AI Visibility Check).
+(1) **AskAI** `src/components/home/AskAI.tsx` (home badge 9 "Verify us"): neutral visible prompt + one-click
+prefills — chatgpt.com/?q= & claude.ai/new?q= (pre-typed), perplexity.ai/search?q= (instant), copy-for-Gemini;
+data-attr tags for PostHog. (2) **PostHog is LIVE**: Ibrahim's `phc_` project key is in `.env.local` (gitignored;
+key = phc_x6vw4xaZgbfQKcKLh5uAakBiaCAproFCbrNdbHA7kvPX) + NEXT_PUBLIC_POSTHOG_HOST=https://eu.i.posthog.com.
+Verified: EU config.js + events POST 200 after consent. **Ibrahim MUST set the same two env vars in Coolify + redeploy**
+for prod (ANALYTICS-SETUP.md). If his account is US-cloud, change host to https://us.i.posthog.com. (His earlier
+`phx_` was a PERSONAL key — wrong type; the phc_ project key is correct.) (3) **Images**: About/Values Precision→
+project-you/today.webp, Function→oud-closet/cover.png (Craftsmanship kept founder-render); Services phases System→
+mutqin/hero-landing.webp, Automation→project-you/coach.webp (Identity kept founder-render). Descriptive alt added
+(image SEO). Old itqan-crm/app-hand/close-app renders retired from these slots. (4) **Founder OS reframed** (his
+decision): kept Identity/System/Automation phases, DROPPED the "90-Day Founder Operating System" name, Days-1-30/
+31-60/61-90 gates, and Telegram everywhere (FounderOS.tsx, services deep-dives, FAQ, seo.ts, llms.txt, Guarantee
+Day-90 line). FounderOS.tsx was ALSO cream-on-cream (invisible) in light mode — now fully theme-aware. (5) **$497
+Brand Audit → free "AI Visibility Check"** (his decision): services CTA pill + contact `ai-check` intent (run the
+ChatGPT/Claude/Gemini "ask about you" test, show where you stand + 3 fixes, free). Contact founder-os-* intents
+de-branded. (6) Guarantee badge is now a prop (home=5, /services=7) → clean 1-7 Services sequence. Build 24/24,
+tsc clean, both themes verified via DOM (Lenis blocks headless screenshots — verify below-fold via DOM).
+Still dead/untouched: home/Pricing.tsx (references old Founder OS — not rendered anywhere), magnet subsystem.
+**NEXT:** Ibrahim reviews live (localhost:3001, both themes) → approved engagement features (cursor shader = already
+live; shared-element page transitions = queued; case-study films = discuss) → merge to main + Coolify deploy
+(pre-prune disk) + set PostHog Coolify env → parked: "Most rebrands fail" naming, PartnerHalo activation.
 
 **UPDATE (2026-07-04, later): "Ask the machines" section SHIPPED (`06880da`) + PostHog key clarification.**
 `src/components/home/AskAI.tsx` (home badge 9, between Portrait and CTABanner): neutral visible prompt, one-click
