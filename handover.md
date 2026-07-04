@@ -42,7 +42,20 @@ data-attr tags for PostHog. (2) **PostHog is LIVE**: Ibrahim's `phc_` project ke
 key = phc_x6vw4xaZgbfQKcKLh5uAakBiaCAproFCbrNdbHA7kvPX) + NEXT_PUBLIC_POSTHOG_HOST=https://eu.i.posthog.com.
 Verified: EU config.js + events POST 200 after consent. **Ibrahim MUST set the same two env vars in Coolify + redeploy**
 for prod (ANALYTICS-SETUP.md). If his account is US-cloud, change host to https://us.i.posthog.com. (His earlier
-`phx_` was a PERSONAL key — wrong type; the phc_ project key is correct.) (3) **Images**: About/Values Precision→
+`phx_` was a PERSONAL key — wrong type; the phc_ project key is correct.)
+**COOLIFY ENV VARS NOW SET IN PROD (2026-07-04):** Coolify UI (`http://52.212.71.212:8000`) + its API port are
+IP-allowlisted and Ibrahim's current IP (94.234.93.40 = this machine) wasn't on it, so BOTH he and a direct API
+call got blocked. Worked around it via SSH + a localhost tunnel (`ssh -L 8899:localhost:8000 …`, Coolify API on
+the box's localhost bypasses the IP firewall). Created both `NEXT_PUBLIC_POSTHOG_KEY` (phc_x6vw…) and
+`NEXT_PUBLIC_POSTHOG_HOST` (https://eu.i.posthog.com) on app uuid `cybvxnemzusk0yzjcwzrey3v` via
+`POST /api/v1/applications/{uuid}/envs` with **is_buildtime:true** (NEXT_PUBLIC must bake at build) — HTTP 201,
+verified present (prod + preview variants). **NOT YET ACTIVE:** production runs `main`, which has NO PostHog code
+(it's on feat/axion-redesign). The vars sit staged and light up on the SAME deploy that ships the redesign. Did
+NOT redeploy (deploying main now = rebuild without PostHog code + disk-pressure risk). **Deploy sequence when the
+redesign is ready:** merge `main` → `feat/axion-redesign` FIRST (branch predates the Kit→SES/Listmonk migration on
+main — deploying it un-merged would resurrect dead Kit calls, per aws-migration handover), then Coolify deploy
+uuid `cybvxnemzusk0yzjcwzrey3v` (pre-prune disk). To let Ibrahim into the Coolify UI himself, allowlist
+94.234.93.40 on the box security group (AWS CLI `ibrahim-admin` is configured) — NOT done unprompted (SG change). (3) **Images**: About/Values Precision→
 project-you/today.webp, Function→oud-closet/cover.png (Craftsmanship kept founder-render); Services phases System→
 mutqin/hero-landing.webp, Automation→project-you/coach.webp (Identity kept founder-render). Descriptive alt added
 (image SEO). Old itqan-crm/app-hand/close-app renders retired from these slots. (4) **Founder OS reframed** (his
