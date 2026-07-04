@@ -8,6 +8,7 @@ import { Guarantee } from '@/components/home/Guarantee';
 import { Industries } from '@/components/home/Industries';
 import { WhoFor } from '@/components/home/WhoFor';
 import { Portrait } from '@/components/home/Portrait';
+import { AskAI } from '@/components/home/AskAI';
 import { PartnerHalo } from '@/components/home/PartnerHalo';
 import { CTABanner } from '@/components/home/CTABanner';
 
@@ -39,8 +40,10 @@ export default function HomePage() {
       <Industries />
       {/* Who this is for (dark) */}
       <WhoFor />
-      {/* The team in the room (dark) */}
+      {/* The team in the room */}
       <Portrait />
+      {/* Verify us — one click opens the visitor's AI with the question pre-typed */}
+      <AskAI />
       {/* Gated named-partner halo slot — renders nothing until NEXT_PUBLIC_PARTNER_HALO=1 */}
       <PartnerHalo />
       {/* A private, senior conversation (dark) */}
