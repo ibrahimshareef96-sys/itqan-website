@@ -89,6 +89,12 @@ export async function POST(req: NextRequest) {
     await upsertSubscriber({
       email,
       listIds: [Number(listId)],
+      // Source tag: distinguishes organic newsletter signups from lead-magnet
+      // captures (tagged magnet-itqan-<keyword> in /api/leads/capture) so
+      // segments and automations can target by acquisition source. The client
+      // unions tag arrays on upsert, so a magnet subscriber who later uses the
+      // newsletter form keeps both tags.
+      attribs: { tags: ["newsletter-itqan"] },
       preconfirm: false,
     });
     return NextResponse.json({ ok: true });
