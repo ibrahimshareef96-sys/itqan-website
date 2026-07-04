@@ -80,12 +80,15 @@ export default function CaseStudyPage({ params }: Props) {
       />
 
       {/* ── Header — centered, editorial ── */}
-      <section className="pt-32 md:pt-40 pb-10 md:pb-12" aria-label="Case study header">
+      <section
+        className="bg-brand-cream dark:bg-[#1f1420] pt-10 md:pt-16 pb-10 md:pb-12"
+        aria-label="Case study header"
+      >
         <div className="max-w-[1440px] mx-auto px-5 md:px-8 text-center">
           {/* Sector eyebrow */}
           <FadeUp>
             <p
-              className="font-sans font-medium text-[0.75rem] uppercase text-brand-accent"
+              className="font-sans font-medium text-[0.75rem] uppercase text-brand-accent-on-light dark:text-brand-accent"
               style={{ letterSpacing: '0.22em' }}
             >
               {cs.industry}
@@ -95,7 +98,7 @@ export default function CaseStudyPage({ params }: Props) {
           {/* Client name */}
           <FadeUp delay={0.08}>
             <h1
-              className="mt-6 font-sans font-semibold text-brand-cream leading-[1.02] tracking-[-0.02em]"
+              className="mt-6 font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.02] tracking-[-0.03em]"
               style={{ fontSize: 'clamp(3rem, 7.5vw, 6rem)' }}
             >
               {cs.title}
@@ -107,22 +110,14 @@ export default function CaseStudyPage({ params }: Props) {
             <FadeUp delay={0.14}>
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:gap-4">
                 {cs.duration && (
-                  <div
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[0.8125rem] font-semibold text-brand-accent"
-                    style={{
-                      background: 'rgba(47, 28, 44, 0.55)',
-                      backdropFilter: 'blur(14px)',
-                      WebkitBackdropFilter: 'blur(14px)',
-                      border: '1px solid rgba(204, 164, 194, 0.25)',
-                    }}
-                  >
-                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-brand-accent" aria-hidden="true" />
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[0.8125rem] font-semibold text-brand-accent-on-light dark:text-brand-accent bg-brand-accent/[0.14] border border-brand-accent-on-light/25 dark:bg-[#2a1a28] dark:border-brand-accent/25">
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-brand-accent-on-light dark:bg-brand-accent" aria-hidden="true" />
                     Delivered in {cs.duration}
                   </div>
                 )}
 
                 {cs.duration && cs.industryAverage && (
-                  <span className="text-[0.8125rem] text-brand-cream/40">
+                  <span className="text-[0.8125rem] text-text-secondary/60 dark:text-brand-cream/40">
                     industry average{' '}
                     <span className="line-through decoration-from-font">
                       {cs.industryAverage}
@@ -135,13 +130,7 @@ export default function CaseStudyPage({ params }: Props) {
                     href={cs.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group inline-flex items-center gap-2 px-4 py-2 rounded-full text-[0.8125rem] font-semibold text-brand-cream transition-colors duration-200 hover:text-brand-accent"
-                    style={{
-                      background: 'rgba(204, 164, 194, 0.12)',
-                      backdropFilter: 'blur(14px)',
-                      WebkitBackdropFilter: 'blur(14px)',
-                      border: '1px solid rgba(204, 164, 194, 0.35)',
-                    }}
+                    className="group inline-flex items-center gap-2 px-4 py-2 rounded-full text-[0.8125rem] font-semibold text-text-primary hover:text-brand-accent-on-light dark:text-brand-cream dark:hover:text-brand-accent transition-colors duration-200 bg-white border border-black/[0.1] dark:bg-brand-accent/[0.12] dark:border-brand-accent/35"
                     aria-label={`Visit ${cs.title} live site (opens in new tab)`}
                   >
                     Visit live site
@@ -161,13 +150,7 @@ export default function CaseStudyPage({ params }: Props) {
                       href={lnk.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group inline-flex items-center gap-2 px-4 py-2 rounded-full text-[0.8125rem] font-semibold text-brand-cream transition-colors duration-200 hover:text-brand-accent"
-                      style={{
-                        background: 'rgba(204, 164, 194, 0.12)',
-                        backdropFilter: 'blur(14px)',
-                        WebkitBackdropFilter: 'blur(14px)',
-                        border: '1px solid rgba(204, 164, 194, 0.35)',
-                      }}
+                      className="group inline-flex items-center gap-2 px-4 py-2 rounded-full text-[0.8125rem] font-semibold text-text-primary hover:text-brand-accent-on-light dark:text-brand-cream dark:hover:text-brand-accent transition-colors duration-200 bg-white border border-black/[0.1] dark:bg-brand-accent/[0.12] dark:border-brand-accent/35"
                       aria-label={`${lnk.label} (opens in new tab)`}
                     >
                       {isBehance && (
@@ -190,7 +173,7 @@ export default function CaseStudyPage({ params }: Props) {
           {cs.outcomeMetric && (
             <FadeUp delay={0.2}>
               <p
-                className="mt-6 mx-auto text-brand-cream/80 italic"
+                className="mt-6 mx-auto text-text-secondary dark:text-brand-cream/80 italic"
                 style={{
                   fontFamily: "'Playfair Display', serif",
                   fontSize: 'clamp(1.0625rem, 1.4vw, 1.375rem)',
@@ -205,7 +188,10 @@ export default function CaseStudyPage({ params }: Props) {
       </section>
 
       {/* ── Hero (video preferred, image fallback) ── */}
-      <section className="pb-16 md:pb-24" aria-label="Case study hero">
+      <section
+        className="bg-brand-cream dark:bg-[#1f1420] pb-16 md:pb-24"
+        aria-label="Case study hero"
+      >
         <div className="max-w-[1440px] mx-auto px-5 md:px-8">
           <FadeUp delay={0.16}>
             <CaseStudyHero cs={cs} />
@@ -226,11 +212,14 @@ export default function CaseStudyPage({ params }: Props) {
       <AfterBlock cs={cs} />
 
       {/* ── What we shipped (mockup gallery) ── */}
-      <section className="py-20 md:py-24" aria-label="Project gallery">
+      <section
+        className="bg-white dark:bg-[#241626] py-20 md:py-24"
+        aria-label="Project gallery"
+      >
         <div className="max-w-[1440px] mx-auto px-5 md:px-8">
           <FadeUp>
             <p
-              className="font-sans font-medium text-[0.6875rem] uppercase text-brand-accent mb-10"
+              className="font-sans font-medium text-[0.6875rem] uppercase text-brand-accent-on-light dark:text-brand-accent mb-10"
               style={{ letterSpacing: '0.22em' }}
             >
               What we shipped
@@ -330,31 +319,33 @@ function AtAGlance({ cs }: { cs: CaseStudy }) {
   const outcomeSpansTwo = baseCount <= 3;
 
   return (
-    <section className="py-12 md:py-16" aria-label="Engagement at a glance">
+    <section
+      className="bg-white dark:bg-[#241626] py-12 md:py-16"
+      aria-label="Engagement at a glance"
+    >
       <div className="max-w-[1440px] mx-auto px-5 md:px-8">
         <FadeUp>
-          <div
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-px rounded-[14px] overflow-hidden"
-            style={{ background: 'rgba(255, 251, 245, 0.08)' }}
-          >
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-px rounded-[14px] overflow-hidden bg-black/[0.08] dark:bg-brand-cream/[0.08]">
             {stats.map((stat) => (
               <div
                 key={stat.label}
-                className={`bg-brand-dark/50 p-6 md:p-7 ${
+                className={`bg-[#f5efe6] dark:bg-[#2a1a28] p-6 md:p-7 ${
                   stat.emphasis
-                    ? `sm:col-span-2 ${outcomeSpansTwo ? 'md:col-span-2' : 'md:col-span-1'} bg-brand-accent/[0.05]`
+                    ? `sm:col-span-2 ${outcomeSpansTwo ? 'md:col-span-2' : 'md:col-span-1'} bg-brand-accent/[0.1] dark:bg-brand-accent/[0.08]`
                     : ''
                 }`}
               >
                 <p
                   className={`text-[0.625rem] font-bold tracking-[0.22em] uppercase ${
-                    stat.emphasis ? 'text-brand-accent' : 'text-brand-cream/45'
+                    stat.emphasis
+                      ? 'text-brand-accent-on-light dark:text-brand-accent'
+                      : 'text-text-secondary/70 dark:text-brand-cream/45'
                   }`}
                 >
                   {stat.label}
                 </p>
                 <p
-                  className={`mt-3 text-brand-cream leading-[1.4] font-medium ${
+                  className={`mt-3 text-text-primary dark:text-brand-cream leading-[1.4] font-medium ${
                     stat.emphasis
                       ? 'text-[1.125rem] md:text-[1.3125rem]'
                       : 'text-[0.9375rem] md:text-[1rem]'
@@ -377,11 +368,19 @@ function AtAGlance({ cs }: { cs: CaseStudy }) {
 function BeforeBlock({ cs }: { cs: CaseStudy }) {
   return (
     <section
-      className="relative py-24 md:py-32 overflow-hidden"
+      className="relative bg-[#f5efe6] dark:bg-[#1a0f1c] py-24 md:py-32 overflow-hidden"
       aria-labelledby="before-heading"
     >
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none dark:hidden"
+        aria-hidden="true"
+        style={{
+          background:
+            'radial-gradient(ellipse 60% 50% at 20% 50%, rgba(109,74,102,0.08), transparent 60%)',
+        }}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none hidden dark:block"
         aria-hidden="true"
         style={{
           background:
@@ -394,7 +393,7 @@ function BeforeBlock({ cs }: { cs: CaseStudy }) {
           <FadeUp>
             <p
               id="before-heading"
-              className="font-sans font-medium text-[0.6875rem] uppercase text-brand-accent"
+              className="font-sans font-medium text-[0.6875rem] uppercase text-brand-accent-on-light dark:text-brand-accent"
               style={{ letterSpacing: '0.22em' }}
             >
               Before Itqan
@@ -406,11 +405,11 @@ function BeforeBlock({ cs }: { cs: CaseStudy }) {
               <Quotes
                 size={48}
                 weight="fill"
-                className="text-brand-accent/35 flex-shrink-0 -mt-2 md:-mt-3"
+                className="text-brand-accent-on-light/35 dark:text-brand-accent/35 flex-shrink-0 -mt-2 md:-mt-3"
               />
               <blockquote>
                 <p
-                  className="text-brand-cream/90 leading-[1.35] tracking-[-0.01em]"
+                  className="text-text-primary dark:text-brand-cream/90 leading-[1.35] tracking-[-0.01em]"
                   style={{
                     fontFamily: "'Playfair Display', serif",
                     fontStyle: 'italic',
@@ -420,7 +419,7 @@ function BeforeBlock({ cs }: { cs: CaseStudy }) {
                   {cs.beforeQuote}
                 </p>
                 {cs.challenge && (
-                  <p className="mt-7 text-brand-cream/55 text-[1rem] md:text-[1.0625rem] leading-[1.65] max-w-[64ch]">
+                  <p className="mt-7 text-text-secondary dark:text-brand-cream/55 text-[1rem] md:text-[1.0625rem] leading-[1.65] max-w-[64ch]">
                     {cs.challenge}
                   </p>
                 )}
@@ -438,11 +437,14 @@ function BeforeBlock({ cs }: { cs: CaseStudy }) {
 // ────────────────────────────────────────────────────────────
 function PhaseArc({ phases }: { phases: CaseStudyPhase[] }) {
   return (
-    <section className="py-24 md:py-32" aria-labelledby="phase-arc-heading">
+    <section
+      className="bg-white dark:bg-[#241626] py-24 md:py-32"
+      aria-labelledby="phase-arc-heading"
+    >
       <div className="max-w-[1440px] mx-auto px-5 md:px-8">
         <FadeUp>
           <p
-            className="font-sans font-medium text-[0.6875rem] uppercase text-brand-accent"
+            className="font-sans font-medium text-[0.6875rem] uppercase text-brand-accent-on-light dark:text-brand-accent"
             style={{ letterSpacing: '0.22em' }}
           >
             The bridge
@@ -452,7 +454,7 @@ function PhaseArc({ phases }: { phases: CaseStudyPhase[] }) {
         <FadeUp delay={0.06}>
           <h2
             id="phase-arc-heading"
-            className="mt-6 font-sans font-semibold text-brand-cream leading-[1.05] tracking-[-0.02em]"
+            className="mt-6 font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.05] tracking-[-0.02em]"
             style={{ fontSize: 'clamp(2.25rem, 4.5vw, 3.75rem)', maxWidth: '22ch' }}
           >
             What we{' '}
@@ -460,7 +462,7 @@ function PhaseArc({ phases }: { phases: CaseStudyPhase[] }) {
           </h2>
         </FadeUp>
 
-        <div className="mt-14 md:mt-20 grid gap-px bg-brand-cream/[0.08] rounded-[14px] overflow-hidden">
+        <div className="mt-14 md:mt-20 grid gap-px bg-black/[0.08] dark:bg-brand-cream/[0.08] rounded-[14px] overflow-hidden">
           {phases.map((phase, i) => (
             <ScrollReveal key={phase.pillar} direction="up" distance={20} delay={i * 0.08}>
               <PhaseRow phase={phase} />
@@ -475,23 +477,23 @@ function PhaseArc({ phases }: { phases: CaseStudyPhase[] }) {
 function PhaseRow({ phase }: { phase: CaseStudyPhase }) {
   const meta = PILLAR_META[phase.pillar];
   return (
-    <article className="bg-brand-dark/45 p-7 md:p-10 lg:p-12">
+    <article className="bg-[#f5efe6] dark:bg-[#2a1a28] p-7 md:p-10 lg:p-12">
       <div className="grid md:grid-cols-[260px_1fr] gap-8 md:gap-12 items-start">
         {/* Left — pillar identity */}
         <div>
           <div className="flex items-baseline justify-between md:justify-start md:gap-5">
             <span
-              className="font-sans font-medium text-brand-accent/40 tabular-nums leading-none"
+              className="font-sans font-medium text-brand-accent-on-light/40 dark:text-brand-accent/40 tabular-nums leading-none"
               style={{ fontSize: 'clamp(2rem, 3vw, 2.75rem)' }}
             >
               {meta.number}
             </span>
-            <span className="text-[0.625rem] font-bold tracking-[0.22em] uppercase text-brand-cream/45">
+            <span className="text-[0.625rem] font-bold tracking-[0.22em] uppercase text-text-secondary/70 dark:text-brand-cream/45">
               {phase.days}
             </span>
           </div>
           <h3
-            className="mt-5 font-sans font-semibold text-brand-cream leading-[1.05] tracking-[-0.01em]"
+            className="mt-5 font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.05] tracking-[-0.01em]"
             style={{ fontSize: 'clamp(1.625rem, 2.4vw, 2.125rem)' }}
           >
             {meta.name}
@@ -503,12 +505,12 @@ function PhaseRow({ phase }: { phase: CaseStudyPhase }) {
           {phase.deliverables.map((deliverable) => (
             <li
               key={deliverable}
-              className="flex items-start gap-3 text-brand-cream/85 text-[0.9375rem] md:text-[1.0625rem] leading-[1.5]"
+              className="flex items-start gap-3 text-text-secondary dark:text-brand-cream/85 text-[0.9375rem] md:text-[1.0625rem] leading-[1.5]"
             >
               <CheckCircle
                 size={18}
                 weight="fill"
-                className="text-brand-accent/75 mt-[0.15em] flex-shrink-0"
+                className="text-brand-accent-on-light/75 dark:text-brand-accent/75 mt-[0.15em] flex-shrink-0"
               />
               <span>{deliverable}</span>
             </li>
@@ -525,11 +527,19 @@ function PhaseRow({ phase }: { phase: CaseStudyPhase }) {
 function AfterBlock({ cs }: { cs: CaseStudy }) {
   return (
     <section
-      className="relative py-24 md:py-32 overflow-hidden"
+      className="relative bg-[#f5efe6] dark:bg-[#1a0f1c] py-24 md:py-32 overflow-hidden"
       aria-labelledby="after-heading"
     >
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none dark:hidden"
+        aria-hidden="true"
+        style={{
+          background:
+            'radial-gradient(ellipse 60% 50% at 80% 50%, rgba(109,74,102,0.08), transparent 60%)',
+        }}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none hidden dark:block"
         aria-hidden="true"
         style={{
           background:
@@ -542,7 +552,7 @@ function AfterBlock({ cs }: { cs: CaseStudy }) {
           <FadeUp>
             <p
               id="after-heading"
-              className="font-sans font-medium text-[0.6875rem] uppercase text-brand-accent"
+              className="font-sans font-medium text-[0.6875rem] uppercase text-brand-accent-on-light dark:text-brand-accent"
               style={{ letterSpacing: '0.22em' }}
             >
               After
@@ -551,7 +561,7 @@ function AfterBlock({ cs }: { cs: CaseStudy }) {
 
           <FadeUp delay={0.06}>
             <h2
-              className="mt-6 font-sans font-semibold text-brand-cream leading-[1.05] tracking-[-0.02em]"
+              className="mt-6 font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.05] tracking-[-0.02em]"
               style={{ fontSize: 'clamp(2.25rem, 4.5vw, 3.75rem)', maxWidth: '22ch' }}
             >
               From invisible to{' '}
@@ -561,7 +571,7 @@ function AfterBlock({ cs }: { cs: CaseStudy }) {
 
           <FadeUp delay={0.12}>
             <p
-              className="mt-10 text-brand-cream/80 leading-[1.7]"
+              className="mt-10 text-text-secondary dark:text-brand-cream/80 leading-[1.7]"
               style={{
                 fontSize: 'clamp(1.0625rem, 1.3vw, 1.1875rem)',
                 maxWidth: '64ch',
@@ -583,11 +593,14 @@ function AfterBlock({ cs }: { cs: CaseStudy }) {
 // ────────────────────────────────────────────────────────────
 function BrandShowcase({ title, images }: { title: string; images: string[] }) {
   return (
-    <section className="py-20 md:py-24" aria-labelledby="brand-showcase-heading">
+    <section
+      className="bg-[#f5efe6] dark:bg-[#1a0f1c] py-20 md:py-24"
+      aria-labelledby="brand-showcase-heading"
+    >
       <div className="max-w-[1440px] mx-auto px-5 md:px-8">
         <FadeUp>
           <p
-            className="font-sans font-medium text-[0.6875rem] uppercase text-brand-accent"
+            className="font-sans font-medium text-[0.6875rem] uppercase text-brand-accent-on-light dark:text-brand-accent"
             style={{ letterSpacing: '0.22em' }}
           >
             Brand & character
@@ -597,7 +610,7 @@ function BrandShowcase({ title, images }: { title: string; images: string[] }) {
         <FadeUp delay={0.06}>
           <h2
             id="brand-showcase-heading"
-            className="mt-6 font-sans font-semibold text-brand-cream leading-[1.05] tracking-[-0.02em]"
+            className="mt-6 font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.05] tracking-[-0.02em]"
             style={{ fontSize: 'clamp(2.25rem, 4.5vw, 3.75rem)', maxWidth: '20ch' }}
           >
             A product with a <span className="accent-italic">face.</span>
@@ -606,7 +619,7 @@ function BrandShowcase({ title, images }: { title: string; images: string[] }) {
 
         <FadeUp delay={0.12}>
           <p
-            className="mt-6 text-brand-cream/70 leading-[1.65]"
+            className="mt-6 text-text-secondary dark:text-brand-cream/70 leading-[1.65]"
             style={{ fontSize: 'clamp(1rem, 1.2vw, 1.125rem)', maxWidth: '58ch' }}
           >
             The personality is built with the product, not added after — a brand
@@ -641,12 +654,20 @@ function BrandShowcase({ title, images }: { title: string; images: string[] }) {
 function TestimonialBlock({ cs }: { cs: CaseStudy }) {
   return (
     <section
-      className="relative py-28 md:py-40 overflow-hidden"
+      className="relative bg-brand-cream dark:bg-[#1f1420] py-28 md:py-40 overflow-hidden"
       aria-label="Client testimonial"
     >
       {/* Soft accent gravity */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none dark:hidden"
+        aria-hidden="true"
+        style={{
+          background:
+            'radial-gradient(ellipse 70% 55% at 50% 50%, rgba(109,74,102,0.08), transparent 65%)',
+        }}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none hidden dark:block"
         aria-hidden="true"
         style={{
           background:
@@ -660,7 +681,7 @@ function TestimonialBlock({ cs }: { cs: CaseStudy }) {
             {/* Avatar — bigger, framed */}
             <div className="md:pt-3">
               {cs.testimonialImage ? (
-                <div className="relative w-32 h-32 md:w-[176px] md:h-[176px] rounded-full overflow-hidden ring-2 ring-brand-accent/25">
+                <div className="relative w-32 h-32 md:w-[176px] md:h-[176px] rounded-full overflow-hidden ring-2 ring-brand-accent-on-light/25 dark:ring-brand-accent/25">
                   <Image
                     src={cs.testimonialImage}
                     alt={cs.testimonialName}
@@ -670,8 +691,8 @@ function TestimonialBlock({ cs }: { cs: CaseStudy }) {
                   />
                 </div>
               ) : (
-                <div className="w-32 h-32 md:w-[176px] md:h-[176px] rounded-full bg-brand-accent/[0.08] border border-brand-accent/25 flex items-center justify-center">
-                  <Quotes size={52} weight="fill" className="text-brand-accent/65" />
+                <div className="w-32 h-32 md:w-[176px] md:h-[176px] rounded-full bg-brand-accent/[0.12] border border-brand-accent-on-light/25 dark:bg-brand-accent/[0.08] dark:border-brand-accent/25 flex items-center justify-center">
+                  <Quotes size={52} weight="fill" className="text-brand-accent-on-light/65 dark:text-brand-accent/65" />
                 </div>
               )}
             </div>
@@ -681,19 +702,19 @@ function TestimonialBlock({ cs }: { cs: CaseStudy }) {
               <Quotes
                 size={42}
                 weight="fill"
-                className="text-brand-accent/35 mb-5"
+                className="text-brand-accent-on-light/35 dark:text-brand-accent/35 mb-5"
               />
               <p
-                className="font-sans font-normal text-brand-cream leading-[1.35] tracking-[-0.01em]"
+                className="font-sans font-normal text-text-primary dark:text-brand-cream leading-[1.35] tracking-[-0.01em]"
                 style={{ fontSize: 'clamp(1.625rem, 3vw, 2.5rem)' }}
               >
                 {cs.testimonialQuote}
               </p>
-              <footer className="mt-10 pt-6 border-t border-brand-cream/[0.1]">
-                <p className="font-sans font-semibold text-brand-cream text-[1.0625rem]">
+              <footer className="mt-10 pt-6 border-t border-black/[0.1] dark:border-brand-cream/[0.1]">
+                <p className="font-sans font-semibold text-text-primary dark:text-brand-cream text-[1.0625rem]">
                   {cs.testimonialName}
                 </p>
-                <p className="text-brand-cream/55 text-[0.875rem] mt-1">
+                <p className="text-text-secondary dark:text-brand-cream/55 text-[0.875rem] mt-1">
                   {cs.testimonialCompany}
                 </p>
               </footer>
@@ -711,13 +732,13 @@ function TestimonialBlock({ cs }: { cs: CaseStudy }) {
 function NextCaseCard({ next }: { next: CaseStudy }) {
   return (
     <section
-      className="relative pt-16 md:pt-24 pb-0"
+      className="relative bg-white dark:bg-[#241626] pt-16 md:pt-24 pb-16 md:pb-24"
       aria-label="Next case study"
     >
       <div className="max-w-[1440px] mx-auto px-5 md:px-8">
         <FadeUp>
           <p
-            className="font-sans font-medium text-[0.6875rem] uppercase text-brand-accent mb-6"
+            className="font-sans font-medium text-[0.6875rem] uppercase text-brand-accent-on-light dark:text-brand-accent mb-6"
             style={{ letterSpacing: '0.22em' }}
           >
             Next case study

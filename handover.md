@@ -11,7 +11,52 @@ Lightweight tracking via TaskCreate (in-session). For longer initiatives use `ag
 
 ## Handover prompt (self-contained for the next session)
 
-**LATEST (2026-07-02): decision-maker copy rewrite — DONE locally, NOT yet committed/deployed.** A senior
+**LATEST (2026-07-03): Axion-style light-first redesign — EXPLORATION SLICE SHIPPED on branch `feat/axion-redesign` (NOT main, NOT deployed).**
+Ibrahim pivoted the hero + design after the decision-maker copy pass. Interview answers (locked):
+hero = **"Your next customer just asked ChatGPT."** (accent = *asked*); build **in Next.js on a branch**;
+**light DEFAULT + dark toggle** (system pref off); flagship motion = the **AI-visibility animation**.
+Positioning widened beyond rebranding → **one partner**: brand strategy, creative direction, sites that
+convert, content, SEO, **AI/GEO visibility**, **full hosting**. Kept beats he likes: ThreePillars,
+WhyRebrandsFail, "Proof, not promises", phase-gated Guarantee. **Founder OS parked** (off homepage, still
+on /services — revisit at the very end). Branch commits: `42503aa` (baseline = copy rewrite + team fix),
+`d2ccda2` (slice), `59059e6` (review fixes). New deps: **`shaders`** (WebGPU, Shader Effects Inc — license
+permits production use) + **next-themes**. New files: `HeroAxion.tsx` (pill nav, live Dubai clock, dynamic
+quarter label, mobile sheet w/ full modal contract, shader bg idle-gated + reduced-motion skipped,
+CSS-gradient fallback), `AiVisibility.tsx` (ChatGPT/Claude/Grok panel streaming "your brand" — honesty-safe,
+carries "Simulated answers, for illustration"), `IntroPartner.tsx`, `CasesAxion.tsx` + `ui/CaseMedia.tsx`,
+`ui/RollButton.tsx`, `ui/ThemeToggle.tsx`, `providers/ThemeProvider.tsx`, `HeroShader.tsx`. Theme system:
+next-themes class strategy + tailwind `darkMode:'class'`; **legacy pages stay dark-hardcoded and verified
+unaffected**; old Navbar returns null on '/' (pill nav replaces it). Team: **Jonny REMOVED** (not yet
+registered as co-founder — do not re-add until Ibrahim says so); Ibrahim = CEO & Co-Founder, Bisma Aslam =
+Head of Design & Co-Founder (team.ts, TeamSection two-founder layout, Portrait, AboutHero, seo.ts
+founder+cofounder Person nodes). **teamLanguages trimmed to Arabic/English/Urdu** — ASK IBRAHIM which of
+Spanish/German/Swedish/Norwegian/Bosnian to restore. Review workflow (3 dims): 0 CRIT / 5 HIGH / 10 MED —
+all HIGH+MED fixed. Verified: tsc + build clean (24/24, home 165kB First Load, shader lazy), light+dark
+desktop, mobile 375px no overflow, /about dark + two founder cards, console clean.
+**SESSION UPDATE (2026-07-04): Axion theme pass — contact / legal / thank-you / cookie / magnet / newsletter.**
+Converted the remaining pages/components to the light-first theme-aware system (branch `feat/axion-redesign`).
+Files: `app/contact/page.tsx` (theme-aware surface, removed `pt-28` navbar hack → `pt-10 md:pt-16`, kept
+metadata/JsonLd/INTENT_COPY/DEFAULT_COPY data verbatim, added ONE AI-moment line "You found us. Your buyers
+should find you the same way." with Playfair accent pair), `contact/ContactForm.tsx` (light = white fields /
+black-0.12 borders / #1a1a1a text; dark: variants; removed custom focus ring — globals `*:focus-visible` owns
+it; primary submit plum→cream; added theme-aware select chevron), `ui/TestimonialCarousel.tsx` (card+inline
+theme-aware, accent pair, fixed dual-accent violation), `ui/SectionLabel.tsx` (theme-aware default, kept
+`light` prop for dark surfaces), `thank-you/ThankYouClient.tsx` (dark: variants on surface/checkmark/text/
+buttons), `legal/LegalPageLayout.tsx` (kept `bg-brand-dark` as the ONE deliberate dark-in-both-modes surface
+because globals `.legal-prose` is dark-tuned/off-limits; removed `pt-28`), `CookieBanner.tsx` (theme-aware
+surface+buttons; **consent logic + storage key `itqan_cookie_consent` untouched**), `magnet/MagnetLanding.tsx`
+(THEME PASS ONLY — design-locked dark funnel already renders identically dark in both modes + accent only on
+dark = compliant; added clarifying comment, zero logic/copy change), `layout/NewsletterForm.tsx` (theme pass;
+note: currently an orphan — not imported anywhere). Verified: `tsc --noEmit` clean; dev-server computed styles
+in light + SSR-HTML dark-pair checks (10/10) on /contact; /thank-you /privacy /cookies all 200; no server
+compile errors. NOTE: project has no working eslint config (`next lint` wants interactive setup) — used tsc as
+the gate. **NEXT WAVES:** (1) Ibrahim reviews the slice (run dev, toggle themes); (2) restyle remaining dark sections
+into the light system or keep alternation (his call); (3) services/about/work/contact pages in the new
+language; (4) widen seo.ts SERVICES/KNOWS_ABOUT + FAQ to cover SEO/GEO/hosting/content honestly; (5) home
+metadata/title once positioning settles; (6) decide "Most rebrands fail" generalization; (7) Founder OS fate;
+(8) merge to main + Coolify deploy (pre-prune disk).
+
+**PREVIOUS (2026-07-02): decision-maker copy rewrite — committed as `42503aa` on the branch (was uncommitted).** A senior
 branding partner reviewed the site: the copy spoke to mid-level marketing managers (argued *why branding
 matters* / listed *what we deliver*). Rewrote the whole site for **ultimate decision-makers** (founders, CEOs,
 owners, boards, investors) — selling **stakes, certainty, pedigree** around one wedge: *a rebrand is the
@@ -94,6 +139,35 @@ The site reads case studies from [src/data/case-studies.ts](src/data/case-studie
 - **Wrapping the entire hero in `<a>` to make the whole cover clickable.** Rejected: surprising UX (people don't expect case-study heroes to be clickable). Used a clearly visible CTA chip instead.
 
 **Pivots:** Nothing structural this session — this is a polish/asset upgrade on an existing case study, not a redesign.
+
+## What was just done (2026-07-04 — Axion redesign integration gate)
+
+**Branch `feat/axion-redesign` (NOT committed — gate/verification pass only). No source edits needed.**
+
+Ran the integration gate after several agents restyled the whole site (theme-aware light/dark),
+widened SEO, and wired PostHog. Result: the branch is already clean and consistent.
+
+- **`npx tsc --noEmit`** → 0 errors (verified twice, start and end).
+- **`npm run build`** → succeeds, all 24 pages generated (static + SSG), no warnings.
+- **Phosphor import/type match** → correct. All 7 files importing `@phosphor-icons/react/dist/ssr`
+  are server components (no `'use client'`, no hooks): `contact/page`, `work/[id]/page`,
+  `services/page`, `home/CasesAxion`, `about/Languages`, `legal/LegalPageLayout`,
+  `services/ServiceFAQ`. All 16 files importing non-ssr `@phosphor-icons/react` are `'use client'`.
+  No mismatches to fix.
+- **Top-padding hacks** → none live. Only 3 `pt-28/pt-32/pt-[72px]` hits, all legitimate:
+  `Hero.tsx` (`pt-[72px]`) is DEAD (not imported anywhere; homepage uses `HeroAxion`);
+  `IntroPartner.tsx` (`lg:pt-32`) and `CasesAxion.tsx` (`lg:pt-28`) are the design-system
+  REFERENCE files — balanced `pt-16 sm:pt-20 lg:pt-XX` + matching `pb` section rhythm, not
+  navbar compensation. Left untouched. Heroes changed today (e.g. `AboutHero`) already use the
+  correct `pt-10 sm:pt-14 lg:pt-20` pattern.
+- **Dual-accent rule** → fully compliant across all changed files. Every `text-brand-accent-on-light`
+  (#6d4a66) is paired with `dark:text-brand-accent`. Every bare `text-brand-accent` (#cca4c2) /
+  raw `#cca4c2` inline color sits only on permanently-dark-in-both-modes surfaces: `work/[id]`
+  media-card overlays (`bg-brand-dark`) and the design-locked `MagnetLanding` funnel (`bg-[#1a0d17]`).
+  `MissionStatement:20` is a correct `text-[#6d4a66]/… dark:text-brand-accent/…` pair. No violations.
+
+**Conclusion:** integration gate PASSED with zero code changes required. Ready to commit/deploy
+when Ibrahim gives the word.
 
 ## What was just done (2026-06-14 — Mutqin cover regenerated)
 

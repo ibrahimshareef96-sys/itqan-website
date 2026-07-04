@@ -4,6 +4,7 @@ import { Footer } from '@/components/layout/Footer';
 import { PageTransition } from '@/components/layout/PageTransition';
 import { SmoothScrollProvider } from '@/components/providers/SmoothScrollProvider';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
+import { PostHogProvider } from '@/components/providers/PostHogProvider';
 import { CookieBanner } from '@/components/CookieBanner';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { SITE_URL, SITE_NAME, TARGET_KEYWORDS, siteGraphLd } from '@/lib/seo';
@@ -12,11 +13,11 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Itqan Studio — Design, Automation & AI Agency in Dubai',
+    default: 'Itqan Studio — Design, AI Visibility & Web Agency in Dubai',
     template: '%s | Itqan Studio',
   },
   description:
-    'Itqan Studio is a Dubai design, automation and AI agency. We build brand identity, UI/UX, custom development and agentic automation systems that take founders from invisible to inevitable in 90 days. Guaranteed.',
+    'Itqan Studio is a Dubai design and AI agency. One partner for brand, websites that convert, content, SEO, AI visibility (GEO), hosting and automation — built and run by the same senior team.',
   keywords: [...TARGET_KEYWORDS],
   applicationName: SITE_NAME,
   authors: [{ name: SITE_NAME, url: SITE_URL }],
@@ -28,15 +29,15 @@ export const metadata: Metadata = {
     alternateLocale: ['ar_AE'],
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: 'Itqan Studio — Design, Automation & AI Agency in Dubai',
+    title: 'Itqan Studio — Design, AI Visibility & Web Agency in Dubai',
     description:
-      'The Dubai studio that builds brand, system and agentic automation — taking founders from invisible to inevitable in 90 days. Guaranteed.',
+      'One Dubai partner for brand, websites that convert, content, SEO, AI visibility (GEO), hosting and automation — one senior team, start to live.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Itqan Studio — Design, Automation & AI Agency in Dubai',
+    title: 'Itqan Studio — Design, AI Visibility & Web Agency in Dubai',
     description:
-      'The Dubai studio that builds brand, system and agentic AI automation. From invisible to inevitable in 90 days.',
+      'One Dubai partner for brand, sites that convert, content, SEO, AI visibility (GEO) and hosting — built and run by one senior team.',
   },
   robots: {
     index: true,
@@ -95,12 +96,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <ThemeProvider>
           <SmoothScrollProvider>
-            <Navbar />
-            <main>
-              <PageTransition>{children}</PageTransition>
-            </main>
-            <Footer />
-            <CookieBanner />
+            <PostHogProvider>
+              <Navbar />
+              <main>
+                <PageTransition>{children}</PageTransition>
+              </main>
+              <Footer />
+              <CookieBanner />
+            </PostHogProvider>
           </SmoothScrollProvider>
         </ThemeProvider>
       </body>

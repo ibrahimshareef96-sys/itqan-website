@@ -20,7 +20,7 @@ function AnimatedCheckmark() {
         height="56"
         viewBox="0 0 56 56"
         fill="none"
-        className="text-brand-accent-on-light"
+        className="text-brand-accent-on-light dark:text-brand-accent"
       >
         <motion.circle
           cx="28"
@@ -51,24 +51,24 @@ function AnimatedCheckmark() {
 
 export function ThankYouClient() {
   return (
-    <section className="bg-brand-cream min-h-[100dvh] flex items-center justify-center px-6">
+    <section className="bg-brand-cream dark:bg-[#1f1420] min-h-[100dvh] flex items-center justify-center px-6">
       <div className="text-center max-w-lg">
         <div className="flex justify-center mb-8">
           <AnimatedCheckmark />
         </div>
 
-        <h1 className="font-sans font-bold text-4xl md:text-5xl text-brand-dark leading-tight tracking-tight">
+        <h1 className="font-sans font-bold text-4xl md:text-5xl text-brand-dark dark:text-brand-cream leading-tight tracking-tight">
           <SplitText text="Message received!" stagger={0.04} delay={0.7} />
         </h1>
 
         <TextReveal direction="up" delay={1.0} as="p">
-          <span className="font-serif italic text-4xl md:text-5xl text-brand-accent-on-light leading-tight tracking-tight mt-2 block">
+          <span className="font-serif italic text-4xl md:text-5xl text-brand-accent-on-light dark:text-brand-accent leading-tight tracking-tight mt-2 block">
             We&apos;ll be in touch soon.
           </span>
         </TextReveal>
 
         <FadeUp delay={1.2}>
-          <p className="mt-7 text-text-secondary text-base leading-relaxed">
+          <p className="mt-7 text-text-secondary dark:text-brand-cream/70 text-base leading-relaxed">
             Thank you for reaching out. We&apos;ll review your message and get back to you within
             48 hours. Looking forward to working together.
           </p>
@@ -83,7 +83,7 @@ export function ThankYouClient() {
             >
               <Link
                 href="/"
-                className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream px-6 py-3 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity duration-200"
+                className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream dark:bg-brand-cream dark:text-brand-dark px-6 py-3 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity duration-200"
               >
                 Back to home
                 <ArrowRight size={14} weight="bold" />
@@ -96,7 +96,7 @@ export function ThankYouClient() {
             >
               <Link
                 href="/work"
-                className="inline-flex items-center gap-2 border border-brand-dark/25 text-brand-dark px-6 py-3 rounded-full text-sm font-semibold hover:bg-brand-dark hover:text-brand-cream transition-colors duration-200"
+                className="inline-flex items-center gap-2 border border-brand-dark/25 text-brand-dark dark:border-brand-cream/30 dark:text-brand-cream px-6 py-3 rounded-full text-sm font-semibold hover:bg-brand-dark hover:text-brand-cream dark:hover:bg-brand-cream dark:hover:text-brand-dark dark:hover:border-brand-cream transition-colors duration-200"
               >
                 View our work
                 <ArrowRight size={14} weight="bold" />

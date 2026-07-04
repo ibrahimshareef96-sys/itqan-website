@@ -14,18 +14,30 @@ import { PARTNER_HALO_ENABLED } from '@/lib/flags';
  *   2. Replace the PLACEHOLDER copy below (eyebrow, headline, proof, attribution)
  *      with the real partner halo, and drop the partner logo into the logo slot.
  *
- * Keep it on-brand: dark section, Manrope-bold headline, ONE Playfair-italic
- * mauve accent word (`.accent-italic`), and only claims that are true and signed.
+ * Keep it on-brand: light-first + dark-aware surface, Manrope-bold headline,
+ * ONE Playfair-italic mauve accent word (`.accent-italic`, theme-adaptive), and
+ * only claims that are true and signed.
  * ---------------------------------------------------------------------------
  */
 export function PartnerHalo() {
   if (!PARTNER_HALO_ENABLED) return null;
 
   return (
-    <section className="relative py-28 md:py-36 overflow-hidden" aria-labelledby="partner-halo-heading">
-      {/* Accent ambient */}
+    <section
+      className="relative bg-brand-cream dark:bg-[#1f1420] py-24 md:py-32 overflow-hidden"
+      aria-labelledby="partner-halo-heading"
+    >
+      {/* Accent ambient — low on light, richer on dark */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none dark:hidden"
+        aria-hidden="true"
+        style={{
+          background:
+            'radial-gradient(ellipse 60% 50% at 50% 20%, rgba(109,74,102,0.05), transparent 60%)',
+        }}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none hidden dark:block"
         aria-hidden="true"
         style={{
           background:
@@ -37,7 +49,7 @@ export function PartnerHalo() {
         {/* Eyebrow — PLACEHOLDER */}
         <FadeUp>
           <p
-            className="font-sans font-medium text-[0.75rem] uppercase text-brand-accent"
+            className="font-sans font-medium text-[0.75rem] uppercase text-brand-accent-on-light dark:text-brand-accent"
             style={{ letterSpacing: '0.22em' }}
           >
             In partnership
@@ -47,7 +59,7 @@ export function PartnerHalo() {
         {/* Logo slot — PLACEHOLDER. Drop the partner mark here (next/image). */}
         <FadeUp delay={0.05}>
           <div
-            className="mx-auto mt-8 h-14 w-40 rounded-[10px] border border-dashed border-brand-cream/20 flex items-center justify-center text-[0.625rem] uppercase tracking-[0.2em] text-brand-cream/30"
+            className="mx-auto mt-8 h-14 w-40 rounded-[10px] border border-dashed border-black/20 dark:border-brand-cream/20 flex items-center justify-center text-[0.625rem] uppercase tracking-[0.2em] text-text-secondary/60 dark:text-brand-cream/30"
             aria-hidden="true"
           >
             Partner logo
@@ -58,7 +70,7 @@ export function PartnerHalo() {
         <FadeUp delay={0.1}>
           <h2
             id="partner-halo-heading"
-            className="mt-10 mx-auto font-sans font-semibold text-brand-cream leading-[1.1] tracking-[-0.02em]"
+            className="mt-10 mx-auto font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.1] tracking-[-0.02em]"
             style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', maxWidth: '22ch' }}
           >
             Standing beside a name you already{' '}
@@ -69,7 +81,7 @@ export function PartnerHalo() {
         {/* Proof line — PLACEHOLDER */}
         <FadeUp delay={0.16}>
           <p
-            className="mt-7 mx-auto text-brand-cream/70 leading-[1.6]"
+            className="mt-7 mx-auto text-text-secondary dark:text-brand-cream/70 leading-[1.6]"
             style={{ fontSize: 'clamp(1rem, 1.25vw, 1.125rem)', maxWidth: '52ch' }}
           >
             {/* Replace with the real, signed partnership proof. */}

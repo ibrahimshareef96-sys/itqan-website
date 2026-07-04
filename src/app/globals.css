@@ -21,24 +21,35 @@
     /* scroll-behavior handled by Lenis; native smooth disabled to avoid conflict */
   }
 
+  /* Light-first base (Ibrahim, 2026-07-04): cream body + dark text by default;
+     html.dark restores the plum gradient identity. Components layer their own
+     surfaces on top and switch with `dark:` variants. */
   body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: 'Manrope', sans-serif;
+    color: #1a1a1a;
+    background-color: #fffbf5;
+    min-height: 100vh;
+  }
+  html.dark body {
     color: var(--brand-cream);
     background-color: #130a14;
-    min-height: 100vh;
   }
 }
 
-/* Fixed gradient background via pseudo-element — avoids recomposition on scroll */
+/* Fixed gradient background via pseudo-element — avoids recomposition on scroll.
+   Light: warm cream wash. Dark: the plum gradient. */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background: linear-gradient(180deg, #1f1420 0%, #1a0f1c 55%, #130a14 100%);
+  background: linear-gradient(180deg, #fffbf5 0%, #faf4ec 55%, #f5efe6 100%);
   z-index: -1;
   pointer-events: none;
+}
+html.dark body::before {
+  background: linear-gradient(180deg, #1f1420 0%, #1a0f1c 55%, #130a14 100%);
 }
 
 /* Hero video — mobile crops to keep the founder in frame */
@@ -92,25 +103,32 @@ body::before {
   outline-offset: -2px;
 }
 
-/* Gradient text — used on hero "pixel" word */
+/* Gradient text — legacy hero accent word. THEME-ADAPTIVE: solid deep mauve on
+   light (the pink gradient is unreadable on cream), gradient on dark. */
 .pixel-gradient {
-  background-image: linear-gradient(105deg, #ffe8f3 0%, #f8c8e0 35%, #d9a8c8 70%, #cca4c2 100%) !important;
-  -webkit-background-clip: text !important;
-  background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  color: transparent !important;
+  color: #6d4a66;
   font-style: italic;
   font-weight: 500;
 }
+html.dark .pixel-gradient {
+  background-image: linear-gradient(105deg, #ffe8f3 0%, #f8c8e0 35%, #d9a8c8 70%, #cca4c2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
 
-/* Editorial display accent — Playfair italic with the brand gradient.
-   Use for the BIG italic accent words in headlines: "Operating System",
-   "inevitable", "No surprises.", "actually built." etc.
-   Keep solid text-brand-accent for small body italics + disclaimers. */
+/* Editorial display accent — Playfair italic accent words in headlines.
+   THEME-ADAPTIVE (dual-accent rule): solid #6d4a66 on light surfaces,
+   the mauve gradient on dark. Components on light-first sections can use
+   this class directly and stay correct in both modes. */
 .accent-italic {
   font-family: 'Playfair Display', serif;
   font-style: italic;
   font-weight: 500;
+  color: #6d4a66;
+}
+html.dark .accent-italic {
   background-image: linear-gradient(105deg, #ffe8f3 0%, #f8c8e0 35%, #d9a8c8 70%, #cca4c2 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -130,13 +148,16 @@ body::before {
   background-position: 0% 5%;
 }
 
-/* Stats + portrait gradient — pink gradient text */
+/* Stats + portrait gradient — THEME-ADAPTIVE like .accent-italic. */
 .stats-gradient {
-  background-image: linear-gradient(105deg, #ffe8f3 0%, #f8c8e0 35%, #d9a8c8 70%, #cca4c2 100%) !important;
-  -webkit-background-clip: text !important;
-  background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  color: transparent !important;
+  color: #6d4a66;
+}
+html.dark .stats-gradient {
+  background-image: linear-gradient(105deg, #ffe8f3 0%, #f8c8e0 35%, #d9a8c8 70%, #cca4c2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 /* Stats line mobile wrap */

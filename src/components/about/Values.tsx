@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { Palette, Lightning, PencilSimpleLine } from '@phosphor-icons/react';
+import { FadeUp } from '@/components/ui/FadeUp';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { SpringCard } from '@/components/ui/SpringCard';
 import { StaggerContainer, StaggerItem } from '@/components/ui/StaggerContainer';
@@ -40,19 +41,52 @@ const tags = [
 
 export function Values() {
   return (
-    <section className="py-24 lg:py-32">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+    <section
+      className="bg-[#f5efe6] dark:bg-[#1a0f1c] py-20 sm:py-24 lg:py-32"
+      aria-labelledby="values-heading"
+    >
+      <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
+        {/* Numbered badge row */}
+        <FadeUp>
+          <div className="flex items-center gap-3 mb-8 sm:mb-10">
+            <span className="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-brand-dark text-brand-cream dark:bg-brand-cream dark:text-brand-dark text-[0.6875rem] sm:text-[0.75rem] font-semibold">
+              3
+            </span>
+            <span className="text-[0.75rem] sm:text-[0.8125rem] font-medium text-text-primary dark:text-brand-cream border border-black/[0.12] dark:border-brand-cream/[0.18] rounded-full px-3 sm:px-4 py-1 sm:py-1.5">
+              How we work
+            </span>
+          </div>
+        </FadeUp>
 
-        <div className="mt-0 grid md:grid-cols-3 gap-6">
+        <FadeUp delay={0.06}>
+          <h2
+            id="values-heading"
+            className="font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.1] tracking-[-0.02em] max-w-[20ch]"
+            style={{ fontSize: 'clamp(1.75rem, 4vw, 3.2rem)' }}
+          >
+            Three ways we hold the line on{' '}
+            <span
+              className="text-brand-accent-on-light dark:text-brand-accent"
+              style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 500 }}
+            >
+              excellence
+            </span>
+            .
+          </h2>
+        </FadeUp>
+
+        <div className="mt-12 sm:mt-14 grid md:grid-cols-3 gap-5 sm:gap-6">
           {values.map(({ Icon, title, description, image }, i) => (
             <ScrollReveal key={title} direction={directions[i]} distance={28} delay={0.08 + i * 0.09}>
               <SpringCard className="h-full">
-                <div className="rounded-2xl p-8 flex flex-col border border-[rgba(255,251,245,0.08)] bg-[rgba(255,251,245,0.03)] overflow-hidden h-full">
-                  <Icon size={22} className="text-brand-accent mb-5" />
-                  <h3 className="font-sans font-semibold text-xl text-brand-cream leading-snug mb-4">
+                <div className="rounded-2xl p-7 sm:p-8 flex flex-col border border-black/[0.08] bg-white dark:border-brand-cream/[0.12] dark:bg-[#2a1a28] shadow-[0_2px_12px_rgba(47,28,44,0.06)] overflow-hidden h-full">
+                  <Icon size={22} className="text-brand-accent-on-light dark:text-brand-accent mb-5" />
+                  <h3 className="font-sans font-semibold text-xl text-text-primary dark:text-brand-cream leading-snug mb-4">
                     {title}
                   </h3>
-                  <p className="text-[rgba(255,251,245,0.65)] text-sm leading-relaxed flex-1">{description}</p>
+                  <p className="text-text-secondary dark:text-brand-cream/65 text-sm leading-relaxed flex-1">
+                    {description}
+                  </p>
                   <div className="mt-7 relative aspect-[4/3] rounded-xl overflow-hidden">
                     <Image src={image} alt="" fill className="object-cover" sizes="(max-width: 768px) 100vw, 25vw" />
                   </div>
@@ -65,21 +99,12 @@ export function Values() {
         <StaggerContainer stagger={0.03} delay={0.1} className="mt-12 flex flex-wrap gap-2.5">
           {tags.map((tag) => (
             <StaggerItem key={tag}>
-              <span
-                className="px-4 py-2 rounded-full text-[11px] font-medium text-[rgba(255,251,245,0.95)] tracking-wide transition-colors duration-200"
-                style={{
-                  background: 'rgba(255, 251, 245, 0.12)',
-                  backdropFilter: 'blur(12px)',
-                  WebkitBackdropFilter: 'blur(12px)',
-                  border: '1px solid rgba(255, 251, 245, 0.2)',
-                }}
-              >
+              <span className="inline-flex px-4 py-2 rounded-full text-[11px] font-medium tracking-wide text-text-primary dark:text-brand-cream border border-black/[0.1] bg-white dark:border-brand-cream/[0.15] dark:bg-brand-cream/[0.06] transition-colors duration-200">
                 {tag}
               </span>
             </StaggerItem>
           ))}
         </StaggerContainer>
-
       </div>
     </section>
   );

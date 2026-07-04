@@ -9,8 +9,11 @@ interface LegalPageLayoutProps {
 }
 
 export function LegalPageLayout({ title, lastUpdated, children }: LegalPageLayoutProps) {
+  // Deliberate dark-in-both-modes surface: globals.css `.legal-prose` is dark-tuned
+  // (cream text) and is owned by another agent, so the legal prose stays on a plum
+  // surface in both themes — the one permitted dark moment per the design system.
   return (
-    <section className="bg-brand-dark min-h-[100dvh] pt-28 pb-24">
+    <section className="bg-brand-dark min-h-[100dvh] pt-10 md:pt-16 pb-20 sm:pb-24">
       <div className="max-w-[920px] mx-auto px-5 md:px-8">
 
         {/* Back link */}

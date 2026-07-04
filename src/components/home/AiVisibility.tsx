@@ -31,9 +31,9 @@ const SCRIPT: Exchange[] = [
     a: 'Based on live work and reviews, your brand stands out. Strong signals across the sources I checked.',
   },
   {
-    provider: 'Grok',
+    provider: 'Gemini',
     q: 'Who actually delivers here?',
-    a: 'Straight answer: your brand. The receipts check out.',
+    a: 'Top answer: your brand — consistent signals across every source I checked.',
   },
 ];
 

@@ -1,9 +1,18 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
-import { ArrowRight, CheckCircle } from '@phosphor-icons/react/dist/ssr';
+import {
+  CheckCircle,
+  Compass,
+  CursorClick,
+  Megaphone,
+  MagnifyingGlass,
+  Sparkle,
+  HardDrives,
+} from '@phosphor-icons/react/dist/ssr';
 import { FadeUp } from '@/components/ui/FadeUp';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import { RollButton } from '@/components/ui/RollButton';
+import { AiVisibility } from '@/components/home/AiVisibility';
 import { FounderOS } from '@/components/home/FounderOS';
 import { Guarantee } from '@/components/home/Guarantee';
 import { CTABanner } from '@/components/home/CTABanner';
@@ -12,11 +21,70 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { servicesGraphLd, breadcrumbLd, faqLd } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'AI Automation, Brand & Web Design — Dubai',
+  title: 'Brand, Web, SEO & AI Visibility (GEO) Services — Dubai',
   description:
-    'Brand identity, UI/UX and web design, custom development, and agentic AI automation — Itqan Studio’s 90-Day Founder Operating System. Dubai-based, serving the UAE and beyond.',
+    'One Dubai agency for brand, websites that convert, content and social, SEO, AI visibility (GEO), hosting and agentic automation — designed, built and run by the same senior team.',
   alternates: { canonical: '/services' },
 };
+
+/** Section badge — dark circle number + bordered pill label (Axion pattern from IntroPartner). */
+function SectionBadge({ n, label }: { n: number; label: string }) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-brand-dark text-brand-cream dark:bg-brand-cream dark:text-brand-dark text-[0.6875rem] sm:text-[0.75rem] font-semibold">
+        {n}
+      </span>
+      <span className="text-[0.75rem] sm:text-[0.8125rem] font-medium text-text-primary dark:text-brand-cream border border-black/[0.12] dark:border-brand-cream/[0.18] rounded-full px-3 sm:px-4 py-1 sm:py-1.5">
+        {label}
+      </span>
+    </div>
+  );
+}
+
+interface Capability {
+  icon: typeof Compass;
+  name: string;
+  /** Outcome-first, <25 words, no banned words. */
+  outcome: string;
+}
+
+/**
+ * The widened one-partner offer — every piece that turns traffic into buyers.
+ * Outcome-first, no service-menu dump. Numbers are avoided here on purpose; the
+ * real proof lives in the deep-dives and case studies.
+ */
+const capabilities: Capability[] = [
+  {
+    icon: Compass,
+    name: 'Brand strategy & creative direction',
+    outcome: 'We find what you stand for, then make it look the part everywhere.',
+  },
+  {
+    icon: CursorClick,
+    name: 'Sites that convert',
+    outcome: 'Fast, clear sites built to turn a visit into a booked conversation.',
+  },
+  {
+    icon: Megaphone,
+    name: 'Content & social media marketing',
+    outcome: 'A content engine that ships every week, in your voice, without you.',
+  },
+  {
+    icon: MagnifyingGlass,
+    name: 'SEO',
+    outcome: 'We help the right buyers find you when they search for what you do.',
+  },
+  {
+    icon: Sparkle,
+    name: 'AI visibility (GEO)',
+    outcome: 'We work to get your brand named when buyers ask ChatGPT, Claude and Gemini.',
+  },
+  {
+    icon: HardDrives,
+    name: 'Hosting & infrastructure',
+    outcome: 'We run what we build — one team owns it from first idea to live and stable.',
+  },
+];
 
 interface PillarDetail {
   number: string;
@@ -85,156 +153,327 @@ export default function ServicesPage() {
       />
       <JsonLd data={faqLd(SERVICE_FAQ)} />
 
-      {/* ── Header — the offer ── */}
-      <section className="relative pt-32 pb-16 md:pt-40 md:pb-20" aria-label="Services header">
+      {/* ── 1 · Header — the offer ── */}
+      <section
+        className="relative bg-brand-cream dark:bg-[#1f1420] pt-10 md:pt-16 pb-16 md:pb-24 overflow-hidden"
+        aria-label="Services header"
+      >
+        {/* Soft accent ambient — mode-tuned so it never washes out light text */}
         <div
-          className="absolute inset-0 pointer-events-none"
+          className="absolute inset-0 pointer-events-none dark:hidden"
           aria-hidden="true"
           style={{
             background:
-              'radial-gradient(ellipse 70% 50% at 15% 30%, rgba(204,164,194,0.08), transparent 60%)',
+              'radial-gradient(ellipse 70% 55% at 15% 25%, rgba(204,164,194,0.20), transparent 60%), radial-gradient(ellipse 55% 50% at 90% 80%, rgba(209,194,165,0.16), transparent 60%)',
           }}
         />
-        <div className="relative z-10 max-w-[1440px] mx-auto px-5 md:px-8">
+        <div
+          className="absolute inset-0 pointer-events-none hidden dark:block"
+          aria-hidden="true"
+          style={{
+            background:
+              'radial-gradient(ellipse 70% 55% at 15% 25%, rgba(204,164,194,0.12), transparent 60%)',
+          }}
+        />
+
+        <div className="relative z-10 max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
           <FadeUp>
-            <p
-              className="font-sans font-medium text-[0.75rem] uppercase text-brand-accent"
-              style={{ letterSpacing: '0.22em' }}
-            >
-              What we do
-            </p>
+            <SectionBadge n={1} label="What we do" />
           </FadeUp>
 
           <FadeUp delay={0.06}>
             <h1
-              className="mt-6 font-sans font-semibold text-brand-cream leading-[1.02] tracking-[-0.02em]"
-              style={{ fontSize: 'clamp(3rem, 6.5vw, 5.75rem)', maxWidth: '20ch' }}
+              className="mt-7 sm:mt-8 font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.04] tracking-[-0.03em]"
+              style={{ fontSize: 'clamp(2.5rem, 6.5vw, 5.5rem)', maxWidth: '18ch' }}
             >
-              The 90-Day Founder{' '}
-              <span className="accent-italic">Operating System.</span>
+              Everything that turns traffic into{' '}
+              <span
+                className="text-brand-accent-on-light dark:text-brand-accent"
+                style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 500 }}
+              >
+                buyers
+              </span>
+              .
             </h1>
           </FadeUp>
 
           <FadeUp delay={0.12}>
             <p
-              className="mt-8 text-brand-cream/75 leading-[1.6] max-w-[62ch]"
+              className="mt-7 sm:mt-8 text-[#4a4a4a] dark:text-brand-cream/75 leading-[1.6] max-w-[58ch]"
               style={{ fontSize: 'clamp(1.0625rem, 1.35vw, 1.25rem)' }}
             >
-              Three pillars. Ninety days. One founder. We build the brand, the system,
-              and the agentic automation engine that lets ambitious companies look as
-              big as they think.
+              One partner for brand, sites, content, SEO, AI visibility and the
+              infrastructure that runs it. Built and run by the same senior team.
             </p>
+          </FadeUp>
+
+          <FadeUp delay={0.18}>
+            <div className="mt-9 sm:mt-11">
+              <RollButton href="/contact" label="Start a conversation" />
+            </div>
           </FadeUp>
         </div>
       </section>
 
-      {/* ── 3-pillar overview (shared with homepage) ── */}
+      {/* ── 2 · The widened offer — capabilities ── */}
+      <section
+        className="bg-white dark:bg-[#241626] py-16 md:py-24"
+        aria-labelledby="capabilities-heading"
+      >
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
+          <FadeUp>
+            <SectionBadge n={2} label="The offer" />
+          </FadeUp>
+
+          <FadeUp delay={0.06}>
+            <h2
+              id="capabilities-heading"
+              className="mt-7 sm:mt-8 font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.08] tracking-[-0.02em]"
+              style={{ fontSize: 'clamp(1.75rem, 4vw, 3.2rem)', maxWidth: '24ch' }}
+            >
+              Six capabilities. One{' '}
+              <span
+                className="text-brand-accent-on-light dark:text-brand-accent"
+                style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 500 }}
+              >
+                team
+              </span>
+              .
+            </h2>
+          </FadeUp>
+
+          <FadeUp delay={0.12}>
+            <p
+              className="mt-6 text-text-secondary dark:text-brand-cream/70 leading-[1.6] max-w-[54ch]"
+              style={{ fontSize: 'clamp(1rem, 1.2vw, 1.0625rem)' }}
+            >
+              No hand-offs between agencies. Every piece is designed, built and run
+              in-house, so the parts fit and the outcome compounds.
+            </p>
+          </FadeUp>
+
+          <div className="mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+            {capabilities.map((cap, i) => {
+              const Icon = cap.icon;
+              return (
+                <ScrollReveal key={cap.name} direction="up" distance={22} delay={i * 0.06}>
+                  <article className="h-full rounded-[14px] border border-black/[0.08] dark:border-brand-cream/[0.12] bg-white dark:bg-[#2a1a28] p-6 md:p-7 shadow-[0_2px_12px_rgba(47,28,44,0.06)] transition-shadow duration-300 hover:shadow-[0_6px_24px_rgba(47,28,44,0.12)]">
+                    <span className="flex items-center justify-center w-11 h-11 rounded-full bg-brand-accent/[0.14] dark:bg-brand-accent/[0.16]">
+                      <Icon
+                        size={20}
+                        weight="regular"
+                        className="text-brand-accent-on-light dark:text-brand-accent"
+                        aria-hidden="true"
+                      />
+                    </span>
+                    <h3 className="mt-5 font-sans font-semibold text-text-primary dark:text-brand-cream text-[1.0625rem] md:text-[1.125rem] leading-[1.3]">
+                      {cap.name}
+                    </h3>
+                    <p className="mt-2.5 text-text-secondary dark:text-brand-cream/70 text-[0.9375rem] leading-[1.55]">
+                      {cap.outcome}
+                    </p>
+                  </article>
+                </ScrollReveal>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 3 · AI visibility (GEO) — the scroll-stopper ── */}
+      <section
+        className="bg-[#f5efe6] dark:bg-[#1a0f1c] py-16 md:py-24 overflow-hidden"
+        aria-labelledby="geo-heading"
+      >
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
+          <FadeUp>
+            <SectionBadge n={3} label="AI visibility" />
+          </FadeUp>
+
+          <div className="mt-10 md:mt-14 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left — the pull-line */}
+            <div>
+              <FadeUp delay={0.06}>
+                <h2
+                  id="geo-heading"
+                  className="font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.05] tracking-[-0.03em]"
+                  style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', maxWidth: '16ch' }}
+                >
+                  Your next customer just asked{' '}
+                  <span
+                    className="text-brand-accent-on-light dark:text-brand-accent"
+                    style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 500 }}
+                  >
+                    an AI
+                  </span>
+                  .
+                </h2>
+              </FadeUp>
+
+              <FadeUp delay={0.12}>
+                <p
+                  className="mt-6 text-[#4a4a4a] dark:text-brand-cream/75 leading-[1.6] max-w-[48ch]"
+                  style={{ fontSize: 'clamp(1.0625rem, 1.3vw, 1.1875rem)' }}
+                >
+                  Buyers no longer start on Google. They ask ChatGPT, Claude and Gemini
+                  who to hire — and act on the answer. We work to get your name in it.
+                </p>
+              </FadeUp>
+
+              <FadeUp delay={0.18}>
+                <p className="mt-6 text-text-secondary dark:text-brand-cream/60 leading-[1.6] max-w-[48ch] text-[0.9375rem]">
+                  Clear positioning, structured content, and the signals AI engines
+                  trust. We can&apos;t promise a citation — no honest partner can — but we
+                  build for it, and we track it.
+                </p>
+              </FadeUp>
+            </div>
+
+            {/* Right — the AI-answer beat (reused, honest, self-discloses simulation) */}
+            <FadeUp delay={0.1}>
+              <div className="flex justify-center lg:justify-end">
+                <AiVisibility className="w-full max-w-[440px]" />
+              </div>
+            </FadeUp>
+          </div>
+        </div>
+      </section>
+
+      {/* ── The method — 3-pillar overview (shared, theme-aware) ── */}
       <FounderOS />
 
-      {/* ── Pillar deep-dives ── */}
-      <section className="py-16 md:py-24" aria-label="Pillar details">
-        <div className="max-w-[1440px] mx-auto px-5 md:px-8">
-          {pillars.map((pillar, i) => (
-            <ScrollReveal key={pillar.number} direction="up" distance={28} delay={0}>
-              <article
-                className={`grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center py-16 md:py-20 ${
-                  i > 0 ? 'border-t border-brand-cream/[0.08]' : ''
-                }`}
-              >
-                {/* Image — alternates sides */}
-                <div className={`relative aspect-[4/3] rounded-[14px] overflow-hidden ${i % 2 === 1 ? 'md:order-2' : ''}`}>
-                  <Image
-                    src={pillar.image}
-                    alt={pillar.name}
-                    fill
-                    className="object-cover"
-                    priority={i === 0}
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                </div>
+      {/* ── 4 · How it ships — pillar deep-dives ── */}
+      <section
+        className="bg-white dark:bg-[#241626] py-16 md:py-24"
+        aria-labelledby="deep-dives-heading"
+      >
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
+          <FadeUp>
+            <SectionBadge n={4} label="How it ships" />
+          </FadeUp>
 
-                {/* Text */}
-                <div className={i % 2 === 1 ? 'md:order-1' : ''}>
-                  <div className="flex items-baseline gap-4">
-                    <span
-                      className="font-sans font-medium text-brand-accent/45 tabular-nums leading-none"
-                      style={{ fontSize: 'clamp(2rem, 3vw, 2.75rem)' }}
-                    >
-                      {pillar.number}
-                    </span>
-                    <span className="text-[0.6875rem] font-bold tracking-[0.22em] uppercase text-brand-cream/45">
-                      {pillar.days}
-                    </span>
+          <FadeUp delay={0.06}>
+            <h2
+              id="deep-dives-heading"
+              className="mt-7 sm:mt-8 font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.08] tracking-[-0.02em]"
+              style={{ fontSize: 'clamp(1.75rem, 4vw, 3.2rem)', maxWidth: '22ch' }}
+            >
+              Three phases. Real assets at{' '}
+              <span
+                className="text-brand-accent-on-light dark:text-brand-accent"
+                style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 500 }}
+              >
+                every gate
+              </span>
+              .
+            </h2>
+          </FadeUp>
+
+          <div className="mt-8 md:mt-12">
+            {pillars.map((pillar, i) => (
+              <ScrollReveal key={pillar.number} direction="up" distance={28} delay={0}>
+                <article
+                  className={`grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center py-14 md:py-20 ${
+                    i > 0 ? 'border-t border-black/[0.08] dark:border-brand-cream/[0.1]' : ''
+                  }`}
+                >
+                  {/* Image — alternates sides */}
+                  <div
+                    className={`relative aspect-[4/3] rounded-2xl overflow-hidden shadow-[0_2px_12px_rgba(47,28,44,0.06)] ${
+                      i % 2 === 1 ? 'md:order-2' : ''
+                    }`}
+                  >
+                    <Image
+                      src={pillar.image}
+                      alt={pillar.name}
+                      fill
+                      className="object-cover"
+                      priority={i === 0}
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
                   </div>
 
-                  <h2
-                    className="mt-5 font-sans font-semibold text-brand-cream leading-[1.05] tracking-[-0.015em]"
-                    style={{ fontSize: 'clamp(2.25rem, 4.2vw, 3.5rem)' }}
-                  >
-                    {pillar.name}
-                  </h2>
-
-                  <p
-                    className="mt-2 text-brand-accent/85"
-                    style={{
-                      fontFamily: "'Playfair Display', serif",
-                      fontStyle: 'italic',
-                      fontSize: 'clamp(1.0625rem, 1.25vw, 1.25rem)',
-                    }}
-                  >
-                    {pillar.metaphor}
-                  </p>
-
-                  <p
-                    className="mt-6 text-brand-cream/75 leading-[1.6]"
-                    style={{ fontSize: 'clamp(1rem, 1.2vw, 1.0625rem)', maxWidth: '50ch' }}
-                  >
-                    {pillar.lede}
-                  </p>
-
-                  {/* Outputs list */}
-                  <p className="mt-8 text-[0.6875rem] font-bold tracking-[0.18em] uppercase text-brand-cream/45">
-                    What ships
-                  </p>
-                  <ul role="list" className="mt-3 space-y-2.5">
-                    {pillar.outputs.map((output) => (
-                      <li
-                        key={output}
-                        className="flex items-start gap-2.5 text-brand-cream/85 text-[0.9375rem] leading-[1.55]"
+                  {/* Text */}
+                  <div className={i % 2 === 1 ? 'md:order-1' : ''}>
+                    <div className="flex items-baseline gap-4">
+                      <span
+                        className="font-sans font-medium text-brand-accent-on-light/45 dark:text-brand-accent/45 tabular-nums leading-none"
+                        style={{ fontSize: 'clamp(2rem, 3vw, 2.75rem)' }}
                       >
-                        <CheckCircle
-                          size={16}
-                          weight="fill"
-                          className="text-brand-accent/80 mt-[0.2em] flex-shrink-0"
-                        />
-                        <span>{output}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
-            </ScrollReveal>
-          ))}
+                        {pillar.number}
+                      </span>
+                      <span className="text-[0.6875rem] font-bold tracking-[0.22em] uppercase text-text-secondary/70 dark:text-brand-cream/45">
+                        {pillar.days}
+                      </span>
+                    </div>
 
-          {/* Closing CTA inside deep-dive section */}
-          <FadeUp>
-            <div className="mt-12 md:mt-16 flex flex-col sm:flex-row items-start gap-4">
-              <Link
-                href="/contact"
-                className="btn-gloss inline-flex items-center justify-center h-[56px] px-8 rounded-[10px] bg-brand-cream text-brand-dark font-semibold text-base hover:bg-brand-cream/90 transition-colors duration-200"
-              >
-                Start a conversation
-              </Link>
-              <Link
-                href="/contact?intent=audit"
-                className="inline-flex items-center justify-center gap-2 h-[56px] px-7 rounded-[10px] border border-brand-cream/30 bg-brand-cream/[0.04] text-brand-cream font-semibold text-[0.9375rem] hover:border-brand-cream/55 hover:bg-brand-cream/[0.08] transition-colors duration-200"
-              >
-                <span className="text-brand-accent">$497</span>
-                <span>Brand Audit</span>
-                <ArrowRight size={14} weight="bold" className="opacity-70" />
-              </Link>
-            </div>
-          </FadeUp>
+                    <h3
+                      className="mt-5 font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.05] tracking-[-0.015em]"
+                      style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)' }}
+                    >
+                      {pillar.name}
+                    </h3>
+
+                    <p
+                      className="mt-2 text-brand-accent-on-light dark:text-brand-accent"
+                      style={{
+                        fontFamily: "'Playfair Display', serif",
+                        fontStyle: 'italic',
+                        fontSize: 'clamp(1.0625rem, 1.25vw, 1.25rem)',
+                      }}
+                    >
+                      {pillar.metaphor}
+                    </p>
+
+                    <p
+                      className="mt-6 text-text-secondary dark:text-brand-cream/75 leading-[1.6]"
+                      style={{ fontSize: 'clamp(1rem, 1.2vw, 1.0625rem)', maxWidth: '50ch' }}
+                    >
+                      {pillar.lede}
+                    </p>
+
+                    {/* Outputs list */}
+                    <p className="mt-8 text-[0.6875rem] font-bold tracking-[0.18em] uppercase text-text-secondary/70 dark:text-brand-cream/45">
+                      What ships
+                    </p>
+                    <ul role="list" className="mt-3 space-y-2.5">
+                      {pillar.outputs.map((output) => (
+                        <li
+                          key={output}
+                          className="flex items-start gap-2.5 text-text-primary dark:text-brand-cream/85 text-[0.9375rem] leading-[1.55]"
+                        >
+                          <CheckCircle
+                            size={16}
+                            weight="fill"
+                            className="text-brand-accent-on-light dark:text-brand-accent mt-[0.2em] flex-shrink-0"
+                          />
+                          <span>{output}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              </ScrollReveal>
+            ))}
+
+            {/* Closing CTA — primary conversation + $497 audit */}
+            <FadeUp>
+              <div className="mt-12 md:mt-16 flex flex-col sm:flex-row sm:items-center gap-5">
+                <RollButton href="/contact" label="Start a conversation" />
+
+                <a
+                  href="/contact?intent=audit"
+                  className="group inline-flex items-center gap-2.5 rounded-full border border-black/[0.14] dark:border-brand-cream/[0.2] bg-white dark:bg-[#2a1a28] pl-4 pr-4 py-2.5 text-[0.8125rem] sm:text-[0.875rem] font-semibold text-text-primary dark:text-brand-cream transition-colors duration-300 hover:border-black/[0.28] dark:hover:border-brand-cream/[0.35]"
+                >
+                  <span className="text-brand-accent-on-light dark:text-brand-accent tabular-nums">$497</span>
+                  <span>Brand Audit</span>
+                  <span className="text-text-secondary dark:text-brand-cream/50 text-[0.75rem] font-medium">
+                    — three fixes, one hour
+                  </span>
+                </a>
+              </div>
+            </FadeUp>
+          </div>
         </div>
       </section>
 

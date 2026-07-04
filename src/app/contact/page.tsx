@@ -13,7 +13,7 @@ import { breadcrumbLd } from '@/lib/seo';
 export const metadata: Metadata = {
   title: 'Contact — Book a Call With Our Dubai Studio',
   description:
-    'Book a discovery call with Itqan Studio — a Dubai design, automation and AI studio — or send a message. We respond within 24 hours.',
+    'Book a discovery call with Itqan Studio — a Dubai design and AI agency covering brand, web, SEO, AI visibility (GEO), hosting and automation — or send a message. We respond within 24 hours.',
   alternates: { canonical: '/contact' },
 };
 
@@ -73,7 +73,7 @@ export default function ContactPage({ searchParams }: Props) {
   const copy = (intent && INTENT_COPY[intent]) || DEFAULT_COPY;
 
   return (
-    <section className="min-h-[100dvh] pt-28 pb-24">
+    <section className="bg-brand-cream dark:bg-[#1f1420] min-h-[100dvh] pt-10 md:pt-16 pb-20 sm:pb-24">
       <JsonLd
         data={breadcrumbLd([
           { name: 'Home', path: '/' },
@@ -90,17 +90,31 @@ export default function ContactPage({ searchParams }: Props) {
             </FadeUp>
 
             <TextReveal direction="up" delay={0.08} className="mt-6">
-              <h1 className="font-sans font-semibold text-[2rem] sm:text-4xl md:text-5xl lg:text-6xl text-brand-cream leading-tight tracking-tight">
+              <h1 className="font-sans font-semibold text-[2rem] sm:text-4xl md:text-5xl lg:text-6xl text-text-primary dark:text-brand-cream leading-tight tracking-[-0.02em]">
                 {copy.heading}
               </h1>
-              <p className="font-sans font-normal text-[1.25rem] sm:text-2xl text-brand-cream/65 leading-relaxed mt-3">
+              <p className="font-sans font-normal text-[1.25rem] sm:text-2xl text-text-secondary dark:text-brand-cream/65 leading-relaxed mt-3">
                 {copy.subheading}
               </p>
             </TextReveal>
 
             <FadeUp delay={0.16}>
-              <p className="mt-7 text-brand-cream/60 text-base leading-relaxed max-w-[50ch]">
+              <p className="mt-7 text-text-secondary dark:text-brand-cream/60 text-base leading-relaxed max-w-[50ch]">
                 {copy.body}
+              </p>
+            </FadeUp>
+
+            {/* AI-moment — buyers now ask AI who to hire (in-voice, honest) */}
+            <FadeUp delay={0.2}>
+              <p className="mt-6 text-[0.9375rem] sm:text-base leading-relaxed max-w-[46ch] text-text-primary dark:text-brand-cream/85">
+                You found us.{' '}
+                <span
+                  className="text-brand-accent-on-light dark:text-brand-accent"
+                  style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 500 }}
+                >
+                  Your buyers
+                </span>{' '}
+                should find you the same way.
               </p>
             </FadeUp>
 
@@ -111,8 +125,8 @@ export default function ContactPage({ searchParams }: Props) {
 
           {/* Right column — form */}
           <ScrollReveal direction="right" distance={28} delay={0.14} className="lg:pt-2">
-            <div className="rounded-2xl border border-brand-cream/[0.08] p-8">
-              <p className="font-semibold text-brand-cream text-lg mb-6">Send us a message</p>
+            <div className="rounded-2xl bg-white dark:bg-[#241626] border border-black/[0.08] dark:border-brand-cream/[0.12] shadow-[0_2px_12px_rgba(47,28,44,0.06)] dark:shadow-none p-8">
+              <p className="font-semibold text-text-primary dark:text-brand-cream text-lg mb-6">Send us a message</p>
               <ContactForm intent={intent} />
             </div>
           </ScrollReveal>

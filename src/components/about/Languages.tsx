@@ -4,12 +4,37 @@ import { teamLanguages } from '@/data/team';
 
 export function Languages() {
   return (
-    <section className="py-24 lg:py-32">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-
+    <section
+      className="bg-[#f5efe6] dark:bg-[#1a0f1c] py-20 sm:py-24 lg:py-32"
+      aria-labelledby="languages-heading"
+    >
+      <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
+        {/* Numbered badge row */}
         <FadeUp>
-          <h2 className="font-sans font-semibold text-4xl md:text-5xl text-brand-cream leading-tight">
-            We may speak your language!
+          <div className="flex items-center gap-3 mb-8 sm:mb-10">
+            <span className="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-brand-dark text-brand-cream dark:bg-brand-cream dark:text-brand-dark text-[0.6875rem] sm:text-[0.75rem] font-semibold">
+              5
+            </span>
+            <span className="text-[0.75rem] sm:text-[0.8125rem] font-medium text-text-primary dark:text-brand-cream border border-black/[0.12] dark:border-brand-cream/[0.18] rounded-full px-3 sm:px-4 py-1 sm:py-1.5">
+              Languages
+            </span>
+          </div>
+        </FadeUp>
+
+        <FadeUp delay={0.06}>
+          <h2
+            id="languages-heading"
+            className="font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.1] tracking-[-0.02em] max-w-[18ch]"
+            style={{ fontSize: 'clamp(1.75rem, 4vw, 3.2rem)' }}
+          >
+            We may speak your{' '}
+            <span
+              className="text-brand-accent-on-light dark:text-brand-accent"
+              style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 500 }}
+            >
+              language
+            </span>
+            .
           </h2>
         </FadeUp>
 
@@ -18,21 +43,14 @@ export function Languages() {
             {teamLanguages.map((lang) => (
               <span
                 key={lang}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium text-[rgba(255,251,245,0.95)]"
-                style={{
-                  background: 'rgba(255, 251, 245, 0.12)',
-                  backdropFilter: 'blur(12px)',
-                  WebkitBackdropFilter: 'blur(12px)',
-                  border: '1px solid rgba(255, 251, 245, 0.2)',
-                }}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium text-text-primary dark:text-brand-cream border border-black/[0.1] bg-white dark:border-brand-cream/[0.15] dark:bg-brand-cream/[0.06] shadow-[0_2px_12px_rgba(47,28,44,0.06)]"
               >
-                <Globe size={14} className="text-brand-accent flex-shrink-0" />
+                <Globe size={14} className="text-brand-accent-on-light dark:text-brand-accent flex-shrink-0" />
                 {lang}
               </span>
             ))}
           </div>
         </FadeUp>
-
       </div>
     </section>
   );

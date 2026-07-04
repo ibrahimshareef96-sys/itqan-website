@@ -9,9 +9,9 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { breadcrumbLd } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'About — A Dubai Design, AI & Automation Studio',
+  title: 'About — A Dubai Design, AI Visibility & Web Agency',
   description:
-    'Meet the team behind Itqan Studio — a Dubai-based design, automation and AI studio driven by itqan (excellence), precision, and purpose-led strategy for ambitious founders.',
+    'Meet the team behind Itqan Studio — a Dubai design and AI agency covering brand, web, SEO, AI visibility (GEO) and automation, led by co-founders Ibrahim Shareef and Bisma Aslam.',
   alternates: { canonical: '/about' },
 };
 
