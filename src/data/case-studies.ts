@@ -255,7 +255,9 @@ export const caseStudies: CaseStudy[] = [
     industry: 'Product — our own SaaS',
     category: 'Application Development',
     coverImage: '/images/portfolio/project-you/dawn.webp',
-    coverVideo: '/videos/project-you-transition.mp4',
+    // Phase C — AI film: a Kling-generated dawn loop (title-free source, no text
+    // warp) as the cinematic case hero. Old day/night clip kept as a fallback file.
+    coverVideo: '/videos/project-you-dawn.mp4',
     liveUrl: 'https://projectyou.app',
     mockups: [
       '/images/portfolio/project-you/today.webp',
