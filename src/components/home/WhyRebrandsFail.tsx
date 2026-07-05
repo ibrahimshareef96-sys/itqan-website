@@ -6,9 +6,9 @@ import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 /**
  * The most important section for a CEO. Names the real failure modes of a
- * rebrand and how Itqan removes each. De-risking, not decorating — this is the
- * proof that we understand why the decision is dangerous in the first place.
- * Light-first, dark-aware (badge 4).
+ * high-stakes brand build (brand + site + system) and how Itqan removes each.
+ * De-risking, not decorating — proof that we understand why the work is
+ * dangerous in the first place. Light-first, dark-aware (badge 4).
  */
 interface FailureMode {
   number: string;
@@ -22,7 +22,7 @@ const modes: FailureMode[] = [
     number: '01',
     name: 'No strategy',
     failure:
-      'A new logo bolted onto the same unanswered questions. It looks different and changes nothing.',
+      'New visuals bolted onto the same unanswered questions. It looks different and changes nothing.',
     fix: 'We start with the commercial thesis — who you are for, why you win, what the brand has to move — then design to it.',
   },
   {
@@ -99,7 +99,7 @@ export function WhyRebrandsFail() {
             className="font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.05] tracking-[-0.02em]"
             style={{ fontSize: 'clamp(2.5rem, 5vw, 4.25rem)', maxWidth: '18ch' }}
           >
-            Most rebrands fail. Here&apos;s{' '}
+            Most brand builds fail. Here&apos;s{' '}
             <span className="accent-italic">where</span>.
           </h2>
         </FadeUp>
@@ -110,7 +110,7 @@ export function WhyRebrandsFail() {
             className="mt-8 text-text-secondary dark:text-brand-cream/70 leading-[1.55]"
             style={{ fontSize: 'clamp(1.0625rem, 1.35vw, 1.25rem)', maxWidth: '60ch' }}
           >
-            The most expensive decision a company makes fails in five predictable
+            The most expensive project a company takes on fails in five predictable
             places. {' '}
             <span className="text-text-primary dark:text-brand-cream font-medium">We engineer each one out.</span>
           </p>
