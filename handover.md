@@ -11,7 +11,44 @@ Lightweight tracking via TaskCreate (in-session). For longer initiatives use `ag
 
 ## Handover prompt (self-contained for the next session)
 
-**LATEST (2026-07-05, eve): Bing verify + AI films + About shader + Services image + ad/directory kit — ALL DEPLOYED.**
+**LATEST (2026-07-05, night): AI film batch + deeper About redesign + Itqan Studio Behance decks — DEPLOYED + READY.**
+Main → `3aaea69` (`70e13ae` = the feature commit), Coolify deploy `nx0l8i1xwue4zbbztcygmnql` finished, prod verified 200.
+1. **AI films (batch of 2 new case-hero films, both title-free — the standing constraint held):**
+   - **Oud Closet case hero** = `public/videos/oud-closet-desert.mp4` (1.7MB) — re-encoded from the EXISTING Seedance
+     editorial library in `~/Desktop/oud-closet/assets/video/` (seedance-group-desert: trio walking the dunes at golden
+     hour; zero credits spent). Poster `oud-closet/desert-still.webp`. Titled `cover.png` STAYS on the /work grid card.
+   - **Mutqin case hero** = `public/videos/mutqin-journey.mp4` (313KB) — generated fresh: nano_banana_pro title-free
+     plate (a lantern trail climbing a plum dune toward a cresting glow — the founder's journey; deliberately DISTINCT
+     from PJY's sun-over-dunes) → kling3_0_turbo 5s img2vid → frames verified NO WARP. Poster `mutqin/journey.webp`;
+     titled `hero.webp` stays on the grid. Plate job `30886c1b…`, video job `e473096f…` (Higgsfield, ~270 credits left).
+   - **PJY "other screens" SKIPPED deliberately** — they're UI screenshots; Kling warps UI text (proven constraint).
+2. **Deeper About redesign (the flagged open item):** `MissionStatement.tsx` is now the showpiece — split layout with
+   a NEW brand film card (`public/videos/itqan-mark.mp4`, re-encoded from the Mutqin repo's ITQAN-BG.mp4: the Itqan
+   arch mark assembling from light particles; poster `public/images/about/itqan-mark-poster.webp`; dark-in-both-themes
+   media surface w/ إتقان + "itqān — to perfect a thing" caption) + an honest 4-stat pedigree strip (20 yrs / 6
+   countries / 6 languages / 7 case studies). `Languages.tsx` chips now show native scripts (العربية, Español, اردو,
+   Svenska, Norsk) — data moved to `team.ts` as `TeamLanguage {name, native}[]`.
+3. **Itqan Studio Behance decks — BUILT, ready to upload** (Ibrahim's ask: 2 Behance projects for ITQAN STUDIO itself,
+   on HIS personal Behance — NOT Mutqin/PJY, which already have theirs; quality bar = the Shareefico-website decks,
+   whose pipeline this mirrors exactly). Local at `behance/` (gitignored — heavy PNGs):
+   - `out/brand-identity/01-09.png` — "Itqan Studio — Brand Identity · Excellence, by Name" (mark, palette, dual-accent
+     "one accent two voltages" board, type incl. Arabic, brand-film frames, site-in-two-lights, close).
+   - `out/website/01-10.png` — "Itqan Studio — Website · Built to Be the Answer" (tilted-browser cover, AI-era brief,
+     hero, two-themes duo, AI-films duo, work grid, AskAI, About film moment, under-the-hood, close).
+   - Upload steps + full Behance copy in each deck's `COPY.md` + `behance/README.md`. Re-render: `node behance/render.js`;
+     re-capture site shots: dev on :3001 + `node behance/capture.js`.
+4. **Directory/partner status (Ibrahim, this session):** Google ad SKIPPED for now; Google Business Profile UPDATED;
+   GoodFirms + Clutch setups IN PROGRESS (he continues later); **Shopify Partner ✅ COMPLETE**; AWS Partner setup he's
+   doing now. GoodFirms Service-Focus tech-stack allocation advice was given in-session (JS-ecosystem-honest split;
+   remove Java/AngularJS).
+5. **Found unwired b-roll:** `public/videos/new/man-hero.mp4` + `man-portrait.mp4` (plum-room man at laptop, 10s,
+   gitignored) — do NOT use as "team" imagery (the man is an AI actor, honesty risk); fine as abstract b-roll if ever
+   needed. Coolify box root is now 77G (was 38G — Ibrahim grew it); pre-prune still done before deploy (83%→53%).
+**STILL OPEN:** Ibrahim uploads the 2 Behance decks (10 min, COPY.md is paste-ready) then links them on GoodFirms/
+Clutch portfolios; GBP verification (Google processing); more AI films only if he wants (Oud has a whole Seedance
+library ready to re-encode); PJY-screens films remain off-limits (text warp).
+
+**PREVIOUS (2026-07-05, eve): Bing verify + AI films + About shader + Services image + ad/directory kit — ALL DEPLOYED.**
 Main → `d9270d5`, 3 Coolify deploys, all prod-verified 200.
 1. **Bing Webmaster** — `public/BingSiteAuth.xml` (user id `2E438731C051F800A2BB3FFD516343B4`) is LIVE at
    `/BingSiteAuth.xml`; Ibrahim can now Verify in Bing + submit sitemap. (GSC already verified last session; he
