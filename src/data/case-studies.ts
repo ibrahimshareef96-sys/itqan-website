@@ -183,26 +183,25 @@ export const caseStudies: CaseStudy[] = [
   {
     id: 'shareefico',
     title: 'Shareefico',
-    subtitle: 'Personal Brand & Custom CMS',
+    subtitle: 'A personal brand, a 3D-creator site, and a custom CMS',
     industry: 'Personal Brand',
     category: 'Branding',
-    coverImage: '/images/portfolio/shareefico/cover-poster.jpg',
-    coverVideo: '/videos/shareefico-cover.mp4',
+    coverImage: '/images/portfolio/shareefico/new-cover-poster.jpg',
     liveUrl: 'https://shareefi.co',
     mockups: [
-      '/images/portfolio/shareefico/website.png',
-      '/images/portfolio/shareefico/tokens.png',
-      '/images/portfolio/shareefico/SHRFCO-CMS-MKP.png',
+      '/images/portfolio/shareefico/new-home.jpg',
+      '/images/portfolio/shareefico/new-work.jpg',
+      '/images/portfolio/shareefico/new-brand.jpg',
     ],
     challenge:
-      'One founder, two podcasts, zero infrastructure. Every episode rebuilt from scratch in a notebook. Every clip lost in a folder. Shareefico needed a brand and a system before it became a content operation it could no longer scale.',
+      "One founder, two podcasts, zero infrastructure. Every episode rebuilt from scratch in a notebook, every clip lost in a folder. Shareefico needed a brand, a system, and a personal site that could carry all three — engineer, designer, storyteller — without picking a favourite. And it had to ship while he ran client work in parallel.",
     approach:
-      "We ran all three pillars in 30 days. Week 1 — brand identity for Shareefico + Barakah Blueprint as two coexisting marks. Weeks 2-3 — custom CMS covering idea → script → episode → clip → publish. Week 4 — automation layer that distributes across platforms without manual touchpoints.",
+      "We ran it in chapters. First the identity for Shareefico + Barakah Blueprint as two coexisting marks. Then a custom CMS covering idea → script → episode → clip → publish, and an automation layer that distributes across platforms without manual touchpoints. The latest chapter is a full brand evolution and a motion-forward, 3D-creator personal site — a magnetic character that follows you down the page, a scroll-driven wall of real work, and sticky case-study cards — that turns the portfolio itself into the pitch.",
     result:
-      "Shareefico runs as a productized content engine, not a founder's pile of notebooks. Two brands ship 4+ pieces per week from one CMS. The hand-off docs mean the next hire can run it without rebuilding the playbook.",
+      "Shareefico runs as a productized content engine, not a founder's pile of notebooks — and now it has a home that looks the part. The new shareefi.co is an Awwwards-grade build: a smiling 3D character, a live marquee of shipped work, and an engineering-spine HUD that proves the operator behind it. Two brands ship 4+ pieces per week from one CMS, and the site itself has become the strongest sales asset. The work is the case study.",
     services: [
-      'Brand Identity & Strategy',
-      'Creative Direction',
+      'Brand Identity & Evolution',
+      'Motion-Forward Web Design & Build',
       'Content Creation Ecosystem',
       'Automation & CRM Workflow',
     ],
@@ -214,8 +213,9 @@ export const caseStudies: CaseStudy[] = [
     behanceUrl: 'https://www.behance.net/gallery/238575625/Shareefico-Personal-Brand',
     duration: 'under 30 days',
     industryAverage: '12-24 weeks',
-    outcomeMetric: 'Brand + custom CMS + podcasting workflow shipped end-to-end',
-    scope: 'Personal brand + custom CMS + content engine',
+    outcomeMetric:
+      'Brand, custom CMS, and an Awwwards-grade 3D-creator personal site — shipped end to end',
+    scope: 'Brand · brand evolution · personal site · custom CMS · content engine',
     beforeQuote:
       "I was running everything from one notebook. No system, no consistency. Every episode took twice as long as it should have.",
     phases: [

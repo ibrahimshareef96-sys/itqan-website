@@ -36,18 +36,19 @@ export const projects: Project[] = [
   {
     id: 'shareefico',
     title: 'Shareefico',
-    subtitle: 'Personal Brand & Custom CMS',
+    subtitle: 'A personal brand, a 3D-creator site, and a custom CMS',
     category: 'branding',
-    coverImage: '/images/portfolio/shareefico/cover-poster.jpg',
+    coverImage: '/images/portfolio/shareefico/new-cover-poster.jpg',
     coverVideo: '/videos/shareefico-cover.mp4',
     mockups: [
-      '/images/portfolio/shareefico/website.png',
-      '/images/portfolio/shareefico/tokens.png',
-      '/images/portfolio/shareefico/SHRFCO-CMS-MKP.png',
+      '/images/portfolio/shareefico/new-home.jpg',
+      '/images/portfolio/shareefico/new-work.jpg',
+      '/images/portfolio/shareefico/new-brand.jpg',
     ],
-    description: 'A cohesive personal brand identity built from the ground up.',
+    description:
+      'A personal brand, a full brand evolution, and an Awwwards-grade 3D-creator personal site — plus the custom CMS and content engine behind it.',
     behanceUrl: 'https://www.behance.net/gallery/238575625/Shareefico-Personal-Brand',
-    tags: ['Branding', 'Identity', 'Strategy'],
+    tags: ['Branding', 'Identity', 'Web Design'],
     filters: ['Brand & Identity'],
   },
   {
