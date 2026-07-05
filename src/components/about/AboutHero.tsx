@@ -1,21 +1,41 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { FadeUp } from '@/components/ui/FadeUp';
 import { RollButton } from '@/components/ui/RollButton';
 
+// Same WebGPU shader as the home hero — consistency + premium motion. Client-only;
+// the radial-gradient wash is the fallback.
+const HeroShader = dynamic(() => import('@/components/home/HeroShader'), { ssr: false });
+
 /**
- * Axion-style About hero. Light-first, dark-aware. The global sticky PillNav
- * sits above this section, so it opens with normal section padding (no fixed-nav
- * compensation). Keeps the 'Engineer. Designer. Storyteller. / All in one.'
+ * Axion-style About hero. Light-first, dark-aware. Now carries the home hero's
+ * animated shader (idle-gated, reduced-motion skipped) so /about opens with the
+ * same life as the rest of the site. Keeps the 'Engineer. Designer. Storyteller.'
  * identity statement and the CEO / co-founder copy verbatim.
  */
 export function AboutHero() {
+  const [showShader, setShowShader] = useState(false);
+
+  // Defer the shader chunk past LCP; never fetch it for reduced-motion users.
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const start = () => setShowShader(true);
+    if ('requestIdleCallback' in window) {
+      const id = window.requestIdleCallback(start, { timeout: 1500 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const t = setTimeout(start, 1200);
+    return () => clearTimeout(t);
+  }, []);
+
   return (
     <section
-      className="relative overflow-hidden bg-brand-cream dark:bg-[#1f1420] pt-10 sm:pt-14 lg:pt-20 pb-16 sm:pb-20 lg:pb-28"
+      className="relative overflow-hidden bg-brand-cream dark:bg-[#1f1420] min-h-[64vh] flex items-center pt-10 sm:pt-14 lg:pt-16 pb-16 sm:pb-20 lg:pb-24"
       aria-label="About Itqan Studio"
     >
-      {/* Soft accent wash — mauve/beige radials, dialed down per theme */}
+      {/* Soft accent wash — the shader's no-JS / reduced-motion fallback */}
       <div
         className="absolute inset-0 pointer-events-none dark:hidden"
         aria-hidden="true"
@@ -33,7 +53,10 @@ export function AboutHero() {
         }}
       />
 
-      <div className="relative z-10 max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
+      {/* Animated shader overlay — post-idle, skipped for reduced motion */}
+      {showShader && <HeroShader />}
+
+      <div className="relative z-20 max-w-[1440px] w-full mx-auto px-5 sm:px-8 lg:px-12">
         {/* Numbered badge row */}
         <FadeUp>
           <div className="flex items-center gap-3 mb-8 sm:mb-10">
