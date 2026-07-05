@@ -131,8 +131,8 @@ const pillars: PillarDetail[] = [
     name: 'Automation',
     metaphor: 'the heartbeat',
     lede: 'Workflows still need someone clicking buttons. The heartbeat is the agentic layer that runs the operation without you in the loop — audit-trailed and founder-controlled.',
-    image: '/images/portfolio/project-you/coach.webp',
-    imageAlt: 'Project You AI coach — agentic automation built by Itqan Studio',
+    image: '/images/portfolio/ITQAN-CRM-MKP-MCBK2.png',
+    imageAlt: 'Itqan Studio CRM — the operations system that runs the studio, built in-house',
     outputs: [
       'Agentic automation layer, founder-controlled',
       'Lead capture + qualification automation',
