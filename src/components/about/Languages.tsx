@@ -40,13 +40,16 @@ export function Languages() {
 
         <FadeUp delay={0.14} className="mt-10">
           <div className="flex flex-wrap gap-3">
-            {teamLanguages.map((lang) => (
+            {teamLanguages.map(({ name, native }) => (
               <span
-                key={lang}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium text-text-primary dark:text-brand-cream border border-black/[0.1] bg-white dark:border-brand-cream/[0.15] dark:bg-brand-cream/[0.06] shadow-[0_2px_12px_rgba(47,28,44,0.06)]"
+                key={name}
+                className="inline-flex items-baseline gap-2.5 px-5 py-2.5 rounded-full text-sm font-medium text-text-primary dark:text-brand-cream border border-black/[0.1] bg-white dark:border-brand-cream/[0.15] dark:bg-brand-cream/[0.06] shadow-[0_2px_12px_rgba(47,28,44,0.06)]"
               >
-                <Globe size={14} className="text-brand-accent-on-light dark:text-brand-accent flex-shrink-0" />
-                {lang}
+                <Globe size={14} className="text-brand-accent-on-light dark:text-brand-accent flex-shrink-0 self-center" />
+                <span className="text-[1.0625rem] leading-none">{native}</span>
+                {native !== name && (
+                  <span className="text-[0.75rem] text-text-secondary dark:text-brand-cream/50">{name}</span>
+                )}
               </span>
             ))}
           </div>

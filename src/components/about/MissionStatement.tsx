@@ -4,11 +4,22 @@ import { FadeUp } from '@/components/ui/FadeUp';
 import { TextReveal } from '@/components/ui/TextReveal';
 
 /**
- * "Our name" section — the meaning behind Itqan, plus the single AI-moment line
- * for /about. Alt surface (white / plum), theme-aware. The Islamic geometric
- * star watermark stays: mauve at low opacity on dark, deep mauve #6d4a66 at a
- * lower opacity on light so it reads as texture, never noise.
+ * "Our name" section — the meaning behind Itqan, now paired with the brand film:
+ * the Itqan mark assembling itself from particles of light (itqan-mark.mp4, a
+ * dark-canvas film that stays dark in both themes, like the case-media overlays).
+ * Below, an honest pedigree strip. Alt surface (white / plum), theme-aware.
+ * The Islamic geometric star watermark stays: mauve at low opacity on dark,
+ * deep mauve #6d4a66 at a lower opacity on light.
  */
+
+/** Honest, verifiable numbers only — no fabricated metrics. */
+const pedigree = [
+  { value: '20', label: 'Years of craft' },
+  { value: '6', label: 'Countries worked across' },
+  { value: '6', label: 'Languages in the studio' },
+  { value: '7', label: 'Case studies on /work' },
+];
+
 export function MissionStatement() {
   return (
     <section
@@ -57,46 +68,109 @@ export function MissionStatement() {
           </div>
         </FadeUp>
 
-        <TextReveal direction="left" delay={0}>
-          <p
-            id="mission-heading"
-            className="font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.1] tracking-[-0.02em] max-w-[24ch]"
-            style={{ fontSize: 'clamp(1.75rem, 4vw, 3.2rem)' }}
-          >
-            Itqan comes from the Arabic word meaning{' '}
-            <span
-              className="text-brand-accent-on-light dark:text-brand-accent"
-              style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 500 }}
-            >
-              Excellence
-            </span>
-            .
-          </p>
-        </TextReveal>
-        <TextReveal direction="right" delay={0.14}>
-          <p
-            className="mt-4 font-sans font-medium text-text-secondary dark:text-brand-cream/60 leading-[1.1] tracking-[-0.02em] max-w-[26ch]"
-            style={{ fontSize: 'clamp(1.75rem, 4vw, 3.2rem)' }}
-          >
-            And Excellence is defined by the values that shape it.
-          </p>
-        </TextReveal>
+        {/* Split: the meaning (left) + the mark, filmed (right) */}
+        <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 sm:gap-12 lg:gap-16 items-center">
+          <div>
+            <TextReveal direction="left" delay={0}>
+              <p
+                id="mission-heading"
+                className="font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.1] tracking-[-0.02em] max-w-[24ch]"
+                style={{ fontSize: 'clamp(1.75rem, 4vw, 3.2rem)' }}
+              >
+                Itqan comes from the Arabic word meaning{' '}
+                <span
+                  className="text-brand-accent-on-light dark:text-brand-accent"
+                  style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 500 }}
+                >
+                  Excellence
+                </span>
+                .
+              </p>
+            </TextReveal>
+            <TextReveal direction="right" delay={0.14}>
+              <p
+                className="mt-4 font-sans font-medium text-text-secondary dark:text-brand-cream/60 leading-[1.1] tracking-[-0.02em] max-w-[26ch]"
+                style={{ fontSize: 'clamp(1.75rem, 4vw, 3.2rem)' }}
+              >
+                And Excellence is defined by the values that shape it.
+              </p>
+            </TextReveal>
 
-        {/* AI-moment — the single scroll-stopping "buyers ask AI" line for /about */}
+            {/* AI-moment — the single scroll-stopping "buyers ask AI" line for /about */}
+            <FadeUp delay={0.1}>
+              <p
+                className="mt-10 sm:mt-12 text-[#4a4a4a] dark:text-brand-cream/70 leading-[1.6]"
+                style={{ fontSize: 'clamp(1.0625rem, 1.35vw, 1.25rem)', maxWidth: '46ch' }}
+              >
+                Two decades of that craft, made{' '}
+                <span
+                  className="text-brand-accent-on-light dark:text-brand-accent"
+                  style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 500 }}
+                >
+                  legible
+                </span>{' '}
+                to the machines your buyers now ask first.
+              </p>
+            </FadeUp>
+          </div>
+
+          {/* The brand film — the mark drawn in light. Dark canvas in BOTH themes
+              (like the case-media overlays), so bare brand-accent is allowed here. */}
+          <FadeUp delay={0.16}>
+            <div className="relative rounded-2xl overflow-hidden border border-black/[0.08] dark:border-brand-cream/[0.12] bg-[#160b14] shadow-[0_2px_12px_rgba(47,28,44,0.06)]">
+              <div className="relative aspect-video">
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  poster="/images/about/itqan-mark-poster.webp"
+                  aria-hidden="true"
+                  className="absolute inset-0 w-full h-full object-cover"
+                >
+                  <source src="/videos/itqan-mark.mp4" type="video/mp4" />
+                </video>
+                {/* Bottom veil + caption */}
+                <div
+                  className="absolute inset-x-0 bottom-0 pt-16 pb-5 px-6 flex items-end justify-between gap-4"
+                  style={{ background: 'linear-gradient(to top, rgba(22,11,20,0.85), transparent)' }}
+                >
+                  <p className="text-brand-cream/85 text-[0.8125rem] leading-snug max-w-[30ch]">
+                    <span className="text-brand-accent font-medium">itq&#257;n</span> — to perfect a
+                    thing until it cannot be done better.
+                  </p>
+                  <span
+                    className="text-brand-cream/90 select-none leading-none"
+                    style={{ fontSize: 'clamp(2rem, 3.2vw, 2.75rem)' }}
+                    aria-hidden="true"
+                  >
+                    &#1573;&#1578;&#1602;&#1575;&#1606;
+                  </span>
+                </div>
+              </div>
+            </div>
+          </FadeUp>
+        </div>
+
+        {/* Pedigree strip — honest numbers only */}
         <FadeUp delay={0.1}>
-          <p
-            className="mt-12 sm:mt-14 text-[#4a4a4a] dark:text-brand-cream/70 leading-[1.6]"
-            style={{ fontSize: 'clamp(1.0625rem, 1.35vw, 1.25rem)', maxWidth: '46ch' }}
-          >
-            Two decades of that craft, made{' '}
-            <span
-              className="text-brand-accent-on-light dark:text-brand-accent"
-              style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 500 }}
-            >
-              legible
-            </span>{' '}
-            to the machines your buyers now ask first.
-          </p>
+          <dl className="mt-14 sm:mt-16 lg:mt-20 pt-10 sm:pt-12 border-t border-black/[0.08] dark:border-brand-cream/[0.12] grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-10">
+            {pedigree.map(({ value, label }) => (
+              <div key={label}>
+                <dt className="sr-only">{label}</dt>
+                <dd
+                  className="font-sans font-bold text-brand-accent-on-light dark:text-brand-accent leading-none tracking-[-0.02em]"
+                  style={{ fontSize: 'clamp(2.5rem, 4.5vw, 4rem)' }}
+                >
+                  {value}
+                </dd>
+                <p className="mt-3 text-[0.8125rem] sm:text-sm font-medium text-text-secondary dark:text-brand-cream/60">
+                  {label}
+                </p>
+              </div>
+            ))}
+          </dl>
         </FadeUp>
       </div>
     </section>

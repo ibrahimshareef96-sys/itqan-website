@@ -58,7 +58,11 @@ export const caseStudies: CaseStudy[] = [
     subtitle: 'AI Startup Companion',
     industry: 'Product — our own AI companion',
     category: 'Application Development',
-    coverImage: '/images/portfolio/mutqin/hero.webp',
+    // AI film batch (2026-07-05): Kling loop from a generated title-free plate — a
+    // lantern trail climbing a plum dune toward the light (the founder's journey).
+    // journey.webp is its poster; the titled hero.webp stays on the /work grid card.
+    coverImage: '/images/portfolio/mutqin/journey.webp',
+    coverVideo: '/videos/mutqin-journey.mp4',
     liveUrl: 'https://mutqin.xyz',
     mockups: [
       '/images/portfolio/mutqin/wizard.webp',
@@ -330,7 +334,11 @@ export const caseStudies: CaseStudy[] = [
     subtitle: 'Luxury Modest Fashion',
     industry: 'Modest Fashion & Luxury',
     category: 'Branding',
-    coverImage: '/images/portfolio/oud-closet/cover.png',
+    // AI film batch (2026-07-05): title-free Seedance editorial loop (desert trio at
+    // golden hour) as the cinematic case hero; desert-still.webp is its poster frame.
+    // The titled cover.png stays on the /work grid card (projects.ts).
+    coverImage: '/images/portfolio/oud-closet/desert-still.webp',
+    coverVideo: '/videos/oud-closet-desert.mp4',
     liveUrl: 'https://oudcloset.se',
     links: [
       {

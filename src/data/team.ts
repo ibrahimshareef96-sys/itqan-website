@@ -27,8 +27,19 @@ export const team: TeamMember[] = [
   },
 ];
 
+export interface TeamLanguage {
+  name: string;
+  /** The language's own script/endonym, shown alongside the English name. */
+  native: string;
+}
+
 // Languages spoken across the team. Confirmed by Ibrahim 2026-07-04
 // (Spanish/Swedish/Norwegian still spoken in-house; German + Bosnian dropped).
-export const teamLanguages: string[] = [
-  'Arabic', 'English', 'Spanish', 'Urdu', 'Swedish', 'Norwegian',
+export const teamLanguages: TeamLanguage[] = [
+  { name: 'Arabic', native: 'العربية' },
+  { name: 'English', native: 'English' },
+  { name: 'Spanish', native: 'Español' },
+  { name: 'Urdu', native: 'اردو' },
+  { name: 'Swedish', native: 'Svenska' },
+  { name: 'Norwegian', native: 'Norsk' },
 ];
