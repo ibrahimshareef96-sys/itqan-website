@@ -280,3 +280,22 @@ html.dark .stats-gradient {
     animation: none !important;
   }
 }
+
+/* ── Cinematic case hero (Phase C) — a slow Ken Burns drift on the still cover.
+   Uniform transform, so it never distorts baked poster text (unlike AI video).
+   The global reduced-motion `*` rule already neutralizes it; this is explicit. */
+@keyframes case-kenburns {
+  0%   { transform: scale(1.02) translate3d(0, 0, 0); }
+  100% { transform: scale(1.09) translate3d(0, -1.1%, 0); }
+}
+.case-kenburns {
+  transform-origin: 50% 42%;
+  animation: case-kenburns 18s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .case-kenburns {
+    animation: none;
+    transform: none;
+  }
+}

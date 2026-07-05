@@ -272,6 +272,7 @@ function CaseStudyHero({ cs }: { cs: CaseStudy }) {
         alt={cs.coverVideo ? `${cs.title} — animated cover` : `${cs.title} — ${cs.subtitle}`}
         priority
         sizes="100vw"
+        cinematic
       />
 
       {cs.liveUrl && (

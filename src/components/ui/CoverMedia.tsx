@@ -11,6 +11,12 @@ interface CoverMediaProps {
   sizes?: string;
   /** Applied to the rendered <img> or <video>. Used to forward hover/scale animations. */
   className?: string;
+  /**
+   * Adds a slow Ken Burns drift to the still cover (Phase C — cinematic case
+   * heroes). Applied to the image only, never the video; disabled under
+   * prefers-reduced-motion by the `.case-kenburns` rule in globals.css.
+   */
+  cinematic?: boolean;
 }
 
 /**
@@ -31,6 +37,7 @@ export function CoverMedia({
   priority,
   sizes,
   className,
+  cinematic,
 }: CoverMediaProps) {
   const [reduced, setReduced] = useState(false);
 
@@ -68,7 +75,7 @@ export function CoverMedia({
       fill
       priority={priority}
       sizes={sizes}
-      className={`object-cover ${className ?? ''}`.trim()}
+      className={`object-cover ${cinematic ? 'case-kenburns ' : ''}${className ?? ''}`.trim()}
     />
   );
 }
