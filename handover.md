@@ -11,6 +11,33 @@ Lightweight tracking via TaskCreate (in-session). For longer initiatives use `ag
 
 ## Handover prompt (self-contained for the next session)
 
+**LATEST (2026-07-05, eve): Bing verify + AI films + About shader + Services image + ad/directory kit — ALL DEPLOYED.**
+Main → `d9270d5`, 3 Coolify deploys, all prod-verified 200.
+1. **Bing Webmaster** — `public/BingSiteAuth.xml` (user id `2E438731C051F800A2BB3FFD516343B4`) is LIVE at
+   `/BingSiteAuth.xml`; Ibrahim can now Verify in Bing + submit sitemap. (GSC already verified last session; he
+   still needs to submit `sitemap.xml` in GSC → Sitemaps.)
+2. **Phase C AI films — SHIPPED the Project You dawn loop.** Generated 2 Kling-turbo image-to-video loops from
+   title-free covers. **Project You dawn** (sun-over-dunes, 296KB `public/videos/project-you-dawn.mp4`) is
+   gorgeous → wired as the /work/project-you case hero (replaced the old day/night transition clip; kept as
+   fallback file). **Mutqin portal attempt WARPED its UI text** (the standing constraint proven again) → NOT
+   shipped. Pipeline for more: `media_import_url(prod image URL)` → `generate_video(model:kling3_0_turbo,
+   medias:[{role:start_image}], prompt, duration:5, aspect_ratio:16:9)` → `job_display(id)` for rawUrl →
+   `ffmpeg -an -c:v libx264 -crf 24 -movflags +faststart` → public/videos → wire coverVideo. **NEXT film
+   candidates (title-free): Oud Closet editorial model shots, Project You other screens, an atmospheric Mutqin.**
+   Note: case covers with baked title text CANNOT be filmed (warp); use Ken Burns (already on all case heroes) instead.
+3. **Services "Automation" image** → swapped PJY coach.webp → `ITQAN-CRM-MKP-MCBK2.png` (on-brand plum CRM
+   dashboard — a real in-house ops product). Ibrahim flagged the coach image as unsuitable.
+4. **About hero** — added the home hero's WebGPU shader (idle-gated, reduced-motion safe) + min-h 64vh; the
+   flat text-only hero read "outdated". Copy unchanged. **Deeper About redesign still open if he wants more.**
+5. **Ads/directory copy** — `DIRECTORY-ONBOARDING-KIT.md` (repo root): Google Smart Campaign headlines/descriptions
+   + settings (the 1,600 AED credit), Google Business Profile optimization (FIX: his service areas say
+   London/Doha — must be Dubai/UAE), GoodFirms/Clutch "why choose us" (3×≤50ch), AI-tools list, and the
+   **honesty-gated** certificates/partner-programs guidance (only Shopify Partner / AWS Partner / Google Ads Cert
+   are quick+legit; do NOT check ISO/CMMI/GPTW he doesn't hold). GEO-ACTION-KIT.md has directory profile copy.
+**STILL OPEN:** deeper About redesign (optional); more AI films (Oud Closet etc., needs his go + credits); **2 new
+Behance projects** (Mutqin + Project You — he has Behance asset folders; do like Oud Closet/Shareefico) — he said
+"when the design is confirmed complete"; GBP verification (Google processing, ≤5 days).
+
 **LATEST (2026-07-05): GSC verify + Shareefico refresh + WhyRebrandsFail(A) + Phase C — ALL DEPLOYED to prod.**
 Four things shipped this session, all live on itqanstudio.com (main → `7685eaa`, three Coolify deploys, verified 200):
 1. **Google Search Console** — added the apex TXT `google-site-verification=7UpyTkNRXagmV53iRQH6TUD6ICjgL2kawc5apmkKSIg`
