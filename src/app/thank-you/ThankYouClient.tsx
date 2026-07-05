@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from 'next-view-transitions';
 import { ArrowRight } from '@phosphor-icons/react';
 import { motion } from 'framer-motion';
 import { SplitText } from '@/components/ui/SplitText';

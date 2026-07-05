@@ -259,3 +259,24 @@ html.dark .stats-gradient {
     scroll-behavior: auto !important;
   }
 }
+
+/* ── View Transitions (next-view-transitions) ──
+   The `*` reduced-motion rule above does NOT reach ::view-transition pseudo-
+   elements (separate pseudo-tree), so they get their own timing + guard. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.34s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* Shared-element covers (work card ⇄ case-study hero) morph a touch slower. */
+::view-transition-group(*) {
+  animation-duration: 0.42s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}

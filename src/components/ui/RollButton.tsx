@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from 'next-view-transitions';
 import { ArrowRight } from '@phosphor-icons/react';
 import { EASE_ROLL_CSS as EASE } from '@/lib/motion';
 

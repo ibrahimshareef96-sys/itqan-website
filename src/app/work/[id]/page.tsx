@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from 'next-view-transitions';
 import { notFound } from 'next/navigation';
 import {
   ArrowRight,
@@ -262,7 +262,10 @@ export default function CaseStudyPage({ params }: Props) {
 // ────────────────────────────────────────────────────────────
 function CaseStudyHero({ cs }: { cs: CaseStudy }) {
   return (
-    <div className="relative w-full aspect-[16/9] md:aspect-[2/1] rounded-[14px] overflow-hidden bg-brand-dark">
+    <div
+      className="relative w-full aspect-[16/9] md:aspect-[2/1] rounded-[14px] overflow-hidden bg-brand-dark"
+      style={{ viewTransitionName: `case-cover-${cs.id}` }}
+    >
       <CoverMedia
         src={cs.coverImage}
         video={cs.coverVideo}
@@ -750,7 +753,10 @@ function NextCaseCard({ next }: { next: CaseStudy }) {
             href={`/work/${next.id}`}
             className="group relative block overflow-hidden rounded-[14px]"
           >
-            <div className="relative w-full aspect-[16/9] md:aspect-[21/9]">
+            <div
+              className="relative w-full aspect-[16/9] md:aspect-[21/9]"
+              style={{ viewTransitionName: `case-cover-${next.id}` }}
+            >
               <CoverMedia
                 src={next.coverImage}
                 video={next.coverVideo}

@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from 'next-view-transitions';
 import { InstagramLogo, LinkedinLogo } from '@phosphor-icons/react';
 
 const navLinks = [

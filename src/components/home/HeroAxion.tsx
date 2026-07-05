@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { Link } from 'next-view-transitions';
 import dynamic from 'next/dynamic';
 import { RollButton } from '@/components/ui/RollButton';
 import { AiVisibility } from '@/components/home/AiVisibility';

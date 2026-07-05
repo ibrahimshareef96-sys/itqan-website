@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
-import { PageTransition } from '@/components/layout/PageTransition';
+import { ViewTransitions } from 'next-view-transitions';
 import { SmoothScrollProvider } from '@/components/providers/SmoothScrollProvider';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { PostHogProvider } from '@/components/providers/PostHogProvider';
@@ -94,18 +94,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JsonLd data={siteGraphLd()} />
       </head>
       <body>
-        <ThemeProvider>
-          <SmoothScrollProvider>
-            <PostHogProvider>
-              <Navbar />
-              <main>
-                <PageTransition>{children}</PageTransition>
-              </main>
-              <Footer />
-              <CookieBanner />
-            </PostHogProvider>
-          </SmoothScrollProvider>
-        </ThemeProvider>
+        {/* ViewTransitions (next-view-transitions) drives the App-Router page
+            transitions via the native View Transitions API — a root crossfade for
+            every navigation + a shared-element morph from a work-card cover into
+            the case-study hero. Replaces the old framer-motion PageTransition. */}
+        <ViewTransitions>
+          <ThemeProvider>
+            <SmoothScrollProvider>
+              <PostHogProvider>
+                <Navbar />
+                <main>{children}</main>
+                <Footer />
+                <CookieBanner />
+              </PostHogProvider>
+            </SmoothScrollProvider>
+          </ThemeProvider>
+        </ViewTransitions>
       </body>
     </html>
   );

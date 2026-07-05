@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import { Link } from 'next-view-transitions';
 import { ArrowRight } from '@phosphor-icons/react';
 import { FadeUp } from '@/components/ui/FadeUp';
 import { CoverMedia } from '@/components/ui/CoverMedia';
@@ -68,7 +68,10 @@ export function WorkGrid({ projects }: WorkGridProps) {
         {visible.map((project, i) => (
           <FadeUp key={project.id} delay={i * 0.08}>
             <Link href={`/work/${project.id}`} className="group block cursor-pointer">
-              <div className="relative overflow-hidden rounded-2xl aspect-[4/3] bg-brand-dark/10 dark:bg-brand-cream/[0.06]">
+              <div
+                className="relative overflow-hidden rounded-2xl aspect-[4/3] bg-brand-dark/10 dark:bg-brand-cream/[0.06]"
+                style={{ viewTransitionName: `case-cover-${project.id}` }}
+              >
                 <CoverMedia
                   src={project.coverImage}
                   video={project.coverVideo}

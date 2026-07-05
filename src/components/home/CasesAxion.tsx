@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from 'next-view-transitions';
 import { ArrowRight } from '@phosphor-icons/react/dist/ssr';
 import { FadeUp } from '@/components/ui/FadeUp';
 import { RollButton } from '@/components/ui/RollButton';
@@ -111,7 +111,10 @@ export function CasesAxion() {
           {cards.map((card, i) => (
             <FadeUp key={card.href} delay={i * 0.08}>
               <Link href={card.href} className="group block cursor-pointer">
-                <div className={`relative ${card.aspect} rounded-2xl overflow-hidden bg-brand-dark/10`}>
+                <div
+                  className={`relative ${card.aspect} rounded-2xl overflow-hidden bg-brand-dark/10`}
+                  style={{ viewTransitionName: `case-cover-${card.href.split('/').pop()}` }}
+                >
                   <CaseMedia
                     video={card.media.video}
                     image={card.media.image}
