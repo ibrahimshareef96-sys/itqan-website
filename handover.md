@@ -11,6 +11,28 @@ Lightweight tracking via TaskCreate (in-session). For longer initiatives use `ag
 
 ## Handover prompt (self-contained for the next session)
 
+**LATEST (2026-07-05): GSC verify + Shareefico refresh + WhyRebrandsFail(A) + Phase C — ALL DEPLOYED to prod.**
+Four things shipped this session, all live on itqanstudio.com (main → `7685eaa`, three Coolify deploys, verified 200):
+1. **Google Search Console** — added the apex TXT `google-site-verification=7UpyTkNRXagmV53iRQH6TUD6ICjgL2kawc5apmkKSIg`
+   to Route53 zone `Z06561092N5NFW89QHZA8` (UPSERT preserving the existing MS + M365 SPF values); **propagated**
+   (visible via 8.8.8.8). Ibrahim can click Verify in GSC now, then submit sitemap.xml + repeat in Bing (kit: GEO-ACTION-KIT.md).
+2. **Shareefico case study refresh** — the other-chat work lived on branch `feat/shareefico-case-study-refresh`
+   (commit `868b9bf`) in a SEPARATE clone at `~/Desktop/itqan-website` (branched pre-redesign). It's data+assets only
+   (4 new shareefi.co screenshots + the shareefico entries in case-studies.ts/projects.ts) so it flows straight into the
+   redesigned case page — cherry-picked cleanly onto main (`ea68120`). New hero = new-cover-poster.jpg; gallery = new-home/
+   new-work/new-brand.jpg; copy leads with the 3D-creator shareefi.co build. (case-studies.ts dropped coverVideo → hero is
+   the still poster; projects.ts kept coverVideo → grid card still animates. Kept his "Awwwards-grade" copy — a quality
+   descriptor, not a fabricated award.) NOTE: the Desktop clone is now stale (its branch is merged + it lacks the redesign).
+3. **WhyRebrandsFail → option A (broaden)** — heading "Most rebrands fail" → **"Most brand builds fail"**, lead + mode-01
+   reworded off "rebrand"/"logo". Component/file still named WhyRebrandsFail (internal only). Live on homepage.
+4. **Phase C — cinematic case heroes** — a slow Ken Burns drift on the case-detail hero cover (`CoverMedia` `cinematic`
+   prop + `.case-kenburns` @keyframes in globals.css, reduced-motion safe). A uniform CSS transform, so it never distorts
+   baked poster text — the reason I did NOT use AI image-to-video on the titled posters (it warps text). **True "AI films"
+   remain an open, deliberate production**: they'd need NEW footage or titleless sources (Mutqin hero-landing.webp,
+   Project You dawn.webp are text-free candidates) → generate → ffmpeg to web mp4 → wire coverVideo → deploy. Offered as a
+   focused next step, not rushed. Verified live: `.case-kenburns` on /work/mutqin hero + keyframe in built CSS.
+Coolify note: my IP `94.234.93.40` (and the /21 ISP block) are allowlisted on port 8000 — direct API works, no tunnel.
+
 **PHASE B SHIPPED + LIVE (2026-07-05): shared-element page transitions.** `next-view-transitions` drives
 App-Router nav via the native View Transitions API (replaced the framer PageTransition, which was deleted).
 Root crossfade on every nav (PillNav/Footer/RollButton/HeroAxion/thank-you all use its `Link`); shared-element
