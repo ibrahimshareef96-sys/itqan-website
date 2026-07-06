@@ -38,6 +38,13 @@ Behance decks + link on GoodFirms/Clutch; keep working GoodFirms/Clutch/GBP. Scr
 session the preview tab's CSS went stale after many evals (base `.bg-white` computed transparent) — restart the
 preview server for a clean shot; below-fold shots are unreliable under Lenis (verify via DOM).
 
+**FIX (2026-07-06): Behance deck number-badge alignment.** The `.sec__num` circle was misaligned vs the title
+(the `.sec__h` used `align-items: baseline` + a `translateY(8px)` hack). Fixed in `behance/deck.css`:
+`align-items: flex-start`, removed the hack, `.sec__title { line-height: 1.13 }` (≈ circle height) + `margin-top: 1px`
+on the badge → the circle now optically centers on the title's first line for every board. Re-rendered both decks
+(`node behance/render.js`); verified all 13 numbered boards across cream/warm/dark/black + plain/italic titles.
+Decks are gitignored (local `behance/out/`) — no code deploy needed; just re-upload the refreshed PNGs.
+
 **PREVIOUS (2026-07-05, night): AI film batch + deeper About redesign + Itqan Studio Behance decks — DEPLOYED + READY.**
 Main → `3aaea69` (`70e13ae` = the feature commit), Coolify deploy `nx0l8i1xwue4zbbztcygmnql` finished, prod verified 200.
 1. **AI films (batch of 2 new case-hero films, both title-free — the standing constraint held):**
