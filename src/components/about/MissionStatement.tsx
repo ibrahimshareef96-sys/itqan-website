@@ -1,15 +1,16 @@
 'use client';
 
+import Image from 'next/image';
 import { FadeUp } from '@/components/ui/FadeUp';
 import { TextReveal } from '@/components/ui/TextReveal';
 
 /**
- * "Our name" section — the meaning behind Itqan, now paired with the brand film:
- * the Itqan mark assembling itself from particles of light (itqan-mark.mp4, a
- * dark-canvas film that stays dark in both themes, like the case-media overlays).
- * Below, an honest pedigree strip. Alt surface (white / plum), theme-aware.
- * The Islamic geometric star watermark stays: mauve at low opacity on dark,
- * deep mauve #6d4a66 at a lower opacity on light.
+ * "Our name" section — the meaning behind Itqan, paired with a premium editorial
+ * still: a gilded Islamic geometric screen on plum, carrying the Arabic إتقان,
+ * "Excellence", and the meaning. A self-contained dark-canvas image (reads dark
+ * in both themes, like the case-media overlays). Below, an honest pedigree strip.
+ * Alt surface (white / plum), theme-aware. The Islamic geometric star watermark
+ * stays: mauve at low opacity on dark, deep mauve #6d4a66 at a lower opacity on light.
  */
 
 /** Honest, verifiable numbers only — no fabricated metrics. */
@@ -114,40 +115,19 @@ export function MissionStatement() {
             </FadeUp>
           </div>
 
-          {/* The brand film — the mark drawn in light. Dark canvas in BOTH themes
-              (like the case-media overlays), so bare brand-accent is allowed here. */}
+          {/* The brand still — a gilded girih screen on plum carrying إتقان +
+              "Excellence". A dark-canvas image in BOTH themes (like the case-media
+              overlays); all copy is baked in for crisp Arabic at any size. */}
           <FadeUp delay={0.16}>
-            <div className="relative rounded-2xl overflow-hidden border border-black/[0.08] dark:border-brand-cream/[0.12] bg-[#160b14] shadow-[0_2px_12px_rgba(47,28,44,0.06)]">
+            <div className="relative rounded-2xl overflow-hidden border border-black/[0.08] dark:border-brand-cream/[0.12] bg-[#241019] shadow-[0_2px_12px_rgba(47,28,44,0.06)]">
               <div className="relative aspect-video">
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  poster="/images/about/itqan-mark-poster.webp"
-                  aria-hidden="true"
-                  className="absolute inset-0 w-full h-full object-cover"
-                >
-                  <source src="/videos/itqan-mark.mp4" type="video/mp4" />
-                </video>
-                {/* Bottom veil + caption */}
-                <div
-                  className="absolute inset-x-0 bottom-0 pt-16 pb-5 px-6 flex items-end justify-between gap-4"
-                  style={{ background: 'linear-gradient(to top, rgba(22,11,20,0.85), transparent)' }}
-                >
-                  <p className="text-brand-cream/85 text-[0.8125rem] leading-snug max-w-[30ch]">
-                    <span className="text-brand-accent font-medium">itq&#257;n</span> — to perfect a
-                    thing until it cannot be done better.
-                  </p>
-                  <span
-                    className="text-brand-cream/90 select-none leading-none"
-                    style={{ fontSize: 'clamp(2rem, 3.2vw, 2.75rem)' }}
-                    aria-hidden="true"
-                  >
-                    &#1573;&#1578;&#1602;&#1575;&#1606;
-                  </span>
-                </div>
+                <Image
+                  src="/images/about/excellence.webp"
+                  alt="Excellence — إتقان — a gilded Islamic geometric screen, the meaning behind the Itqan name"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 45vw"
+                />
               </div>
             </div>
           </FadeUp>

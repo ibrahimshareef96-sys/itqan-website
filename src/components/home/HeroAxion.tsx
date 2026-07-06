@@ -5,6 +5,7 @@ import { Link } from 'next-view-transitions';
 import dynamic from 'next/dynamic';
 import { RollButton } from '@/components/ui/RollButton';
 import { AiVisibility } from '@/components/home/AiVisibility';
+import { PartnerStrip } from '@/components/home/PartnerStrip';
 
 // WebGPU shader is client-only; the section's CSS gradient is the fallback.
 const HeroShader = dynamic(() => import('@/components/home/HeroShader'), { ssr: false });
@@ -116,6 +117,9 @@ export function HeroAxion() {
             </span>
           </Link>
         </div>
+
+        {/* Partner credibility — registered AWS + Shopify partner programs */}
+        <PartnerStrip />
       </div>
     </section>
   );
