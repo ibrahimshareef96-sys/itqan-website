@@ -11,7 +11,34 @@ Lightweight tracking via TaskCreate (in-session). For longer initiatives use `ag
 
 ## Handover prompt (self-contained for the next session)
 
-**LATEST (2026-07-05, night): AI film batch + deeper About redesign + Itqan Studio Behance decks — DEPLOYED + READY.**
+**LATEST (2026-07-06): AWS/Shopify partner strip in hero + replaced About animation with a gilded إتقان still + decks updated — DEPLOYED.**
+Main → `ec4b8b1`, Coolify deploy `ld6n4nqexipcysvb6ejj1qte` (verify 200 after it finishes). Three things:
+1. **Partner credibility in the hero** — new `src/components/home/PartnerStrip.tsx`, mounted in `HeroAxion.tsx`
+   directly under the CTA row (its own bordered "Technology partners" strip). Shows **AWS Partner** + **Shopify
+   Partner** as honest program badges with a SealCheck glyph. **WORDING NOTE (honesty):** Ibrahim asked for
+   "trusted by AWS/Shopify" — I used **"AWS Partner / Shopify Partner"** instead, because "trusted by" implies
+   AWS/Shopify are CLIENTS/endorsers (false + trademark risk); "Partner" is the accurate claim for partner-program
+   membership and is the standard agency framing. Wordmarks are plain text (no trademarked logo assets → no
+   licensing issue). Data-driven `partners[]` array — add/remove a partner in one line. Dual-accent compliant
+   (icon #6d4a66 on light / #cca4c2 on dark), verified via DOM. **If AWS registration isn't finalised, remove the
+   AWS entry from the array** (Shopify Partner is confirmed complete).
+2. **About "Our name" — animation REMOVED, replaced with a premium still.** Ibrahim called the itqan-mark particle
+   video "outdated and very bad." Deleted `public/videos/itqan-mark.mp4` + `itqan-mark-poster.webp`. New asset
+   `public/images/about/excellence.webp` (97KB) now fills that card: a museum-grade gilded girih screen on plum
+   (nano_banana_pro backdrop) + REAL gold Arabic **إتقان** (Amiri) + "Excellence." (Playfair) + the meaning +
+   the mark — composed as an HTML poster and rendered to webp (Arabic is real text, never AI-garbled). Built via
+   `/tmp/excellence/poster.html` + `render.js` (NODE_PATH=project node_modules). `MissionStatement.tsx` now uses
+   `<Image>` not `<video>`. Pedigree strip + everything else unchanged.
+3. **Both Behance decks updated** so the animation is gone: brand-identity board 07 ("The mark, in motion" → "The
+   name, made visible") and website board 08 ("The name, in motion" → "The name, made visible") now show
+   `excellence.png`; mark-frame assets deleted; COPY.md + README de-referenced the "brand film". Re-rendered
+   (`node behance/render.js`). Decks grep-clean of any animation mention. Still upload-ready (paste from COPY.md).
+**NEXT (told Ibrahim):** finish AWS Partner registration if not done (then the badge is fully true); upload the 2
+Behance decks + link on GoodFirms/Clutch; keep working GoodFirms/Clutch/GBP. Screenshot tooling note: this
+session the preview tab's CSS went stale after many evals (base `.bg-white` computed transparent) — restart the
+preview server for a clean shot; below-fold shots are unreliable under Lenis (verify via DOM).
+
+**PREVIOUS (2026-07-05, night): AI film batch + deeper About redesign + Itqan Studio Behance decks — DEPLOYED + READY.**
 Main → `3aaea69` (`70e13ae` = the feature commit), Coolify deploy `nx0l8i1xwue4zbbztcygmnql` finished, prod verified 200.
 1. **AI films (batch of 2 new case-hero films, both title-free — the standing constraint held):**
    - **Oud Closet case hero** = `public/videos/oud-closet-desert.mp4` (1.7MB) — re-encoded from the EXISTING Seedance
