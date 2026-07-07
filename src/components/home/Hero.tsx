@@ -50,7 +50,7 @@ function HeroLine2() {
       >
         <span
           className="pixel-gradient"
-          style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic' }}
+          style={{ fontFamily: "var(--font-serif), serif", fontStyle: 'italic' }}
         >
           before
         </span>

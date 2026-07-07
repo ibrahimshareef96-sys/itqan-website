@@ -142,7 +142,7 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
       <p
         className="mt-2 text-brand-accent-on-light dark:text-brand-accent/85"
         style={{
-          fontFamily: "'Playfair Display', serif",
+          fontFamily: "var(--font-serif), serif",
           fontStyle: 'italic',
           fontSize: 'clamp(1.0625rem, 1.25vw, 1.25rem)',
         }}

@@ -175,7 +175,7 @@ export default function CaseStudyPage({ params }: Props) {
               <p
                 className="mt-6 mx-auto text-text-secondary dark:text-brand-cream/80 italic"
                 style={{
-                  fontFamily: "'Playfair Display', serif",
+                  fontFamily: "var(--font-serif), serif",
                   fontSize: 'clamp(1.0625rem, 1.4vw, 1.375rem)',
                   maxWidth: '52ch',
                 }}
@@ -415,7 +415,7 @@ function BeforeBlock({ cs }: { cs: CaseStudy }) {
                 <p
                   className="text-text-primary dark:text-brand-cream/90 leading-[1.35] tracking-[-0.01em]"
                   style={{
-                    fontFamily: "'Playfair Display', serif",
+                    fontFamily: "var(--font-serif), serif",
                     fontStyle: 'italic',
                     fontSize: 'clamp(1.625rem, 3vw, 2.5rem)',
                   }}
@@ -785,7 +785,7 @@ function NextCaseCard({ next }: { next: CaseStudy }) {
                   <p
                     className="mt-3 text-brand-cream/75 italic"
                     style={{
-                      fontFamily: "'Playfair Display', serif",
+                      fontFamily: "var(--font-serif), serif",
                       fontSize: 'clamp(1rem, 1.25vw, 1.1875rem)',
                       maxWidth: '52ch',
                     }}

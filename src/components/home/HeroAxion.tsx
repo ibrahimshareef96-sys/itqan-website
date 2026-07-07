@@ -86,7 +86,7 @@ export function HeroAxion() {
           Your next customer just{' '}
           <span
             className="text-brand-accent-on-light dark:text-brand-accent"
-            style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 500 }}
+            style={{ fontFamily: "var(--font-serif), serif", fontStyle: 'italic', fontWeight: 500 }}
           >
             asked
           </span>{' '}

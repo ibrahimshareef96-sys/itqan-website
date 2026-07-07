@@ -83,7 +83,7 @@ export function Portrait() {
                   Senior hands.{' '}
                   <span
                     style={{
-                      fontFamily: "'Playfair Display', serif",
+                      fontFamily: "var(--font-serif), serif",
                       fontStyle: 'italic',
                       fontWeight: 500,
                     }}

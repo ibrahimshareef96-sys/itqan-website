@@ -190,7 +190,7 @@ export default function ServicesPage() {
               Everything that turns traffic into{' '}
               <span
                 className="text-brand-accent-on-light dark:text-brand-accent"
-                style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 500 }}
+                style={{ fontFamily: "var(--font-serif), serif", fontStyle: 'italic', fontWeight: 500 }}
               >
                 buyers
               </span>
@@ -235,7 +235,7 @@ export default function ServicesPage() {
               Six capabilities. One{' '}
               <span
                 className="text-brand-accent-on-light dark:text-brand-accent"
-                style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 500 }}
+                style={{ fontFamily: "var(--font-serif), serif", fontStyle: 'italic', fontWeight: 500 }}
               >
                 team
               </span>
@@ -303,7 +303,7 @@ export default function ServicesPage() {
                   Your next customer just asked{' '}
                   <span
                     className="text-brand-accent-on-light dark:text-brand-accent"
-                    style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 500 }}
+                    style={{ fontFamily: "var(--font-serif), serif", fontStyle: 'italic', fontWeight: 500 }}
                   >
                     an AI
                   </span>
@@ -362,7 +362,7 @@ export default function ServicesPage() {
               Three phases. Real assets at{' '}
               <span
                 className="text-brand-accent-on-light dark:text-brand-accent"
-                style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 500 }}
+                style={{ fontFamily: "var(--font-serif), serif", fontStyle: 'italic', fontWeight: 500 }}
               >
                 every gate
               </span>
@@ -413,7 +413,7 @@ export default function ServicesPage() {
                     <p
                       className="mt-2 text-brand-accent-on-light dark:text-brand-accent"
                       style={{
-                        fontFamily: "'Playfair Display', serif",
+                        fontFamily: "var(--font-serif), serif",
                         fontStyle: 'italic',
                         fontSize: 'clamp(1.0625rem, 1.25vw, 1.25rem)',
                       }}

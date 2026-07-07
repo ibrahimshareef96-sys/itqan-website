@@ -108,7 +108,7 @@ export function Guarantee({ badge = 5 }: { badge?: number }) {
               <p
                 className="mt-9 italic text-text-secondary/70 dark:text-brand-cream/45 leading-[1.55]"
                 style={{
-                  fontFamily: "'Playfair Display', serif",
+                  fontFamily: "var(--font-serif), serif",
                   fontSize: '0.9375rem',
                   maxWidth: '46ch',
                 }}

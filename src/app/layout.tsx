@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { Manrope, Playfair_Display } from 'next/font/google';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { ViewTransitions } from 'next-view-transitions';
@@ -9,6 +10,25 @@ import { CookieBanner } from '@/components/CookieBanner';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { SITE_URL, SITE_NAME, TARGET_KEYWORDS, siteGraphLd } from '@/lib/seo';
 import './globals.css';
+
+// Self-hosted via next/font (was a render-blocking external Google Fonts <link>,
+// the site's single biggest FCP/LCP hit + the source of the font-swap CLS). This
+// eliminates the blocking request AND ships a size-adjusted fallback metric so
+// the swap no longer reflows the big hero headline. Exposed as CSS variables so
+// Tailwind (font-sans/font-serif) and the inline Playfair accents resolve to them.
+const manrope = Manrope({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-sans',
+});
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  style: ['italic'],
+  display: 'swap',
+  variable: '--font-serif',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -80,16 +100,14 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     // suppressHydrationWarning: next-themes mutates <html> class before hydration.
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${manrope.variable} ${playfair.variable}`}
+      suppressHydrationWarning
+    >
       <head>
-        {/* Speed up the critical Google Fonts request (LCP): warm the connection,
-            then load the stylesheet from <head> (earlier than a CSS @import). */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,400;1,500&display=swap"
-        />
+        {/* Fonts are self-hosted via next/font (see manrope/playfair above) — no
+            render-blocking external stylesheet. */}
         {/* Site-wide entity graph: Organization + WebSite + founder Person */}
         <JsonLd data={siteGraphLd()} />
       </head>

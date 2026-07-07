@@ -26,8 +26,9 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ['Manrope', 'sans-serif'],
-        serif: ['Playfair Display', 'serif'],
+        // Self-hosted via next/font; variables set on <html> (see layout.tsx).
+        sans: ['var(--font-sans)', 'Manrope', 'sans-serif'],
+        serif: ['var(--font-serif)', 'Playfair Display', 'serif'],
       },
     },
   },

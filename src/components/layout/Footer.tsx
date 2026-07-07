@@ -62,7 +62,7 @@ export function Footer() {
           {/* Column 2 — Navigation */}
           <div>
             <p
-              className="font-sans font-semibold text-[0.75rem] uppercase text-text-secondary/70 dark:text-[rgba(255,251,245,0.45)] mb-6"
+              className="font-sans font-semibold text-[0.75rem] uppercase text-text-secondary dark:text-[rgba(255,251,245,0.45)] mb-6"
               style={{ letterSpacing: '0.15em' }}
             >
               Explore
@@ -86,7 +86,7 @@ export function Footer() {
           {/* Column 3 — Contact + Social */}
           <div className="sm:col-span-2 lg:col-span-1">
             <p
-              className="font-sans font-semibold text-[0.75rem] uppercase text-text-secondary/70 dark:text-[rgba(255,251,245,0.45)] mb-6"
+              className="font-sans font-semibold text-[0.75rem] uppercase text-text-secondary dark:text-[rgba(255,251,245,0.45)] mb-6"
               style={{ letterSpacing: '0.15em' }}
             >
               Contact
@@ -123,10 +123,10 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="mt-16 pt-8 border-t border-black/[0.06] dark:border-[rgba(255,251,245,0.08)]">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <p className="font-sans font-normal text-[0.75rem] text-text-secondary/80 dark:text-[rgba(255,251,245,0.4)]">
+            <p className="font-sans font-normal text-[0.75rem] text-text-secondary dark:text-[rgba(255,251,245,0.4)]">
               &copy; 2026 Itqan Studio FZ LLC. All rights reserved.
             </p>
-            <div className="flex items-center gap-4 text-[0.75rem] text-text-secondary/80 dark:text-[rgba(255,251,245,0.4)]">
+            <div className="flex items-center gap-4 text-[0.75rem] text-text-secondary dark:text-[rgba(255,251,245,0.4)]">
               <Link
                 href="/privacy"
                 className="font-sans font-normal hover:text-text-primary dark:hover:text-brand-cream transition-colors duration-200"

@@ -35,7 +35,7 @@ export function TeamSection() {
             Senior hands. No juniors.{' '}
             <span
               className="text-brand-accent-on-light dark:text-brand-accent"
-              style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 500 }}
+              style={{ fontFamily: "var(--font-serif), serif", fontStyle: 'italic', fontWeight: 500 }}
             >
               No hand-offs.
             </span>

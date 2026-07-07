@@ -81,7 +81,7 @@ export function MissionStatement() {
                 Itqan comes from the Arabic word meaning{' '}
                 <span
                   className="text-brand-accent-on-light dark:text-brand-accent"
-                  style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 500 }}
+                  style={{ fontFamily: "var(--font-serif), serif", fontStyle: 'italic', fontWeight: 500 }}
                 >
                   Excellence
                 </span>
@@ -106,7 +106,7 @@ export function MissionStatement() {
                 Two decades of that craft, made{' '}
                 <span
                   className="text-brand-accent-on-light dark:text-brand-accent"
-                  style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 500 }}
+                  style={{ fontFamily: "var(--font-serif), serif", fontStyle: 'italic', fontWeight: 500 }}
                 >
                   legible
                 </span>{' '}
