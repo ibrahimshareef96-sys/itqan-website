@@ -42,11 +42,11 @@ export interface LeadMagnet {
    */
   landingTeaser: string;
   /**
-   * Public URL of the deliverable PDF (Notion "PDF URL" property). Used client-
-   * side for the instant on-page download button. The capture route re-resolves
-   * this server-side by slug (never trusting the client) before it stores the
-   * `magnet_pdf_url` attrib / sends the delivery email — so the emailed link can
-   * never be caller-controlled. Null when the magnet has no PDF URL set yet.
+   * Public URL of the deliverable PDF (Notion "PDF URL" property), rendered by
+   * `MagnetLanding` as the instant on-page download button after opt-in. Only
+   * accepted when it is an https:// URL (see readUrl). NOT sent to the capture
+   * route — the delivery email's link is built server-side on our own origin,
+   * so it can never be caller-controlled. Null when no PDF URL is set yet.
    */
   pdfUrl: string | null;
 }

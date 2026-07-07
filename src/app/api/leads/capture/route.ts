@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { upsertSubscriber, sendTx, ListmonkError } from "@/lib/listmonk";
-import { findItqanMagnetBySlug } from "@/lib/magnet-lookup";
 import { rateLimit } from "@/lib/rate-limit";
+import { SITE_URL } from "@/lib/seo";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -13,26 +13,22 @@ export const dynamic = "force-dynamic";
  *
  * SECURITY — this route emails a link from itqanstudio.com's trusted, SPF/DKIM
  * signed domain, so it MUST NOT be usable as an open spam/phishing relay:
- *   - The delivered link + the Listmonk tag are resolved SERVER-SIDE from the
- *     trusted Notion magnet registry (findItqanMagnetBySlug), keyed only by the
- *     slug. The request body can NEVER choose the URL we email or forge the tag.
- *     (Prior versions trusted a body `pdfUrl` — that was the relay hole.)
- *   - An unknown/forged slug is rejected (404) before any email is sent.
+ *   - The delivered link is built SERVER-SIDE as `${SITE_URL}/magnet/<slug>` — an
+ *     absolute URL on our OWN canonical origin (SITE_URL is a hardcoded constant,
+ *     never the request Host header). The request body can NEVER choose the URL
+ *     we email. (Prior versions trusted a body `pdfUrl` — that was the relay hole.)
  *   - Per-IP and per-email rate limits cap bulk spam + backscatter at a third
  *     party, protecting the sending reputation.
+ *   - The tag keyword is sanitized to /^[a-z0-9_-]{1,40}$/ before use.
  *
- * Flow:
- *   1. Validate email + slug, then rate-limit (per-IP + per-email).
- *   2. Resolve the magnet server-side (trusted pdfUrl + dmKeyword).
- *   3. Upsert the subscriber onto the Itqan Listmonk list, preconfirmed
- *      (explicit magnet request — no double opt-in), tagged magnet-itqan-<kw>.
- *   4. Send the delivery transactional email with the trusted magnet_url.
+ * Flow: validate -> rate-limit -> upsert subscriber (Itqan list, preconfirmed,
+ * tagged magnet-itqan-<kw>) -> send the delivery tx email with the own-origin
+ * magnet_url. Delivery is best-effort; the subscriber + tag is the durable record.
  *
- * The landing page also shows an instant on-page download button from the
- * server-echoed (trusted) pdfUrl, so delivery does not depend on the email.
+ * Body: { email, magnetSlug, dmKeyword, firstName? }
+ * (A `pdfUrl` in the body is intentionally ignored — the link is server-derived.)
  *
- * Body: { email, magnetSlug, firstName? }
- * (`pdfUrl` / `dmKeyword` are intentionally ignored if sent — resolved server-side.)
+ * Mirrors the hardening shipped in itqan-crm's equivalent route.
  */
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -46,13 +42,13 @@ const EMAIL_WINDOW_MS = 24 * 60 * 60 * 1000; // 1 day
 interface CapturePayload {
   email?: unknown;
   magnetSlug?: unknown;
+  dmKeyword?: unknown;
   firstName?: unknown;
 }
 
 /**
  * A magnet keyword becomes part of a Listmonk tag (magnet-itqan-<kw>), which
- * must match /^[a-zA-Z0-9_-]+$/. Sanitize + cap so the tag stays well-formed
- * even though the keyword now comes from the trusted registry.
+ * must match /^[a-zA-Z0-9_-]+$/. Sanitize + cap so the tag stays well-formed.
  */
 function sanitizeKeyword(raw: string): string {
   return raw.trim().toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 40);
@@ -112,6 +108,8 @@ export async function POST(req: NextRequest) {
     typeof payload.magnetSlug === "string"
       ? payload.magnetSlug.trim().slice(0, 100)
       : "";
+  const dmKeyword =
+    typeof payload.dmKeyword === "string" ? payload.dmKeyword : "";
   const firstName =
     typeof payload.firstName === "string" && payload.firstName.trim()
       ? payload.firstName.trim().slice(0, 80)
@@ -130,8 +128,15 @@ export async function POST(req: NextRequest) {
       { status: 400 }
     );
   }
+  const keyword = sanitizeKeyword(dmKeyword);
+  if (!keyword) {
+    return NextResponse.json(
+      { ok: false, error: "dmKeyword required" },
+      { status: 400 }
+    );
+  }
 
-  // ── Rate limit BEFORE any external call (Notion + Listmonk + email) ─────────
+  // ── Rate limit BEFORE any external call (Listmonk + email) ─────────────────
   // In-memory limiter — valid because prod is a single Coolify `next start`
   // container (see lib/rate-limit.ts). Traefik/Coolify sets x-forwarded-for.
   const ip = clientIp(req);
@@ -163,77 +168,34 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // ── Resolve the magnet server-side (TRUSTED source of pdfUrl + keyword) ─────
-  // Everything we act on comes from here, NEVER from the request body — so a
-  // caller can neither choose the URL we email (open-relay fix) nor forge the tag.
-  let magnet;
-  try {
-    magnet = await findItqanMagnetBySlug(magnetSlug);
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    console.error("[leads/capture] magnet lookup failed:", msg);
-    return NextResponse.json(
-      { ok: false, error: "Subscription failed. Please try again." },
-      { status: 502 }
-    );
-  }
-  if (!magnet) {
-    return NextResponse.json(
-      { ok: false, error: "Unknown magnet" },
-      { status: 404 }
-    );
-  }
-
-  const keyword = sanitizeKeyword(magnet.dmKeyword);
-  if (!keyword) {
-    console.error(
-      `[leads/capture] magnet '${magnetSlug}' has no usable dmKeyword`
-    );
-    return NextResponse.json(
-      { ok: false, error: "Subscription failed. Please try again." },
-      { status: 500 }
-    );
-  }
   const tagName = `magnet-itqan-${keyword}`;
-  const pdfUrl = magnet.pdfUrl ?? undefined; // trusted, admin-set in Notion
+  // The delivered link — ALWAYS our own canonical origin. Never caller-supplied.
+  const magnetUrl = `${SITE_URL}/magnet/${encodeURIComponent(magnetSlug)}`;
 
   try {
     // ── 1. Upsert subscriber (preconfirmed — explicit magnet request) ────────
-    const attribs: Record<string, unknown> = {
-      tags: [tagName],
-      magnet_slug: magnetSlug,
-    };
-    if (pdfUrl) attribs.magnet_pdf_url = pdfUrl;
-
     await upsertSubscriber({
       email,
       name: firstName,
       listIds: [Number(listId)],
-      attribs,
+      attribs: { tags: [tagName], magnet_slug: magnetSlug },
       preconfirm: true,
     });
 
     // ── 2. Send the delivery transactional email (best-effort) ───────────────
     let enrolled = false;
-    if (pdfUrl) {
-      const templateId = process.env.LISTMONK_TX_TEMPLATE_MAGNET;
-      if (!templateId) {
-        console.error("[leads/capture] LISTMONK_TX_TEMPLATE_MAGNET not set");
-      } else {
-        enrolled = await sendTx({
-          subscriberEmail: email,
-          templateId: Number(templateId),
-          data: { magnet_url: pdfUrl },
-        });
-      }
+    const templateId = process.env.LISTMONK_TX_TEMPLATE_MAGNET;
+    if (!templateId) {
+      console.error("[leads/capture] LISTMONK_TX_TEMPLATE_MAGNET not set");
+    } else {
+      enrolled = await sendTx({
+        subscriberEmail: email,
+        templateId: Number(templateId),
+        data: { magnet_url: magnetUrl },
+      });
     }
 
-    return NextResponse.json({
-      ok: true,
-      pdfUrl: pdfUrl ?? null,
-      tagged: true,
-      enrolled,
-    });
+    return NextResponse.json({ ok: true, tagged: true, enrolled });
   } catch (err) {
     if (err instanceof ListmonkError) {
       console.error(
