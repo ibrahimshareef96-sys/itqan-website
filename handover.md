@@ -11,6 +11,37 @@ Lightweight tracking via TaskCreate (in-session). For longer initiatives use `ag
 
 ## Handover prompt (self-contained for the next session)
 
+**SEO + PERF AUDIT + magnet-funnel hidden (2026-07-08) — ALL DEPLOYED + prod-verified.** Main → `1c693ee`.
+Full report: `SEO-PERF-AUDIT.md` (repo root). Ibrahim picked (via AskUserQuestion): hide the dead magnet funnel +
+run a SEO/perf audit.
+1. **Dead `/magnet/*` funnel → 404 (was 500).** It needs `NOTION_TOKEN`, which is NOT set in prod, so every magnet
+   URL 500'd. Gated the whole funnel on `NOTION_TOKEN` presence: `magnet/[slug]/page.tsx` `resolveMagnet()` returns
+   null (→ clean `notFound()` 404 + noindex) when the token is unset OR the lookup throws; `/api/leads/capture`
+   returns 404 while off. **Fully reversible** — set `NOTION_TOKEN` in Coolify to revive the funnel.
+2. **SEO foundation was already excellent** (Lighthouse SEO 100, Best-Practices 100, full entity JSON-LD graph,
+   canonicals, clean sitemap/robots, AI-crawler allowlist). The problems were performance + hygiene:
+   - **Fonts → `next/font`** (the #1 fix). The external Google Fonts `<link>` was the single render-blocker.
+     Self-hosted Manrope + Playfair via `next/font` variables `--font-sans`/`--font-serif`; 18 inline
+     `'Playfair Display'` refs → `var(--font-serif)`; tailwind + globals updated. **FCP 3.4→1.1-1.3s, Speed Index
+     8.8→2.0s.**
+   - **Hero CLS → 0** (was 0.19-0.39, the site's worst CWV). Root cause was the **AiVisibility panel**: bubbles
+     reserved one line (`min-h-[38px]`) but streamed 3-4 lines and varied per cycle → reflow every keystroke. Fix:
+     each bubble renders an invisible ghost of the LONGEST exchange + an absolute streaming overlay → constant
+     footprint. **CLS 0.39→0 (prod-verified 0.001/0).** NOT a font issue (CLS was ~0.19 in the old build too).
+   - **A11y contrast** (footer `/70`,`/80` secondary text below WCAG AA) → full token. **A11y 97→100.**
+   - **`www`→apex 301** (was a duplicate 200) + **security headers** (HSTS, X-Content-Type-Options, X-Frame-Options,
+     Referrer-Policy, Permissions-Policy) — both in `next.config.mjs`.
+   - **Final prod Lighthouse (mobile): perf 69-95 (LCP jitter from the WebGPU shader in headless; hits 95), a11y
+     100, BP 100, SEO 100, FCP 1.1-1.3s, LCP 1.6-3.5s, CLS 0.**
+   - **Gotcha for next time:** a LOCAL `next start` Lighthouse reported LCP 26.6s — that's a `next start` artifact,
+     NOT real. Measure LCP against PROD (real server). PageSpeed Insights API is keyless-rate-limited; use the
+     Chrome-for-Testing binary in the Playwright cache with `npx lighthouse` against the prod URL instead.
+   - **Remaining (LOW, not done):** meta descriptions ~180-192c (trim to ~160); /work + /about titles truncate
+     (>60c); ~295KiB unused JS (framer/shader/posthog — TBT already 30ms so low priority); http→https is a 302 at
+     Traefik (301 marginally better). All in `SEO-PERF-AUDIT.md`. Biggest lever remains OFF-SITE (directories,
+     listicles, reviews) — Ibrahim's TODO.
+Commits: `ebd9a93` magnet gate, `a36b73c` fonts+contrast+headers+redirect, `1c693ee` CLS.
+
 **SECURITY FIX (2026-07-07): closed an open spam/phishing relay in `/api/leads/capture` — DEPLOYED + prod-verified.**
 Main → `cef196f`, Coolify deploy `wiucbnzmcarmuhej4fj5tu0a` finished. The bug: the route read `pdfUrl` from the
 UNAUTHENTICATED body and emailed it (Listmonk tx, from itqanstudio.com's SPF/DKIM domain) to a caller-supplied
