@@ -91,6 +91,14 @@ function rateLimitEmailKey(email: string): string {
 }
 
 export async function POST(req: NextRequest) {
+  // The lead-magnet funnel is gated on NOTION_TOKEN (the /magnet pages need it to
+  // render). While it's unset the funnel is intentionally OFF, so this endpoint
+  // 404s rather than accepting submissions for a hidden funnel. Reversible: set
+  // NOTION_TOKEN to bring the whole funnel back.
+  if (!process.env.NOTION_TOKEN) {
+    return NextResponse.json({ ok: false, error: "Not found" }, { status: 404 });
+  }
+
   // ── Parse ─────────────────────────────────────────────────────────────────
   let payload: CapturePayload;
   try {
