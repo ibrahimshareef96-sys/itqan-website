@@ -41,6 +41,13 @@ const HOLD_MS = 2600;
 const Q_CHAR_MS = 34;
 const A_WORD_MS = 90;
 
+// The tallest question + answer across the script. Rendered as invisible "ghosts"
+// so each bubble is ALWAYS sized to its largest possible content — the panel never
+// grows while text streams, nor resizes between exchanges. This is the fix for the
+// hero's CLS (the panel used to reflow every keystroke + every cycle).
+const LONGEST_Q = SCRIPT.reduce((m, s) => (s.q.length > m.length ? s.q : m), '');
+const LONGEST_A = SCRIPT.reduce((m, s) => (s.a.length > m.length ? s.a : m), '');
+
 /** Renders answer text with the "your brand" token highlighted. */
 function AnswerText({ text }: { text: string }) {
   const parts = text.split(/(your brand)/g);
@@ -144,21 +151,28 @@ export function AiVisibility({ className }: { className?: string }) {
           ))}
         </div>
 
-        {/* Chat */}
+        {/* Chat. Each bubble reserves the tallest exchange's height via an invisible
+            ghost + an absolutely-positioned streaming overlay → zero layout shift. */}
         <div className="px-4 pb-5 pt-4 space-y-3" aria-live="off">
           {/* Buyer question */}
           <div className="flex justify-end">
-            <p className="max-w-[85%] rounded-2xl rounded-br-md bg-brand-dark text-brand-cream dark:bg-brand-cream/[0.1] dark:text-brand-cream px-4 py-2.5 text-[0.8125rem] leading-[1.5] min-h-[38px]">
-              {visibleQ}
-              {qChars < ex.q.length && <Caret />}
+            <p className="relative max-w-[85%] rounded-2xl rounded-br-md bg-brand-dark text-brand-cream dark:bg-brand-cream/[0.1] dark:text-brand-cream px-4 py-2.5 text-[0.8125rem] leading-[1.5]">
+              <span className="invisible" aria-hidden="true">{LONGEST_Q}</span>
+              <span className="absolute inset-0 px-4 py-2.5">
+                {visibleQ}
+                {qChars < ex.q.length && <Caret />}
+              </span>
             </p>
           </div>
 
           {/* AI answer */}
           <div className="flex justify-start">
-            <p className="max-w-[90%] rounded-2xl rounded-bl-md bg-black/[0.045] text-text-primary dark:bg-brand-cream/[0.05] dark:text-brand-cream/90 px-4 py-2.5 text-[0.8125rem] leading-[1.55] min-h-[38px]">
-              {aWords > 0 && <AnswerText text={visibleA} />}
-              {animating && qChars >= ex.q.length && <Caret />}
+            <p className="relative max-w-[90%] rounded-2xl rounded-bl-md bg-black/[0.045] text-text-primary dark:bg-brand-cream/[0.05] dark:text-brand-cream/90 px-4 py-2.5 text-[0.8125rem] leading-[1.55]">
+              <span className="invisible" aria-hidden="true">{LONGEST_A}</span>
+              <span className="absolute inset-0 px-4 py-2.5">
+                {aWords > 0 && <AnswerText text={visibleA} />}
+                {animating && qChars >= ex.q.length && <Caret />}
+              </span>
             </p>
           </div>
         </div>
