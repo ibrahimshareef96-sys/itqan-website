@@ -11,6 +11,30 @@ Lightweight tracking via TaskCreate (in-session). For longer initiatives use `ag
 
 ## Handover prompt (self-contained for the next session)
 
+**SECURITY FIX (2026-07-07): closed an open spam/phishing relay in `/api/leads/capture` — DEPLOYED + prod-verified.**
+Main → `cef196f`, Coolify deploy `wiucbnzmcarmuhej4fj5tu0a` finished. The bug: the route read `pdfUrl` from the
+UNAUTHENTICATED body and emailed it (Listmonk tx, from itqanstudio.com's SPF/DKIM domain) to a caller-supplied
+`email` — anyone could send a phishing link from Itqan's trusted domain to any address, with no rate limit.
+**Fix (ports itqan-crm's hardening):**
+- The delivered link is now built SERVER-SIDE as `` `${SITE_URL}/magnet/<slug>` `` (own canonical origin from
+  `src/lib/seo.ts`; NEVER the request Host header, NEVER a body `pdfUrl`). Body `pdfUrl` is ignored entirely.
+- New `src/lib/rate-limit.ts` (in-memory fixed-window; valid because prod = single Coolify `next start` container).
+  Per-IP 12/hr (IP from `x-real-ip`/last-XFF-hop, not the spoofable leftmost) + per-email 3/day (key collapses
+  `+subaddress` and gmail dots so the cap can't be aliased around).
+- `dmKeyword` sanitized to `[a-z0-9_-]{1,40}` for the tag; `firstName` capped 80; `magnetSlug` capped 100.
+- `readUrl` in `magnet-lookup.ts` now accepts https:// only (defensive: the pdfUrl still feeds the on-page
+  download button).
+- Client (`MagnetLanding.tsx`) sends only `{ email, firstName, magnetSlug, dmKeyword }` (no pdfUrl).
+**IMPORTANT PIVOT (why 2 commits):** first attempt (`e8b33ca`) resolved pdfUrl/keyword from the Notion magnet
+registry — but **prod has NO `NOTION_TOKEN`** (checked via Coolify env API; only LISTMONK_* are set), so it 502'd
+on every capture. The magnet funnel is effectively DORMANT in prod (the `/magnet/[slug]` pages also need Notion to
+render). `cef196f` removes that dependency (Listmonk-only). If Ibrahim ever wants to activate the magnet funnel +
+direct-PDF delivery, set `NOTION_TOKEN` in Coolify and decide whether the email should link to the PDF vs the
+`/magnet` page. **security-reviewer** ran: relay confirmed closed; its 2 MEDIUMs (email-alias + XFF spoof) were
+fixed in this patch. **CLEANUP:** delete the test subscriber `relaycheck@example.com` (tag `magnet-itqan-g`) from
+Listmonk — created during prod verification.
+
+
 **LATEST (2026-07-06): AWS/Shopify partner strip in hero + replaced About animation with a gilded إتقان still + decks updated — DEPLOYED.**
 Main → `ec4b8b1`, Coolify deploy `ld6n4nqexipcysvb6ejj1qte` (verify 200 after it finishes). Three things:
 1. **Partner credibility in the hero** — new `src/components/home/PartnerStrip.tsx`, mounted in `HeroAxion.tsx`
