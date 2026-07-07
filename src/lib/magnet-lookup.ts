@@ -42,10 +42,11 @@ export interface LeadMagnet {
    */
   landingTeaser: string;
   /**
-   * Public URL of the deliverable PDF (Notion "PDF URL" property). Used for
-   * the instant on-page download button and passed to the capture route so
-   * Listmonk stores it on the subscriber's `magnet_pdf_url` attrib for the
-   * delivery email. Null when the magnet has no PDF URL set yet.
+   * Public URL of the deliverable PDF (Notion "PDF URL" property). Used client-
+   * side for the instant on-page download button. The capture route re-resolves
+   * this server-side by slug (never trusting the client) before it stores the
+   * `magnet_pdf_url` attrib / sends the delivery email — so the emailed link can
+   * never be caller-controlled. Null when the magnet has no PDF URL set yet.
    */
   pdfUrl: string | null;
 }
@@ -79,7 +80,12 @@ function readSelect(page: NotionPage, field: string): string | null {
 }
 function readUrl(page: NotionPage, field: string): string | null {
   const url = page.properties?.[field]?.url;
-  return typeof url === "string" && url.trim() ? url.trim() : null;
+  if (typeof url !== "string") return null;
+  const trimmed = url.trim();
+  // Only accept https:// — this value is emailed as a link and rendered as an
+  // <a href> download button, so reject javascript:/data:/http: defensively
+  // (even though the source is a trusted internal Notion workspace today).
+  return trimmed.toLowerCase().startsWith("https://") ? trimmed : null;
 }
 
 /**

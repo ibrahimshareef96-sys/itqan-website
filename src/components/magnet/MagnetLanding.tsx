@@ -69,6 +69,9 @@ export function MagnetLanding({ magnet }: { magnet: LeadMagnet }) {
     setStatus("submitting");
     setErrorMsg("");
     try {
+      // Only the slug + contact fields are sent. The delivered PDF link and the
+      // subscriber tag are resolved SERVER-SIDE from the trusted magnet registry
+      // — the client never supplies the URL we email (open-relay hardening).
       const res = await fetch("/api/leads/capture", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -76,8 +79,6 @@ export function MagnetLanding({ magnet }: { magnet: LeadMagnet }) {
           email,
           firstName: firstName || undefined,
           magnetSlug: magnet.topicSlug,
-          dmKeyword: magnet.dmKeyword,
-          pdfUrl: magnet.pdfUrl ?? undefined,
         }),
       });
       const data = await res.json();
