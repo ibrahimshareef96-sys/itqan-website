@@ -11,6 +11,21 @@ Lightweight tracking via TaskCreate (in-session). For longer initiatives use `ag
 
 ## Handover prompt (self-contained for the next session)
 
+**FIX (2026-07-08): Behance decks were showing Medacs / broken screenshots — RE-CAPTURED + re-rendered.**
+Ibrahim: brand deck "slide 6" showed Medacs (wanted the website landing/hero); website deck "fully broken, ugly,
+nothing from the website's design — remake from the ground up." **Root cause: the screenshots in `behance/assets/`
+were CORRUPTED** — during the 2026-07-08 SEO session `capture.js` was run against the dev server mid-compile and
+grabbed the Medacs case-study mockup for `home-hero-light/dark.png` + `home-mobile-light.png` and a half-rendered
+fragment for `work-grid.png`. Every deck board that showed the site showed Medacs/broken. The deck DESIGN was fine.
+**Fix:** rewrote `behance/capture.js` to shoot a LOCAL PRODUCTION build (`npx next start -p 3002`, NOT dev — no
+compile races) with robust fonts.ready + eager/decode image waits; re-captured the 5 needed shots (home-hero
+light/dark, home-mobile-light, home-askai, work-grid) — all now the real, polished site; re-rendered both decks
+(`node behance/render.js`). QA'd: brand deck slide 6 ("The system, live", badge=6) now shows the real
+itqanstudio.com landing/hero in light+dark; website deck cover/hero/two-lights/grid/askai all show the real site,
+premium + coherent. Decks are gitignored (local `behance/out/`) — Ibrahim re-uploads the PNGs; COPY.md unchanged.
+**Gotcha:** capturing the live domain via headless Chrome fails (ERR_ADDRESS_UNREACHABLE); always capture a local
+`next start` build. Never capture the dev server mid-compile.
+
 **SEO + PERF AUDIT + magnet-funnel hidden (2026-07-08) — ALL DEPLOYED + prod-verified.** Main → `1c693ee`.
 Full report: `SEO-PERF-AUDIT.md` (repo root). Ibrahim picked (via AskUserQuestion): hide the dead magnet funnel +
 run a SEO/perf audit.
