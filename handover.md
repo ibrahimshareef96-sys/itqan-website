@@ -11,6 +11,107 @@ Lightweight tracking via TaskCreate (in-session). For longer initiatives use `ag
 
 ## Handover prompt (self-contained for the next session)
 
+**LATEST (2026-08-07, part 2): APPROVED + IMPLEMENTED + SHIPPED to both sites.**
+Ibrahim approved all nine proposals ("the design is approved… push everything to production… you do
+everything that is needed"). Implemented, verified, panel-reviewed, merged to `main` and deployed to
+BOTH Coolify apps. What changed in THIS repo:
+- **`PillNav.tsx` (biggest change).** The bar is now a translucent MATERIAL — `backdrop-filter:
+  blur(28px) saturate(190%)` over `bg-white/70`, bright top edge, shadow that thickens only once
+  scrolled — plus a `.scroll-edge` strip that blurs the band where content meets the chrome, so page
+  content dissolves under the nav instead of being sliced by it (this was visibly amputating the
+  `/work` filter row). The mobile sheet is now direct-manipulation: framer `drag="y"` with
+  `dragConstraints={{top:0}}` (free 1:1 below the open position, rubber-band above),
+  `dragMomentum={false}` because we project the momentum ourselves, `projectMomentum()` to decide
+  dismiss-vs-settle, and the release velocity handed to the spring. The scrim's opacity is
+  `useTransform(sheetY)` so dimming tracks the finger. `AnimatePresence` was removed — the sheet
+  controls its own mount/unmount so the exit can carry the gesture's velocity.
+- **`globals.css`** — new `.display-type` (size-stepped tracking + leading), `.press-scale`,
+  `.material-chrome`, `.scroll-edge`; reduced-motion rewritten to restrict `transition-property`
+  instead of zeroing duration; added `prefers-reduced-transparency` + `prefers-contrast`.
+- **`lib/motion.ts`** — `projectMomentum()` (Apple's exponential-decay form, NOT `v²/2a`),
+  `rubberband()`, and `SPRING_HOVER` / `SPRING_PRESS` / `SPRING_MOMENTUM` parameterised as
+  bounce + duration. **House rule written into the file: bounce 0 by default; overshoot only when the
+  gesture carried momentum.**
+- **`TestimonialCarousel.tsx`** — rewritten. Was autoplay-only, unswipeable, never paused, and
+  `mode="wait"` silently dropped a second click. Now all slides render on a draggable rail, swipe
+  tracks 1:1, a flick projects to its landing card, autoplay pauses on hover/focus/drag and is off
+  entirely under reduced motion.
+- **`CookieBanner.tsx`** — full-width bar → compact single-row floating glass card. The bar was
+  covering the hero's primary CTA on every 390px screen; verified it now clears it by 58px.
+- `HeroAxion.tsx`, `RollButton.tsx`, `SpringCard.tsx` — `.display-type` + press states; SpringCard's
+  hover spring was damping ratio ~0.58 (a bounce on a hover that carried no momentum) → critically damped.
+**Verified before shipping:** tsc + build clean; **13/13 headless behaviour checks pass** —
+`/tmp/apple-audit/verify-impl.mjs` (re-runnable; asserts 1:1 drag, rubber-band, autoplay pause,
+tracking-varies-with-size, CTA clearance, reduced-motion cross-fades survive).
+**Deliberately NOT done:** the AiVisibility "typing indicator" — that component is what got hero CLS
+to 0 (`1c693ee`) by reserving space with a ghost of the longest exchange; painting into that reserved
+box risks regressing the site's worst-ever CWV for a cosmetic gain.
+**Cascade note:** `.press-scale` / `.display-type` are UNLAYERED so they beat Tailwind's layered
+utilities — intentional, the press transform must win over `hover:-translate-y-*`.
+
+**(2026-08-07, part 1): the audit that produced the above. Artefacts in `~/Desktop/apple-design-review/`.**
+Tracked in `agent-work/20260807183807_apple_design_audit_both_sites.md` (read it first — it holds the full
+findings index, the chosen approach + rejected alternatives, and the verified prototype output).
+Ibrahim asked for an Apple-design pass over **itqanstudio.com AND shareefi.co** (repo:
+`~/Desktop/shareefico-website`, branch `main`) using the newly installed `apple-design` skill
+(`~/.agents/skills/apple-design/SKILL.md`), with **screenshots of what the changes would look like**, then a
+redesign only **if he approves**.
+- **Method (reusable):** visual proposals were produced by **injecting the proposed CSS/JS onto the LIVE pages
+  via Playwright** and shooting matched before/after crops — identical content, only the change differs. Motion
+  proposals (which stills can't show) went into an **interactive prototype**. Both approaches beat rebuilding
+  mockups from scratch, which would have made the comparison unfair.
+- **Artefacts — CANONICAL COPY IS `~/Desktop/apple-design-review/`** (NOT in any repo; originally built in
+  `/tmp/apple-audit/`, which Finder hides and Spotlight does not index — Ibrahim couldn't find the PNGs, so
+  the whole tree was copied to the Desktop. Use the Desktop path from now on; /tmp will not survive a reboot).
+  Contents: `index.html` (open this first — every comparison on one page + link to the prototype) ·
+  `compare/*.png` 6 labelled Now/Proposed images · `current/` 11 current-state shots ·
+  `pairs/{before,after}/` raw crops · **`proto/motion.html`** the interactive prototype (sheet drag / press /
+  carousel) · `capture.mjs`, `after.mjs`, `compose.mjs`, `measure-type.mjs`, `measure-scale.mjs`,
+  `verify-proto.mjs` re-runnable scripts.
+- **Top findings — Itqan:** nav is an opaque white slab, not a material, and it slices the /work filter row;
+  display headline has no size-specific tracking; **zero press states anywhere** (touch users get no feedback
+  until navigation); consent bar occludes the hero CTA at 390px; mobile sheet is a fixed 500ms tween that
+  ignores the finger; `TestimonialCarousel` is autoplay-only, unswipeable, never pauses, and `mode="wait"`
+  makes it non-interruptible; the reduced-motion `*` rule is a nuke that also kills cross-fades; no
+  `prefers-reduced-transparency` / `prefers-contrast` handling.
+- **Top findings — Shareefico:** `src/motion-system/` is **Material Design 3**, not Apple — prescribed
+  durations/easings/ripple, the opposite model; `bottomSheet()` in `motion-runtime.js` tracks 1:1 (good) but
+  snaps to the NEAREST detent **ignoring velocity** and settles by animating `height` via CSS transition
+  (layout property + non-interruptible); `.t-hero` uses one fixed `-0.02em` across a `clamp(40px,8vw,128px)`;
+  `--color-text-muted` computes to **~3.05:1** on `--color-void` (fails WCAG AA for body text — proposed 0.62
+  alpha gives ~7.7:1); the About scroll-scrub rests un-revealed words near 15% opacity so most of the
+  paragraph is unreadable; `Button` has no `:active`.
+- **Credit:** Shareefico's `NavBar.tsx` is already the best material work across both sites (translucent,
+  scroll-reactive, shape-morphing). It is the bar Itqan's `PillNav.tsx` should meet — don't "fix" it.
+- **PLAYWRIGHT NOTE (corrects the older handover entry):** launch with `executablePath` =
+  `~/Library/Caches/ms-playwright/chromium-1228/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing`
+  (it is **"Google Chrome for Testing"**, NOT `Chromium.app`). Also: capturing the **live domains** headlessly
+  worked fine this session (11/11) — the old ERR_ADDRESS_UNREACHABLE note did not reproduce.
+- **NEXT:** Ibrahim picks which items to implement. Then implement in the real repos (Itqan: `PillNav.tsx`,
+  `RollButton.tsx`, `TestimonialCarousel.tsx`, `globals.css`; Shareefico: `motion-runtime.js`, `Button.tsx`,
+  `globals.css` type + contrast tokens), and **run `Skill(panel)` on that diff** — the panel was correctly
+  skipped for this proposal because no site code was touched.
+
+**LINKEDIN COVER (2026-07-13) — new personal banner built + delivered (NOT committed; it's a marketing asset, not site code).**
+Ibrahim wanted an upgraded personal LinkedIn cover using the NEW copy ("Your next customer just *asked* ChatGPT.")
+and the NEW Axion design system — replacing the outdated "invisible to inevitable in 90 days" banner. **Approach:
+HTML → Playwright screenshot, NOT AI-generation** (Higgsfield/Kling warp text — same lesson as the Mutqin film).
+Rendered pixel-perfect at **1584×396 @2x = 3168×792 PNG** (LinkedIn's spec; retina-crisp, ~2.4MB, under the 8MB cap).
+- **Files (scratch):** `/tmp/li-cover/banner.html` (dark), `banner-light.html` (light), `shoot.mjs` (renderer).
+  **Deliverables saved to `~/Desktop/`:** `itqan-linkedin-cover-dark.png` + `itqan-linkedin-cover-light.png`.
+- **Design:** plum gradient + mauve glow (echoes the hero shader), Manrope 800 headline, Playfair-italic gradient
+  "asked" accent (dark: pink→mauve `#cca4c2`; light: `#6d4a66`→`#8a5c80`, honoring the dual-accent rule), inline
+  white/dark `itqan` wordmark top-right, faint oversized signal-arc brand mark bleeding off the LEFT (masked so it
+  fades before the copy + is covered by the profile photo), subline "One partner for brand, web & AI visibility.
+  Built to be found — on Google, and in the machines.", meta line "Ibrahim Shareef · Founder, Itqan Studio · Dubai ·
+  Host of the Barakah Blueprint". Content is **right-weighted** → clears the bottom-left profile-photo safe zone.
+- **Playwright gotcha:** the pinned `playwright` npm build wants browser rev 1223, but the cache only has 1208/1228.
+  Fixed by pointing `chromium.launch({ executablePath })` at
+  `~/Library/Caches/ms-playwright/chromium_headless_shell-1228/.../chrome-headless-shell`. Also `playwright/index.js`
+  is CJS → import via `import pkg from ...; const { chromium } = pkg`.
+- **Next:** Ibrahim picks dark vs light and uploads to LinkedIn. To tweak copy/spacing, edit the HTML + re-run
+  `node /tmp/li-cover/shoot.mjs [outPath] [htmlPath]`.
+
 **FIX (2026-07-08): Behance decks were showing Medacs / broken screenshots — RE-CAPTURED + re-rendered.**
 Ibrahim: brand deck "slide 6" showed Medacs (wanted the website landing/hero); website deck "fully broken, ugly,
 nothing from the website's design — remake from the ground up." **Root cause: the screenshots in `behance/assets/`

@@ -80,7 +80,7 @@ export function HeroAxion() {
         </p>
 
         <h1
-          className="font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.08] tracking-[-0.03em]"
+          className="display-type font-sans font-semibold text-text-primary dark:text-brand-cream"
           style={{ fontSize: 'clamp(2.25rem, 6.5vw, 4.2rem)' }}
         >
           Your next customer just{' '}
@@ -105,7 +105,7 @@ export function HeroAxion() {
           {/* Proof badge */}
           <Link
             href="/work"
-            className="self-start inline-flex items-center gap-2.5 rounded-[6px] bg-white dark:bg-[#2a1a28] px-3.5 py-2.5 shadow-[0_2px_8px_rgba(47,28,44,0.08)] hover:shadow-[0_4px_16px_rgba(47,28,44,0.14)] transition-shadow duration-300"
+            className="press-scale self-start inline-flex items-center gap-2.5 rounded-[6px] bg-white dark:bg-[#2a1a28] px-3.5 py-2.5 shadow-[0_2px_8px_rgba(47,28,44,0.08)] hover:shadow-[0_4px_16px_rgba(47,28,44,0.14)]"
           >
             <Starburst className="w-5 h-5 sm:w-6 sm:h-6 text-brand-accent-on-light dark:text-brand-accent" />
             {/* Real outcome (Nexilink, src/data/case-studies.ts) — not a slogan */}
