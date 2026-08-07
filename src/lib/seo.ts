@@ -18,17 +18,23 @@ export const SITE_NAME = 'Itqan Studio';
 export const LEGAL_NAME = 'Itqan Studio FZ LLC';
 export const SITE_TAGLINE = 'Your brand has potential. We give it direction.';
 
-/** The 5 head terms we target, plus brand. Reused in metadata keywords + llms.txt. */
+/** The head terms we target, plus brand. Reused in metadata keywords + llms.txt. */
 export const TARGET_KEYWORDS: readonly string[] = [
   'design agency Dubai',
   'AI agency Dubai',
-  'automation agency Dubai',
-  'AI automation agency Dubai',
+  'AI visibility agency Dubai',
+  'GEO agency Dubai',
+  'generative engine optimization Dubai',
+  'SEO agency Dubai',
   'branding agency Dubai',
   'web design agency Dubai',
+  'web development Dubai',
+  'social media marketing Dubai',
+  'content marketing Dubai',
+  'web hosting Dubai',
   'UI UX design Dubai',
   'brand identity Dubai',
-  'agentic automation',
+  'automation agency Dubai',
   'founder studio',
   'Itqan Studio',
 ];
@@ -47,11 +53,15 @@ export const BUSINESS = {
     'https://www.instagram.com/madebyitqan/',
     'https://www.linkedin.com/company/110338926/',
   ],
+  // Job titles match the on-page copy (Portrait + AboutHero + TeamSection) exactly —
+  // entity consistency for E-E-A-T. The site was deliberately reframed off "solo founder".
   founder: {
     name: 'Ibrahim Shareef',
-    // "Co-founder" matches the on-page copy (Portrait + AboutHero) exactly — entity
-    // consistency for E-E-A-T. The site was deliberately reframed off "solo founder".
-    jobTitle: 'Co-founder',
+    jobTitle: 'CEO & Co-founder',
+  },
+  cofounder: {
+    name: 'Bisma Aslam',
+    jobTitle: 'Head of Design & Co-founder',
   },
   /** Dubai-based, serves UAE → GCC → globally. Expressed as areaServed. */
   areaServed: ['Dubai', 'United Arab Emirates', 'GCC', 'Worldwide'],
@@ -61,12 +71,18 @@ export const BUSINESS = {
 export const KNOWS_ABOUT: readonly string[] = [
   'Brand strategy',
   'Brand identity design',
+  'Creative direction',
   'UI/UX design',
-  'Web design',
+  'Conversion-focused web design',
   'Web application development',
+  'Search engine optimization',
+  'Generative engine optimization',
+  'AI visibility',
+  'Content marketing',
+  'Social media marketing',
+  'Web hosting',
   'AI automation',
   'Agentic AI systems',
-  'Creative direction',
 ];
 
 export interface ServiceDef {
@@ -84,22 +100,40 @@ export const SERVICES: readonly ServiceDef[] = [
       'Brand strategy, naming, positioning and a full visual identity system — the foundation every later asset compounds from.',
   },
   {
-    name: 'UI/UX & Web Design',
-    serviceType: 'UI/UX design',
-    description:
-      'Research-led UI/UX and web design for marketing sites, products and platforms, built to convert and scale.',
-  },
-  {
-    name: 'Web & App Development',
+    name: 'Web Design & Development',
     serviceType: 'Web development',
     description:
-      'Custom, full-stack web and application development — design and engineering shipped as one system, not bolted together.',
+      'Fast, clear websites built to turn a visit into a booked conversation. Design and engineering shipped as one system.',
+  },
+  {
+    name: 'Content & Social Media Marketing',
+    serviceType: 'Content marketing',
+    description:
+      'A content engine that ships every week in your voice — planned, produced and posted across the channels your buyers use.',
+  },
+  {
+    name: 'SEO',
+    serviceType: 'Search engine optimization',
+    description:
+      'We help the right buyers find you in search — with the structure, content and technical signals engines reward.',
+  },
+  {
+    name: 'AI Visibility (GEO)',
+    serviceType: 'Generative engine optimization',
+    description:
+      'We work to get your brand named when buyers ask ChatGPT, Claude and Gemini who to hire — and we track it.',
+  },
+  {
+    name: 'Web Hosting & Infrastructure',
+    serviceType: 'Web hosting',
+    description:
+      'We host and run what we build — one team owns your site from first idea to live, stable and maintained.',
   },
   {
     name: 'AI & Agentic Automation',
     serviceType: 'AI automation',
     description:
-      'Agentic automation engines that run your operations — lead capture, content and reporting — controllable from Telegram.',
+      'Agentic automation engines that run your operations — lead capture, content and reporting — with a human in control.',
   },
 ];
 
@@ -116,6 +150,7 @@ export function absoluteUrl(path = '/'): string {
 const ORG_ID = `${SITE_URL}/#organization`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
 const FOUNDER_ID = `${SITE_URL}/#founder`;
+const COFOUNDER_ID = `${SITE_URL}/#cofounder`;
 
 type JsonLd = Record<string, unknown>;
 
@@ -133,7 +168,7 @@ export function organizationNode(): JsonLd {
     },
     image: `${SITE_URL}/opengraph-image`,
     description:
-      'Itqan Studio is a Dubai-based design, automation and AI agency. We build brand identity, UI/UX and web design, custom development and agentic automation systems for ambitious founders — from invisible to inevitable in 90 days.',
+      'Itqan Studio is a Dubai-based design and AI agency. One partner for brand, websites that convert, content and social media, SEO, AI visibility (GEO), hosting and agentic automation — built and run by the same senior team.',
     slogan: SITE_TAGLINE,
     email: BUSINESS.email,
     foundingLocation: {
@@ -149,7 +184,7 @@ export function organizationNode(): JsonLd {
     areaServed: BUSINESS.areaServed,
     knowsAbout: KNOWS_ABOUT,
     sameAs: BUSINESS.sameAs,
-    founder: { '@id': FOUNDER_ID },
+    founder: [{ '@id': FOUNDER_ID }, { '@id': COFOUNDER_ID }],
     contactPoint: {
       '@type': 'ContactPoint',
       email: BUSINESS.email,
@@ -176,7 +211,7 @@ export function websiteNode(): JsonLd {
     url: SITE_URL,
     name: SITE_NAME,
     description:
-      'Dubai design, automation and AI agency — brand, system and agentic automation for founders.',
+      'Dubai design and AI agency — brand, websites, content, SEO, AI visibility (GEO), hosting and automation from one senior team.',
     inLanguage: 'en',
     publisher: { '@id': ORG_ID },
   };
@@ -194,11 +229,23 @@ export function founderNode(): JsonLd {
   };
 }
 
-/** Site-wide graph injected on every page (root layout): Organization + WebSite + founder Person. */
+/** The co-founder Person node — second founder entity, referenced by Organization.founder. */
+export function cofounderNode(): JsonLd {
+  return {
+    '@type': 'Person',
+    '@id': COFOUNDER_ID,
+    name: BUSINESS.cofounder.name,
+    jobTitle: BUSINESS.cofounder.jobTitle,
+    worksFor: { '@id': ORG_ID },
+    url: `${SITE_URL}/about`,
+  };
+}
+
+/** Site-wide graph injected on every page (root layout): Organization + WebSite + both founder Persons. */
 export function siteGraphLd(): JsonLd {
   return {
     '@context': 'https://schema.org',
-    '@graph': [organizationNode(), websiteNode(), founderNode()],
+    '@graph': [organizationNode(), websiteNode(), founderNode(), cofounderNode()],
   };
 }
 
@@ -273,7 +320,7 @@ export function workCollectionLd(items: readonly WorkItem[]): JsonLd {
     '@type': 'CollectionPage',
     name: 'Our Work — Itqan Studio',
     description:
-      'Selected brand, UI/UX, development and AI-automation case studies by Itqan Studio.',
+      'Selected brand, web, product and AI-automation case studies by Itqan Studio, a Dubai design and AI agency.',
     url: absoluteUrl('/work'),
     isPartOf: { '@id': WEBSITE_ID },
     about: { '@id': ORG_ID },

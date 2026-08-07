@@ -1,6 +1,9 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
+  // Class strategy: next-themes toggles `.dark` on <html>. Legacy dark-hardcoded
+  // components are unaffected; only components using `dark:` variants respond.
+  darkMode: 'class',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -23,8 +26,9 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ['Manrope', 'sans-serif'],
-        serif: ['Playfair Display', 'serif'],
+        // Self-hosted via next/font; variables set on <html> (see layout.tsx).
+        sans: ['var(--font-sans)', 'Manrope', 'sans-serif'],
+        serif: ['var(--font-serif)', 'Playfair Display', 'serif'],
       },
     },
   },

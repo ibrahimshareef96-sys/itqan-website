@@ -69,6 +69,9 @@ export function MagnetLanding({ magnet }: { magnet: LeadMagnet }) {
     setStatus("submitting");
     setErrorMsg("");
     try {
+      // No `pdfUrl` is sent: the delivered link is built SERVER-SIDE from our own
+      // origin, so the client can never choose the URL we email (open-relay
+      // hardening). dmKeyword only namespaces the subscriber tag.
       const res = await fetch("/api/leads/capture", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -77,7 +80,6 @@ export function MagnetLanding({ magnet }: { magnet: LeadMagnet }) {
           firstName: firstName || undefined,
           magnetSlug: magnet.topicSlug,
           dmKeyword: magnet.dmKeyword,
-          pdfUrl: magnet.pdfUrl ?? undefined,
         }),
       });
       const data = await res.json();
@@ -109,6 +111,11 @@ export function MagnetLanding({ magnet }: { magnet: LeadMagnet }) {
   };
 
   return (
+    // Deliberate dark-in-both-modes surface (Axion design system permits one such
+    // moment): this design-locked, approved funnel uses only fixed dark hex + brand
+    // tokens, so it renders identically in light and dark themes. The mauve accent
+    // (#cca4c2) sits only on dark here, so it stays dual-accent compliant with no
+    // theme pairs needed. Do NOT flip surfaces to light — the lock is dark.
     <div className="relative min-h-screen bg-[#1a0d17] text-brand-cream overflow-x-hidden">
       {/* Blueprint grid background — very subtle */}
       <div

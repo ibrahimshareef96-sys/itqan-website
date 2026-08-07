@@ -1,69 +1,106 @@
 'use client';
 
-import Link from 'next/link';
-import { ArrowRight } from '@phosphor-icons/react';
-import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { FadeUp } from '@/components/ui/FadeUp';
-import { SplitText } from '@/components/ui/SplitText';
-import { TextReveal } from '@/components/ui/TextReveal';
-import { MagneticButton } from '@/components/ui/MagneticButton';
-import { SPRING_SNAPPY } from '@/lib/motion';
+import { RollButton } from '@/components/ui/RollButton';
 
+// Same WebGPU shader as the home hero — consistency + premium motion. Client-only;
+// the radial-gradient wash is the fallback.
+const HeroShader = dynamic(() => import('@/components/home/HeroShader'), { ssr: false });
+
+/**
+ * Axion-style About hero. Light-first, dark-aware. Now carries the home hero's
+ * animated shader (idle-gated, reduced-motion skipped) so /about opens with the
+ * same life as the rest of the site. Keeps the 'Engineer. Designer. Storyteller.'
+ * identity statement and the CEO / co-founder copy verbatim.
+ */
 export function AboutHero() {
-  return (
-    <section className="relative min-h-[72vh] md:min-h-[80vh] flex items-center overflow-hidden">
-      {/* Subtle radial gradient accent */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_30%_60%,rgba(204,164,194,0.12),transparent)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_80%_20%,rgba(209,194,165,0.06),transparent)]" />
+  const [showShader, setShowShader] = useState(false);
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 w-full pt-28 pb-20">
-        <FadeUp delay={0.15}>
-          <p
-            className="text-[0.6875rem] font-bold tracking-[0.22em] text-brand-accent uppercase mb-6"
+  // Defer the shader chunk past LCP; never fetch it for reduced-motion users.
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const start = () => setShowShader(true);
+    if ('requestIdleCallback' in window) {
+      const id = window.requestIdleCallback(start, { timeout: 1500 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const t = setTimeout(start, 1200);
+    return () => clearTimeout(t);
+  }, []);
+
+  return (
+    <section
+      className="relative overflow-hidden bg-brand-cream dark:bg-[#1f1420] min-h-[64vh] flex items-center pt-10 sm:pt-14 lg:pt-16 pb-16 sm:pb-20 lg:pb-24"
+      aria-label="About Itqan Studio"
+    >
+      {/* Soft accent wash — the shader's no-JS / reduced-motion fallback */}
+      <div
+        className="absolute inset-0 pointer-events-none dark:hidden"
+        aria-hidden="true"
+        style={{
+          background:
+            'radial-gradient(ellipse 70% 55% at 82% 18%, rgba(204,164,194,0.24), transparent 60%), radial-gradient(ellipse 55% 50% at 10% 85%, rgba(209,194,165,0.20), transparent 60%)',
+        }}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none hidden dark:block"
+        aria-hidden="true"
+        style={{
+          background:
+            'radial-gradient(ellipse 70% 55% at 82% 18%, rgba(204,164,194,0.13), transparent 60%), radial-gradient(ellipse 55% 50% at 10% 85%, rgba(209,194,165,0.07), transparent 60%)',
+        }}
+      />
+
+      {/* Animated shader overlay — post-idle, skipped for reduced motion */}
+      {showShader && <HeroShader />}
+
+      <div className="relative z-20 max-w-[1440px] w-full mx-auto px-5 sm:px-8 lg:px-12">
+        {/* Numbered badge row */}
+        <FadeUp>
+          <div className="flex items-center gap-3 mb-8 sm:mb-10">
+            <span className="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-brand-dark text-brand-cream dark:bg-brand-cream dark:text-brand-dark text-[0.6875rem] sm:text-[0.75rem] font-semibold">
+              1
+            </span>
+            <span className="text-[0.75rem] sm:text-[0.8125rem] font-medium text-text-primary dark:text-brand-cream border border-black/[0.12] dark:border-brand-cream/[0.18] rounded-full px-3 sm:px-4 py-1 sm:py-1.5">
+              The studio
+            </span>
+          </div>
+        </FadeUp>
+
+        {/* Identity statement */}
+        <FadeUp delay={0.06}>
+          <h1
+            className="font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.06] tracking-[-0.03em] max-w-[22ch]"
+            style={{ fontSize: 'clamp(2.25rem, 6vw, 4.6rem)' }}
           >
-            About Itqan Studio
+            Engineer. Designer. Storyteller.{' '}
+            <span
+              className="text-brand-accent-on-light dark:text-brand-accent"
+              style={{ fontFamily: "var(--font-serif), serif", fontStyle: 'italic', fontWeight: 500 }}
+            >
+              All in one.
+            </span>
+          </h1>
+        </FadeUp>
+
+        <FadeUp delay={0.12}>
+          <p
+            className="mt-8 sm:mt-9 text-[#4a4a4a] dark:text-brand-cream/70 leading-[1.6]"
+            style={{ fontSize: 'clamp(1.0625rem, 1.35vw, 1.25rem)', maxWidth: '56ch' }}
+          >
+            Ibrahim Shareef. CEO and co-founder of Itqan Studio. The rare person who can{' '}
+            <span className="text-text-primary dark:text-brand-cream font-medium">build the brand</span>,{' '}
+            <span className="text-text-primary dark:text-brand-cream font-medium">code the system</span>, and{' '}
+            <span className="text-text-primary dark:text-brand-cream font-medium">tell the story</span> &mdash; without
+            handing it off three times.
           </p>
         </FadeUp>
 
-        {/* Identity statement — the new About hero */}
-        <h1
-          className="font-sans font-semibold text-brand-cream leading-[1.02] tracking-[-0.02em] max-w-[22ch]"
-          style={{ fontSize: 'clamp(2.5rem, 6vw, 5.25rem)' }}
-        >
-          <SplitText text="Engineer. Designer. Storyteller." stagger={0.05} delay={0.2} />
-          <span className="accent-italic block mt-2">All in one.</span>
-        </h1>
-
-        <TextReveal direction="up" delay={0.55}>
-          <p
-            className="mt-9 text-brand-cream/75 leading-[1.6]"
-            style={{ fontSize: 'clamp(1.0625rem, 1.35vw, 1.25rem)', maxWidth: '56ch' }}
-          >
-            Ibrahim Shareef. Co-founder of Itqan Studio. The rare person who can{' '}
-            <span className="text-brand-cream">build the brand</span>,{' '}
-            <span className="text-brand-cream">code the system</span>, and{' '}
-            <span className="text-brand-cream">tell the story</span> &mdash; without
-            handing it off three times.
-          </p>
-        </TextReveal>
-
-        <FadeUp delay={0.7}>
+        <FadeUp delay={0.18}>
           <div className="mt-10">
-            <MagneticButton strength={0.15}>
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.97 }}
-                transition={SPRING_SNAPPY}
-              >
-                <Link
-                  href="/contact"
-                  className="btn-gloss inline-flex items-center gap-2 bg-brand-cream text-brand-dark px-6 py-3 rounded-[10px] text-sm font-semibold hover:bg-brand-cream/90 transition-colors duration-200"
-                >
-                  Book a discovery call
-                  <ArrowRight size={14} weight="bold" />
-                </Link>
-              </motion.div>
-            </MagneticButton>
+            <RollButton href="/contact" label="Start a conversation" />
           </div>
         </FadeUp>
       </div>

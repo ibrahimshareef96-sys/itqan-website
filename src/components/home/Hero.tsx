@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { ArrowRight } from '@phosphor-icons/react';
 import { motion, useInView } from 'framer-motion';
 import { FadeUp } from '@/components/ui/FadeUp';
 import { SplitText } from '@/components/ui/SplitText';
@@ -15,16 +14,17 @@ import {
 } from '@/lib/motion';
 
 /**
- * Line 2 — "We revive companies."
- * "revive" is the gradient-accent word (the soul of the new positioning).
- * Mirrors the original line-2 stagger pattern but with new copy.
+ * Line 2 — "Make it with people who've done it before."
+ * "before" is the single Playfair-italic mauve accent word (gradient) — the
+ * certainty/safety half of the stakes+certainty hero (experience = risk removed,
+ * matching the won.agency "someone who's done it a hundred times" benchmark).
+ * No trailing words after the accent, so the period follows it.
  */
 function HeroLine2() {
   const ref = useRef<HTMLParagraphElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-72px 0px' as `${number}px` });
 
-  const leading = ['We'];
-  const trailing = ['companies'];
+  const leading = ['Make', 'it', 'with', 'people', "who've", 'done', 'it'];
 
   return (
     <motion.p
@@ -50,21 +50,11 @@ function HeroLine2() {
       >
         <span
           className="pixel-gradient"
-          style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic' }}
+          style={{ fontFamily: "var(--font-serif), serif", fontStyle: 'italic' }}
         >
-          revive
+          before
         </span>
       </motion.span>
-      {' '}
-      {trailing.map((word) => (
-        <motion.span
-          key={word}
-          variants={staggerChildVariants}
-          style={{ display: 'inline-block', whiteSpace: 'pre' }}
-        >
-          {word}
-        </motion.span>
-      ))}
       <motion.span
         variants={staggerChildVariants}
         style={{ display: 'inline-block' }}
@@ -113,47 +103,46 @@ export function Hero() {
 
       {/* Content — left-aligned */}
       <div className="relative z-10 max-w-[1440px] mx-auto px-5 md:px-8 w-full pt-[72px] md:pt-[120px] pb-16">
-        <div className="max-w-[920px]">
-          {/* Line 1: "We don't redesign brands." */}
+        <div className="max-w-[980px]">
+          {/* Line 1 — the stakes */}
           <h1
             className="font-sans font-semibold text-brand-cream leading-[0.95] tracking-[-0.02em]"
             style={{ fontSize: 'clamp(3rem, 7vw, 5.75rem)' }}
           >
-            <SplitText text="We don't redesign brands." stagger={0.04} delay={0.3} />
+            <SplitText text="The rebrand is the most dangerous decision you'll make." stagger={0.035} delay={0.3} />
           </h1>
 
-          {/* Line 2: "We revive companies." */}
+          {/* Line 2 — the certainty */}
           <HeroLine2 />
 
-          {/* Sub-headline — the substance */}
+          {/* Sub-headline — pedigree + one honest commercial proof (Nexilink, real) */}
           <TextReveal direction="up" delay={0.85}>
             <p
-              className="mt-8 text-brand-cream/80 leading-[1.55] max-w-[58ch]"
+              className="mt-8 text-brand-cream/80 leading-[1.55] max-w-[60ch]"
               style={{ fontSize: 'clamp(1.0625rem, 1.35vw, 1.25rem)' }}
             >
-              Itqan is the founder studio that takes ambitious companies from{' '}
-              <span className="text-brand-cream font-medium">invisible to inevitable</span> in 90 days &mdash;
-              with a brand, a system, and an agentic automation engine you can run from Telegram.{' '}
-              <span className="text-brand-cream font-medium">Guaranteed.</span>
+              Twenty years of craft across six countries. We take on the{' '}
+              <span className="text-brand-cream font-medium">one asset a company can&apos;t afford to break</span>.{' '}
+              A brand we built placed first at a 2024 investor competition.
             </p>
           </TextReveal>
 
-          {/* Proof line — numbers above the fold */}
+          {/* Proof line — Nexilink (brand+product, 3 weeks) + Itqan CRM (5 tools, 8h->15min), both real */}
           <TextReveal direction="up" delay={0.95}>
             <p
               className="mt-6 font-sans font-medium text-brand-cream/55 tracking-[0.01em]"
               style={{ fontSize: 'clamp(0.875rem, 1vw, 1rem)' }}
             >
-              4 engagements · average delivery{' '}
-              <span className="text-brand-cream/85">2-4 weeks</span> · industry average{' '}
-              <span className="text-brand-cream/40 line-through decoration-from-font">8-16 weeks</span>
+              Brand + product in{' '}
+              <span className="text-brand-cream/85">3 weeks</span> &middot; 5 tools replaced,{' '}
+              <span className="text-brand-cream/85">8h &rarr; 15 min</span> &middot; phase-gated,{' '}
+              <span className="text-brand-cream/85">you approve every stage</span>
             </p>
           </TextReveal>
 
-          {/* CTAs — primary (discovery) + secondary ($497 audit) */}
+          {/* CTA — single, senior, no funnel */}
           <FadeUp delay={1.1}>
             <div className="mt-10 flex flex-col sm:flex-row items-start gap-4 sm:gap-5">
-              {/* Primary CTA — discovery call */}
               <MagneticButton strength={0.15}>
                 <motion.div
                   whileHover={{ scale: 1.02 }}
@@ -164,29 +153,7 @@ export function Hero() {
                     href="/contact"
                     className="btn-gloss inline-flex items-center justify-center h-[56px] px-8 rounded-[10px] bg-brand-cream text-brand-dark font-semibold text-base hover:bg-brand-cream/90 transition-colors duration-200"
                   >
-                    Book a discovery call
-                  </Link>
-                </motion.div>
-              </MagneticButton>
-
-              {/* Secondary CTA — $497 brand audit (low-intent wedge) */}
-              <MagneticButton strength={0.12}>
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.97 }}
-                  transition={SPRING_SNAPPY}
-                >
-                  <Link
-                    href="/contact?intent=audit"
-                    className="inline-flex items-center justify-center gap-2 h-[56px] px-7 rounded-[10px] border border-brand-cream/30 bg-brand-cream/[0.04] text-brand-cream font-semibold text-[0.9375rem] hover:border-brand-cream/55 hover:bg-brand-cream/[0.08] transition-colors duration-200"
-                  >
-                    <span className="text-brand-accent">$497</span>
-                    <span>Brand Audit</span>
-                    <ArrowRight
-                      size={14}
-                      weight="bold"
-                      className="opacity-70"
-                    />
+                    Start a conversation
                   </Link>
                 </motion.div>
               </MagneticButton>

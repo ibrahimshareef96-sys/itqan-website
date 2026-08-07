@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { upsertSubscriber, sendTx, ListmonkError } from "@/lib/listmonk";
+import { rateLimit } from "@/lib/rate-limit";
+import { SITE_URL } from "@/lib/seo";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -7,44 +9,97 @@ export const dynamic = "force-dynamic";
 /**
  * POST /api/leads/capture
  *
- * Hit by the magnet landing page opt-in form. Flow:
- *   1. Validate the payload.
- *   2. Upsert the subscriber in Listmonk (self-hosted, replaced Kit), on the
- *      itqan list, preconfirmed (explicit magnet request — no double opt-in
- *      needed since the visitor is actively asking for the PDF). Tags the
- *      subscriber with a brand-prefixed tag and stores the magnet slug + PDF
- *      URL as attribs so the delivery template can render {{ magnet_url }}.
- *   3. Send the delivery transactional email (Listmonk /api/tx) with the PDF
- *      link, when a pdfUrl was provided.
+ * Public, unauthenticated endpoint hit by the magnet landing page opt-in form.
  *
- * The landing page also shows an instant on-page download button using the
- * pdfUrl echoed back in the response, so delivery does not depend on the
- * email arriving.
+ * SECURITY — this route emails a link from itqanstudio.com's trusted, SPF/DKIM
+ * signed domain, so it MUST NOT be usable as an open spam/phishing relay:
+ *   - The delivered link is built SERVER-SIDE as `${SITE_URL}/magnet/<slug>` — an
+ *     absolute URL on our OWN canonical origin (SITE_URL is a hardcoded constant,
+ *     never the request Host header). The request body can NEVER choose the URL
+ *     we email. (Prior versions trusted a body `pdfUrl` — that was the relay hole.)
+ *   - Per-IP and per-email rate limits cap bulk spam + backscatter at a third
+ *     party, protecting the sending reputation.
+ *   - The tag keyword is sanitized to /^[a-z0-9_-]{1,40}$/ before use.
  *
- * Body: { email, magnetSlug, dmKeyword, pdfUrl?, firstName? }
+ * Flow: validate -> rate-limit -> upsert subscriber (Itqan list, preconfirmed,
+ * tagged magnet-itqan-<kw>) -> send the delivery tx email with the own-origin
+ * magnet_url. Delivery is best-effort; the subscriber + tag is the durable record.
  *
- * Same Listmonk instance/list is used for both Itqan and Shareefico magnets.
- * The tag is brand-prefixed (magnet-itqan-<keyword>) so per-brand
- * segmentation and automations stay clean.
+ * Body: { email, magnetSlug, dmKeyword, firstName? }
+ * (A `pdfUrl` in the body is intentionally ignored — the link is server-derived.)
  *
- * Every Listmonk call is checked. We never return ok:true unless the
- * subscriber was upserted AND tagged. The transactional send is best-effort:
- * if it fails we still return ok:true (the on-page download covers delivery)
- * but flag enrolled:false so the failure is visible.
+ * Mirrors the hardening shipped in itqan-crm's equivalent route.
  */
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Per-IP: bulk-abuse cap. Per-email: backscatter/harassment cap on a third party.
+const IP_MAX = 12;
+const IP_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+const EMAIL_MAX = 3;
+const EMAIL_WINDOW_MS = 24 * 60 * 60 * 1000; // 1 day
 
 interface CapturePayload {
   email?: unknown;
   magnetSlug?: unknown;
   dmKeyword?: unknown;
-  pdfUrl?: unknown;
   firstName?: unknown;
 }
 
+/**
+ * A magnet keyword becomes part of a Listmonk tag (magnet-itqan-<kw>), which
+ * must match /^[a-zA-Z0-9_-]+$/. Sanitize + cap so the tag stays well-formed.
+ */
+function sanitizeKeyword(raw: string): string {
+  return raw.trim().toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 40);
+}
+
+/**
+ * Best-effort real client IP. Coolify's Traefik appends the true peer as the
+ * LAST x-forwarded-for hop; the leftmost entries are client-supplied and
+ * spoofable, so a caller can't rotate a fake header to dodge the per-IP cap.
+ * Prefer x-real-ip (Traefik-set) when present.
+ */
+function clientIp(req: NextRequest): string {
+  const realIp = req.headers.get("x-real-ip")?.trim();
+  if (realIp) return realIp;
+  const xff = req.headers.get("x-forwarded-for");
+  if (xff) {
+    const hops = xff.split(",").map((p) => p.trim()).filter(Boolean);
+    if (hops.length) return hops[hops.length - 1];
+  }
+  return "unknown";
+}
+
+/**
+ * Rate-limit key for an email. Collapses provider aliases (+subaddress for all,
+ * dots for gmail) so the per-email backscatter cap can't be bypassed with
+ * victim+1@, victim+2@, ... variants that still land in the same inbox. Only
+ * the KEY is normalized — the address we actually deliver to is unchanged.
+ */
+function rateLimitEmailKey(email: string): string {
+  const at = email.lastIndexOf("@");
+  if (at < 0) return email;
+  let local = email.slice(0, at);
+  const domain = email.slice(at + 1);
+  const plus = local.indexOf("+");
+  if (plus >= 0) local = local.slice(0, plus);
+  if (domain === "gmail.com" || domain === "googlemail.com") {
+    local = local.replace(/\./g, "");
+  }
+  return `${local}@${domain}`;
+}
+
 export async function POST(req: NextRequest) {
-  // ── Parse + validate ────────────────────────────────────────────────────
+  // The lead-magnet funnel is gated on NOTION_TOKEN (the /magnet pages need it to
+  // render). While it's unset the funnel is intentionally OFF, so this endpoint
+  // 404s rather than accepting submissions for a hidden funnel. Reversible: set
+  // NOTION_TOKEN to bring the whole funnel back.
+  if (!process.env.NOTION_TOKEN) {
+    return NextResponse.json({ ok: false, error: "Not found" }, { status: 404 });
+  }
+
+  // ── Parse ─────────────────────────────────────────────────────────────────
   let payload: CapturePayload;
   try {
     payload = (await req.json()) as CapturePayload;
@@ -56,30 +111,59 @@ export async function POST(req: NextRequest) {
   }
 
   const email =
-    typeof payload.email === "string" ? payload.email.trim() : "";
+    typeof payload.email === "string" ? payload.email.trim().toLowerCase() : "";
   const magnetSlug =
-    typeof payload.magnetSlug === "string" ? payload.magnetSlug.trim() : "";
+    typeof payload.magnetSlug === "string"
+      ? payload.magnetSlug.trim().slice(0, 100)
+      : "";
   const dmKeyword =
-    typeof payload.dmKeyword === "string" ? payload.dmKeyword.trim() : "";
+    typeof payload.dmKeyword === "string" ? payload.dmKeyword : "";
   const firstName =
     typeof payload.firstName === "string" && payload.firstName.trim()
-      ? payload.firstName.trim()
-      : undefined;
-  const pdfUrl =
-    typeof payload.pdfUrl === "string" && payload.pdfUrl.trim()
-      ? payload.pdfUrl.trim()
+      ? payload.firstName.trim().slice(0, 80)
       : undefined;
 
+  // ── Cheap validation (no external calls yet) ───────────────────────────────
   if (!email || !EMAIL_RE.test(email)) {
     return NextResponse.json(
       { ok: false, error: "Valid email required" },
       { status: 400 }
     );
   }
-  if (!magnetSlug || !dmKeyword) {
+  if (!magnetSlug) {
     return NextResponse.json(
-      { ok: false, error: "magnetSlug and dmKeyword required" },
+      { ok: false, error: "magnetSlug required" },
       { status: 400 }
+    );
+  }
+  const keyword = sanitizeKeyword(dmKeyword);
+  if (!keyword) {
+    return NextResponse.json(
+      { ok: false, error: "dmKeyword required" },
+      { status: 400 }
+    );
+  }
+
+  // ── Rate limit BEFORE any external call (Listmonk + email) ─────────────────
+  // In-memory limiter — valid because prod is a single Coolify `next start`
+  // container (see lib/rate-limit.ts). Traefik/Coolify sets x-forwarded-for.
+  const ip = clientIp(req);
+  if (!rateLimit(`leads:ip:${ip}`, IP_MAX, IP_WINDOW_MS).allowed) {
+    return NextResponse.json(
+      { ok: false, error: "Too many requests. Please try again later." },
+      { status: 429 }
+    );
+  }
+  if (
+    !rateLimit(
+      `leads:email:${rateLimitEmailKey(email)}`,
+      EMAIL_MAX,
+      EMAIL_WINDOW_MS
+    ).allowed
+  ) {
+    return NextResponse.json(
+      { ok: false, error: "We already sent your guide — check your inbox (and spam)." },
+      { status: 429 }
     );
   }
 
@@ -92,46 +176,34 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Canonical brand-prefixed tag. Format: magnet-itqan-<dmKeyword>, lowercase.
-  const tagName = `magnet-itqan-${dmKeyword.toLowerCase()}`;
+  const tagName = `magnet-itqan-${keyword}`;
+  // The delivered link — ALWAYS our own canonical origin. Never caller-supplied.
+  const magnetUrl = `${SITE_URL}/magnet/${encodeURIComponent(magnetSlug)}`;
 
   try {
-    // ── 1. Upsert subscriber (preconfirmed — explicit magnet request) ──────
-    const attribs: Record<string, unknown> = {
-      tags: [tagName],
-      magnet_slug: magnetSlug,
-    };
-    if (pdfUrl) attribs.magnet_pdf_url = pdfUrl;
-
+    // ── 1. Upsert subscriber (preconfirmed — explicit magnet request) ────────
     await upsertSubscriber({
       email,
       name: firstName,
       listIds: [Number(listId)],
-      attribs,
+      attribs: { tags: [tagName], magnet_slug: magnetSlug },
       preconfirm: true,
     });
 
-    // ── 2. Send the delivery transactional email (best-effort) ─────────────
+    // ── 2. Send the delivery transactional email (best-effort) ───────────────
     let enrolled = false;
-    if (pdfUrl) {
-      const templateId = process.env.LISTMONK_TX_TEMPLATE_MAGNET;
-      if (!templateId) {
-        console.error("[leads/capture] LISTMONK_TX_TEMPLATE_MAGNET not set");
-      } else {
-        enrolled = await sendTx({
-          subscriberEmail: email,
-          templateId: Number(templateId),
-          data: { magnet_url: pdfUrl },
-        });
-      }
+    const templateId = process.env.LISTMONK_TX_TEMPLATE_MAGNET;
+    if (!templateId) {
+      console.error("[leads/capture] LISTMONK_TX_TEMPLATE_MAGNET not set");
+    } else {
+      enrolled = await sendTx({
+        subscriberEmail: email,
+        templateId: Number(templateId),
+        data: { magnet_url: magnetUrl },
+      });
     }
 
-    return NextResponse.json({
-      ok: true,
-      pdfUrl: pdfUrl ?? null,
-      tagged: true,
-      enrolled,
-    });
+    return NextResponse.json({ ok: true, tagged: true, enrolled });
   } catch (err) {
     if (err instanceof ListmonkError) {
       console.error(

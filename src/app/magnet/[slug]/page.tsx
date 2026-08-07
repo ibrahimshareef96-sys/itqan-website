@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { findItqanMagnetBySlug } from "@/lib/magnet-lookup";
+import { findItqanMagnetBySlug, type LeadMagnet } from "@/lib/magnet-lookup";
 import { MagnetLanding } from "@/components/magnet/MagnetLanding";
 
 // Always fetch fresh from Notion (magnets are edited in Notion, we want
@@ -9,13 +9,34 @@ import { MagnetLanding } from "@/components/magnet/MagnetLanding";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+// The lead-magnet funnel is gated on NOTION_TOKEN: the landing pages are backed
+// by the Notion magnet registry, so with no token there is nothing to render.
+// While it's unset the funnel is intentionally OFF and these routes 404 (not
+// 500) — set NOTION_TOKEN in the environment to revive the whole funnel.
+const MAGNETS_ENABLED = !!process.env.NOTION_TOKEN;
+
+/**
+ * Resolve a magnet, degrading any lookup failure (missing token, Notion outage)
+ * to null so the route renders a clean 404 instead of throwing a 500.
+ */
+async function resolveMagnet(slug: string): Promise<LeadMagnet | null> {
+  if (!MAGNETS_ENABLED) return null;
+  try {
+    return await findItqanMagnetBySlug(slug);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("[magnet] lookup failed:", msg);
+    return null;
+  }
+}
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const magnet = await findItqanMagnetBySlug(slug);
+  const magnet = await resolveMagnet(slug);
   if (!magnet) {
     return {
       title: "Guide not found · Itqan Studio",
@@ -42,7 +63,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function MagnetPage({ params }: Props) {
   const { slug } = await params;
-  const magnet = await findItqanMagnetBySlug(slug);
+  const magnet = await resolveMagnet(slug);
   if (!magnet) notFound();
   return <MagnetLanding magnet={magnet} />;
 }

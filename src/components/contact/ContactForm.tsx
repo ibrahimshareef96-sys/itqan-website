@@ -17,15 +17,19 @@ type FormValues = {
   message: string;
 };
 
+// Focus ring is provided globally (*:focus-visible in globals.css) — no per-field
+// focus styles here. Light = white fields / black borders / dark text; dark mode
+// via dark: variants (cream text on a plum panel).
 const inputClass =
-  'w-full bg-[rgba(255,251,245,0.04)] border border-[rgba(255,251,245,0.15)] rounded-xl px-4 py-3 text-sm text-[#fffbf5] placeholder:text-[rgba(255,251,245,0.4)] focus:outline-none focus:border-[rgba(255,251,245,0.35)] focus:ring-2 focus:ring-[rgba(255,251,245,0.1)] transition-all duration-300';
+  'w-full bg-white dark:bg-[rgba(255,251,245,0.04)] border border-black/[0.12] dark:border-[rgba(255,251,245,0.15)] rounded-xl px-4 py-3 text-sm text-[#1a1a1a] dark:text-[#fffbf5] placeholder:text-[#9a9a9a] dark:placeholder:text-[rgba(255,251,245,0.4)] transition-colors duration-300';
 
-const labelClass = 'block text-xs font-semibold text-[rgba(255,251,245,0.75)] tracking-wide mb-2';
+const labelClass =
+  'block text-xs font-semibold text-text-secondary dark:text-[rgba(255,251,245,0.75)] tracking-wide mb-2';
 
-const errorClass = 'text-red-400 text-xs mt-1.5';
+const errorClass = 'text-red-500 dark:text-red-400 text-xs mt-1.5';
 
 interface ContactFormProps {
-  /** Optional CTA intent (e.g. "audit", "founder-os-core"). Sent to /api/contact for context. */
+  /** Optional CTA intent (e.g. "ai-check", "identity-sprint"). Sent to /api/contact for context. */
   intent?: string;
 }
 
@@ -121,7 +125,7 @@ export function ContactForm({ intent }: ContactFormProps) {
           <label htmlFor="budget" className={labelClass}>Budget</label>
           <select
             id="budget"
-            className={`${inputClass} appearance-none cursor-pointer`}
+            className={`${inputClass} appearance-none cursor-pointer bg-no-repeat pr-10 bg-[length:16px] bg-[right_0.9rem_center] bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22%236b6b6b%22%20stroke-width=%222.2%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%3E%3Cpath%20d=%22M6%209l6%206%206-6%22/%3E%3C/svg%3E')] dark:bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22%23bfb2bb%22%20stroke-width=%222.2%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%3E%3Cpath%20d=%22M6%209l6%206%206-6%22/%3E%3C/svg%3E')]`}
             {...register('budget')}
           >
             <option value="">Select Budget...</option>
@@ -160,7 +164,7 @@ export function ContactForm({ intent }: ContactFormProps) {
       <motion.button
         type="submit"
         disabled={isSubmitting}
-        className="btn-gloss w-full inline-flex items-center justify-center gap-2 bg-brand-cream text-brand-dark py-4 rounded-[10px] text-sm font-semibold hover:bg-brand-cream/90 transition-all duration-200 disabled:opacity-60"
+        className="btn-gloss w-full inline-flex items-center justify-center gap-2 bg-brand-dark text-brand-cream dark:bg-brand-cream dark:text-brand-dark py-4 rounded-[10px] text-sm font-semibold hover:bg-[#241323] dark:hover:bg-brand-cream/90 transition-colors duration-200 disabled:opacity-60"
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.97 }}
         transition={SPRING_SNAPPY}

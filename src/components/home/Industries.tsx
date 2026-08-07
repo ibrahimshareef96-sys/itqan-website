@@ -4,6 +4,11 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FadeUp } from '@/components/ui/FadeUp';
 
+/**
+ * World-class thinking, regional fluency. Six industry cells — the image cells
+ * carry a fixed dark overlay (.industry-overlay) so labels stay cream over the
+ * photo in both modes; the section surface + type are theme-aware (badge 6).
+ */
 const industries = [
   {
     name: 'SaaS',
@@ -46,37 +51,44 @@ const cellVariants = {
 
 export function Industries() {
   return (
-    <section className="py-32" aria-labelledby="industries-heading">
+    <section
+      className="bg-brand-cream dark:bg-[#1f1420] py-24 md:py-32"
+      aria-labelledby="industries-heading"
+    >
       <div className="max-w-[1440px] mx-auto px-5 md:px-8">
-        {/* Eyebrow */}
+        {/* Numbered badge row */}
         <FadeUp>
-          <p
-            className="font-sans font-medium text-[0.75rem] uppercase text-brand-accent"
-            style={{ letterSpacing: '0.22em' }}
-          >
-            Where we work
-          </p>
+          <div className="flex items-center gap-3 mb-6 sm:mb-8">
+            <span className="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-brand-dark text-brand-cream dark:bg-brand-cream dark:text-brand-dark text-[0.6875rem] sm:text-[0.75rem] font-semibold">
+              6
+            </span>
+            <span className="text-[0.75rem] sm:text-[0.8125rem] font-medium text-text-primary dark:text-brand-cream border border-black/[0.12] dark:border-brand-cream/[0.18] rounded-full px-3 sm:px-4 py-1 sm:py-1.5">
+              Built for the region
+            </span>
+          </div>
         </FadeUp>
 
         {/* Heading */}
         <FadeUp delay={0.05}>
           <h2
             id="industries-heading"
-            className="mt-6 font-sans font-semibold text-brand-cream leading-[1.05] tracking-[-0.02em]"
+            className="font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.05] tracking-[-0.02em]"
             style={{ fontSize: 'clamp(2.5rem, 5vw, 4.25rem)', maxWidth: '22ch' }}
           >
-            Built for tech-adjacent founders.
+            World-class thinking. Regional{' '}
+            <span className="accent-italic">fluency</span>.
           </h2>
         </FadeUp>
 
         {/* Supporting line */}
         <FadeUp delay={0.1}>
           <p
-            className="mt-6 text-brand-cream/65 leading-[1.55]"
-            style={{ fontSize: 'clamp(1rem, 1.25vw, 1.125rem)', maxWidth: '58ch' }}
+            className="mt-6 text-text-secondary dark:text-brand-cream/65 leading-[1.55]"
+            style={{ fontSize: 'clamp(1rem, 1.25vw, 1.125rem)', maxWidth: '60ch' }}
           >
-            SaaS, fintech, productized service, creator brand, knowledge business.
-            Mostly GCC. Always craft-respecting.
+            Global brand standards, read through the Gulf. We work in Arabic and English,
+            design for Khaleeji taste, and build for a market moving on Vision 2030 &mdash;
+            across SaaS, fintech, commerce and beyond.
           </p>
         </FadeUp>
 
@@ -94,7 +106,7 @@ export function Industries() {
               role="listitem"
               custom={i}
               variants={cellVariants}
-              className="group relative overflow-hidden border border-[rgba(255,251,245,0.08)] hover:border-[rgba(255,251,245,0.2)] transition-[border-color] duration-[400ms] ease-out aspect-[4/3] sm:aspect-[3/4]"
+              className="group relative overflow-hidden rounded-[12px] border border-black/[0.08] hover:border-black/20 dark:border-brand-cream/[0.08] dark:hover:border-brand-cream/20 transition-[border-color] duration-[400ms] ease-out aspect-[4/3] sm:aspect-[3/4]"
             >
               {/* Background image */}
               <div className="absolute inset-0">
@@ -107,10 +119,10 @@ export function Industries() {
                 />
               </div>
 
-              {/* Dark overlay — softens on hover */}
+              {/* Dark overlay — softens on hover (fixed, so the cream label reads in both modes) */}
               <div className="absolute inset-0 pointer-events-none industry-overlay transition-opacity duration-[400ms] ease-out" />
 
-              {/* Label */}
+              {/* Label — cream over the dark photo overlay */}
               <div className="absolute bottom-0 left-0 right-0 p-6">
                 <h3 className="font-sans font-medium text-[1.5rem] text-brand-cream">
                   {industry.name}

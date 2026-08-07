@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from 'next-view-transitions';
 import { InstagramLogo, LinkedinLogo } from '@phosphor-icons/react';
 
 const navLinks = [
@@ -26,7 +26,7 @@ const socials = [
 
 export function Footer() {
   return (
-    <footer className="py-20">
+    <footer className="py-20 border-t border-black/[0.06] dark:border-brand-cream/[0.08]">
       <div className="max-w-[1440px] mx-auto px-5 md:px-8">
 
         {/* 3-column grid */}
@@ -35,26 +35,34 @@ export function Footer() {
           {/* Column 1 — Brand */}
           <div>
             <Image
+              src="/images/brand/dark-icon.svg"
+              alt="Itqan Studio"
+              width={40}
+              height={40}
+              className="dark:hidden"
+            />
+            <Image
               src="/images/brand/light-icon.svg"
               alt="Itqan Studio"
               width={40}
               height={40}
+              className="hidden dark:block"
             />
             <p
-              className="mt-4 font-serif italic text-brand-accent leading-[1.4]"
+              className="mt-4 font-serif italic text-brand-accent-on-light dark:text-brand-accent leading-[1.4]"
               style={{ fontSize: '0.875rem' }}
             >
-              Crafted by Itqan.
+              Excellence, by name.
             </p>
-            <p className="mt-3 font-sans font-normal text-[0.875rem] text-[rgba(255,251,245,0.55)] leading-[1.6] max-w-[30ch]">
-              The founder studio. Brand, system, and agentic automation in 90 days.
+            <p className="mt-3 font-sans font-normal text-[0.875rem] text-text-secondary dark:text-[rgba(255,251,245,0.55)] leading-[1.6] max-w-[32ch]">
+              The studio companies trust with the one asset they can&apos;t afford to break.
             </p>
           </div>
 
           {/* Column 2 — Navigation */}
           <div>
             <p
-              className="font-sans font-semibold text-[0.75rem] uppercase text-[rgba(255,251,245,0.45)] mb-6"
+              className="font-sans font-semibold text-[0.75rem] uppercase text-text-secondary dark:text-[rgba(255,251,245,0.45)] mb-6"
               style={{ letterSpacing: '0.15em' }}
             >
               Explore
@@ -65,7 +73,7 @@ export function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="font-sans font-normal text-base text-[rgba(255,251,245,0.75)] hover:text-brand-cream transition-colors duration-200"
+                      className="font-sans font-normal text-base text-text-primary/80 hover:text-text-primary dark:text-[rgba(255,251,245,0.75)] dark:hover:text-brand-cream transition-colors duration-200"
                     >
                       {link.label}
                     </Link>
@@ -78,18 +86,18 @@ export function Footer() {
           {/* Column 3 — Contact + Social */}
           <div className="sm:col-span-2 lg:col-span-1">
             <p
-              className="font-sans font-semibold text-[0.75rem] uppercase text-[rgba(255,251,245,0.45)] mb-6"
+              className="font-sans font-semibold text-[0.75rem] uppercase text-text-secondary dark:text-[rgba(255,251,245,0.45)] mb-6"
               style={{ letterSpacing: '0.15em' }}
             >
               Contact
             </p>
             <a
               href="mailto:info@itqanstudio.com"
-              className="font-sans font-normal text-base text-[rgba(255,251,245,0.75)] hover:text-brand-cream transition-colors duration-200"
+              className="font-sans font-normal text-base text-text-primary/80 hover:text-text-primary dark:text-[rgba(255,251,245,0.75)] dark:hover:text-brand-cream transition-colors duration-200"
             >
               info@itqanstudio.com
             </a>
-            <p className="mt-3 font-sans font-normal text-[0.875rem] text-[rgba(255,251,245,0.55)]">
+            <p className="mt-3 font-sans font-normal text-[0.875rem] text-text-secondary dark:text-[rgba(255,251,245,0.55)]">
               Dubai, UAE
             </p>
 
@@ -102,7 +110,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="text-[rgba(255,251,245,0.55)] hover:text-brand-accent transition-colors duration-200"
+                  className="text-text-secondary dark:text-[rgba(255,251,245,0.55)] hover:text-brand-accent-on-light dark:hover:text-brand-accent transition-colors duration-200"
                 >
                   <Icon size={20} />
                 </a>
@@ -113,29 +121,29 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-16 pt-8 border-t border-[rgba(255,251,245,0.08)]">
+        <div className="mt-16 pt-8 border-t border-black/[0.06] dark:border-[rgba(255,251,245,0.08)]">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <p className="font-sans font-normal text-[0.75rem] text-[rgba(255,251,245,0.4)]">
+            <p className="font-sans font-normal text-[0.75rem] text-text-secondary dark:text-[rgba(255,251,245,0.4)]">
               &copy; 2026 Itqan Studio FZ LLC. All rights reserved.
             </p>
-            <div className="flex items-center gap-4 text-[0.75rem] text-[rgba(255,251,245,0.4)]">
+            <div className="flex items-center gap-4 text-[0.75rem] text-text-secondary dark:text-[rgba(255,251,245,0.4)]">
               <Link
                 href="/privacy"
-                className="font-sans font-normal hover:text-brand-cream transition-colors duration-200"
+                className="font-sans font-normal hover:text-text-primary dark:hover:text-brand-cream transition-colors duration-200"
               >
                 Privacy Policy
               </Link>
               <span aria-hidden="true">&middot;</span>
               <Link
                 href="/terms"
-                className="font-sans font-normal hover:text-brand-cream transition-colors duration-200"
+                className="font-sans font-normal hover:text-text-primary dark:hover:text-brand-cream transition-colors duration-200"
               >
                 Terms
               </Link>
               <span aria-hidden="true">&middot;</span>
               <Link
                 href="/cookies"
-                className="font-sans font-normal hover:text-brand-cream transition-colors duration-200"
+                className="font-sans font-normal hover:text-text-primary dark:hover:text-brand-cream transition-colors duration-200"
               >
                 Cookie Policy
               </Link>

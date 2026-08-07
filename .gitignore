@@ -39,3 +39,6 @@ agent-work/
 
 # Creative-direction reference videos (kept local, not shipped)
 public/videos/new/
+
+# Behance deck pipeline (heavy PNGs; sources + boards kept local — see behance/README.md)
+behance/
