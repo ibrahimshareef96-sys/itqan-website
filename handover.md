@@ -11,7 +11,31 @@ Lightweight tracking via TaskCreate (in-session). For longer initiatives use `ag
 
 ## Handover prompt (self-contained for the next session)
 
+**⚠️ DEPLOY GOTCHAS LEARNED 2026-08-07 — READ BEFORE ANY COOLIFY DEPLOY ON THIS BOX.**
+1. **`NODE_OPTIONS` was `--max-old-space-size=512` on BOTH apps.** That heap cannot build these
+   Next apps; the build dies with a V8 `JavaScript heap out of memory` / SIGABRT inside
+   `npm run build`. **Raised to `--max-old-space-size=2048` on both** (itqan
+   `cybvxnemzusk0yzjcwzrey3v`, shareefico `pk5hyifc0nark93b4m2b8jtu`, production + preview
+   variants). If a build ever OOMs again, check this value FIRST — the error looks like a code
+   problem and is not.
+2. **NEVER deploy both apps at once.** The box is 16GB with ~11.8GB already committed to Ibrahim's
+   other services (Penpot, FOUR Supabase stacks, Documenso, Coolify) and **swap sits at 100% full**.
+   Two concurrent Next builds OOM'd both. Deploy sequentially; each takes **8–15 minutes**.
+3. **Coolify's per-deployment endpoint lies.** `GET /api/v1/deployments/<uuid>` can report `queued`
+   for 10+ minutes while the build is actually running. Poll `GET /api/v1/deployments` (the list)
+   instead — it reports the true `in_progress` / idle state.
+4. `PATCH /api/v1/applications/<uuid>/envs` **rejects `is_build_time`** ("This field is not
+   allowed"). Send only `{key, value, is_preview}`.
+5. Coolify API on port 8000 was reachable from IP `91.74.42.154` with no tunnel and no SG change.
+6. Disk is fine (77G, 73% used, 21G free); `docker image prune` + `builder prune` reclaimed 0B, so
+   disk is NOT the constraint any more — **memory is.**
+
 **LATEST (2026-08-07, part 2): APPROVED + IMPLEMENTED + SHIPPED to both sites.**
+**Live and verified: itqanstudio.com `4935078`, shareefi.co `988969e`. 19/19 + 4/4 checks pass
+against PRODUCTION** (`npm run verify:design https://itqanstudio.com`).
+**Heads-up: another session pushed a `/support` feature to itqan `main` mid-flight** (`401680d`);
+my last commit was rebased on top of it, tsc + build verified with both changes together, and
+`/support` returns 200 on live. Nothing of theirs was overwritten.
 Ibrahim approved all nine proposals ("the design is approved… push everything to production… you do
 everything that is needed"). Implemented, verified, panel-reviewed, merged to `main` and deployed to
 BOTH Coolify apps. What changed in THIS repo:
