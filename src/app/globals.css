@@ -103,6 +103,60 @@ html.dark body::before {
   outline-offset: -2px;
 }
 
+/* ── Display typography ──
+   Tracking and leading are FUNCTIONS of the rendered size, never one constant.
+   Large type reads too loose as it grows, so it tightens; small type needs the
+   opposite plus slightly more leading to stay readable. Measured before this
+   change: the hero h1 held -0.03em / 1.08 at every size from 36px (390px
+   viewport) to 67px (1440px+) — right at the top of that range, too tight at the
+   bottom. Values are in `em` so the class works on any display heading, and the
+   steps are discrete because tracking tables are discrete in Apple's own system. */
+.display-type {
+  letter-spacing: -0.008em;
+  line-height: 1.1;
+  font-optical-sizing: auto;
+}
+@media (min-width: 640px) {
+  .display-type {
+    letter-spacing: -0.02em;
+    line-height: 1.06;
+  }
+}
+@media (min-width: 1024px) {
+  .display-type {
+    letter-spacing: -0.03em;
+    line-height: 1.02;
+  }
+}
+
+/* ── Press feedback ──
+   Respond on pointer-DOWN, not on release. Hover-only feedback leaves every
+   touch user with nothing until the page navigates. */
+.press-scale {
+  transition:
+    transform 110ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 300ms ease-out,
+    background-color 300ms ease-out;
+}
+.press-scale:active {
+  transform: scale(0.955);
+}
+
+/* ── Chrome that floats over content (nav, consent card, sheet) ──
+   A translucent layer with content scrolling underneath, not an opaque strip.
+   `.scroll-edge` blurs the few pixels where content meets the floating chrome so
+   content dissolves into it instead of being sliced by a hard edge. */
+.material-chrome {
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  backdrop-filter: blur(28px) saturate(190%);
+}
+.scroll-edge {
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 52%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 52%, transparent 100%);
+}
+
 /* Gradient text — legacy hero accent word. THEME-ADAPTIVE: solid deep mauve on
    light (the pink gradient is unreadable on cream), gradient on dark. */
 .pixel-gradient {
@@ -244,7 +298,12 @@ html.dark .stats-gradient {
   font-weight: 500;
 }
 
-/* Reduced motion: disable all non-essential animations */
+/* ── Reduced motion ──
+   Reduced motion is NOT "no feedback" — it's a gentler, non-vestibular
+   equivalent. The old rule zeroed `transition-duration` on `*`, which killed the
+   opacity and colour cross-fades that carry meaning (hover, focus, active nav,
+   disclosure) along with the travel. Instead: kill looping/travelling animation,
+   let transforms snap instantly, and keep the non-motion transitions alive. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -255,8 +314,52 @@ html.dark .stats-gradient {
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+    transition-property: opacity, color, background-color, border-color, box-shadow, fill,
+      stroke !important;
+    transition-duration: 160ms !important;
+    transition-timing-function: ease !important;
+  }
+
+  /* Press feedback survives as a brightness step rather than a scale. */
+  .press-scale:active {
+    transform: none;
+    filter: brightness(1.16);
+  }
+}
+
+/* ── Reduced transparency ──
+   Translucent chrome becomes solid, and the scroll-edge blur is removed
+   entirely — a blurred band with no material behind it reads as a smudge. */
+@media (prefers-reduced-transparency: reduce) {
+  .material-chrome {
+    background: #fffbf5 !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  html.dark .material-chrome {
+    background: #2a1a28 !important;
+  }
+  .scroll-edge {
+    display: none !important;
+  }
+}
+
+/* ── Increased contrast ──
+   Near-solid backgrounds with a defined, contrasting border. */
+@media (prefers-contrast: more) {
+  .material-chrome {
+    background: #fffbf5 !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    border: 1px solid #1a1a1a !important;
+  }
+  html.dark .material-chrome {
+    background: #1f1420 !important;
+    border-color: #fffbf5 !important;
+  }
+  .scroll-edge {
+    display: none !important;
   }
 }
 

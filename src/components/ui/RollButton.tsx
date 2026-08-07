@@ -25,7 +25,7 @@ export function RollButton({ href, label, variant = 'primary', className }: Roll
   return (
     <Link
       href={href}
-      className={`group inline-flex items-center gap-2.5 rounded-full pl-5 sm:pl-6 pr-2 py-2 text-[0.8125rem] sm:text-[0.875rem] font-semibold transition-colors duration-300 ${
+      className={`group press-scale inline-flex items-center gap-2.5 rounded-full pl-5 sm:pl-6 pr-2 py-2 text-[0.8125rem] sm:text-[0.875rem] font-semibold ${
         isPrimary
           ? 'bg-brand-dark text-brand-cream hover:bg-[#241323] dark:bg-brand-cream dark:text-brand-dark dark:hover:bg-brand-cream/90'
           : 'bg-brand-cream text-brand-dark hover:bg-brand-cream/90'

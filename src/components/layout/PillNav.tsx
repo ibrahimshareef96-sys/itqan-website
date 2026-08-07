@@ -1,13 +1,22 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'next-view-transitions';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import {
+  motion,
+  animate,
+  useMotionValue,
+  useTransform,
+  useReducedMotion,
+  type AnimationPlaybackControls,
+  type ValueAnimationTransition,
+} from 'framer-motion';
 import { Clock, List, X } from '@phosphor-icons/react';
 import { RollButton } from '@/components/ui/RollButton';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { projectMomentum, SPRING_SHEET, SPRING_MOMENTUM } from '@/lib/motion';
 
 const NAV_LINKS = [
   { href: '/work', label: 'Work' },
@@ -15,6 +24,13 @@ const NAV_LINKS = [
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ];
+
+/** Fallback sheet travel before the real height is measured. */
+const SHEET_FALLBACK_TRAVEL = 460;
+/** Gap below the sheet's resting position, so "closed" clears the screen edge. */
+const SHEET_CLEARANCE = 32;
+/** Past this fraction of the sheet's height, a projected flick dismisses it. */
+const DISMISS_THRESHOLD = 0.4;
 
 /** Live Dubai time, HH:MM. Placeholder until mounted to avoid hydration mismatch. */
 function useDubaiTime(): string {
@@ -38,19 +54,56 @@ function useDubaiTime(): string {
  * Global Axion-style pill navigation — sticky, theme-aware, on every page.
  * Carries the availability note, live Dubai clock, theme toggle, primary CTA,
  * and the mobile bottom-sheet menu (full modal contract).
+ *
+ * The bar is a translucent MATERIAL, not an opaque strip: page content scrolls
+ * underneath it and dissolves into a scroll-edge blur rather than being sliced
+ * by a hard edge. The material thickens once the page has scrolled, so at rest
+ * the nav sits quietly on the hero.
+ *
+ * The mobile sheet is direct-manipulation: it tracks the finger 1:1, resists
+ * past its open position, projects the flick's momentum to choose dismiss vs.
+ * settle, and hands the release velocity to the spring so there is no seam
+ * between dragging and animating.
  */
 export function PillNav() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [quarter, setQuarter] = useState('');
   const dubaiTime = useDubaiTime();
   const pathname = usePathname();
   const sheetRef = useRef<HTMLDivElement>(null);
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
+  const reduceMotion = useReducedMotion();
+
+  // Sheet position in px. 0 = fully open; `travel` = fully off the bottom.
+  const sheetY = useMotionValue(SHEET_FALLBACK_TRAVEL);
+  const [travel, setTravel] = useState(SHEET_FALLBACK_TRAVEL);
+  // `travel` is re-measured after first paint, so the scrim maps through a REF in
+  // a closure transform rather than a baked [0, travel] range — an array range
+  // captured at mount can keep mapping over the stale fallback.
+  const travelRef = useRef(SHEET_FALLBACK_TRAVEL);
+  /** One owner for the sheet's motion value — see `runSheet`. */
+  const sheetAnim = useRef<AnimationPlaybackControls | null>(null);
+  /** Invalidates an in-flight dismissal if the user grabs the sheet again. */
+  const dismissToken = useRef(0);
+  // The scrim is driven BY the sheet's position, so dimming tracks the finger.
+  const scrimOpacity = useTransform(sheetY, (v) =>
+    Math.min(1, Math.max(0, 1 - v / travelRef.current)),
+  );
 
   // Availability quarter, derived from the real date so it never goes stale.
   useEffect(() => {
     const d = new Date();
     setQuarter(`Q${Math.floor(d.getMonth() / 3) + 1} ${d.getFullYear()}`);
+  }, []);
+
+  // Material weight responds to scroll. Lenis drives window scroll, so the
+  // native event fires normally.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   useEffect(() => {
@@ -60,7 +113,66 @@ export function PillNav() {
     };
   }, [menuOpen]);
 
-  // Close the sheet on route change.
+  /**
+   * Single writer for `sheetY`. Every open, settle and dismiss goes through here
+   * so two animations can never fight over the same motion value — grabbing the
+   * sheet mid-open used to leave the opening spring and the drag both writing to
+   * it, which showed up as a jump or a wrong dismissal.
+   */
+  const runSheet = useCallback(
+    (to: number, transition: ValueAnimationTransition<number>) => {
+      sheetAnim.current?.stop();
+      sheetAnim.current = animate(sheetY, to, transition);
+      return sheetAnim.current;
+    },
+    [sheetY],
+  );
+
+  // Measure the real sheet height on open, then spring it up from off-screen.
+  useEffect(() => {
+    if (!menuOpen) return;
+    // `||` not `??`: a first paint that reports offsetHeight 0 would otherwise
+    // make travel 32px and open the sheet already almost fully on screen.
+    const measured = (sheetRef.current?.offsetHeight || SHEET_FALLBACK_TRAVEL) + SHEET_CLEARANCE;
+    setTravel(measured);
+    travelRef.current = measured;
+    sheetY.set(measured);
+    runSheet(0, {
+      ...SPRING_SHEET,
+      ...(reduceMotion ? { bounce: 0, duration: 0.01 } : null),
+    });
+    return () => sheetAnim.current?.stop();
+  }, [menuOpen, sheetY, reduceMotion, runSheet]);
+
+  /** Animate the sheet out, then unmount. Carries the gesture's velocity. */
+  const dismiss = useCallback(
+    (velocity = 0) => {
+      const token = ++dismissToken.current;
+      runSheet(travelRef.current, {
+        type: 'spring',
+        bounce: 0,
+        duration: reduceMotion ? 0.01 : 0.3,
+        velocity,
+      }).then(() => {
+        // A stopped animation still settles its promise. Without this guard,
+        // re-grabbing the sheet mid-dismissal would unmount it under the finger.
+        if (token === dismissToken.current) setMenuOpen(false);
+      });
+    },
+    [runSheet, reduceMotion],
+  );
+  /*
+   * The focus trap must subscribe to `menuOpen` ALONE. Listing `dismiss` in its
+   * deps re-ran the effect the moment `travel` was measured on open, and the
+   * teardown's `menuTriggerRef.focus()` yanked focus out of the open dialog and
+   * back to the Menu button before the re-run put it back — the trap contract
+   * broke on every open for keyboard and screen-reader users. Reading `dismiss`
+   * through a ref keeps the handler current without re-subscribing.
+   */
+  const dismissRef = useRef(dismiss);
+  dismissRef.current = dismiss;
+
+  // Close the sheet on route change (no exit animation — the page is leaving).
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
@@ -75,7 +187,7 @@ export function PillNav() {
 
     function onKey(e: KeyboardEvent) {
       if (e.key === 'Escape') {
-        setMenuOpen(false);
+        dismissRef.current();
         return;
       }
       if (e.key === 'Tab') {
@@ -101,9 +213,21 @@ export function PillNav() {
 
   return (
     <header className="sticky top-0 z-50">
+      {/* Scroll edge: content dissolves into the chrome instead of meeting a hard
+          line. Only painted once there is content underneath to dissolve. */}
+      <div
+        aria-hidden="true"
+        className={`scroll-edge pointer-events-none absolute inset-x-0 top-0 h-[92px] -z-10 transition-opacity duration-300 ${
+          scrolled ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
       <div className="max-w-[1440px] w-full mx-auto p-2 sm:p-3">
         <nav
-          className="flex items-center justify-between rounded-full bg-white dark:bg-[#2a1a28] p-[5px] shadow-[0_2px_12px_rgba(47,28,44,0.06)]"
+          className={`material-chrome flex items-center justify-between rounded-full bg-white/70 dark:bg-[#2a1a28]/65 border-t border-white/70 dark:border-brand-cream/10 p-[5px] transition-shadow duration-300 ${
+            scrolled
+              ? 'shadow-[0_10px_34px_-14px_rgba(47,28,44,0.28)]'
+              : 'shadow-[0_2px_12px_rgba(47,28,44,0.05)]'
+          }`}
           aria-label="Main navigation"
         >
           {/* Logo + links */}
@@ -111,7 +235,7 @@ export function PillNav() {
             <Link
               href="/"
               aria-label="Itqan Studio — home"
-              className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-brand-dark dark:bg-brand-cream flex-shrink-0"
+              className="press-scale flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-brand-dark dark:bg-brand-cream flex-shrink-0"
             >
               <Image src="/images/brand/light-icon.svg" alt="" width={18} height={18} className="dark:hidden" />
               <Image src="/images/brand/dark-icon.svg" alt="" width={18} height={18} className="hidden dark:block" />
@@ -161,7 +285,7 @@ export function PillNav() {
               onClick={() => setMenuOpen(true)}
               aria-label="Open navigation menu"
               aria-expanded={menuOpen}
-              className="inline-flex items-center gap-1.5 rounded-full bg-brand-dark text-brand-cream dark:bg-brand-cream dark:text-brand-dark px-4 py-2 text-[0.8125rem] font-semibold"
+              className="press-scale inline-flex items-center gap-1.5 rounded-full bg-brand-dark text-brand-cream dark:bg-brand-cream dark:text-brand-dark px-4 py-2 text-[0.8125rem] font-semibold"
             >
               <List size={15} weight="bold" />
               Menu
@@ -171,62 +295,95 @@ export function PillNav() {
       </div>
 
       {/* Mobile menu overlay */}
-      <AnimatePresence>
-        {menuOpen && (
+      {menuOpen && (
+        <div
+          className="fixed inset-0 z-50 flex flex-col justify-end"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation menu"
+        >
+          {/* Scrim dims in lockstep with the sheet's position, so dragging the
+              sheet down brightens the page continuously rather than at the end. */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.22 }}
-            className="fixed inset-0 z-50 bg-black/60 flex flex-col justify-end"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Navigation menu"
-            onClick={() => setMenuOpen(false)}
+            className="absolute inset-0 bg-black/60"
+            style={{ opacity: scrimOpacity }}
+            onClick={() => dismiss()}
+          />
+
+          <motion.div
+            ref={sheetRef}
+            style={{ y: sheetY }}
+            /* Drag stays enabled under reduced motion — direct manipulation is
+               user-driven, not vestibular. Only the settle gets shortened. */
+            drag="y"
+            /* Below the open position the sheet is unconstrained, so it tracks
+               the finger 1:1. Above it the constraint engages and rubber-bands. */
+            dragConstraints={{ top: 0 }}
+            dragElastic={0.5}
+            /* Framer's own inertia is off — we project the momentum ourselves so
+               the landing decision and the animation share one velocity. */
+            dragMomentum={false}
+            onDragStart={() => {
+              // Take ownership: cancel any in-flight open/settle/dismiss so the
+              // drag is the only writer, and invalidate a pending dismissal.
+              sheetAnim.current?.stop();
+              dismissToken.current += 1;
+            }}
+            onDragEnd={(_, info) => {
+              const velocity = info.velocity.y;
+              const projected = sheetY.get() + projectMomentum(velocity);
+              if (projected > travelRef.current * DISMISS_THRESHOLD) {
+                dismiss(velocity);
+              } else {
+                // Bounce is earned here: the gesture carried momentum.
+                runSheet(0, {
+                  ...SPRING_MOMENTUM,
+                  ...(reduceMotion ? { bounce: 0, duration: 0.01 } : null),
+                  velocity,
+                });
+              }
+            }}
+            className="material-chrome relative bg-white/85 dark:bg-[#2a1a28]/85 border-t border-white/80 dark:border-brand-cream/10 rounded-2xl mx-3 mb-3 px-6 pb-6 pt-3 shadow-[0_-10px_40px_-16px_rgba(47,28,44,0.45)]"
           >
-            <motion.div
-              ref={sheetRef}
-              initial={{ y: '100%' }}
-              animate={{ y: 0 }}
-              exit={{ y: '100%' }}
-              transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
-              className="bg-white dark:bg-[#2a1a28] rounded-2xl mx-3 mb-3 p-6"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex items-center justify-between mb-8">
-                <span className="inline-flex items-center gap-1.5 text-[0.8125rem] text-text-secondary dark:text-brand-cream/55 tabular-nums border border-black/10 dark:border-brand-cream/15 rounded-full px-3 py-1.5">
-                  <Clock size={13} aria-hidden="true" />
-                  {dubaiTime} in Dubai
-                </span>
-                <button
-                  type="button"
+            {/* Grabber — the affordance that says "this is draggable". */}
+            <div
+              aria-hidden="true"
+              className="mx-auto mb-4 h-[5px] w-[38px] rounded-full bg-black/15 dark:bg-brand-cream/25"
+            />
+
+            <div className="flex items-center justify-between mb-8">
+              <span className="inline-flex items-center gap-1.5 text-[0.8125rem] text-text-secondary dark:text-brand-cream/55 tabular-nums border border-black/10 dark:border-brand-cream/15 rounded-full px-3 py-1.5">
+                <Clock size={13} aria-hidden="true" />
+                {dubaiTime} in Dubai
+              </span>
+              <button
+                type="button"
+                onClick={() => dismiss()}
+                aria-label="Close navigation menu"
+                className="press-scale inline-flex items-center gap-1.5 rounded-full bg-brand-dark text-brand-cream dark:bg-brand-cream dark:text-brand-dark px-4 py-2 text-[0.8125rem] font-semibold"
+              >
+                <X size={15} weight="bold" />
+                Close
+              </button>
+            </div>
+
+            <nav className="flex flex-col gap-5 mb-8" aria-label="Mobile navigation">
+              {NAV_LINKS.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
                   onClick={() => setMenuOpen(false)}
-                  aria-label="Close navigation menu"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-brand-dark text-brand-cream dark:bg-brand-cream dark:text-brand-dark px-4 py-2 text-[0.8125rem] font-semibold"
+                  className="text-[1.75rem] leading-[2rem] font-medium text-text-primary dark:text-brand-cream"
                 >
-                  <X size={15} weight="bold" />
-                  Close
-                </button>
-              </div>
+                  {l.label}
+                </Link>
+              ))}
+            </nav>
 
-              <nav className="flex flex-col gap-5 mb-8" aria-label="Mobile navigation">
-                {NAV_LINKS.map((l) => (
-                  <Link
-                    key={l.href}
-                    href={l.href}
-                    onClick={() => setMenuOpen(false)}
-                    className="text-[1.75rem] leading-[2rem] font-medium text-text-primary dark:text-brand-cream"
-                  >
-                    {l.label}
-                  </Link>
-                ))}
-              </nav>
-
-              <RollButton href="/contact" label="Start a conversation" className="w-full justify-between" />
-            </motion.div>
+            <RollButton href="/contact" label="Start a conversation" className="w-full justify-between" />
           </motion.div>
-        )}
-      </AnimatePresence>
+        </div>
+      )}
     </header>
   );
 }
