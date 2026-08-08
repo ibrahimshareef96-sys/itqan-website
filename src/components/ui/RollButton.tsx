@@ -13,18 +13,27 @@ interface RollButtonProps {
    */
   variant?: 'primary' | 'onDark';
   className?: string;
+  /** Optional side effect on activation — e.g. closing the sheet that holds it. */
+  onClick?: () => void;
 }
 
 /**
  * Axion-style CTA: pill button whose label rolls up on hover (duplicated text in an
  * overflow-hidden column) while the arrow chip rotates from -45° to 0°.
  */
-export function RollButton({ href, label, variant = 'primary', className }: RollButtonProps) {
+export function RollButton({
+  href,
+  label,
+  variant = 'primary',
+  className,
+  onClick,
+}: RollButtonProps) {
   const isPrimary = variant === 'primary';
 
   return (
     <Link
       href={href}
+      onClick={onClick}
       className={`group press-scale inline-flex items-center gap-2.5 rounded-full pl-5 sm:pl-6 pr-2 py-2 text-[0.8125rem] sm:text-[0.875rem] font-semibold ${
         isPrimary
           ? 'bg-brand-dark text-brand-cream hover:bg-[#241323] dark:bg-brand-cream dark:text-brand-dark dark:hover:bg-brand-cream/90'

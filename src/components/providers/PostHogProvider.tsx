@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useRef } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import posthog from 'posthog-js';
-import { CONSENT_EVENT, CONSENT_KEY } from '@/components/CookieBanner';
+import { CONSENT_EVENT, hasAccepted } from '@/lib/consent';
 
 /**
  * Privacy-first PostHog wiring.
@@ -21,27 +21,12 @@ import { CONSENT_EVENT, CONSENT_KEY } from '@/components/CookieBanner';
 const POSTHOG_KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY;
 const POSTHOG_HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST ?? 'https://eu.i.posthog.com';
 
-/** Reads consent the same way CookieBanner does: cookie first, then localStorage. */
-function readConsent(): string | null {
-  if (typeof document !== 'undefined') {
-    for (const cookie of document.cookie.split('; ')) {
-      const [name, value] = cookie.split('=');
-      if (name === CONSENT_KEY && value) return decodeURIComponent(value);
-    }
-  }
-  if (typeof window !== 'undefined') {
-    try {
-      return window.localStorage.getItem(CONSENT_KEY);
-    } catch {
-      return null;
-    }
-  }
-  return null;
-}
-
-function hasAccepted(): boolean {
-  return readConsent() === 'accepted';
-}
+/*
+ * Consent is read through `@/lib/consent`, NOT a local copy of the parser. There
+ * used to be a duplicate here whose `decodeURIComponent` was unguarded, while the
+ * banner's copy had a try/catch. A malformed consent cookie therefore threw out of
+ * this provider — which wraps the entire app — and took every route down with it.
+ */
 
 /** Idempotent: initialize the posthog-js singleton at most once, only after consent. */
 function initPostHog(): void {
@@ -72,12 +57,19 @@ function PostHogPageview() {
   const isFirstRender = useRef(true);
 
   useEffect(() => {
-    if (!posthog.__loaded) return;
+    /*
+     * Consume the first render BEFORE the load check. When it came after,
+     * a visitor who had not yet consented ran this effect with
+     * `posthog.__loaded === false` and returned early WITHOUT consuming it —
+     * consent-triggered init does not re-render this component — so the first
+     * route they navigated to after accepting was swallowed as "the initial
+     * render" and never captured.
+     */
+    const wasFirst = isFirstRender.current;
+    isFirstRender.current = false;
 
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
+    // posthog.init() captures the pageview for the route it loaded on.
+    if (!posthog.__loaded || wasFirst) return;
 
     const query = searchParams?.toString();
     const url = query ? `${pathname}?${query}` : pathname;

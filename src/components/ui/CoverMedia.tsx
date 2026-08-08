@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useDecorativeVideo } from '@/lib/use-decorative-video';
 
 interface CoverMediaProps {
   src: string;
@@ -40,6 +41,7 @@ export function CoverMedia({
   cinematic,
 }: CoverMediaProps) {
   const [reduced, setReduced] = useState(false);
+  const videoRef = useDecorativeVideo<HTMLVideoElement>();
 
   useEffect(() => {
     setReduced(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -47,15 +49,12 @@ export function CoverMedia({
 
   if (video && !reduced) {
     return (
+      /* No `autoPlay`: the attribute is in SSR HTML, so playback began during
+         parse — before hydration could honour a motion preference — and ran
+         offscreen. `useDecorativeVideo` gates on visibility and reduced motion. */
       <video
-        ref={(el) => {
-          if (el) {
-            el.muted = true;
-            el.play().catch(() => {});
-          }
-        }}
+        ref={videoRef}
         poster={src}
-        autoPlay
         muted
         loop
         playsInline

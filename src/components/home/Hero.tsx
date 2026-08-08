@@ -7,6 +7,7 @@ import { FadeUp } from '@/components/ui/FadeUp';
 import { SplitText } from '@/components/ui/SplitText';
 import { TextReveal } from '@/components/ui/TextReveal';
 import { MagneticButton } from '@/components/ui/MagneticButton';
+import { useDecorativeVideo } from '@/lib/use-decorative-video';
 import {
   SPRING_SNAPPY,
   staggerContainerVariants,
@@ -66,24 +67,19 @@ function HeroLine2() {
 }
 
 export function Hero() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  // Respect prefers-reduced-motion: pause video on mount
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) {
-      video.pause();
-    }
-  }, []);
+  /*
+   * Playback is owned by useDecorativeVideo. Pausing in an effect was too late:
+   * `autoPlay` is in the SSR HTML, so the video had already begun playing during
+   * parse — a reduced-motion visitor saw motion before the effect could stop it,
+   * and it kept playing while scrolled far offscreen.
+   */
+  const videoRef = useDecorativeVideo<HTMLVideoElement>();
 
   return (
     <section className="relative min-h-[100dvh] flex items-center overflow-hidden" aria-label="Introduction">
       {/* Background video */}
       <video
         ref={videoRef}
-        autoPlay
         muted
         loop
         playsInline

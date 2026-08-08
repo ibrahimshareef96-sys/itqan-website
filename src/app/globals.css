@@ -94,7 +94,20 @@ html.dark body::before {
   outline: 2px solid #2f1c2c;
   outline-offset: 2px;
   box-shadow: 0 0 0 5px rgba(255, 251, 245, 0.9);
-  border-radius: 2px;
+  /* NO `border-radius` here. A universal 2px radius overrode every Tailwind
+     `rounded-*` utility, so pills and circular icon buttons visibly deformed
+     into near-squares the instant they received keyboard focus. Outlines follow
+     the element's own radius in every current engine, so nothing is lost. */
+}
+
+/* `.btn-gloss` sets its own `box-shadow` and is declared LATER in this file, so
+   at equal specificity it won the cascade and erased the cream focus halo —
+   leaving the contact form's submit button with no visible keyboard focus on
+   dark surfaces. Re-assert the halo and keep the gloss's inner highlight. */
+.btn-gloss:focus-visible {
+  box-shadow:
+    0 0 0 5px rgba(255, 251, 245, 0.9),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 /* Featured Work card links: softer inset ring */
@@ -140,6 +153,32 @@ html.dark body::before {
 }
 .press-scale:active {
   transform: scale(0.955);
+}
+
+/* ── AI panel "thinking" dots ──
+   Purely a paint inside an absolutely-positioned overlay, so it cannot move
+   layout — the bubble's height is already reserved by an invisible ghost of the
+   longest answer (that ghost is what holds hero CLS at ~0). */
+@keyframes ai-thinking-dot {
+  0%,
+  70%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  35% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+.ai-thinking-dot {
+  animation: ai-thinking-dot 1.25s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ai-thinking-dot {
+    animation: none;
+    opacity: 0.55;
+  }
 }
 
 /* ── Chrome that floats over content (nav, consent card, sheet) ──

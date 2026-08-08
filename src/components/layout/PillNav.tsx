@@ -10,6 +10,7 @@ import {
   useMotionValue,
   useTransform,
   useReducedMotion,
+  useDragControls,
   type AnimationPlaybackControls,
   type ValueAnimationTransition,
 } from 'framer-motion';
@@ -17,6 +18,7 @@ import { Clock, List, X } from '@phosphor-icons/react';
 import { RollButton } from '@/components/ui/RollButton';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { projectMomentum, SPRING_SHEET, SPRING_MOMENTUM } from '@/lib/motion';
+import { pauseSmoothScroll, resumeSmoothScroll } from '@/lib/smooth-scroll';
 
 const NAV_LINKS = [
   { href: '/work', label: 'Work' },
@@ -74,6 +76,7 @@ export function PillNav() {
   const sheetRef = useRef<HTMLDivElement>(null);
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
   const reduceMotion = useReducedMotion();
+  const dragControls = useDragControls();
 
   // Sheet position in px. 0 = fully open; `travel` = fully off the bottom.
   const sheetY = useMotionValue(SHEET_FALLBACK_TRAVEL);
@@ -106,10 +109,20 @@ export function PillNav() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  /*
+   * Scroll lock. `body { overflow: hidden }` alone does NOT hold: Lenis drives
+   * scrolling from its own wheel/touch listeners, so the page kept scrolling
+   * behind the open sheet on a trackpad. Lenis has to be told to stop too.
+   */
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    if (!menuOpen) return;
+    document.body.style.overflow = 'hidden';
+    pauseSmoothScroll();
+    // Cleanup is the single owner of the teardown, so closing cannot resume
+    // twice in a row.
     return () => {
       document.body.style.overflow = '';
+      resumeSmoothScroll();
     };
   }, [menuOpen]);
 
@@ -314,8 +327,14 @@ export function PillNav() {
             ref={sheetRef}
             style={{ y: sheetY }}
             /* Drag stays enabled under reduced motion — direct manipulation is
-               user-driven, not vestibular. Only the settle gets shortened. */
+               user-driven, not vestibular. Only the settle gets shortened.
+               `dragListener={false}` + explicit controls so the gesture starts
+               only from the grabber/header strip: with a listener on the whole
+               sheet, dragging inside the now-scrollable link list moved the sheet
+               instead of scrolling the list. */
             drag="y"
+            dragListener={false}
+            dragControls={dragControls}
             /* Below the open position the sheet is unconstrained, so it tracks
                the finger 1:1. Above it the constraint engages and rubber-bands. */
             dragConstraints={{ top: 0 }}
@@ -343,15 +362,27 @@ export function PillNav() {
                 });
               }
             }}
-            className="material-chrome relative bg-white/85 dark:bg-[#2a1a28]/85 border-t border-white/80 dark:border-brand-cream/10 rounded-2xl mx-3 mb-3 px-6 pb-6 pt-3 shadow-[0_-10px_40px_-16px_rgba(47,28,44,0.45)]"
+            /* Capped and internally scrollable. Unbounded, the sheet grew past a
+               short viewport (landscape phone, or a tall system font) and pushed
+               its own Close button above the top of the screen while body scroll
+               was locked — the menu became a trap with no way out. */
+            className="material-chrome relative flex max-h-[85svh] flex-col bg-white/85 dark:bg-[#2a1a28]/85 border-t border-white/80 dark:border-brand-cream/10 rounded-2xl mx-3 mb-3 px-6 pb-6 pt-3 shadow-[0_-10px_40px_-16px_rgba(47,28,44,0.45)]"
           >
-            {/* Grabber — the affordance that says "this is draggable". */}
+            {/* Grabber — the affordance that says "this is draggable", and the
+                handle the drag gesture actually starts from. Padded well past
+                the 5px bar so it is a comfortable touch target. */}
             <div
-              aria-hidden="true"
-              className="mx-auto mb-4 h-[5px] w-[38px] rounded-full bg-black/15 dark:bg-brand-cream/25"
-            />
+              onPointerDown={(e) => dragControls.start(e)}
+              style={{ touchAction: 'none' }}
+              className="mx-auto -mt-1 mb-3 flex h-8 w-full flex-shrink-0 cursor-grab items-center justify-center active:cursor-grabbing"
+            >
+              <span
+                aria-hidden="true"
+                className="h-[5px] w-[38px] rounded-full bg-black/15 dark:bg-brand-cream/25"
+              />
+            </div>
 
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex flex-shrink-0 items-center justify-between mb-8">
               <span className="inline-flex items-center gap-1.5 text-[0.8125rem] text-text-secondary dark:text-brand-cream/55 tabular-nums border border-black/10 dark:border-brand-cream/15 rounded-full px-3 py-1.5">
                 <Clock size={13} aria-hidden="true" />
                 {dubaiTime} in Dubai
@@ -367,7 +398,14 @@ export function PillNav() {
               </button>
             </div>
 
-            <nav className="flex flex-col gap-5 mb-8" aria-label="Mobile navigation">
+            {/* The links scroll inside the sheet when they cannot all fit, so the
+                sheet itself never outgrows the viewport. `overscroll-contain`
+                stops a flick here from chaining to the locked page behind. */}
+            <nav
+              className="flex min-h-0 flex-1 flex-col gap-5 mb-8 overflow-y-auto overscroll-contain"
+              style={{ touchAction: 'pan-y' }}
+              aria-label="Mobile navigation"
+            >
               {NAV_LINKS.map((l) => (
                 <Link
                   key={l.href}
@@ -380,7 +418,16 @@ export function PillNav() {
               ))}
             </nav>
 
-            <RollButton href="/contact" label="Start a conversation" className="w-full justify-between" />
+            {/* Closing on tap matters most on /contact, where the CTA links to the
+                page you are already on: without this the sheet just sat there. */}
+            <div className="flex-shrink-0">
+              <RollButton
+                href="/contact"
+                label="Start a conversation"
+                className="w-full justify-between"
+                onClick={() => setMenuOpen(false)}
+              />
+            </div>
           </motion.div>
         </div>
       )}

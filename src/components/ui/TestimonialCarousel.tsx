@@ -22,6 +22,8 @@ interface Props {
 const ACCENT = 'text-brand-accent-on-light dark:text-brand-accent';
 
 const AUTOPLAY_MS = 5000;
+/** How long a touch tap holds autoplay off before it resumes on its own. */
+const TOUCH_PAUSE_MS = 12000;
 /** A rail decelerates faster than a scroll view, so it snaps rather than glides. */
 const RAIL_DECELERATION = 0.99;
 
@@ -57,7 +59,15 @@ export function TestimonialCarousel({ testimonials, variant = 'card' }: Props) {
   const [hovering, setHovering] = useState(false);
   const [focused, setFocused] = useState(false);
   const [dragging, setDragging] = useState(false);
-  const engaged = hovering || focused || dragging;
+  /**
+   * Touch engagement is a COUNTER, not a boolean. With a boolean, a second tap
+   * while already "touched" was a no-op for the grace-window effect, so tapping
+   * the already-active dot did not extend the pause and autoplay resumed under
+   * the reader. Every interaction bumps the counter, which always retriggers it.
+   */
+  const [touchTick, setTouchTick] = useState(0);
+  const [touchPaused, setTouchPaused] = useState(false);
+  const engaged = hovering || focused || dragging || touchPaused;
   const railRef = useRef<HTMLDivElement>(null);
   const runningRef = useRef<AnimationPlaybackControls | null>(null);
   /** Autoplay direction; flips at the ends so the rail never sweeps back. */
@@ -79,7 +89,10 @@ export function TestimonialCarousel({ testimonials, variant = 'card' }: Props) {
       runningRef.current = animate(x, -clamped * getRailWidth(), {
         ...(velocity ? SPRING_MOMENTUM : SPRING_HOVER),
         ...(reduceMotion ? { duration: 0.01, bounce: 0 } : null),
-        velocity,
+        // Only pass velocity when there IS one. An explicit `velocity: 0`
+        // overrides framer's inherited value, so redirecting a still-moving rail
+        // (a second arrow press mid-flight) restarted it from a dead stop.
+        ...(velocity ? { velocity } : null),
       });
     },
     [count, getRailWidth, x, reduceMotion],
@@ -98,6 +111,10 @@ export function TestimonialCarousel({ testimonials, variant = 'card' }: Props) {
   // the user has asked for reduced motion. The tick reads the committed index
   // from a ref and calls `settle`, so NOTHING happens inside a state updater:
   // updaters must be pure, and React may run them more than once.
+  // `index` is in the deps so the timer RESTARTS whenever the card changes,
+  // including from a manual arrow/dot/swipe. Without it a tap could be followed
+  // by an autoplay advance a few milliseconds later, yanking the card away from
+  // the person who just chose it.
   useEffect(() => {
     if (engaged || reduceMotion || count < 2) return;
     const id = setInterval(() => {
@@ -110,13 +127,26 @@ export function TestimonialCarousel({ testimonials, variant = 'card' }: Props) {
       settle(i + stepRef.current);
     }, AUTOPLAY_MS);
     return () => clearInterval(id);
-  }, [engaged, reduceMotion, count, settle]);
+  }, [engaged, reduceMotion, count, settle, index]);
 
-  // Keep the rail aligned when the viewport changes size.
+  // Keep the rail aligned when its width changes. A ResizeObserver on the rail
+  // catches container-only changes (a sidebar opening) that `window.resize`
+  // misses, and the in-flight spring must be stopped first or it finishes to a
+  // target computed from the OLD width and parks the rail mid-card.
   useEffect(() => {
-    const onResize = () => x.set(-indexRef.current * getRailWidth());
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
+    const node = railRef.current;
+    if (!node) return;
+    const realign = () => {
+      runningRef.current?.stop();
+      x.set(-indexRef.current * getRailWidth());
+    };
+    const ro = new ResizeObserver(realign);
+    ro.observe(node);
+    window.addEventListener('resize', realign);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', realign);
+    };
   }, [getRailWidth, x]);
 
   // If the list ever shrinks under a high index, every slide would be
@@ -124,6 +154,16 @@ export function TestimonialCarousel({ testimonials, variant = 'card' }: Props) {
   useEffect(() => {
     if (count > 0 && index > count - 1) settle(count - 1);
   }, [count, index, settle]);
+
+  // A touch tap buys a grace window, not a permanent stop — there is no reliable
+  // pointerleave for touch, and pausing forever is the same "stuck" bug in a
+  // different costume. Keyed on the counter so every tap restarts the window.
+  useEffect(() => {
+    if (touchTick === 0) return;
+    setTouchPaused(true);
+    const id = setTimeout(() => setTouchPaused(false), TOUCH_PAUSE_MS);
+    return () => clearTimeout(id);
+  }, [touchTick]);
 
   // Never leave a spring running on an unmounted component.
   useEffect(() => () => runningRef.current?.stop(), []);
@@ -247,6 +287,16 @@ export function TestimonialCarousel({ testimonials, variant = 'card' }: Props) {
     },
     onPointerLeave: (e: React.PointerEvent) => {
       if (e.pointerType === 'mouse') setHovering(false);
+    },
+    /*
+     * A touch TAP on the arrows or dots is engagement too, and it produces no
+     * hover and — on iOS Safari — often no focus either, because Safari does not
+     * focus a <button> on tap. Without this, a touch reader stepping through
+     * quotes with the arrows still had autoplay moving the card underneath them.
+     * The timer also restarts on `index`, so a tap always buys a full interval.
+     */
+    onPointerDown: (e: React.PointerEvent) => {
+      if (e.pointerType !== 'mouse') setTouchTick((n) => n + 1);
     },
     onFocusCapture: () => setFocused(true),
     onBlurCapture: () => setFocused(false),
