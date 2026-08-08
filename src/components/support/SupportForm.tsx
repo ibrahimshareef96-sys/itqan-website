@@ -22,6 +22,8 @@ type FormValues = {
   email: string;
   company: string;
   subject: string;
+  requestType: string;
+  deviceType: string;
   message: string;
   /**
    * Honeypot. Named hp_ref rather than something plausible like
@@ -143,6 +145,43 @@ export function SupportForm() {
             placeholder="Acme"
             {...register('company', { maxLength: 160 })}
           />
+        </div>
+      </div>
+
+      <div className="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label htmlFor="sup-request-type" className={labelClass}>
+            Request type
+          </label>
+          <select
+            id="sup-request-type"
+            className={inputClass}
+            defaultValue=""
+            {...register('requestType', { required: 'Pick what this is about.' })}
+          >
+            <option value="" disabled>
+              Choose one…
+            </option>
+            <option value="issue">Something is broken</option>
+            <option value="question">A question</option>
+            <option value="billing">Billing</option>
+            <option value="feature">A request / idea</option>
+            <option value="other">Something else</option>
+          </select>
+          {errors.requestType && <p className={errorClass}>{errors.requestType.message}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="sup-device-type" className={labelClass}>
+            Device <span className="font-normal opacity-60">(optional)</span>
+          </label>
+          <select id="sup-device-type" className={inputClass} defaultValue="" {...register('deviceType')}>
+            <option value="">Not device-specific</option>
+            <option value="web">Web / browser</option>
+            <option value="mobile">Mobile</option>
+            <option value="desktop">Desktop</option>
+            <option value="other">Other</option>
+          </select>
         </div>
       </div>
 
