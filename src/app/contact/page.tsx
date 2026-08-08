@@ -128,6 +128,19 @@ export default function ContactPage({ searchParams }: Props) {
             <div className="rounded-2xl bg-white dark:bg-[#241626] border border-black/[0.08] dark:border-brand-cream/[0.12] shadow-[0_2px_12px_rgba(47,28,44,0.06)] dark:shadow-none p-8">
               <p className="font-semibold text-text-primary dark:text-brand-cream text-lg mb-6">Send us a message</p>
               <ContactForm intent={intent} />
+              {/* Existing clients land here first when something breaks. This
+                  form emails an inbox; /support opens a tracked ticket with a
+                  private thread they can follow. Send them to the right one. */}
+              <p className="mt-6 pt-6 border-t border-black/[0.08] dark:border-brand-cream/[0.12] text-[0.875rem] text-text-secondary dark:text-brand-cream/60">
+                Already working with us and something needs fixing?{' '}
+                <a
+                  href="/support"
+                  className="underline underline-offset-4 hover:text-text-primary dark:hover:text-brand-cream transition-colors duration-200"
+                >
+                  Open a support request
+                </a>{' '}
+                — you&apos;ll get a private link to track it.
+              </p>
             </div>
           </ScrollReveal>
 

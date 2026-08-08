@@ -9,6 +9,10 @@ const navLinks = [
   { href: '/services', label: 'Services' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
+  // Existing clients with a problem. Deliberately separate from Contact:
+  // Contact sells, and someone whose site is down should not have to read
+  // about a Brand Audit to reach us.
+  { href: '/support', label: 'Support' },
 ];
 
 const socials = [
