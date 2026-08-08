@@ -142,7 +142,11 @@ export function CookieBanner() {
         }`}
       >
         <div className="flex flex-row items-center justify-between gap-3 px-4 py-3">
-          <p className="font-sans font-normal text-[0.8125rem] text-text-secondary dark:text-brand-cream/80 leading-snug">
+          {/* Vibrancy: over a translucent surface whose backdrop changes with the
+              page behind it, flat grey body text loses legibility. Higher
+              contrast, slightly heavier weight and a small tracking bump — not
+              more opacity — is what keeps it readable. */}
+          <p className="font-sans font-medium text-[0.8125rem] tracking-[0.005em] text-text-primary dark:text-brand-cream leading-snug">
             We use cookies.{' '}
             <Link
               href="/cookies"
