@@ -29,8 +29,46 @@ Lightweight tracking via TaskCreate (in-session). For longer initiatives use `ag
 5. Coolify API on port 8000 was reachable from IP `91.74.42.154` with no tunnel and no SG change.
 6. Disk is fine (77G, 73% used, 21G free); `docker image prune` + `builder prune` reclaimed 0B, so
    disk is NOT the constraint any more — **memory is.**
+7. **The deployments LIST endpoint returns an OBJECT keyed by index, not an array** — parse with
+   `list(d.values())` or the poll prints blank forever.
+8. **An API-triggered deploy can be SUPERSEDED by a webhook deploy of the same app**: it reports
+   `status: failed` with `logs: null`. Check the live site before diagnosing a "failed" deploy with
+   empty logs — it was probably replaced, not broken.
+9. **Local builds need Node 22** (`npx --yes node@22 node_modules/next/dist/bin/next build`) —
+   under Node 24 `next build` dies with `PageNotFoundError: /_document` from a clean `.next`. The
+   Coolify container pins Node 22 and is unaffected. And never pipe `npm run build` through
+   `head`: SIGPIPE kills the build mid-write and leaves a `.next` that serves broken CSS.
 
-**LATEST (2026-08-07, part 2): APPROVED + IMPLEMENTED + SHIPPED to both sites.**
+**LATEST (2026-08-08): RESIDUAL BUG-FIX PASS — 29 verified defects fixed and SHIPPED to both sites.**
+Ibrahim: "fix all the bugs that you haven't fixed… then deploy everything." Ran an exhaustive
+adversarially-verified hunt (6 lenses × both repos, 33 raw findings → 25 confirmed / 8 refuted,
+workflow `wf_883fe5f0-11c`) plus panel rounds 3+4 (itqan) and 2 (shareefico) on the fixes
+themselves. Everything is live: **itqan `1a2f59e`** (35/35 production checks, 8 routes 200),
+**shareefico `749e214`** (10/10 production checks). Full detail:
+`agent-work/20260808_residual_bug_fixes.md` + `agent-work/panel/DISPOSITIONS.md` (both repos).
+- **Headline fixes (4 HIGH):** consent card deleted itself in background tabs (rAF-vs-setTimeout
+  race — MY regression, reproduced before fixing); a duplicate consent parser with unguarded
+  `decodeURIComponent` in PostHogProvider could crash EVERY route on a malformed cookie (parsers
+  consolidated into `src/lib/consent.ts`, now with a non-bypassable TTL); consent card at z-60
+  covered the mobile sheet's CTA (→ z-40); and **every decorative video on both sites shipped
+  `autoplay` in SSR HTML** — `useReducedMotion()` is null during SSR so even `autoPlay={!reduce}`
+  rendered it, playback began before hydration, and reduced-motion users got endless loops (WCAG
+  2.2.2). All 8 videos now use `src/lib/use-decorative-video.ts`: no attribute, paused under
+  reduced motion, playing only while onscreen — playback verified 15/15 on production.
+- **Also fixed:** `*:focus-visible` squaring off every rounded control; `.btn-gloss` erasing the
+  focus halo; framer's `whileTap` injecting phantom tab stops; sheet uncapped on short viewports
+  (Close button off-screen while scroll was locked = a trap); Lenis ignoring the body scroll lock
+  (`src/lib/smooth-scroll.ts`); `overflow-x-hidden` killing sticky on /magnet; SmoothScrollProvider
+  leaking a permanent rAF loop per remount; PostHog swallowing the first pageview after opt-in;
+  AI-panel bubble now has quiet/thinking states (paint-only — hero CLS still ~0.003); carousel
+  velocity/resize/touch-pause refinements; AnimatedText hydration + ARIA fixes (shareefico).
+- **Verify suites are now real gates:** `npm run verify:design` exits non-zero when browser checks
+  cannot run (server down / unknown args) instead of "passing" having asserted nothing.
+- **Deferred as scope, NOT bugs:** `display-type` covers the hero only (~40 headings still hardcode
+  tracking); press feedback reaches 9 elements; five unrendered home components keep pre-pass
+  patterns. Cosmetic-consistency pass when Ibrahim wants it.
+
+**(2026-08-07, part 2): APPROVED + IMPLEMENTED + SHIPPED to both sites.**
 **Live and verified: itqanstudio.com `4935078`, shareefi.co `988969e`. 19/19 + 4/4 checks pass
 against PRODUCTION** (`npm run verify:design https://itqanstudio.com`).
 **Heads-up: another session pushed a `/support` feature to itqan `main` mid-flight** (`401680d`);
