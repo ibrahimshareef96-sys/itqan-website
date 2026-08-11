@@ -1,5 +1,44 @@
 # Itqan Studio Website — Handover
 
+
+## SESSION 2026-08-11 — BRANDS HUB shipped (`35d1707`, live)
+
+Ibrahim sent brand.uber.com (top pick), Airbnb media-assets and Google's partner
+marketing hub, and asked for a "Brands" page for BOTH Itqan Studio and
+Shareefico, incl. Shareefico's assets and Barakah Blueprint ("vodka blueprint"
+in the transcript = Barakah Blueprint, the podcast).
+
+**Shipped:** `/brands` hub + `/brands/itqan-studio` + `/brands/shareefico`
+(SSG, sitemap, breadcrumb JSON-LD, footer link — deliberately NOT the header
+nav). Data-driven from `src/data/brands.ts`; every fact traces to BRAND.md or
+shareefi.co's theme tokens + voice-guide.md. Chapters: Logo → Colour
+(copy-to-clipboard swatches, dual-accent rule) → Type (live specimens) → Voice →
+Barakah Blueprint (Shareefico only) → Assets. Zip packs live at
+`/brands/downloads/*` (logos + colors.json + voice one-pager). Screenshots:
+`~/Desktop/brands-hub-review/`.
+
+**Traps hit:** arbitrary Tailwind classes composed in a DATA file are not
+reliably compiled — tile backgrounds are inline hexes now; scroll-reveal +
+lazy-image races make naive fullPage screenshots lie (blank sections) — the
+capture script walks the viewport and bounds image waits. Panel 4/5 approve;
+sole HIGH was Ibrahim's own uncommitted jonny-olejak.png deletion (0 refs,
+inert, LEFT UNCOMMITTED for him). His remote `6e67ee2` (BIMI logo) was pulled
+and preserved via stash-rebase.
+
+**Adding a brand later:** append to `src/data/brands.ts`, drop assets in
+`public/brands/<slug>/`, zip into `public/brands/downloads/` — routes, sitemap
+and hub tile derive automatically. This is the productizable surface (client
+brand hubs).
+
+## Monetization angles (2026-08-11)
+
+- **Brand Hub as a deliverable tier:** the `/brands/[slug]` architecture already
+  supports client slugs — sell "your brand, run in public" microsites as an
+  upsell to Millow / Lemon Garden and as a line item in new proposals.
+- **Proof-of-discipline link in every proposal + email signature** (/brands).
+- **Content flywheel:** each chapter (dual-accent rule, banned-words list,
+  lime-only-CTA rule) is a standalone LinkedIn/IG post with a live URL behind it.
+
 ## Tracked work reference
 
 Lightweight tracking via TaskCreate (in-session). For longer initiatives use `agent-work/` (already present at the project root with one historical entry under `agent-work/projects/`).
