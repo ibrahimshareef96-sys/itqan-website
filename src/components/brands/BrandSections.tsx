@@ -12,9 +12,14 @@ import { FadeUp } from '@/components/ui/FadeUp';
 import type {
   Brand,
   BrandColor,
+  BrandImage,
   BrandLogoVariant,
+  BrandMisuse,
+  BrandPairing,
   BrandPrinciple,
+  BrandProduct,
   BrandRule,
+  BrandSpec,
   BrandTypeStyle,
 } from '@/data/brands';
 
@@ -269,5 +274,253 @@ export function DownloadBlock({ brand }: { brand: Brand }) {
         <ArrowUpRight size={22} className="shrink-0 text-brand-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
       </a>
     </div>
+  );
+}
+
+/* ── shared rule list (do / don't) ──────────────────────────────────────── */
+
+export function RuleList({ rules, dark }: { rules: BrandRule[]; dark?: boolean }) {
+  return (
+    <div className="grid sm:grid-cols-2 gap-x-10 gap-y-4">
+      {rules.map((rule) => (
+        <div key={rule.text} className="flex items-start gap-3">
+          {rule.kind === 'do' ? (
+            <Check
+              size={18}
+              weight="bold"
+              className={`mt-0.5 shrink-0 ${dark ? 'text-brand-accent' : 'text-brand-accent-on-light'}`}
+            />
+          ) : (
+            <X size={18} weight="bold" className="mt-0.5 shrink-0 text-[#b3564d]" />
+          )}
+          <p className={`text-[0.9375rem] leading-relaxed ${dark ? 'text-brand-cream/85' : 'text-text-primary/85'}`}>
+            {rule.text}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ── overview: story + principles ───────────────────────────────────────── */
+
+export function StoryPrinciples({ story, principles, dark }: { story: string; principles: BrandPrinciple[]; dark?: boolean }) {
+  return (
+    <div>
+      <p className={`max-w-2xl text-lg leading-relaxed ${dark ? 'text-brand-cream/85' : 'text-text-primary/85'}`}>{story}</p>
+      <div className="mt-10 grid sm:grid-cols-2 gap-x-10 gap-y-8">
+        {principles.map((p, i) => (
+          <FadeUp key={p.title}>
+            <p className={`font-mono text-[0.75rem] mb-2 ${dark ? 'text-brand-accent' : 'text-brand-accent-on-light'}`}>
+              {String(i + 1).padStart(2, '0')}
+            </p>
+            <h3 className="text-lg font-semibold">{p.title}</h3>
+            <p className={`mt-1.5 text-[0.9375rem] leading-relaxed ${dark ? 'text-brand-cream/70' : 'text-text-secondary'}`}>
+              {p.body}
+            </p>
+          </FadeUp>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── logo misuse gallery — GENERATED from the real mark via CSS ─────────── */
+
+const MISUSE_STYLE: Record<BrandMisuse['kind'], React.CSSProperties> = {
+  stretch: { transform: 'scaleX(1.6)' },
+  rotate: { transform: 'rotate(-14deg)' },
+  recolour: { filter: 'hue-rotate(120deg) saturate(3)' },
+  effects: { filter: 'drop-shadow(0 6px 4px rgba(0,0,0,0.9)) drop-shadow(0 0 10px rgba(255,255,255,0.7))' },
+  crowd: {},
+  lowcontrast: { opacity: 0.35 },
+};
+
+export function MisuseGrid({ misuse, mark, dark }: { misuse: BrandMisuse[]; mark: { src: string; bg: string }; dark?: boolean }) {
+  return (
+    <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+      {misuse.map((m) => (
+        <FadeUp key={m.kind}>
+          <figure
+            className="relative rounded-xl border border-black/[0.08] aspect-[4/3] flex items-center justify-center p-8 overflow-hidden"
+            style={{ backgroundColor: m.kind === 'lowcontrast' ? '#5a4756' : mark.bg }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={mark.src}
+              alt=""
+              aria-hidden="true"
+              className="max-h-14 w-auto object-contain"
+              style={MISUSE_STYLE[m.kind]}
+            />
+            {m.kind === 'crowd' && (
+              <p
+                className="absolute inset-x-3 bottom-2 text-[0.625rem] leading-tight text-center"
+                style={{ color: 'rgba(255,251,245,0.85)' }}
+                aria-hidden="true"
+              >
+                Text pressed right up against the mark with no room to breathe at all
+              </p>
+            )}
+            <span className="absolute top-3 right-3 flex items-center justify-center w-6 h-6 rounded-full bg-[#b3564d]">
+              <X size={13} weight="bold" className="text-white" />
+            </span>
+          </figure>
+          <figcaption className={`mt-2.5 text-sm font-medium ${dark ? 'text-brand-cream/85' : 'text-text-primary/85'}`}>
+            {m.label}
+          </figcaption>
+        </FadeUp>
+      ))}
+    </div>
+  );
+}
+
+/* ── colour pairings — allowed and banned, shown live ───────────────────── */
+
+export function PairingTable({ pairings, dark }: { pairings: BrandPairing[]; dark?: boolean }) {
+  return (
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+      {pairings.map((p) => (
+        <FadeUp key={p.label}>
+          <div className="rounded-xl overflow-hidden border border-black/[0.08]">
+            <div className="h-20 flex items-center px-5" style={{ backgroundColor: p.bg }}>
+              <span className="text-lg font-semibold" style={{ color: p.fg }}>
+                Aa — {p.label.split(' on ')[0]}
+              </span>
+            </div>
+            <div className="bg-white px-4 py-3 flex items-start gap-2.5">
+              {p.ok ? (
+                <Check size={16} weight="bold" className="mt-0.5 shrink-0 text-brand-accent-on-light" />
+              ) : (
+                <X size={16} weight="bold" className="mt-0.5 shrink-0 text-[#b3564d]" />
+              )}
+              <div>
+                <p className="text-sm font-semibold text-text-primary">{p.label}</p>
+                <p className="text-[0.8125rem] leading-snug text-text-secondary mt-0.5">{p.note}</p>
+              </div>
+            </div>
+          </div>
+        </FadeUp>
+      ))}
+    </div>
+  );
+}
+
+/* ── motion specs ───────────────────────────────────────────────────────── */
+
+export function MotionSpecs({ intro, specs, dark }: { intro: string; specs: BrandSpec[]; dark?: boolean }) {
+  return (
+    <div>
+      <p className={`max-w-2xl text-lg leading-relaxed ${dark ? 'text-brand-cream/85' : 'text-text-primary/85'}`}>{intro}</p>
+      <div className={`mt-10 divide-y ${dark ? 'divide-brand-cream/10' : 'divide-black/[0.08]'}`}>
+        {specs.map((s) => (
+          <div key={s.name} className="py-5 first:pt-0 grid sm:grid-cols-[220px_180px_1fr] gap-2 sm:gap-8 items-baseline">
+            <p className="text-sm font-semibold">{s.name}</p>
+            <p className={`font-mono text-[0.8125rem] ${dark ? 'text-brand-accent' : 'text-brand-accent-on-light'}`}>{s.value}</p>
+            <p className={`text-[0.9375rem] leading-relaxed ${dark ? 'text-brand-cream/70' : 'text-text-secondary'}`}>{s.note}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── iconography ────────────────────────────────────────────────────────── */
+
+export function IconographyBlock({ intro, rules, dark }: { intro: string; rules: string[]; dark?: boolean }) {
+  return (
+    <div>
+      <p className={`max-w-2xl text-lg leading-relaxed ${dark ? 'text-brand-cream/85' : 'text-text-primary/85'}`}>{intro}</p>
+      <div className={`mt-8 flex items-center gap-6 sm:gap-8 rounded-xl border px-6 py-5 w-fit ${dark ? 'border-brand-cream/[0.14]' : 'border-black/[0.08]'}`}>
+        <Check size={22} />
+        <Copy size={22} />
+        <DownloadSimple size={22} />
+        <ArrowUpRight size={22} />
+        <X size={22} />
+      </div>
+      <ul className="mt-8 space-y-3 max-w-2xl">
+        {rules.map((r) => (
+          <li key={r} className="flex items-start gap-3">
+            <Check size={18} weight="bold" className={`mt-0.5 shrink-0 ${dark ? 'text-brand-accent' : 'text-brand-accent-on-light'}`} />
+            <p className={`text-[0.9375rem] leading-relaxed ${dark ? 'text-brand-cream/85' : 'text-text-primary/85'}`}>{r}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/* ── imagery ────────────────────────────────────────────────────────────── */
+
+export function ImageryGrid({ intro, images, dark }: { intro: string; images: BrandImage[]; dark?: boolean }) {
+  return (
+    <div>
+      <p className={`max-w-2xl text-lg leading-relaxed ${dark ? 'text-brand-cream/85' : 'text-text-primary/85'}`}>{intro}</p>
+      <div className="mt-10 grid sm:grid-cols-3 gap-4 sm:gap-5">
+        {images.map((img) => (
+          <FadeUp key={img.src}>
+            <figure className="rounded-xl overflow-hidden border border-black/[0.08]">
+              <Image src={img.src} alt={img.alt} width={800} height={800} className="w-full h-auto" />
+            </figure>
+            <figcaption className={`mt-2.5 text-sm leading-snug ${dark ? 'text-brand-cream/70' : 'text-text-secondary'}`}>
+              {img.caption}
+            </figcaption>
+          </FadeUp>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── product (e.g. Barakah Blueprint within Shareefico) ─────────────────── */
+
+export function ProductBlock({ product, dark }: { product: BrandProduct; dark?: boolean }) {
+  return (
+    <div className="grid md:grid-cols-2 gap-8 sm:gap-12 items-start">
+      {product.image && (
+        <FadeUp>
+          <div className="rounded-2xl overflow-hidden border border-black/[0.08]">
+            <Image src={product.image.src} alt={product.image.alt} width={1600} height={900} sizes="(min-width: 768px) 50vw, 100vw" className="w-full h-auto" />
+          </div>
+        </FadeUp>
+      )}
+      <FadeUp>
+        <p className={`text-[1.0625rem] leading-relaxed max-w-xl ${dark ? 'text-brand-cream/85' : 'text-text-primary/85'}`}>
+          {product.body}
+        </p>
+        <ul className="mt-8 space-y-3">
+          {product.rules.map((r) => (
+            <li key={r} className="flex items-start gap-3">
+              <Check size={18} weight="bold" className={`mt-0.5 shrink-0 ${dark ? 'text-brand-accent' : 'text-brand-accent-on-light'}`} />
+              <p className={`text-[0.9375rem] leading-relaxed ${dark ? 'text-brand-cream/85' : 'text-text-primary/85'}`}>{r}</p>
+            </li>
+          ))}
+        </ul>
+      </FadeUp>
+    </div>
+  );
+}
+
+/* ── sticky chapter nav ─────────────────────────────────────────────────── */
+
+export function ChapterNav({ chapters }: { chapters: { id: string; label: string }[] }) {
+  return (
+    <nav
+      aria-label="Brand chapters"
+      className="sticky top-0 z-30 bg-brand-dark/90 backdrop-blur-md border-b border-brand-cream/[0.10]"
+    >
+      <div className="max-w-6xl mx-auto px-6 sm:px-10 flex gap-5 sm:gap-7 overflow-x-auto scrollbar-none py-3.5">
+        {chapters.map((c, i) => (
+          <a
+            key={c.id}
+            href={`#${c.id}`}
+            className="shrink-0 text-[0.8125rem] text-brand-cream/70 hover:text-brand-cream transition-colors duration-200"
+          >
+            <span className="font-mono text-[0.6875rem] text-brand-accent mr-1.5">{String(i + 1).padStart(2, '0')}</span>
+            {c.label}
+          </a>
+        ))}
+      </div>
+    </nav>
   );
 }
