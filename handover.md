@@ -1,6 +1,26 @@
 # Itqan Studio Website — Handover
 
 
+## SESSION 2026-08-11 (LATER) — FULL BRAND PORTALS (`4500325`, live)
+
+Ibrahim corrected v1: he wants brand.uber.com-depth PER BRAND on subdomains.
+Shipped: src/middleware.ts host-routes brands.itqanstudio.com → /brands/itqan-studio
+and brands.shareefi.co → /brands/shareefico (root rewrite only). Chapters per
+brand: Overview / Logo (+mark-only icons, BIMI, CSS-generated misuse gallery) /
+Colour (+pairing cards incl. banned combos) / Type / Composition / Iconography
+(Itqan) / Imagery (Shareefico 3D world) / Motion (real specs) / Voice / Products
+(Barakah Blueprint = product within Shareefico) / Assets (packs now incl. icons,
+BIMI, portraits, product art). Panel CRITICAL (duplicate product section ids)
+fixed as single Products chapter; num() throws at build on unknown chapter ids.
+Coolify fqdn updated to include both subdomains; server answers 200 on both
+(verified via --resolve). Lenis full-page screenshots double the content — DOM
+counts are the truth (bodyH 10884 vs 21634px capture).
+
+**⚠️ IBRAHIM: 2 DNS records, then TLS auto-issues:**
+  brands.itqanstudio.com  A     52.212.71.212
+  brands.shareefi.co      A     52.212.71.212
+(CNAME to itqanstudio.com also fine. Until then, path URLs already work.)
+
 ## SESSION 2026-08-11 — BRANDS HUB shipped (`35d1707`, live)
 
 Ibrahim sent brand.uber.com (top pick), Airbnb media-assets and Google's partner
