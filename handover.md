@@ -16,10 +16,19 @@ Coolify fqdn updated to include both subdomains; server answers 200 on both
 (verified via --resolve). Lenis full-page screenshots double the content — DOM
 counts are the truth (bodyH 10884 vs 21634px capture).
 
-**⚠️ IBRAHIM: 2 DNS records, then TLS auto-issues:**
-  brands.itqanstudio.com  A     52.212.71.212
-  brands.shareefi.co      A     52.212.71.212
-(CNAME to itqanstudio.com also fine. Until then, path URLs already work.)
+**DNS + TLS: DONE (no action needed).** Both A records were created BY CLAUDE in
+Route 53 (zones Z06561092N5NFW89QHZA8 itqanstudio.com, Z065166133TT79X91AINN
+shareefi.co) → 52.212.71.212, waited INSYNC, verified resolving. Certs did not
+auto-issue at first because the container had deployed while DNS still NXDOMAIN;
+restarting the app container re-triggered ACME and both issued (ssl_verify=0).
+Live: https://brands.itqanstudio.com (9 chapters) + https://brands.shareefi.co
+(10 chapters).
+
+**RULE LEARNED: Route 53 hosted zones for ALL Ibrahim's domains live in this AWS
+account — Claude adds DNS records directly (aws route53 change-resource-record-sets
++ `wait resource-record-sets-changed`). Never hand DNS back to Ibrahim as a task.**
+After adding a subdomain to a Coolify app: set the fqdn, deploy, THEN once DNS
+resolves restart the app container so Traefik requests the cert.
 
 ## SESSION 2026-08-11 — BRANDS HUB shipped (`35d1707`, live)
 
