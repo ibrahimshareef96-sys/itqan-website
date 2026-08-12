@@ -5,7 +5,14 @@ import { ALL_ASSETS } from '@/data/brand-library';
 import { Callout, PortalPageBody, Section } from '@/components/brand/primitives';
 
 export const metadata: Metadata = {
-  title: 'Overview',
+  /*
+   * Absolute, not 'Overview'.
+   *
+   * A layout's title.template applies to CHILD segments, not to the page in
+   * its own segment — so a bare title here would fall through to the site-wide
+   * template and this page would read "Overview | Itqan Studio".
+   */
+  title: { absolute: 'Itqan Studio Brand Portal' },
   description:
     'The Itqan Studio brand portal: logo, colour, typography, motion, voice and every downloadable asset.',
 };
