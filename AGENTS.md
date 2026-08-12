@@ -10,9 +10,15 @@
 ## Project overview
 
 Marketing site for Itqan Studio (`itqanstudio.com`) — Next.js 14 App Router,
-React 18, deployed on **Coolify** (a `netlify.toml` is still present from an
-earlier host; Coolify is where it actually runs). Content for the lead-magnet
-funnel comes from Notion. The `/support` page posts tickets into the CRM.
+React 18. Content for the lead-magnet funnel comes from Notion. The `/support`
+page posts tickets into the CRM.
+
+**Hosting — read [`DEPLOYMENT.md`](DEPLOYMENT.md) before any deploy work.** It is
+authoritative and this section is only a pointer. In short: the site runs on
+**AWS EC2 `52.212.71.212` (eu-west-1), managed by Coolify** (app `itqanstudio`,
+nixpacks, :3001). It moved **off Netlify in 2026-06**. Deploy = `git push origin
+main`; a GitHub webhook rebuilds in Coolify. Env vars live in Coolify, not in a
+`.env` on the box.
 
 ## Tech stack
 
@@ -72,9 +78,14 @@ npm run verify:design # Apple-design checks
   reduce the numbers to "people who click Accept", which is a biased subset.
   PostHog does set cookies, so it stays gated. Full reasoning in
   `src/components/providers/UmamiAnalytics.tsx`.
-- **`netlify.toml` is still in the repo but the site runs on Coolify.** Left in
-  place deliberately as a fallback host config. Do not wire new build behaviour
-  into it and assume it takes effect.
+- **`netlify.toml` is still in the repo but the site has not run on Netlify
+  since 2026-06.** Its build/redirect rules are dead config. Do not wire new
+  build behaviour into it and assume it takes effect — nothing reads it.
+- **A stale Netlify GitHub integration is still connected** and builds a preview
+  on every PR (it shows up in `gh pr checks` as `netlify/...`). It is not
+  production and nothing serves from it. Disconnecting it is a housekeeping
+  task, not an emergency — but until then, do not read a green Netlify check as
+  meaning anything.
 - **`ANALYTICS-SETUP.md` (PostHog) and
   `docs/analytics/2026-08-13-umami-self-hosted-runbook.md` are both current.**
   They describe two different trackers that coexist.
@@ -85,6 +96,9 @@ npm run verify:design # Apple-design checks
 
 ## 4. Things to never do
 
+- **Never redeploy this site to Netlify or Vercel.** It runs on the AWS/Coolify
+  box (`DEPLOYMENT.md`). Both were migrated off in 2026-06 and their remaining
+  GitHub integrations are stale.
 - **Never add ESLint without reviewing the first run.** `npm run lint` maps to
   `next lint`, and with no ESLint config it drops into an **interactive setup
   prompt** — in CI that hangs the runner until timeout. That is why CI has no

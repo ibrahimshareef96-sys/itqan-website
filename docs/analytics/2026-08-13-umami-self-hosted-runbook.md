@@ -5,7 +5,16 @@
 manual one-time step for Ibrahim.
 **Supersedes for the marketing site:** the PostHog-only setup in
 [`ANALYTICS-SETUP.md`](../../ANALYTICS-SETUP.md). PostHog is **not** removed —
-see §6.
+see §6. Note `ANALYTICS-SETUP.md` still says "set the env in Coolify and
+**rebuild**" — with the request-time route in §2 that is no longer true for
+Umami, and a restart is enough.
+
+**Where this runs:** the same box as everything else —
+**AWS EC2 `52.212.71.212` (eu-west-1), instance `i-0ea77f0db834833dc`, managed
+by Coolify** at `http://52.212.71.212:8000`. See
+[`DEPLOYMENT.md`](../../DEPLOYMENT.md), which is authoritative for hosting.
+Umami is added as a **new Coolify resource on that existing box** — not a new
+server, and explicitly not Netlify or Vercel (both were migrated off in 2026-06).
 
 ---
 
@@ -127,10 +136,16 @@ covers any other cookie the site sets. Umami simply no longer depends on it.
 
 ## 7. Cost and operations
 
-- **Marginal cost:** the Umami container is ~256 MB RAM; Postgres ~256 MB. If the
-  Coolify VPS already exists, this is effectively free.
-- **Backups:** the `umami-db-data` volume holds all history. Add it to whatever
-  backs up the VPS. Analytics history is not reproducible.
+- **Marginal cost:** the Umami container is ~256 MB RAM; Postgres ~256 MB. The
+  EC2 box already exists and already runs Coolify, so this is effectively free —
+  but check headroom first: the same box hosts the marketing site, the CRM, and
+  self-hosted Supabase. `DEPLOYMENT.md` notes a Coolify build has already OOM'd
+  at `NODE_OPTIONS=512`, so the box is not idle.
+- **Backups:** the `umami-db-data` volume holds all history and is **not**
+  reproducible. The box is captured by daily AMIs (DLM policy
+  `policy-09cd80b526ed584a1`, 7-day retention) per `DEPLOYMENT.md`, so a
+  full-box restore covers it — no separate backup job needed, but a restore has
+  never been rehearsed for this volume specifically.
 - **Upgrades:** bump the pinned tag deliberately — read release notes, snapshot
   the volume, then redeploy. Never move to `latest`: Umami migrates its own
   schema on boot, so `latest` lets an unattended restart migrate the database at
