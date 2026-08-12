@@ -2,15 +2,16 @@
 
 import Image from 'next/image';
 import { Link } from 'next-view-transitions';
+import { usePathname } from 'next/navigation';
 import { InstagramLogo, LinkedinLogo } from '@phosphor-icons/react';
 
 const navLinks = [
   { href: '/work', label: 'Work' },
   { href: '/services', label: 'Services' },
   { href: '/about', label: 'About' },
-  // The public brand systems (guidelines + asset packs) — proof of craft,
-  // deliberately in the footer rather than the conversion-focused header nav.
-  { href: '/brands', label: 'Brands' },
+  // The brand portal (guidelines + asset packs) — proof of craft, deliberately
+  // in the footer rather than the conversion-focused header nav.
+  { href: '/brand', label: 'Brand' },
   { href: '/contact', label: 'Contact' },
   // Existing clients with a problem. Deliberately separate from Contact:
   // Contact sells, and someone whose site is down should not have to read
@@ -32,6 +33,14 @@ const socials = [
 ];
 
 export function Footer() {
+  const pathname = usePathname();
+
+  // The brand portal closes with its own prev/next and resources. Declared
+  // before any other hook so ordering is trivially stable.
+  if (pathname === '/brand' || pathname.startsWith('/brand/')) {
+    return null;
+  }
+
   return (
     <footer className="py-20 border-t border-black/[0.06] dark:border-brand-cream/[0.08]">
       <div className="max-w-[1440px] mx-auto px-5 md:px-8">

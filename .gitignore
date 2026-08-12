@@ -42,3 +42,7 @@ public/videos/new/
 
 # Behance deck pipeline (heavy PNGs; sources + boards kept local — see behance/README.md)
 behance/
+
+# Brand download packs — regenerated at build time (npm run prebuild)
+# from the committed assets in public/brand/. 100% derivable.
+public/brand/bundles/

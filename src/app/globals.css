@@ -441,3 +441,69 @@ html.dark .stats-gradient {
     transform: none;
   }
 }
+
+/* =========================================================================
+   BRAND PORTAL (/brand)
+   -------------------------------------------------------------------------
+   The portal components are shared, verbatim, with the Shareefico portal so
+   both brands get the same engine. They address colour through a fixed set of
+   variable NAMES; this block binds those names to Itqan's palette. Scoped to
+   .brand-portal so nothing here can leak into the marketing site.
+
+   Ratios measured against #2f1c2c: cream 15.39:1, accent 7.30:1,
+   secondary 8.18:1, muted 5.60:1 — all clear AA for body text.
+
+   NOTE the dual-accent rule: #cca4c2 measures 2.11:1 on cream and must never
+   appear on a light surface. The portal is dark throughout, so the accent here
+   is always the on-dark cut.
+   ========================================================================= */
+.brand-portal {
+  --color-bg: #2f1c2c;
+  --color-bg-deep: #271724;
+  --color-surface: #3a2437;
+  --color-card: #43293f;
+  --color-fg: #fffbf5;
+  --color-accent: #cca4c2;
+  --color-accent-hover: #dcb8d3;
+  --color-muted: rgba(255, 251, 245, 0.55);
+  --color-text-secondary: rgba(255, 251, 245, 0.70);
+  --color-border: rgba(255, 251, 245, 0.10);
+  --color-border-hover: rgba(255, 251, 245, 0.18);
+
+  /* Text that sits ON an accent fill, and the grounds used behind asset
+     previews. Shared portal components address these by name so the same
+     component renders on-brand in both repos. */
+  --color-on-accent: #2f1c2c;
+  --color-danger: #e08d84;
+  --color-tile-dark: #2f1c2c;
+  --color-tile-light: #fffbf5;
+  --color-tile-neutral: #3a2437;
+
+  --font-display: var(--font-sans);
+  --font-body: var(--font-sans);
+  --font-italic: var(--font-serif);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-hero: var(--font-sans);
+
+  background-color: var(--color-bg-deep);
+  color: var(--color-fg);
+}
+
+/* The eyebrow label used across portal pages. Shareefico ships this as a
+   global .t-eyebrow; Itqan has no equivalent, so it is defined here rather
+   than added to the marketing site's global type scale. */
+.brand-portal .t-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* Easing demo on /brand/motion. */
+@keyframes brand-sweep {
+  0%   { transform: translateX(0); }
+  50%  { transform: translateX(194%); }
+  100% { transform: translateX(0); }
+}
