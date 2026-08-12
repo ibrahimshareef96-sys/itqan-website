@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { FadeUp } from '@/components/ui/FadeUp';
+import { useDecorativeVideo } from '@/lib/use-decorative-video';
 
 /**
  * The team in the room — senior hands, no hand-offs. The statement uses the
@@ -25,6 +26,7 @@ const fadeUpStatement = (delay = 0) => ({
 });
 
 export function Portrait() {
+  const portraitVideo = useDecorativeVideo<HTMLVideoElement>();
   return (
     <section className="bg-[#f5efe6] dark:bg-[#1a0f1c] py-24 md:py-36" aria-labelledby="portrait-statement">
       <div className="max-w-[1440px] mx-auto px-5 md:px-8">
@@ -54,7 +56,7 @@ export function Portrait() {
               }}
             >
               <video
-                autoPlay
+                ref={portraitVideo}
                 muted
                 loop
                 playsInline

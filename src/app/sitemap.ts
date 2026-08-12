@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { caseStudies } from '@/data/case-studies';
+import { brands } from '@/data/brands';
 import { SITE_URL } from '@/lib/seo';
 
 /**
@@ -19,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/services', priority: 0.9, changeFrequency: 'monthly' },
     { path: '/work', priority: 0.8, changeFrequency: 'weekly' },
     { path: '/about', priority: 0.7, changeFrequency: 'monthly' },
+    { path: '/brands', priority: 0.6, changeFrequency: 'monthly' },
     { path: '/contact', priority: 0.7, changeFrequency: 'monthly' },
     { path: '/privacy', priority: 0.2, changeFrequency: 'yearly' },
     { path: '/terms', priority: 0.2, changeFrequency: 'yearly' },
@@ -37,6 +39,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: 'monthly' as const,
       priority: 0.6,
+    })),
+    // Brand guideline pages — derived from src/data/brands.ts, same pattern
+    // as case studies so the sitemap can't drift when a brand is added.
+    ...brands.map((b) => ({
+      url: `${SITE_URL}/brands/${b.slug}`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.5,
     })),
   ];
 }

@@ -128,11 +128,33 @@ export function AiVisibility({ className }: { className?: string }) {
   const visibleQ = ex.q.slice(0, qChars);
   const visibleA = ex.a.split(' ').slice(0, aWords).join(' ');
 
+  /*
+   * The answer bubble reserves the tallest answer's height from the very first
+   * frame (that ghost is what holds hero CLS at ~0), so between exchanges it used
+   * to sit on screen as a large EMPTY grey slab — it read as a skeleton that
+   * failed to load rather than as a chat waiting for a reply.
+   *
+   * Two paint-only states fix that, and neither can move layout because the
+   * streaming text is absolutely positioned inside the already-sized bubble:
+   *   quiet    — the buyer is still typing, so there is nothing to answer yet;
+   *              the bubble's fill drops away and the space reads as empty room.
+   *   thinking — the question has landed and the reply has not started; the fill
+   *              returns with a typing indicator, which is what a chat does.
+   * Under reduced motion the cycle never runs, so neither state is ever reached.
+   */
+  const awaitingAnswer = animating && aWords === 0;
+  const thinking = awaitingAnswer && qChars >= ex.q.length;
+  const quiet = awaitingAnswer && !thinking;
+
   return (
     <div className={className}>
       {/* Panel */}
       <div
-        className="rounded-2xl border border-black/[0.08] bg-white/80 dark:border-brand-cream/[0.12] dark:bg-[#2a1a28]/85 backdrop-blur-xl overflow-hidden"
+        /* `material-chrome` (not a bare `backdrop-blur-*`) so the
+           prefers-reduced-transparency and prefers-contrast fallbacks in
+           globals.css actually reach this panel — it is the largest translucent
+           surface on the hero. */
+        className="material-chrome rounded-2xl border border-black/[0.08] bg-white/80 dark:border-brand-cream/[0.12] dark:bg-[#2a1a28]/85 overflow-hidden"
         style={{ boxShadow: '0 18px 50px rgba(47, 28, 44, 0.12)' }}
       >
         {/* Provider pills */}
@@ -167,11 +189,18 @@ export function AiVisibility({ className }: { className?: string }) {
 
           {/* AI answer */}
           <div className="flex justify-start">
-            <p className="relative max-w-[90%] rounded-2xl rounded-bl-md bg-black/[0.045] text-text-primary dark:bg-brand-cream/[0.05] dark:text-brand-cream/90 px-4 py-2.5 text-[0.8125rem] leading-[1.55]">
+            <p
+              className={`relative max-w-[90%] rounded-2xl rounded-bl-md text-text-primary dark:text-brand-cream/90 px-4 py-2.5 text-[0.8125rem] leading-[1.55] transition-colors duration-300 ${
+                quiet
+                  ? 'bg-transparent dark:bg-transparent'
+                  : 'bg-black/[0.045] dark:bg-brand-cream/[0.05]'
+              }`}
+            >
               <span className="invisible" aria-hidden="true">{LONGEST_A}</span>
               <span className="absolute inset-0 px-4 py-2.5">
+                {thinking && <Thinking />}
                 {aWords > 0 && <AnswerText text={visibleA} />}
-                {animating && qChars >= ex.q.length && <Caret />}
+                {aWords > 0 && animating && <Caret />}
               </span>
             </p>
           </div>
@@ -184,10 +213,28 @@ export function AiVisibility({ className }: { className?: string }) {
         <span className="text-brand-accent-on-light dark:text-brand-accent font-semibold">your name</span>{' '}
         into the answers buyers see.
       </p>
-      <p className="mt-1 px-1 text-[0.6875rem] text-[#4a4a4a]/80 dark:text-brand-cream/40">
+      {/* The honesty disclaimer must be the LAST thing that is hard to read.
+          `/40` on dark fell under 4.5:1, and the light value's alpha made the
+          ratio depend on which band of the hero gradient sat behind it. */}
+      <p className="mt-1 px-1 text-[0.6875rem] text-[#5c5c5c] dark:text-brand-cream/60">
         Simulated answers, for illustration.
       </p>
     </div>
+  );
+}
+
+/** Typing indicator for the gap between the question landing and the reply. */
+function Thinking() {
+  return (
+    <span className="inline-flex items-center gap-[5px] align-middle" aria-hidden="true">
+      {[0, 1, 2].map((i) => (
+        <span
+          key={i}
+          className="ai-thinking-dot inline-block w-[6px] h-[6px] rounded-full bg-brand-accent-on-light dark:bg-brand-accent"
+          style={{ animationDelay: `${i * 160}ms` }}
+        />
+      ))}
+    </span>
   );
 }
 

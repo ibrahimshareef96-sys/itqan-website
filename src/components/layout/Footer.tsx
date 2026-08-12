@@ -8,6 +8,9 @@ const navLinks = [
   { href: '/work', label: 'Work' },
   { href: '/services', label: 'Services' },
   { href: '/about', label: 'About' },
+  // The public brand systems (guidelines + asset packs) — proof of craft,
+  // deliberately in the footer rather than the conversion-focused header nav.
+  { href: '/brands', label: 'Brands' },
   { href: '/contact', label: 'Contact' },
   // Existing clients with a problem. Deliberately separate from Contact:
   // Contact sells, and someone whose site is down should not have to read

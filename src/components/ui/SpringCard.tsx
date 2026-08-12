@@ -16,6 +16,14 @@ interface SpringCardProps {
 export function SpringCard({ children, className }: SpringCardProps) {
   return (
     <motion.div
+      /*
+       * framer-motion injects `tabIndex={0}` on any element carrying `whileTap`,
+       * on the assumption that a pressable thing is focusable. These wrappers are
+       * layout, and the real link sits inside them, so that turned every card
+       * into a phantom tab stop that focuses nothing and does nothing. An
+       * explicit value suppresses the injection.
+       */
+      tabIndex={-1}
       whileHover={{
         y: -4,
         scale: 1.015,

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useDecorativeVideo } from '@/lib/use-decorative-video';
 
 interface CaseMediaProps {
   video?: string;
@@ -18,6 +19,7 @@ interface CaseMediaProps {
  */
 export function CaseMedia({ video, image, alt, sizes }: CaseMediaProps) {
   const [reduced, setReduced] = useState(false);
+  const videoRef = useDecorativeVideo<HTMLVideoElement>();
 
   useEffect(() => {
     setReduced(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -25,14 +27,16 @@ export function CaseMedia({ video, image, alt, sizes }: CaseMediaProps) {
 
   if (video && !reduced) {
     return (
+      /*
+       * No `autoPlay`, and no imperative `.play()` on the ref. The attribute is
+       * present in SSR HTML, so the browser began playing during parse — before
+       * hydration could decide whether the visitor wanted motion at all — and it
+       * played offscreen for every card in the grid. `useDecorativeVideo` starts
+       * playback only while the card is actually in view, and never under
+       * reduced motion.
+       */
       <video
-        ref={(el) => {
-          if (el) {
-            el.muted = true;
-            el.play().catch(() => {});
-          }
-        }}
-        autoPlay
+        ref={videoRef}
         muted
         loop
         playsInline

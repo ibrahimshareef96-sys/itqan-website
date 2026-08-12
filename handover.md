@@ -46,6 +46,73 @@ described the host loosely. `DEPLOYMENT.md` is authoritative: **AWS EC2
 `netlify.toml` is dead config. The stale **Netlify GitHub integration** still builds
 a preview on every PR — not production, nothing serves from it, worth disconnecting.
 
+## SESSION 2026-08-11 (LATER) — FULL BRAND PORTALS (`4500325`, live)
+
+Ibrahim corrected v1: he wants brand.uber.com-depth PER BRAND on subdomains.
+Shipped: src/middleware.ts host-routes brands.itqanstudio.com → /brands/itqan-studio
+and brands.shareefi.co → /brands/shareefico (root rewrite only). Chapters per
+brand: Overview / Logo (+mark-only icons, BIMI, CSS-generated misuse gallery) /
+Colour (+pairing cards incl. banned combos) / Type / Composition / Iconography
+(Itqan) / Imagery (Shareefico 3D world) / Motion (real specs) / Voice / Products
+(Barakah Blueprint = product within Shareefico) / Assets (packs now incl. icons,
+BIMI, portraits, product art). Panel CRITICAL (duplicate product section ids)
+fixed as single Products chapter; num() throws at build on unknown chapter ids.
+Coolify fqdn updated to include both subdomains; server answers 200 on both
+(verified via --resolve). Lenis full-page screenshots double the content — DOM
+counts are the truth (bodyH 10884 vs 21634px capture).
+
+**DNS + TLS: DONE (no action needed).** Both A records were created BY CLAUDE in
+Route 53 (zones Z06561092N5NFW89QHZA8 itqanstudio.com, Z065166133TT79X91AINN
+shareefi.co) → 52.212.71.212, waited INSYNC, verified resolving. Certs did not
+auto-issue at first because the container had deployed while DNS still NXDOMAIN;
+restarting the app container re-triggered ACME and both issued (ssl_verify=0).
+Live: https://brands.itqanstudio.com (9 chapters) + https://brands.shareefi.co
+(10 chapters).
+
+**RULE LEARNED: Route 53 hosted zones for ALL Ibrahim's domains live in this AWS
+account — Claude adds DNS records directly (aws route53 change-resource-record-sets
++ `wait resource-record-sets-changed`). Never hand DNS back to Ibrahim as a task.**
+After adding a subdomain to a Coolify app: set the fqdn, deploy, THEN once DNS
+resolves restart the app container so Traefik requests the cert.
+
+## SESSION 2026-08-11 — BRANDS HUB shipped (`35d1707`, live)
+
+Ibrahim sent brand.uber.com (top pick), Airbnb media-assets and Google's partner
+marketing hub, and asked for a "Brands" page for BOTH Itqan Studio and
+Shareefico, incl. Shareefico's assets and Barakah Blueprint ("vodka blueprint"
+in the transcript = Barakah Blueprint, the podcast).
+
+**Shipped:** `/brands` hub + `/brands/itqan-studio` + `/brands/shareefico`
+(SSG, sitemap, breadcrumb JSON-LD, footer link — deliberately NOT the header
+nav). Data-driven from `src/data/brands.ts`; every fact traces to BRAND.md or
+shareefi.co's theme tokens + voice-guide.md. Chapters: Logo → Colour
+(copy-to-clipboard swatches, dual-accent rule) → Type (live specimens) → Voice →
+Barakah Blueprint (Shareefico only) → Assets. Zip packs live at
+`/brands/downloads/*` (logos + colors.json + voice one-pager). Screenshots:
+`~/Desktop/brands-hub-review/`.
+
+**Traps hit:** arbitrary Tailwind classes composed in a DATA file are not
+reliably compiled — tile backgrounds are inline hexes now; scroll-reveal +
+lazy-image races make naive fullPage screenshots lie (blank sections) — the
+capture script walks the viewport and bounds image waits. Panel 4/5 approve;
+sole HIGH was Ibrahim's own uncommitted jonny-olejak.png deletion (0 refs,
+inert, LEFT UNCOMMITTED for him). His remote `6e67ee2` (BIMI logo) was pulled
+and preserved via stash-rebase.
+
+**Adding a brand later:** append to `src/data/brands.ts`, drop assets in
+`public/brands/<slug>/`, zip into `public/brands/downloads/` — routes, sitemap
+and hub tile derive automatically. This is the productizable surface (client
+brand hubs).
+
+## Monetization angles (2026-08-11)
+
+- **Brand Hub as a deliverable tier:** the `/brands/[slug]` architecture already
+  supports client slugs — sell "your brand, run in public" microsites as an
+  upsell to Millow / Lemon Garden and as a line item in new proposals.
+- **Proof-of-discipline link in every proposal + email signature** (/brands).
+- **Content flywheel:** each chapter (dual-accent rule, banned-words list,
+  lime-only-CTA rule) is a standalone LinkedIn/IG post with a live URL behind it.
+
 ## Tracked work reference
 
 Lightweight tracking via TaskCreate (in-session). For longer initiatives use `agent-work/` (already present at the project root with one historical entry under `agent-work/projects/`).
@@ -75,8 +142,46 @@ Lightweight tracking via TaskCreate (in-session). For longer initiatives use `ag
 5. Coolify API on port 8000 was reachable from IP `91.74.42.154` with no tunnel and no SG change.
 6. Disk is fine (77G, 73% used, 21G free); `docker image prune` + `builder prune` reclaimed 0B, so
    disk is NOT the constraint any more — **memory is.**
+7. **The deployments LIST endpoint returns an OBJECT keyed by index, not an array** — parse with
+   `list(d.values())` or the poll prints blank forever.
+8. **An API-triggered deploy can be SUPERSEDED by a webhook deploy of the same app**: it reports
+   `status: failed` with `logs: null`. Check the live site before diagnosing a "failed" deploy with
+   empty logs — it was probably replaced, not broken.
+9. **Local builds need Node 22** (`npx --yes node@22 node_modules/next/dist/bin/next build`) —
+   under Node 24 `next build` dies with `PageNotFoundError: /_document` from a clean `.next`. The
+   Coolify container pins Node 22 and is unaffected. And never pipe `npm run build` through
+   `head`: SIGPIPE kills the build mid-write and leaves a `.next` that serves broken CSS.
 
-**LATEST (2026-08-07, part 2): APPROVED + IMPLEMENTED + SHIPPED to both sites.**
+**LATEST (2026-08-08): RESIDUAL BUG-FIX PASS — 29 verified defects fixed and SHIPPED to both sites.**
+Ibrahim: "fix all the bugs that you haven't fixed… then deploy everything." Ran an exhaustive
+adversarially-verified hunt (6 lenses × both repos, 33 raw findings → 25 confirmed / 8 refuted,
+workflow `wf_883fe5f0-11c`) plus panel rounds 3+4 (itqan) and 2 (shareefico) on the fixes
+themselves. Everything is live: **itqan `1a2f59e`** (35/35 production checks, 8 routes 200),
+**shareefico `749e214`** (10/10 production checks). Full detail:
+`agent-work/20260808_residual_bug_fixes.md` + `agent-work/panel/DISPOSITIONS.md` (both repos).
+- **Headline fixes (4 HIGH):** consent card deleted itself in background tabs (rAF-vs-setTimeout
+  race — MY regression, reproduced before fixing); a duplicate consent parser with unguarded
+  `decodeURIComponent` in PostHogProvider could crash EVERY route on a malformed cookie (parsers
+  consolidated into `src/lib/consent.ts`, now with a non-bypassable TTL); consent card at z-60
+  covered the mobile sheet's CTA (→ z-40); and **every decorative video on both sites shipped
+  `autoplay` in SSR HTML** — `useReducedMotion()` is null during SSR so even `autoPlay={!reduce}`
+  rendered it, playback began before hydration, and reduced-motion users got endless loops (WCAG
+  2.2.2). All 8 videos now use `src/lib/use-decorative-video.ts`: no attribute, paused under
+  reduced motion, playing only while onscreen — playback verified 15/15 on production.
+- **Also fixed:** `*:focus-visible` squaring off every rounded control; `.btn-gloss` erasing the
+  focus halo; framer's `whileTap` injecting phantom tab stops; sheet uncapped on short viewports
+  (Close button off-screen while scroll was locked = a trap); Lenis ignoring the body scroll lock
+  (`src/lib/smooth-scroll.ts`); `overflow-x-hidden` killing sticky on /magnet; SmoothScrollProvider
+  leaking a permanent rAF loop per remount; PostHog swallowing the first pageview after opt-in;
+  AI-panel bubble now has quiet/thinking states (paint-only — hero CLS still ~0.003); carousel
+  velocity/resize/touch-pause refinements; AnimatedText hydration + ARIA fixes (shareefico).
+- **Verify suites are now real gates:** `npm run verify:design` exits non-zero when browser checks
+  cannot run (server down / unknown args) instead of "passing" having asserted nothing.
+- **Deferred as scope, NOT bugs:** `display-type` covers the hero only (~40 headings still hardcode
+  tracking); press feedback reaches 9 elements; five unrendered home components keep pre-pass
+  patterns. Cosmetic-consistency pass when Ibrahim wants it.
+
+**(2026-08-07, part 2): APPROVED + IMPLEMENTED + SHIPPED to both sites.**
 **Live and verified: itqanstudio.com `4935078`, shareefi.co `988969e`. 19/19 + 4/4 checks pass
 against PRODUCTION** (`npm run verify:design https://itqanstudio.com`).
 **Heads-up: another session pushed a `/support` feature to itqan `main` mid-flight** (`401680d`);

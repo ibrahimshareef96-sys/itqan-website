@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import type { LeadMagnet } from "@/lib/magnet-lookup";
 import { testimonials, type Testimonial } from "@/data/testimonials";
+import { useDecorativeVideo } from '@/lib/use-decorative-video';
 
 /**
  * Itqan lead magnet landing page (v3 dark, 2026-05-23).
@@ -52,6 +53,7 @@ export function MagnetLanding({ magnet }: { magnet: LeadMagnet }) {
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
 
   const reduce = useReducedMotion();
+  const ambientVideo = useDecorativeVideo<HTMLVideoElement>();
 
   const featuredProject = useMemo(
     () => pickFeaturedProject(magnet.topicSlug),
@@ -116,7 +118,7 @@ export function MagnetLanding({ magnet }: { magnet: LeadMagnet }) {
     // tokens, so it renders identically in light and dark themes. The mauve accent
     // (#cca4c2) sits only on dark here, so it stays dual-accent compliant with no
     // theme pairs needed. Do NOT flip surfaces to light — the lock is dark.
-    <div className="relative min-h-screen bg-[#1a0d17] text-brand-cream overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#1a0d17] text-brand-cream overflow-x-clip">
       {/* Blueprint grid background — very subtle */}
       <div
         aria-hidden
@@ -197,7 +199,7 @@ export function MagnetLanding({ magnet }: { magnet: LeadMagnet }) {
         {/* Ambient video background */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <video
-            autoPlay
+            ref={ambientVideo}
             muted
             loop
             playsInline

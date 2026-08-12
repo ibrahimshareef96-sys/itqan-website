@@ -1,70 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import {
+  ACCEPT_DAYS,
+  CONSENT_EVENT,
+  CONSENT_KEY,
+  DECLINE_DAYS,
+  readConsent,
+  writeConsent,
+} from '@/lib/consent';
 
-export const CONSENT_KEY = 'itqan_cookie_consent';
-const ACCEPT_DAYS = 365;
-const DECLINE_DAYS = 30;
-
-/**
- * Same-tab consent signal. localStorage's 'storage' event only fires in OTHER tabs,
- * so the analytics provider (PostHogProvider) listens for this custom event to react
- * to Accept/Decline in the current tab without polling. Logic-preserving: dispatch only.
- */
-export const CONSENT_EVENT = 'itqan:cookie-consent';
-
-type ConsentValue = 'accepted' | 'declined';
-
-function readConsentFromCookie(): string | null {
-  if (typeof document === 'undefined') return null;
-  const cookies = document.cookie.split('; ');
-  for (const cookie of cookies) {
-    const [name, value] = cookie.split('=');
-    if (name === CONSENT_KEY && value) {
-      try {
-        return decodeURIComponent(value);
-      } catch {
-        // A malformed percent-encoded cookie (hand-edited, or truncated) must not
-        // throw out of the mount effect — that would replace the consent prompt
-        // with a crashed component. Treat it as no consent on record.
-        return null;
-      }
-    }
-  }
-  return null;
-}
-
-function readConsentFromStorage(): string | null {
-  if (typeof window === 'undefined') return null;
-  try {
-    return window.localStorage.getItem(CONSENT_KEY);
-  } catch {
-    return null;
-  }
-}
-
-function writeConsent(value: ConsentValue, days: number): void {
-  const maxAgeSeconds = days * 24 * 60 * 60;
-  try {
-    document.cookie = `${CONSENT_KEY}=${encodeURIComponent(
-      value,
-    )}; path=/; max-age=${maxAgeSeconds}; SameSite=Lax`;
-  } catch {
-    // Cookie write failed — fall through to localStorage below
-  }
-  try {
-    window.localStorage.setItem(CONSENT_KEY, value);
-  } catch {
-    // localStorage unavailable (private mode) — cookie is the fallback
-  }
-  try {
-    // Same-tab notification for analytics consent gating (see CONSENT_EVENT).
-    window.dispatchEvent(new CustomEvent<ConsentValue>(CONSENT_EVENT, { detail: value }));
-  } catch {
-    // CustomEvent unsupported (very old UA) — provider still catches consent on next mount
-  }
-}
+// Re-exported so existing importers keep working; the definitions now live in
+// one place (src/lib/consent.ts) alongside the parser.
+export { CONSENT_KEY, CONSENT_EVENT };
 
 /** Matches the exit transform duration below; the card unmounts after it. */
 const EXIT_MS = 360;
@@ -73,59 +22,91 @@ export function CookieBanner() {
   /** `present` = in the DOM at all. `visible` = animated in. */
   const [present, setPresent] = useState(false);
   const [visible, setVisible] = useState(false);
+  /**
+   * Whether the card has actually finished entering. The exit effect below
+   * cannot tell "not yet entered" from "exiting" by state alone, and arming the
+   * unmount timer during the pre-entry commit is a live bug: a hidden tab never
+   * runs requestAnimationFrame but DOES run setTimeout, so the 360ms timer wins
+   * and the card deletes itself before it is ever seen. Anyone who opens the
+   * site in a background tab (cmd-click from search, session restore) would
+   * never get a consent surface for that whole page load.
+   */
+  const entered = useRef(false);
+  /** Focus is moved here on dismiss so keyboard users are not dropped to body. */
+  const restoreFocusTo = useRef<HTMLElement | null>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const existing = readConsentFromCookie() ?? readConsentFromStorage();
-    if (existing) return;
+    if (readConsent()) return;
+    restoreFocusTo.current = (document.activeElement as HTMLElement) ?? null;
     setPresent(true);
-    // Mount at the "out" position first, then animate in on the next frame.
-    const raf = requestAnimationFrame(() => setVisible(true));
+    const raf = requestAnimationFrame(() => {
+      entered.current = true;
+      setVisible(true);
+    });
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  /*
-   * Unmount once the exit transition has played. Leaving the card mounted at
-   * opacity 0 left an INVISIBLE, still-clickable 60px strip across the bottom of
-   * every page for every returning visitor — `opacity: 0` does not disable
-   * pointer events, and the inner card re-asserted `pointer-events-auto`. It also
-   * stayed exposed to assistive technology. Verified before the fix:
-   * `elementFromPoint` at the card's centre returned an element inside the banner.
-   */
+  // Unmount once the exit transition has played. Leaving the card mounted at
+  // opacity 0 left an invisible, still-clickable strip across the bottom of
+  // every page — `opacity: 0` does not disable pointer events.
   useEffect(() => {
-    if (visible || !present) return;
+    if (visible || !present || !entered.current) return;
     const id = setTimeout(() => setPresent(false), EXIT_MS);
     return () => clearTimeout(id);
   }, [visible, present]);
 
-  const handleAccept = (): void => {
-    writeConsent('accepted', ACCEPT_DAYS);
-    setVisible(false);
-  };
+  /**
+   * Move focus somewhere deliberate before the node leaves the DOM.
+   *
+   * `document.activeElement` on mount is normally `<body>`, which is technically
+   * "in the document" but is not a focus destination — sending focus there drops
+   * a keyboard user back to the very start of the page. Body and <html> are
+   * therefore rejected in favour of the main landmark.
+   */
+  const dismiss = (value: 'accepted' | 'declined'): void => {
+    writeConsent(value, value === 'accepted' ? ACCEPT_DAYS : DECLINE_DAYS);
 
-  const handleDecline = (): void => {
-    writeConsent('declined', DECLINE_DAYS);
+    const saved = restoreFocusTo.current;
+    const savedIsUsable =
+      !!saved &&
+      saved !== document.body &&
+      saved !== document.documentElement &&
+      document.contains(saved);
+
+    const target = savedIsUsable ? saved : document.querySelector<HTMLElement>('main');
+    if (target) {
+      if (!target.hasAttribute('tabindex') && !target.matches('a[href], button, input, select, textarea')) {
+        target.setAttribute('tabindex', '-1');
+      }
+      target.focus({ preventScroll: true });
+    }
+    // If focus still sits inside the card, drop it rather than leave it in a
+    // subtree that is about to become inert and then disappear.
+    if (document.activeElement && cardRef.current?.contains(document.activeElement)) {
+      (document.activeElement as HTMLElement).blur();
+    }
     setVisible(false);
   };
 
   if (!present) return null;
 
   /*
-   * A small floating card, not a full-width bar. The bar spanned the viewport and
-   * sat on top of the hero's primary CTA on a 390px screen — the one control the
-   * page exists to get pressed. This card is a single compact row anchored to the
-   * bottom-left, so it clears the CTA, and it reads as a lighter layer floating
-   * over the page rather than a structural strip bolted to it.
+   * A small floating card, not a full-width bar. The bar spanned the viewport
+   * and sat on top of the hero's primary CTA on a 390px screen — the one control
+   * the page exists to get pressed.
    *
-   * It materializes (blur + scale together) rather than plain-sliding, so it
-   * arrives as a piece of glass instead of a rectangle on rails.
+   * z-40, deliberately BELOW the mobile nav sheet's z-50 overlay: at z-60 this
+   * card painted over the open menu and covered its "Start a conversation" CTA,
+   * so the sheet's own primary action was unclickable while consent was pending.
+   * The sheet's scrim now covers the card instead, which is the correct
+   * modal stacking.
    */
   return (
     <div
-      role="dialog"
-      aria-live="polite"
+      role="region"
       aria-label="Cookie consent"
-      aria-hidden={!visible}
-      className="fixed inset-x-0 bottom-0 z-[60] pointer-events-none px-3 pb-3"
+      className="fixed inset-x-0 bottom-0 z-40 pointer-events-none px-3 pb-3"
       style={{
         transform: visible ? 'translateY(0) scale(1)' : 'translateY(12%) scale(0.97)',
         opacity: visible ? 1 : 0,
@@ -133,10 +114,11 @@ export function CookieBanner() {
       }}
     >
       {/* A full border, not the old bar's `border-t`: on a rounded floating card
-          a lone top edge reads as a leftover seam. */}
-      {/* `pointer-events` is gated on `visible`, not just on mount: during the
-          exit transition the card is still painted but must stop taking clicks. */}
+          a lone top edge reads as a leftover seam. `inert` while not visible so
+          the exiting card is unreachable by pointer AND by keyboard. */}
       <div
+        ref={cardRef}
+        {...(visible ? {} : { inert: true })}
         className={`material-chrome w-full sm:max-w-[520px] rounded-2xl border border-white/80 dark:border-brand-cream/10 bg-brand-cream/78 dark:bg-[#1a0e18]/82 shadow-[0_18px_50px_-20px_rgba(47,28,44,0.45)] ${
           visible ? 'pointer-events-auto' : 'pointer-events-none'
         }`}
@@ -158,14 +140,14 @@ export function CookieBanner() {
           <div className="flex items-center gap-2 flex-shrink-0">
             <button
               type="button"
-              onClick={handleDecline}
+              onClick={() => dismiss('declined')}
               className="press-scale font-sans font-medium text-[0.8125rem] h-[34px] px-4 rounded-full border border-black/[0.18] text-text-secondary hover:text-brand-dark hover:border-black/40 dark:border-[rgba(255,251,245,0.25)] dark:text-brand-cream/85 dark:hover:text-brand-cream dark:hover:border-brand-cream/55"
             >
               Decline
             </button>
             <button
               type="button"
-              onClick={handleAccept}
+              onClick={() => dismiss('accepted')}
               className="press-scale font-sans font-semibold text-[0.8125rem] h-[34px] px-4 rounded-full bg-brand-dark text-brand-cream dark:bg-brand-accent dark:text-brand-dark"
             >
               Accept
