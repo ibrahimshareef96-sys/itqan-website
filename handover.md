@@ -1,5 +1,51 @@
 # Itqan Studio Website — Handover
 
+## SESSION 2026-08-13 (LATEST) — CI, COOKIELESS UMAMI, AGENTS.md
+
+**PR #3 — `chore/ci-analytics-agents` — ALL 3 CI CHECKS GREEN. Not merged.**
+Derived from an audit of the Millow stack; full report outside this repo at
+`~/Desktop/millow/reports/2026-08-13-millow-stack-audit-lessons-for-itqan.md`.
+
+**Shipped in the PR**
+- **CI from zero** — the repo had no `.github/workflows` at all. Three jobs:
+  `check` (typecheck → build), `security` (gitleaks over FULL history,
+  **blocking**), `sast` (semgrep, advisory). Actions pinned to commit SHAs.
+- **No lint job, deliberately** — `npm run lint` runs `next lint` with no ESLint
+  config, which drops into an **interactive prompt** and would hang the runner.
+  The two-command adoption path is written into the workflow; land it separately.
+- **New `npm run typecheck`** and `.nvmrc` (24).
+- **`.gitleaks.toml`** — clean across all 91 commits. The one historical hit was a
+  `LinkedinLogo` phosphor import, not a credential.
+- **Cookieless Umami**, alongside (not replacing) PostHog:
+  - `/api/analytics-config` reads env at **request** time. This kills the
+    "you must rebuild, not just restart" trap in `ANALYTICS-SETUP.md`, which is
+    caused by `NEXT_PUBLIC_*` being inlined at build in a statically generated site.
+  - `UmamiAnalytics` runs **outside** the consent gate — no cookies, no
+    localStorage, no persistent id, so there is nothing to consent to, and it
+    measures every visitor rather than only those who click Accept. PostHog keeps
+    its gate because it does set cookies. DNT/GPC honoured.
+  - `deploy/umami/docker-compose.yml` + runbook at
+    `docs/analytics/2026-08-13-umami-self-hosted-runbook.md`.
+- **`AGENTS.md`** — "things that look weird but are intentional" / "never do",
+  citing the commit behind each trap.
+
+**YOUR ACTIONS — nothing below is done:**
+1. **Deploy Umami** per the runbook: DNS `A` for `analytics.itqanstudio.com` → new
+   Coolify **Docker Compose** resource on the existing AWS box → set
+   `POSTGRES_PASSWORD` + `APP_SECRET` → domain on the `umami` service, port 3000 →
+   **rotate the default `admin`/`umami` login immediately**.
+2. Set `UMAMI_SCRIPT_URL` + `UMAMI_WEBSITE_ID` in Coolify and **restart** (no rebuild
+   needed — that is the whole point of the request-time route). Until then the route
+   returns `{}` and the loader does nothing, so the PR is safe to merge now.
+3. **Check box headroom first** — the same EC2 instance runs this site, the CRM and
+   self-hosted Supabase, and a Coolify build has already OOM'd at `NODE_OPTIONS=512`.
+
+**Hosting correction made this session:** AGENTS.md and the runbook initially
+described the host loosely. `DEPLOYMENT.md` is authoritative: **AWS EC2
+52.212.71.212 (eu-west-1), managed by Coolify**, moved off Netlify 2026-06.
+`netlify.toml` is dead config. The stale **Netlify GitHub integration** still builds
+a preview on every PR — not production, nothing serves from it, worth disconnecting.
+
 ## Tracked work reference
 
 Lightweight tracking via TaskCreate (in-session). For longer initiatives use `agent-work/` (already present at the project root with one historical entry under `agent-work/projects/`).
