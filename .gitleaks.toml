@@ -1,0 +1,31 @@
+title = "itqan-website gitleaks config"
+
+# Extend the default ruleset; only add tightly-scoped allowlists for CONFIRMED
+# false positives. Real secrets are still caught everywhere else.
+#
+# Scanning policy: CI runs `gitleaks git` over FULL history (fetch-depth: 0) and
+# BLOCKS on a finding. That is only sustainable if every historical finding is
+# either fixed or explicitly allowlisted here with a reason — otherwise the lane
+# goes permanently red and everyone learns to ignore it.
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = """
+Phosphor icon imports, not a LinkedIn OAuth client id. gitleaks' \
+`linkedin-client-id` rule fires on a 14-char alphanumeric token sitting next to \
+the string "linkedin" — which is exactly the shape of \
+`import { LinkedinLogo, InstagramLogo } from '@phosphor-icons/react'`. The hit \
+is in Footer.tsx at commit b2b930c9 (2026-03-20); the component no longer has \
+that import at HEAD, but a full-history scan still reaches it.
+
+There is NO LinkedIn OAuth client in this repo. The only other LinkedIn string \
+is the public company URL (linkedin.com/company/110338926) — the same number \
+any visitor sees in the address bar.
+
+Scoped to the icon-import symbol so a genuine LinkedIn client id elsewhere \
+would still be caught.
+"""
+regexTarget = "match"
+regexes = ['''(?i)linkedinlogo''']

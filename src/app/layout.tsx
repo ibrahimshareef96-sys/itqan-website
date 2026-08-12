@@ -6,6 +6,7 @@ import { ViewTransitions } from 'next-view-transitions';
 import { SmoothScrollProvider } from '@/components/providers/SmoothScrollProvider';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { PostHogProvider } from '@/components/providers/PostHogProvider';
+import { UmamiAnalytics } from '@/components/providers/UmamiAnalytics';
 import { CookieBanner } from '@/components/CookieBanner';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { SITE_URL, SITE_NAME, TARGET_KEYWORDS, siteGraphLd } from '@/lib/seo';
@@ -120,6 +121,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ThemeProvider>
             <SmoothScrollProvider>
               <PostHogProvider>
+                {/* Cookieless, self-hosted Umami. Deliberately OUTSIDE any
+                    consent gate and sibling to PostHogProvider rather than
+                    nested in it: Umami stores nothing on the visitor's device,
+                    so it needs no opt-in, and gating it would reduce it to
+                    measuring only the people who click Accept. PostHog keeps
+                    its consent gate because it does set cookies.
+                    See UmamiAnalytics.tsx for the full reasoning. */}
+                <UmamiAnalytics />
                 <Navbar />
                 <main>{children}</main>
                 <Footer />
