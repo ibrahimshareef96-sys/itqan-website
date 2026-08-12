@@ -1,0 +1,146 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+# Read-only by default. No job here needs to write to the repo, and a workflow
+# that cannot write cannot be turned into a supply-chain foothold by a
+# compromised dependency.
+permissions:
+  contents: read
+
+# INJECTION NOTE: no step interpolates attacker-controlled context
+# (github.event.*.title/body, github.head_ref, commit messages) into a `run:`
+# block. The only ${{ }} uses are github.workflow/ref/event_name inside
+# `concurrency`, which is not a shell context. If a future step needs event
+# data, pass it via `env:` and quote the variable in the shell.
+#
+# Every third-party action is pinned to a full COMMIT SHA, not a tag. A tag is
+# mutable: whoever controls the action repo can repoint v5 at new code and it
+# runs with this workflow's permissions on the next PR. The trailing comment
+# records which release the SHA was, so
+# `gh api repos/<owner>/<repo>/git/ref/tags/<tag>` verifies it before a bump.
+#
+# KNOWN GAP — there is no `lint` job because this repo has no ESLint config and
+# no eslint dependency (`npm run lint` runs `next lint`, which drops into an
+# INTERACTIVE setup prompt and would hang the runner until timeout). Adopting it
+# is a deliberate follow-up, not something to bolt on here:
+#   npm i -D eslint@8 eslint-config-next@14.2.29
+#   printf '{"extends":"next/core-web-vitals"}\n' > .eslintrc.json
+# Land that in its own PR so the first run's findings are reviewed on their own,
+# then add a Lint step here. Adding it blind would make this workflow red on the
+# very commit that introduces it, which is how a team learns to ignore CI.
+
+jobs:
+  check:
+    name: Typecheck / Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # `next build` typechecks too, but only after a full compile — so a
+      # one-character type error costs a multi-minute build to surface. This
+      # runs first and fails in seconds.
+      - name: Typecheck
+        run: npm run typecheck
+
+      # Verified 2026-08-13: this builds with NO environment at all (the site
+      # has no .env file, and the analytics config is read at REQUEST time by
+      # /api/analytics-config rather than inlined at build). If a future change
+      # makes the build need env, add DUMMY values here — never real
+      # credentials, and never repo secrets, so the gate keeps working on fork
+      # PRs.
+      - name: Build
+        run: npm run build
+
+  security:
+    # Advisory lane overall, with ONE blocking step: gitleaks. A committed
+    # secret is not a "fix it later" finding. The dependency audit reports only —
+    # transitive advisories with no upstream fix would otherwise block every PR
+    # for reasons nobody in this repo can act on.
+    #
+    # Uses the gitleaks BINARY, not gitleaks-action: the action requires a paid
+    # licence for organization repos, the MIT CLI does not.
+    name: Security (gitleaks / audit)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GITLEAKS_VERSION: 8.30.1
+    steps:
+      # fetch-depth: 0 — a shallow clone scans only the tip, which is exactly
+      # the case a secret scanner must not miss: secrets get committed, deleted
+      # in a follow-up, and live on in history.
+      - name: Checkout (full history for secret scan)
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+
+      # BLOCKING. Known false positives carry a written reason in
+      # .gitleaks.toml — verified clean across all 91 commits on 2026-08-13.
+      # If this goes red, read the finding before touching the config: the
+      # allowlist is for confirmed non-secrets only.
+      - name: gitleaks — scan repo history
+        run: |
+          curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
+            | tar -xz gitleaks
+          ./gitleaks git --redact --exit-code 1 .
+
+      - name: Setup Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Dependency audit (advisory)
+        continue-on-error: true
+        run: npm audit --omit=dev
+
+  sast:
+    # Static analysis — Semgrep OSS rulesets, the free substitute for paid
+    # CodeQL. Runs via pipx (preinstalled on the runner), so there is no
+    # third-party action to pin.
+    #
+    # Starts ADVISORY so the first run's backlog doesn't block merges. Once
+    # triaged: drop continue-on-error and add "SAST (semgrep)" to the
+    # branch-protection required checks. Leaving it advisory forever is the
+    # failure mode — it becomes a lane nobody reads.
+    name: SAST (semgrep)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+
+      - name: Semgrep scan (advisory)
+        continue-on-error: true
+        run: >-
+          pipx run semgrep scan
+          --config p/javascript
+          --config p/typescript
+          --config p/react
+          --config p/nextjs
+          --config p/secrets
+          --config p/owasp-top-ten
+          --error --skip-unknown-extensions

@@ -1,0 +1,76 @@
+# Self-hosted Umami v3 — privacy-friendly, COOKIELESS site analytics.
+#
+# Deploy target: Coolify ("Docker Compose" resource type). See
+# docs/analytics/2026-08-13-umami-self-hosted-runbook.md for the full runbook,
+# including the DNS record, the two app-side env vars, and first-login rotation.
+#
+# WHY SELF-HOSTED RATHER THAN A SAAS TRACKER
+#   - Cookieless: no cookies, no localStorage, no persistent device identifier.
+#     Nothing is stored on or read from the visitor's device, so there is no
+#     consent gate — which means it measures 100% of visitors instead of the
+#     subset who click Accept on a banner.
+#   - First-party domain (analytics.itqanstudio.com): not blocked by the
+#     tracker-blocking lists that eat a large share of third-party analytics.
+#   - The data stays on infrastructure we already run.
+#
+# IMAGE PINNING: the tag is an EXACT version, never `latest`. Umami runs schema
+# migrations on boot, so `latest` means an unattended container restart can
+# migrate the database out from under you at an arbitrary time. Bump this
+# deliberately, read the release notes, and take a database backup first.
+
+services:
+  umami-db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      # Set POSTGRES_PASSWORD in Coolify's environment editor — NOT here.
+      # Generate with: openssl rand -base64 32
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in Coolify}
+    volumes:
+      - umami-db-data:/var/lib/postgresql/data
+    healthcheck:
+      # Umami's own boot migration fails noisily if it starts before Postgres is
+      # accepting connections, and Coolify will just restart-loop it. Gate the
+      # app on this instead.
+      test: ['CMD-SHELL', 'pg_isready -U umami -d umami']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    # No `ports:` — the database is reachable only on the compose network.
+    # Never publish 5432 to the host on a public VPS.
+
+  umami:
+    image: ghcr.io/umami-software/umami:postgresql-v3.0.0
+    restart: unless-stopped
+    depends_on:
+      umami-db:
+        condition: service_healthy
+    environment:
+      DATABASE_TYPE: postgresql
+      DATABASE_URL: postgresql://umami:${POSTGRES_PASSWORD}@umami-db:5432/umami
+      # Session/JWT signing key. Set in Coolify; generate with:
+      #   openssl rand -base64 40
+      # Changing it later invalidates every dashboard session (harmless).
+      APP_SECRET: ${APP_SECRET:?set APP_SECRET in Coolify}
+      # Umami phones home for version checks otherwise.
+      DISABLE_TELEMETRY: '1'
+    healthcheck:
+      test:
+        ['CMD-SHELL', 'wget -q --spider http://127.0.0.1:3000/api/heartbeat || exit 1']
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      # First boot runs the full schema migration — a short start_period makes
+      # the orchestrator kill the container mid-migration and restart-loop.
+      start_period: 90s
+    # Coolify's proxy (Traefik) routes to this by service + port; it terminates
+    # TLS and issues the Let's Encrypt cert for analytics.itqanstudio.com.
+    # Set the domain on THIS service in the Coolify UI, port 3000.
+    expose:
+      - '3000'
+
+volumes:
+  umami-db-data:
