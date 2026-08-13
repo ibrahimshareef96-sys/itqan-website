@@ -1,5 +1,29 @@
 # Itqan Studio Website — Handover
 
+
+## 2026-08-13 (LATER) — the portal subdomain is `brand.`, NOT `brands.`
+
+Ibrahim: "brand.itqanstudio.com is not reachable??" — correct, it never
+existed. Only the plural was created. Singular matches brand.uber.com, which
+this portal is built against, and is what people type.
+
+**Canonical hosts now:**
+- `https://brand.itqanstudio.com`  → this app, root rewritten to /brand
+- `https://brand.shareefi.co`      → shareefico-website, root rewritten to /brand
+
+**Plural 308s to singular**, path preserved, in both repos. Kept alive because
+links were already shared; NOT a second canonical host (that would split SEO).
+
+Done: A records for both singular hosts created in Route 53 (waited INSYNC),
+both added to their Coolify apps, Traefik issued per-host certs, deployed and
+verified — 200 + valid TLS + correct portal title on both, deep pages 200,
+download zips 200, main sites unaffected.
+
+Routing tests now 23 cases (`npm run test:routing`) covering both spellings of
+both hosts, incl. the edge that `/brands` must NOT count as a portal path (it
+does not exist at the destination — only `/brand` does).
+
+
 ## SESSION 2026-08-13 (LATEST) — CI, COOKIELESS UMAMI, AGENTS.md
 
 **PR #3 — `chore/ci-analytics-agents` — ALL 3 CI CHECKS GREEN. Not merged.**
