@@ -1,6 +1,62 @@
 # Itqan Studio Website — Handover
 
 
+## 2026-08-13 (LATEST) — portal made human; chrome, logo and marks fixed
+
+Ibrahim: "very empty, very poor, no imagery, super bland... I don't see any
+logo, I just see a placeholder", plus the site nav + footer showing on both
+portals, and call backgrounds must not be downloadable.
+
+### Four things fixed
+1. **Chrome** — nav/footer came back AFTER hydration. The middleware rewrites
+   the portal subdomain root to /brand, so SSR saw /brand and bailed out, then
+   the browser URL was still "/" and a client `usePathname()` guard rendered
+   them back. Decided on the server now via the `x-brand-portal` header;
+   client guards deleted. NOTE: he shipped the same fix in parallel as PR #5
+   (`b0d4d16`) — this rebased ON TOP of it and kept his better-documented
+   `src/lib/portal-chrome.ts`.
+2. **Logo** — `PORTAL_BRAND` hardcoded a `/brand/...` path that 404s because
+   the pipeline had deduped that SVG to `/images/brand/white-logo.svg`. Now
+   resolved from the manifest BY SLUG, and a missing mark throws at build.
+3. **Call backgrounds** — dropped from RULES, nav and manifest, and the sync
+   script now PRUNES withdrawn assets from public/ so old URLs 404 too.
+4. **Design** — full-bleed hero per page from real Itqan work, colour as
+   edge-to-edge bands with real type on each, pull quotes, captioned figures,
+   and ONE shared left edge (`.portal-canvas` + `--portal-inset`).
+
+### Content errors found and fixed (worth knowing about)
+- `light-icon` and `light-logo` are **Mauve #cca4c2**, NOT cream. One was
+  labelled "Cream icon", the other was missing. Five cuts are now named from
+  the artwork, and every mauve cut is shown on dark (mauve on light = the
+  banned 2.11:1).
+- The entry cards illustrated Itqan's logo and colour pages with **Shareefico's
+  lime assets** (they live in this repo as client work). Cards now render the
+  brand system itself.
+
+### Panel: REQUEST_CHANGES, all HIGH fixed
+- **Security**: `x-brand-portal` is an INBOUND header a client can send. Both
+  repos passed it through on non-portal routes, so
+  `curl /work -H 'x-brand-portal: 1'` stripped the chrome off any page. Now set
+  or DELETED on every path. Verified blocked in production. PR #5 shipped with
+  this same hole; the fix here closes it.
+- Prune moved to AFTER the manifest + bundles are written.
+- `pruneOrphans` (7 cases) and `isPortalRequest` (11 cases) now tested.
+- Routing tests import TypeScript natively instead of a hand-rolled regex
+  stripper that broke on any new signature. `tsconfig` gained
+  `allowImportingTsExtensions`; `engines` pins Node >=22.6; CI runs `npm test`.
+
+### Rules introduced
+- `npm test` = brand-data + prune + routing (57 assertions). `test:chrome`
+  needs a running server so it is NOT in the default suite.
+- `scripts/check-portal-chrome.mjs` verifies chrome AFTER hydration in a real
+  browser — curl cannot see this class of bug.
+- `scripts/shoot-portal.mjs` screenshots pages by walking the viewport (Lenis
+  + reveals make fullPage captures lie).
+- NEVER illustrate one brand with another brand's assets. `/images/portfolio/`
+  here is CLIENT work.
+
+
+
 ## 2026-08-13 (LATER) — the portal subdomain is `brand.`, NOT `brands.`
 
 Ibrahim: "brand.itqanstudio.com is not reachable??" — correct, it never
