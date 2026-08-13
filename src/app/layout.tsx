@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { headers } from 'next/headers';
 import { Manrope, Playfair_Display } from 'next/font/google';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
@@ -10,6 +11,7 @@ import { UmamiAnalytics } from '@/components/providers/UmamiAnalytics';
 import { CookieBanner } from '@/components/CookieBanner';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { SITE_URL, SITE_NAME, TARGET_KEYWORDS, siteGraphLd } from '@/lib/seo';
+import { PORTAL_HEADER } from '@/lib/portal-chrome';
 import './globals.css';
 
 // Self-hosted via next/font (was a render-blocking external Google Fonts <link>,
@@ -98,7 +100,19 @@ export const viewport: Viewport = {
   colorScheme: 'light dark',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  /*
+   * The brand portal runs its OWN chrome (sticky top bar + sidebar), so the
+   * site's pill nav and footer must not render there — two stacked sticky bars
+   * clip the page heading.
+   *
+   * Decided on the SERVER from a middleware header, never from usePathname().
+   * The portal subdomain is REWRITTEN to /brand, so the browser path stays
+   * "/positioning" and any client-side pathname guard silently evaluates false.
+   * That was the live bug (2026-08-13). See lib/portal-chrome.ts.
+   */
+  const isPortal = (await headers()).get(PORTAL_HEADER) === '1';
+
   return (
     // suppressHydrationWarning: next-themes mutates <html> class before hydration.
     <html
@@ -129,9 +143,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     its consent gate because it does set cookies.
                     See UmamiAnalytics.tsx for the full reasoning. */}
                 <UmamiAnalytics />
-                <Navbar />
+                {!isPortal && <Navbar />}
                 <main>{children}</main>
-                <Footer />
+                {!isPortal && <Footer />}
                 <CookieBanner />
               </PostHogProvider>
             </SmoothScrollProvider>

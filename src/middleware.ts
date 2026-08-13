@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { SITE_URL } from '@/lib/seo';
 import { resolveBrandRoute } from '@/lib/brand-routing';
+import { PORTAL_HEADER, isPortalRequest } from '@/lib/portal-chrome';
 
 /**
  * Brand-portal host routing — the brand.uber.com model.
@@ -36,12 +37,28 @@ export function middleware(req: NextRequest) {
       // origin back to the client.
       const url = req.nextUrl.clone();
       url.pathname = route.path;
-      return NextResponse.rewrite(url);
+      // Flag it as a portal request. This is the ONLY place the portal host is
+      // still visible — after the rewrite the client sees "/positioning" and
+      // cannot tell it is on the portal. See lib/portal-chrome.ts.
+      return NextResponse.rewrite(url, { request: { headers: portalHeaders(req) } });
     }
 
     default:
+      // `/brand` and below on the apex is also the portal, reached from the
+      // site nav rather than the subdomain. Flag it too, so one signal covers
+      // both entry points and the layout needs only one check.
+      if (isPortalRequest(req.headers.get('host'), pathname)) {
+        return NextResponse.next({ request: { headers: portalHeaders(req) } });
+      }
       return NextResponse.next();
   }
+}
+
+/** Clone the request headers with the portal flag set. */
+function portalHeaders(req: NextRequest): Headers {
+  const headers = new Headers(req.headers);
+  headers.set(PORTAL_HEADER, '1');
+  return headers;
 }
 
 export const config = {
