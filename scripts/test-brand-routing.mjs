@@ -31,11 +31,22 @@ const js = ts
 const mod = await import(`data:text/javascript,${encodeURIComponent(js)}`);
 const { resolveBrandRoute, SHAREEFICO_PORTAL } = mod;
 
+const ITQAN_PORTAL = 'https://brand.itqanstudio.com';
+
 const cases = [
   // [host, pathname, search, expected]
+
+  /* ── Shareefico's portal lives in another deployment ──────────────────── */
+  ['brand.shareefi.co', '/', '', { kind: 'redirect-external', to: SHAREEFICO_PORTAL }],
   ['brands.shareefi.co', '/', '', { kind: 'redirect-external', to: SHAREEFICO_PORTAL }],
   // The bug this table exists to prevent: without host-first routing on every
   // path, this would have served Itqan's portal under Shareefico's domain.
+  [
+    'brand.shareefi.co',
+    '/brand/logo/clear-space',
+    '',
+    { kind: 'redirect-external', to: 'https://shareefi.co/brand/logo/clear-space' },
+  ],
   [
     'brands.shareefi.co',
     '/brand/logo/clear-space',
@@ -43,12 +54,26 @@ const cases = [
     { kind: 'redirect-external', to: 'https://shareefi.co/brand/logo/clear-space' },
   ],
   ['brands.shareefi.co', '/work', '', { kind: 'redirect-external', to: SHAREEFICO_PORTAL }],
+  // `/brands` must NOT be treated as a portal path — /brands does not exist at
+  // the destination, only /brand does.
   ['brands.shareefi.co', '/brands', '', { kind: 'redirect-external', to: SHAREEFICO_PORTAL }],
   ['BRANDS.SHAREEFI.CO:443', '/', '', { kind: 'redirect-external', to: SHAREEFICO_PORTAL }],
 
-  ['brands.itqanstudio.com', '/', '', { kind: 'rewrite', path: '/brand' }],
-  ['brands.itqanstudio.com', '/brand/colour', '', { kind: 'pass' }],
-  ['brands.itqanstudio.com', '/brands', '', { kind: 'redirect-internal', path: '/brand' }],
+  /* ── The canonical Itqan portal host is SINGULAR ──────────────────────── */
+  ['brand.itqanstudio.com', '/', '', { kind: 'rewrite', path: '/brand' }],
+  ['brand.itqanstudio.com', '/brand/colour', '', { kind: 'pass' }],
+  ['brand.itqanstudio.com', '/brands', '', { kind: 'redirect-internal', path: '/brand' }],
+  ['BRAND.ITQANSTUDIO.COM:443', '/', '', { kind: 'rewrite', path: '/brand' }],
+
+  /* ── The plural is superseded: 308 to the singular, path preserved ────── */
+  ['brands.itqanstudio.com', '/', '', { kind: 'redirect-external', to: ITQAN_PORTAL }],
+  [
+    'brands.itqanstudio.com',
+    '/brand/colour',
+    '',
+    { kind: 'redirect-external', to: `${ITQAN_PORTAL}/brand/colour` },
+  ],
+  ['brands.itqanstudio.com', '/brands', '', { kind: 'redirect-external', to: ITQAN_PORTAL }],
 
   ['itqanstudio.com', '/brands', '', { kind: 'redirect-internal', path: '/brand' }],
   ['itqanstudio.com', '/brands', '?x=1', { kind: 'redirect-internal', path: '/brand?x=1' }],

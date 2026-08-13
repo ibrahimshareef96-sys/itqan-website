@@ -11,14 +11,31 @@
 
 export const SHAREEFICO_PORTAL = 'https://shareefi.co/brand';
 
+/**
+ * The portal subdomain is SINGULAR — brand.itqanstudio.com — to match
+ * brand.uber.com, which is the reference this portal is built against and the
+ * form people actually type.
+ *
+ * The plural was shipped first and may be in a link or a bookmark, so it stays
+ * alive as a permanent redirect rather than a second canonical host. Two hosts
+ * serving identical content would split the SEO and make the "which one is
+ * real" question permanent.
+ */
+export const ITQAN_PORTAL_HOST = 'brand.itqanstudio.com';
+export const SHAREEFICO_PORTAL_HOST = 'brand.shareefi.co';
+
 /** Hosts served by rewriting to a route in this app. */
 const BRAND_HOSTS: Record<string, string> = {
-  'brands.itqanstudio.com': '/brand',
+  [ITQAN_PORTAL_HOST]: '/brand',
 };
 
-/** Hosts that belong to another deployment entirely. */
+/** Hosts that belong to another deployment, or to another name. */
 const REDIRECT_HOSTS: Record<string, string> = {
+  // Shareefico's portal ships from its own repo.
+  'brand.shareefi.co': SHAREEFICO_PORTAL,
   'brands.shareefi.co': SHAREEFICO_PORTAL,
+  // Superseded plural, kept alive for links already shared.
+  'brands.itqanstudio.com': `https://${ITQAN_PORTAL_HOST}`,
 };
 
 /** Superseded paths from the previous single-scroll brands hub. */
