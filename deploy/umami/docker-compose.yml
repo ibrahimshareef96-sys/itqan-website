@@ -43,7 +43,7 @@ services:
     # Never publish 5432 to the host on a public VPS.
 
   umami:
-    image: ghcr.io/umami-software/umami:postgresql-v3.0.0
+    image: ghcr.io/umami-software/umami:postgresql-v2.9.0
     restart: unless-stopped
     depends_on:
       umami-db:
