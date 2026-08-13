@@ -31,7 +31,10 @@ const FACES = [
 
 export default function TypographyPage() {
   return (
-    <PortalPageBody href="/brand/typography">
+    <PortalPageBody href="/brand/typography"
+      heroImage="/images/portfolio/mutqin/brand.webp"
+      heroAlt="Type in use across the Mutqin identity"
+    >
       <Section>
         <p className="text-[1.0625rem] leading-relaxed text-[var(--color-text-secondary)]">
           Two faces. Manrope does the work; Playfair appears once per headline

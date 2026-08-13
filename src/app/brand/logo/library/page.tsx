@@ -13,7 +13,10 @@ const bundles = bundlesFor('itqan-studio', ['logo']);
 
 export default function LogoLibraryPage() {
   return (
-    <PortalPageBody href="/brand/logo/library">
+    <PortalPageBody href="/brand/logo/library"
+      heroImage="/images/portfolio/ITQAN-CRM-MKP-MCBK2.png"
+      heroAlt="Design tokens laid out"
+    >
       <Section>
         <p className="text-[1.0625rem] leading-relaxed text-[var(--color-text-secondary)]">
           All vector. Each tile previews the mark on the background it was drawn

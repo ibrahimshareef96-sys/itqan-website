@@ -32,7 +32,9 @@ const CONTRASTS = [
 
 export default function VoicePage() {
   return (
-    <PortalPageBody href="/brand/voice">
+    <PortalPageBody href="/brand/voice"
+      heroImage="/images/content-creation.png"
+    >
       <Section>
         <p className="text-[1.0625rem] leading-relaxed text-[var(--color-text-secondary)]">
           Professional, confident, premium — and never corporate. The test is

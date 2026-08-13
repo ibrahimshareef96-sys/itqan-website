@@ -8,28 +8,23 @@
  *
  *     npm run test:routing
  *
- * The TypeScript source is stripped to JS on the fly (types only, no
- * transforms) so there is nothing to keep in sync.
+ * The module under test is imported as TypeScript; Node strips the types.
  */
-import { readFileSync } from 'node:fs';
-import { join, resolve } from 'node:path';
 import assert from 'node:assert/strict';
 
-const REPO = resolve(new URL('..', import.meta.url).pathname);
-const SRC = join(REPO, 'src', 'lib', 'brand-routing.ts');
-
-/* Strip the TS-only syntax used in this file: type aliases, annotations and
-   `export type`. Deliberately narrow — it only has to handle this one file. */
-const ts = readFileSync(SRC, 'utf8');
-const js = ts
-  .replace(/export type BrandRoute =[\s\S]*?\| \{ kind: 'pass' \};/, '')
-  .replace(/: Record<string, string>/g, '')
-  .replace(/rawHost: string \| null,/, 'rawHost,')
-  .replace(/pathname: string,/, 'pathname,')
-  .replace(/search = '',\n\): BrandRoute \{/, "search = '') {");
-
-const mod = await import(`data:text/javascript,${encodeURIComponent(js)}`);
-const { resolveBrandRoute, SHAREEFICO_PORTAL } = mod;
+/*
+ * Imported as TypeScript directly — Node strips the types itself.
+ *
+ * This used to hand-roll a regex stripper, which broke the moment the module
+ * grew a function signature the regexes had not anticipated. A test harness
+ * that fails on a change unrelated to what it tests is worse than no harness.
+ */
+const { resolveBrandRoute, SHAREEFICO_PORTAL } = await import(
+  '../src/lib/brand-routing.ts'
+);
+// isPortalRequest lives with the chrome decision it feeds, not with the URL
+// table — but it is tested here because it shares the host-matching rules.
+const { isPortalRequest } = await import('../src/lib/portal-chrome.ts');
 
 const ITQAN_PORTAL = 'https://brand.itqanstudio.com';
 
@@ -92,7 +87,40 @@ const cases = [
   ['itqanstudio.com', '/brands/nope', '', { kind: 'pass' }],
 ];
 
+/*
+ * isPortalRequest decides whether the root layout renders site chrome. Getting
+ * it wrong shows the nav on the portal or strips it from the marketing site,
+ * and neither failure is visible in resolveBrandRoute's output.
+ */
+const portalCases = [
+  ['brand.itqanstudio.com', '/', true],
+  ['brand.itqanstudio.com', '/anything', true],
+  ['BRAND.ITQANSTUDIO.COM:443', '/', true],
+  ['itqanstudio.com', '/brand', true],
+  ['itqanstudio.com', '/brand/colour/pairings', true],
+  ['itqanstudio.com', '/', false],
+  ['itqanstudio.com', '/work', false],
+  // `/brands` is the legacy hub, not the portal — it must not suppress chrome.
+  ['itqanstudio.com', '/brands', false],
+  ['itqanstudio.com', '/branding', false],
+  [null, '/brand', true],
+  [null, '/work', false],
+];
+
 let failed = 0;
+
+for (const [host, pathname, expected] of portalCases) {
+  const actual = isPortalRequest(host, pathname);
+  if (actual === expected) {
+    console.log(`  ok   isPortalRequest ${host ?? '(no host)'}${pathname} = ${expected}`);
+  } else {
+    failed += 1;
+    console.error(
+      `  FAIL isPortalRequest ${host ?? '(no host)'}${pathname} — expected ${expected}, got ${actual}`,
+    );
+  }
+}
+
 for (const [host, pathname, search, expected] of cases) {
   const actual = resolveBrandRoute(host, pathname, search);
   try {
@@ -106,5 +134,6 @@ for (const [host, pathname, search, expected] of cases) {
   }
 }
 
-console.log(`\n${cases.length - failed}/${cases.length} passed`);
+const total = cases.length + portalCases.length;
+console.log(`\n${total - failed}/${total} passed`);
 process.exit(failed === 0 ? 0 : 1);

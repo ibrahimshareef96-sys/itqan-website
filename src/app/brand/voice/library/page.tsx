@@ -51,7 +51,9 @@ const SERVICES = [
 
 export default function CopyLibraryPage() {
   return (
-    <PortalPageBody href="/brand/voice/library">
+    <PortalPageBody href="/brand/voice/library"
+      heroImage="/images/content-creation.png"
+    >
       <Section>
         <p className="text-[1.0625rem] leading-relaxed text-[var(--color-text-secondary)]">
           Approved text at every length that gets asked for. Use these verbatim.

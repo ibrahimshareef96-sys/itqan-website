@@ -14,20 +14,34 @@ export interface Swatch {
   hex: string;
   token: string;
   role: string;
+  /**
+   * The approved text colour ON this swatch.
+   *
+   * Data, not styling: the colour page renders each swatch as a full-bleed band
+   * with real type on it, so the page demonstrates the pairing instead of
+   * asserting it in a table. Every value here is measured — the lowest is
+   * 5.57:1 and the rest clear 7:1.
+   */
+  fg: string;
   on?: { name: string; ratio: number };
 }
+
+const CREAM = '#fffbf5';
+const PLUM = '#2f1c2c';
 
 export const CORE_COLOURS: Swatch[] = [
   {
     name: 'Plum',
     hex: '#2f1c2c',
     token: 'brand-dark',
+    fg: CREAM,
     role: 'The dark ground. Every dark section, the hero, the closing call to action.',
   },
   {
     name: 'Cream',
     hex: '#fffbf5',
     token: 'brand-cream',
+    fg: PLUM,
     role: 'The light ground, and all text on plum. Warm, never pure white.',
     on: { name: 'Plum', ratio: 15.39 },
   },
@@ -35,6 +49,7 @@ export const CORE_COLOURS: Swatch[] = [
     name: 'Mauve',
     hex: '#cca4c2',
     token: 'brand-accent',
+    fg: PLUM,
     role: 'The accent — but ONLY on dark. This is the colour people recognise.',
     on: { name: 'Plum', ratio: 7.3 },
   },
@@ -42,6 +57,7 @@ export const CORE_COLOURS: Swatch[] = [
     name: 'Deep Mauve',
     hex: '#6d4a66',
     token: 'brand-accent-on-light',
+    fg: CREAM,
     role: 'The same accent role on cream. Not a variation for taste — a legibility requirement.',
     on: { name: 'Cream', ratio: 7.22 },
   },
@@ -49,6 +65,7 @@ export const CORE_COLOURS: Swatch[] = [
     name: 'Sand',
     hex: '#d1c2a5',
     token: 'brand-accent-secondary',
+    fg: PLUM,
     role: 'Secondary accent. Rules, quiet labels, supporting detail on dark.',
     on: { name: 'Plum', ratio: 9.05 },
   },
@@ -59,6 +76,7 @@ export const TEXT_COLOURS: Swatch[] = [
     name: 'Text Primary',
     hex: '#1a1a1a',
     token: 'text-primary',
+    fg: CREAM,
     role: 'Body copy on cream and white.',
     on: { name: 'Cream', ratio: 16.88 },
   },
@@ -66,6 +84,7 @@ export const TEXT_COLOURS: Swatch[] = [
     name: 'Text Secondary',
     hex: '#666666',
     token: 'text-secondary',
+    fg: CREAM,
     role: 'Supporting copy on light surfaces.',
     on: { name: 'Cream', ratio: 5.57 },
   },
@@ -73,6 +92,7 @@ export const TEXT_COLOURS: Swatch[] = [
     name: 'Text on Dark',
     hex: '#fffbf5',
     token: 'text-light',
+    fg: PLUM,
     role: 'All copy on plum.',
     on: { name: 'Plum', ratio: 15.39 },
   },

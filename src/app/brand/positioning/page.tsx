@@ -8,7 +8,10 @@ export const metadata: Metadata = {
 
 export default function PositioningPage() {
   return (
-    <PortalPageBody href="/brand/positioning">
+    <PortalPageBody href="/brand/positioning"
+      heroImage="/images/portfolio/mutqin/hero.webp"
+      heroAlt="Mutqin, a founder-led product the studio positioned and built"
+    >
       <Section title="In one line">
         <p className="font-[family-name:var(--font-display)] text-[1.5rem] font-semibold leading-snug">
           Your brand has potential.{' '}

@@ -6,16 +6,36 @@ import { PORTAL_HEADER, isPortalRequest } from '@/lib/portal-chrome';
 /**
  * Brand-portal host routing — the brand.uber.com model.
  *
- *   brands.itqanstudio.com  →  /brand            (rewritten, served here)
- *   brands.shareefi.co      →  shareefi.co/brand (redirected, served elsewhere)
+ *   brand.itqanstudio.com  →  /brand            (rewritten, served here)
+ *   brand.shareefi.co      →  shareefi.co/brand (redirected, served elsewhere)
  *
- * All decisions live in `@/lib/brand-routing` so they can be tested without a
- * mocked NextRequest (`npm run test:routing`). This file only turns a decision
- * into a response.
+ * All URL decisions live in `@/lib/brand-routing` so they can be tested without
+ * a mocked NextRequest (`npm run test:routing`). This file only turns a
+ * decision into a response.
  */
 export function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
-  const route = resolveBrandRoute(req.headers.get('host'), pathname, search);
+  const host = req.headers.get('host');
+  const route = resolveBrandRoute(host, pathname, search);
+
+  /*
+   * Flag portal requests for the root layout, which uses it to skip the site
+   * nav and footer. Set on the REQUEST headers so a server component can read
+   * it; a client pathname check cannot, because the portal host is rewritten
+   * and the browser URL never shows /brand. See lib/portal-chrome.ts.
+   *
+   * SECURITY: this is an INBOUND request header, which means a client can send
+   * it. It is therefore set or DELETED on every path, never merely left alone
+   * — otherwise `curl /work -H 'x-brand-portal: 1'` would flow straight
+   * through to `headers()` and strip the chrome off any page. The only value
+   * the layout ever sees is the one decided here.
+   */
+  const withPortalFlag = (isPortal: boolean) => {
+    const headers = new Headers(req.headers);
+    if (isPortal) headers.set(PORTAL_HEADER, '1');
+    else headers.delete(PORTAL_HEADER);
+    return { request: { headers } };
+  };
 
   switch (route.kind) {
     case 'redirect-external':
@@ -34,31 +54,20 @@ export function middleware(req: NextRequest) {
 
     case 'rewrite': {
       // Safe to clone: a rewrite is resolved server-side and never sends an
-      // origin back to the client.
+      // origin back to the client. This is also the ONLY place the portal host
+      // is still visible — after the rewrite the client sees "/positioning"
+      // and cannot tell it is on the portal.
       const url = req.nextUrl.clone();
       url.pathname = route.path;
-      // Flag it as a portal request. This is the ONLY place the portal host is
-      // still visible — after the rewrite the client sees "/positioning" and
-      // cannot tell it is on the portal. See lib/portal-chrome.ts.
-      return NextResponse.rewrite(url, { request: { headers: portalHeaders(req) } });
+      return NextResponse.rewrite(url, withPortalFlag(true));
     }
 
     default:
       // `/brand` and below on the apex is also the portal, reached from the
-      // site nav rather than the subdomain. Flag it too, so one signal covers
-      // both entry points and the layout needs only one check.
-      if (isPortalRequest(req.headers.get('host'), pathname)) {
-        return NextResponse.next({ request: { headers: portalHeaders(req) } });
-      }
-      return NextResponse.next();
+      // site nav rather than the subdomain. One signal covers both entry
+      // points, so the layout needs only one check.
+      return NextResponse.next(withPortalFlag(isPortalRequest(host, pathname)));
   }
-}
-
-/** Clone the request headers with the portal flag set. */
-function portalHeaders(req: NextRequest): Headers {
-  const headers = new Headers(req.headers);
-  headers.set(PORTAL_HEADER, '1');
-  return headers;
 }
 
 export const config = {

@@ -13,7 +13,9 @@ const bundles = bundlesFor('itqan-studio', ['signature']);
 
 export default function SignaturesPage() {
   return (
-    <PortalPageBody href="/brand/assets/signatures">
+    <PortalPageBody href="/brand/assets/signatures"
+      heroImage="/images/portfolio/ITQAN-CRM-MKP-MCBK.png"
+    >
       <Section>
         <p className="text-[1.0625rem] leading-relaxed text-[var(--color-text-secondary)]">
           Email is the most hostile rendering environment the brand appears in,

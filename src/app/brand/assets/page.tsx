@@ -21,7 +21,9 @@ export default async function AssetsPage({
   const { q } = await searchParams;
 
   return (
-    <PortalPageBody href="/brand/assets">
+    <PortalPageBody href="/brand/assets"
+      heroImage="/images/itqan-crm.png"
+    >
       <Section>
         <p className="text-[1.0625rem] leading-relaxed text-[var(--color-text-secondary)]">
           {assets.filter((a) => a.src).length} files, generated straight from the

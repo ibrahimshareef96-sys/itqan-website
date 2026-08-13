@@ -224,18 +224,6 @@ export function PillNav() {
     };
   }, [menuOpen]);
 
-  /*
-   * The brand portal (/brand) is a reference manual with its own sticky
-   * sidebar and top bar. Two navigations stacked would be worse than either.
-   *
-   * Bail out AFTER every hook so hook order stays stable across route changes.
-   * The scroll lock is safe here: the `[pathname]` effect above already closes
-   * the sheet on navigation, which re-runs the lock effect and releases it.
-   */
-  if (pathname === '/brand' || pathname.startsWith('/brand/')) {
-    return null;
-  }
-
   return (
     <header className="sticky top-0 z-50">
       {/* Scroll edge: content dissolves into the chrome instead of meeting a hard

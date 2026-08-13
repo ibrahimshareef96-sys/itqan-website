@@ -14,7 +14,10 @@ const logoBundles = bundlesFor('itqan-studio', ['logo']);
 
 export default function PressPage() {
   return (
-    <PortalPageBody href="/brand/press">
+    <PortalPageBody href="/brand/press"
+      heroImage="/images/team/ibrahim-shareef.png"
+      heroAlt="Ibrahim Shareef, founder"
+    >
       <Section>
         <p className="text-[1.0625rem] leading-relaxed text-[var(--color-text-secondary)]">
           If you are writing about Itqan Studio, listing it as a partner, or

@@ -15,24 +15,9 @@ import assert from 'node:assert/strict';
 
 const REPO = resolve(new URL('..', import.meta.url).pathname);
 
-/** Load a TS module that contains only types + plain data/functions. */
-async function loadTs(relPath, strip = (s) => s) {
-  const ts = readFileSync(join(REPO, relPath), 'utf8');
-  const js = strip(
-    ts
-      .replace(/^import type .*$/gm, '')
-      .replace(/^export interface [\s\S]*?^}$/gm, '')
-      .replace(/^export type .*?;$/gm, '')
-      .replace(/: PortalCategory\[\]/g, '')
-      .replace(/: PortalPage\[\]/g, '')
-      .replace(/\(href: string\): PortalPage \| undefined/g, '(href)')
-      .replace(/\(href: string\): string \| undefined/g, '(href)')
-      .replace(/ as const/g, ''),
-  );
-  return import(`data:text/javascript,${encodeURIComponent(js)}`);
-}
-
-const portal = await loadTs('src/data/brand-portal.ts');
+// Imported as TypeScript directly — Node strips the types. No hand-rolled
+// stripper to keep in sync with the module it is meant to be testing.
+const portal = await import('../src/data/brand-portal.ts');
 const { PORTAL_NAV, PORTAL_PAGES, portalPage, portalCategoryOf } = portal;
 
 const results = [];

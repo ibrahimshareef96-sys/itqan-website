@@ -23,7 +23,10 @@ const KINDS = [
 
 export default function ImageryPage() {
   return (
-    <PortalPageBody href="/brand/imagery">
+    <PortalPageBody href="/brand/imagery"
+      heroImage="/images/portfolio/oud-closet/cover.png"
+      heroAlt="Client work photographed as it ships"
+    >
       <Section>
         <p className="text-[1.0625rem] leading-relaxed text-[var(--color-text-secondary)]">
           Pictures here do one of three jobs: show the work, show how it was

@@ -24,9 +24,18 @@ export interface PortalCategory {
   items: PortalPage[];
 }
 
-/** Chrome shown in the portal top bar. The one place the two portals diverge. */
+/**
+ * Chrome shown in the portal top bar. The one place the two portals diverge.
+ *
+ * The mark is named by SLUG, not by path. The asset pipeline reuses an existing
+ * public/ URL whenever the bytes already ship with the site, so a hardcoded
+ * /brand/... path silently 404s the moment a file is deduped — which is exactly
+ * what happened to this mark. The manifest is the only thing that knows where
+ * an asset actually lives.
+ */
 export const PORTAL_BRAND = {
-  markSrc: '/brand/itqan-studio/logo/white-logo.svg',
+  brand: 'itqan-studio',
+  markSlug: 'white-logo',
   siteUrl: 'https://itqanstudio.com',
   siteLabel: 'itqanstudio.com',
 } as const;
@@ -93,7 +102,6 @@ export const PORTAL_NAV: PortalCategory[] = [
       { href: '/brand/assets', label: 'Asset library', summary: 'Every downloadable asset, filterable by type and format.' },
       { href: '/brand/assets/stickers', label: 'Stickers & merch', summary: 'The sticker programme and print-ready sheets.' },
       { href: '/brand/assets/signatures', label: 'Email signatures', summary: 'Hosted signature templates for the team.' },
-      { href: '/brand/assets/backgrounds', label: 'Call backgrounds', summary: 'Branded backgrounds for video calls.' },
       { href: '/brand/press', label: 'Press & media', summary: 'Boilerplate, logos and how to reach us.' },
       { href: '/brand/updates', label: 'Brand updates', summary: 'What changed in the brand system, and when.' },
     ],

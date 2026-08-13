@@ -25,6 +25,7 @@ import {
   mkdirSync,
   readdirSync,
   readFileSync,
+  rmSync,
   statSync,
   writeFileSync,
   copyFileSync,
@@ -109,7 +110,11 @@ const RULES = [
   { dir: `${HOME}/Desktop/itqan-design/brand-assets/itqan`, brand: 'itqan-studio', category: 'logo' },
   { dir: `${HOME}/Desktop/brand-kits/itqan-studio/stickers`, brand: 'itqan-studio', category: 'sticker' },
   { dir: `${HOME}/Desktop/brand-kits/itqan-studio/signatures`, brand: 'itqan-studio', category: 'signature', skipDirs: ['_proof'] },
-  { dir: `${HOME}/Desktop/brand-kits/itqan-studio/call-backgrounds`, brand: 'itqan-studio', category: 'background' },
+  /*
+   * Call backgrounds are deliberately NOT published. Ibrahim's decision
+   * (2026-08-13): a branded video-call background is a personal choice, not a
+   * brand asset, and shipping one invites the whole team onto it.
+   */
 ];
 
 /* ── run ──────────────────────────────────────────────────────────────── */
@@ -254,6 +259,41 @@ const manifest = {
   bundles: [],
 };
 
+/**
+ * Files under public/brand/ that this run did NOT produce.
+ *
+ * Without this, dropping a rule or retiring an asset removes it from the
+ * manifest while the file stays on disk and keeps being served — the asset
+ * disappears from the portal but is still downloadable by anyone with the old
+ * URL. For something withdrawn on purpose that is the whole failure.
+ *
+ * Only the tree this script owns is ever considered; bundles are rebuilt from
+ * scratch by build-brand-bundles.mjs, and assets reused from elsewhere in
+ * public/ are not ours to delete.
+ */
+function pruneOrphans(keep) {
+  if (!existsSync(OUT_DIR)) return [];
+  const bundleDir = join(OUT_DIR, 'bundles');
+  const orphans = walk(OUT_DIR).filter(
+    (f) => !f.startsWith(bundleDir) && !keep.has(f),
+  );
+  for (const f of orphans) rmSync(f, { force: true });
+
+  // Directories left empty by the prune. A stray empty `background/` folder is
+  // harmless but it reads as "this category still exists".
+  for (const dir of readdirSync(OUT_DIR)) {
+    const brandDir = join(OUT_DIR, dir);
+    if (dir === 'bundles' || !statSync(brandDir).isDirectory()) continue;
+    for (const cat of readdirSync(brandDir)) {
+      const catDir = join(brandDir, cat);
+      if (statSync(catDir).isDirectory() && readdirSync(catDir).length === 0) {
+        rmSync(catDir, { recursive: true, force: true });
+      }
+    }
+  }
+  return orphans;
+}
+
 if (!DRY) {
   for (const [from, to, dir] of pendingCopies) {
     mkdirSync(dir, { recursive: true });
@@ -264,6 +304,20 @@ if (!DRY) {
   execFileSync(process.execPath, [join(REPO, 'scripts', 'build-brand-bundles.mjs')], {
     stdio: 'inherit',
   });
+
+  /*
+   * Prune LAST, once the new manifest and bundles are on disk.
+   *
+   * Deleting first would mean a failure in either of those steps left the
+   * previous manifest pointing at files that no longer exist — every download
+   * 404s until someone notices and re-runs. Extra files on disk for the length
+   * of a build is the cheaper failure.
+   */
+  const pruned = pruneOrphans(new Set(pendingCopies.map(([, to]) => to)));
+  if (pruned.length > 0) {
+    console.log(`pruned ${pruned.length} withdrawn asset(s) from public/brand:`);
+    for (const f of pruned.slice(0, 10)) console.log(`   - ${f.slice(OUT_DIR.length + 1)}`);
+  }
 }
 
 const bundles = DRY ? [] : JSON.parse(readFileSync(MANIFEST, 'utf8')).bundles;

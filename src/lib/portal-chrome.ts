@@ -1,4 +1,7 @@
-import { ITQAN_PORTAL_HOST } from '@/lib/brand-routing';
+// Relative, not the @/ alias: this module is imported by the test suite
+// through Node's native TypeScript support, which does not resolve tsconfig
+// path aliases. Next handles a relative import identically.
+import { ITQAN_PORTAL_HOST } from './brand-routing.ts';
 
 /**
  * Whether a request is for the BRAND PORTAL, decided once on the server.

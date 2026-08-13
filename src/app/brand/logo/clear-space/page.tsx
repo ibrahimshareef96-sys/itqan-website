@@ -13,7 +13,9 @@ const MARK = assetBySlug('itqan-studio', 'light-icon');
 export default function ClearSpacePage() {
   if (!MARK?.src) return null;
   return (
-    <PortalPageBody href="/brand/logo/clear-space">
+    <PortalPageBody href="/brand/logo/clear-space"
+      heroImage="/images/portfolio/medacs/cover.png"
+    >
       <Section
         title="The exclusion zone"
         intro="Clear space equals the full height of the icon, on all four sides. Nothing enters it — not type, not another logo, not the edge of the canvas."

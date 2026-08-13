@@ -2,110 +2,6 @@
   "generatedBy": "scripts/sync-brand-assets.mjs",
   "assets": [
     {
-      "id": "itqan-studio-background-itqan-bisma",
-      "brand": "itqan-studio",
-      "category": "background",
-      "name": "Itqan Bisma",
-      "slug": "itqan-bisma",
-      "format": "png",
-      "bytes": 370265,
-      "sourceName": "itqan-bisma.png",
-      "src": "/brand/itqan-studio/background/itqan-bisma.png",
-      "width": 1920,
-      "height": 1080
-    },
-    {
-      "id": "itqan-studio-background-itqan-ibrahim",
-      "brand": "itqan-studio",
-      "category": "background",
-      "name": "Itqan Ibrahim",
-      "slug": "itqan-ibrahim",
-      "format": "png",
-      "bytes": 373932,
-      "sourceName": "itqan-ibrahim.png",
-      "src": "/brand/itqan-studio/background/itqan-ibrahim.png",
-      "width": 1920,
-      "height": 1080
-    },
-    {
-      "id": "itqan-studio-background-itqan-team",
-      "brand": "itqan-studio",
-      "category": "background",
-      "name": "Itqan Team",
-      "slug": "itqan-team",
-      "format": "png",
-      "bytes": 383205,
-      "sourceName": "itqan-team.png",
-      "src": "/brand/itqan-studio/background/itqan-team.png",
-      "width": 1920,
-      "height": 1080
-    },
-    {
-      "id": "itqan-studio-background-itqan-v2-arch",
-      "brand": "itqan-studio",
-      "category": "background",
-      "name": "Itqan V2 Arch",
-      "slug": "itqan-v2-arch",
-      "format": "png",
-      "bytes": 1308099,
-      "sourceName": "itqan-v2-arch.png",
-      "src": "/brand/itqan-studio/background/itqan-v2-arch.png",
-      "width": 1920,
-      "height": 1080
-    },
-    {
-      "id": "itqan-studio-background-itqan-v2-light",
-      "brand": "itqan-studio",
-      "category": "background",
-      "name": "Itqan V2 Light",
-      "slug": "itqan-v2-light",
-      "format": "png",
-      "bytes": 1692335,
-      "sourceName": "itqan-v2-light.png",
-      "src": "/brand/itqan-studio/background/itqan-v2-light.png",
-      "width": 1920,
-      "height": 1080
-    },
-    {
-      "id": "itqan-studio-background-itqan-v2-marble",
-      "brand": "itqan-studio",
-      "category": "background",
-      "name": "Itqan V2 Marble",
-      "slug": "itqan-v2-marble",
-      "format": "png",
-      "bytes": 1590436,
-      "sourceName": "itqan-v2-marble.png",
-      "src": "/brand/itqan-studio/background/itqan-v2-marble.png",
-      "width": 1920,
-      "height": 1080
-    },
-    {
-      "id": "itqan-studio-background-itqan-v2-mashrabiya",
-      "brand": "itqan-studio",
-      "category": "background",
-      "name": "Itqan V2 Mashrabiya",
-      "slug": "itqan-v2-mashrabiya",
-      "format": "png",
-      "bytes": 1929648,
-      "sourceName": "itqan-v2-mashrabiya.png",
-      "src": "/brand/itqan-studio/background/itqan-v2-mashrabiya.png",
-      "width": 1920,
-      "height": 1080
-    },
-    {
-      "id": "itqan-studio-background-itqan-v2-study",
-      "brand": "itqan-studio",
-      "category": "background",
-      "name": "Itqan V2 Study",
-      "slug": "itqan-v2-study",
-      "format": "png",
-      "bytes": 1379985,
-      "sourceName": "itqan-v2-study.png",
-      "src": "/brand/itqan-studio/background/itqan-v2-study.png",
-      "width": 1920,
-      "height": 1080
-    },
-    {
       "id": "itqan-studio-logo-dark-icon",
       "brand": "itqan-studio",
       "category": "logo",
@@ -424,11 +320,11 @@
       "name": "Badge Dunes",
       "slug": "badge-dunes",
       "format": "png",
-      "bytes": 257054,
+      "bytes": 968498,
       "sourceName": "badge-dunes.png",
       "src": "/brand/itqan-studio/sticker/badge-dunes.png",
-      "width": 612,
-      "height": 674
+      "width": 1834,
+      "height": 2023
     },
     {
       "id": "itqan-studio-sticker-badge-falcon",
@@ -437,11 +333,11 @@
       "name": "Badge Falcon",
       "slug": "badge-falcon",
       "format": "png",
-      "bytes": 211283,
+      "bytes": 886998,
       "sourceName": "badge-falcon.png",
       "src": "/brand/itqan-studio/sticker/badge-falcon.png",
-      "width": 626,
-      "height": 708
+      "width": 1877,
+      "height": 2124
     },
     {
       "id": "itqan-studio-sticker-badge-sunrise",
@@ -450,11 +346,11 @@
       "name": "Badge Sunrise",
       "slug": "badge-sunrise",
       "format": "png",
-      "bytes": 265375,
+      "bytes": 1179569,
       "sourceName": "badge-sunrise.png",
       "src": "/brand/itqan-studio/sticker/badge-sunrise.png",
-      "width": 610,
-      "height": 650
+      "width": 1830,
+      "height": 1950
     },
     {
       "id": "itqan-studio-sticker-itqan-01-mark",
@@ -707,13 +603,6 @@
   "bundles": [
     {
       "brand": "itqan-studio",
-      "category": "background",
-      "href": "/brand/bundles/itqan-studio-background.zip",
-      "count": 8,
-      "bytes": 9004658
-    },
-    {
-      "brand": "itqan-studio",
       "category": "logo",
       "href": "/brand/bundles/itqan-studio-logo.zip",
       "count": 5,
@@ -731,14 +620,14 @@
       "category": "sticker",
       "href": "/brand/bundles/itqan-studio-sticker.zip",
       "count": 22,
-      "bytes": 4977338
+      "bytes": 7259809
     },
     {
       "brand": "itqan-studio",
       "category": "all",
       "href": "/brand/bundles/itqan-studio-brand-pack.zip",
-      "count": 54,
-      "bytes": 14236185
+      "count": 46,
+      "bytes": 7514020
     }
   ]
 }

@@ -13,7 +13,9 @@ const bundles = bundlesFor('itqan-studio', ['sticker']);
 
 export default function StickersPage() {
   return (
-    <PortalPageBody href="/brand/assets/stickers">
+    <PortalPageBody href="/brand/assets/stickers"
+      heroImage="/images/portfolio/ITQAN-CRM-MB-MKP.png"
+    >
       <Section>
         <p className="text-[1.0625rem] leading-relaxed text-[var(--color-text-secondary)]">
           Stickers are the cheapest way a brand travels, and the fastest way a

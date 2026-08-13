@@ -9,7 +9,9 @@ export const metadata: Metadata = {
 
 export default function MotionPage() {
   return (
-    <PortalPageBody href="/brand/motion">
+    <PortalPageBody href="/brand/motion"
+      heroImage="/images/portfolio/project-you/cover.webp"
+    >
       <Section>
         <p className="text-[1.0625rem] leading-relaxed text-[var(--color-text-secondary)]">
           Motion explains where something came from and where it went. Nothing

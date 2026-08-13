@@ -34,7 +34,7 @@ export function bundlesFor(brand: BrandId, categories?: string[]): AssetBundle[]
 }
 
 /** Distinct categories present for a brand, in a stable, meaningful order. */
-const CATEGORY_ORDER = ["logo", "sticker", "signature", "background"];
+const CATEGORY_ORDER = ["logo", "sticker", "signature"];
 
 export function categoriesFor(brand: BrandId): string[] {
   const present = new Set(assetsFor(brand).map((a) => a.category));

@@ -1,7 +1,15 @@
 import type { Metadata } from 'next';
 import { CORE_COLOURS, TEXT_COLOURS } from '@/data/brand-spec';
-import { ColourGrid } from '@/components/brand/ColourGrid';
-import { Callout, PortalPageBody, RuleGrid, Section } from '@/components/brand/primitives';
+import { ColourBands } from '@/components/brand/ColourBands';
+import {
+  Bleed,
+  Callout,
+  PortalPageBody,
+  Prose,
+  PullQuote,
+  RuleGrid,
+  Section,
+} from '@/components/brand/primitives';
 
 export const metadata: Metadata = {
   title: 'Colour',
@@ -13,25 +21,44 @@ export default function ColourPage() {
   return (
     <PortalPageBody href="/brand/colour">
       <Section>
-        <p className="text-[1.0625rem] leading-relaxed text-[var(--color-text-secondary)]">
-          The palette alternates: a plum section, then a cream one, then plum
-          again. That rhythm is the layout system as much as the colour system —
-          it gives long pages a pulse without needing decoration.
-        </p>
+        <Prose>
+          The palette alternates. A plum section, then a cream one, then plum
+          again. That rhythm is the layout system as much as the colour system:
+          it gives a long page a pulse without needing a single divider.
+        </Prose>
+        <Prose>
+          Everything below is shown at the size you will actually use it, with
+          real type on it. If a combination appears here, it has been measured.
+        </Prose>
       </Section>
 
-      <Callout tone="warning" title="One accent, two cuts">
-        Mauve and Deep Mauve are the same role, not two colours. Which one you
-        use is decided by the surface underneath, never by preference. Mauve on
-        cream measures 2.11:1 — a fail so severe the text is barely visible.
-      </Callout>
+      <Bleed className="mb-24 md:mb-32">
+        <ColourBands swatches={CORE_COLOURS} />
+      </Bleed>
 
-      <Section title="Core" intro="Five colours carry the brand. Click a swatch to copy its hex.">
-        <ColourGrid swatches={CORE_COLOURS} />
+      <PullQuote>
+        One accent, two cuts. Which one you use is decided by the surface
+        underneath, never by preference.
+      </PullQuote>
+
+      <Section title="Why there are two mauves">
+        <Prose>
+          Mauve is the colour people recognise, and it only works on dark. On
+          cream it measures 2.11:1 — far below the 4.5:1 that body text needs,
+          and low enough that the text is genuinely hard to see rather than just
+          low-contrast.
+        </Prose>
+        <Prose>
+          Deep Mauve is the same role, redrawn for light surfaces at 7.22:1.
+          They are two cuts of one accent, not two colours, which is why they
+          are never used together.
+        </Prose>
       </Section>
 
       <Section title="Text" intro="Three text colours, chosen by the surface rather than by hierarchy.">
-        <ColourGrid swatches={TEXT_COLOURS} />
+        <Bleed>
+          <ColourBands swatches={TEXT_COLOURS} />
+        </Bleed>
       </Section>
 
       <Section title="Rules">

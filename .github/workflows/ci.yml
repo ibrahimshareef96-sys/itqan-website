@@ -63,6 +63,14 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      # Brand-portal invariants: host routing, the data-to-route contract, and
+      # the prune rule that can delete published assets. These import
+      # TypeScript directly and rely on Node's native type stripping — .nvmrc
+      # pins 24, and package.json declares the floor in `engines`.
+      # Static command, no workflow inputs interpolated.
+      - name: Tests
+        run: npm test
+
       # Verified 2026-08-13: this builds with NO environment at all (the site
       # has no .env file, and the analytics config is read at REQUEST time by
       # /api/analytics-config rather than inlined at build). If a future change

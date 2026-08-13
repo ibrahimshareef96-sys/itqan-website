@@ -54,7 +54,9 @@ const KIND = {
 
 export default function UpdatesPage() {
   return (
-    <PortalPageBody href="/brand/updates">
+    <PortalPageBody href="/brand/updates"
+      heroImage="/images/portfolio/mutqin/journey.webp"
+    >
       <Section>
         <p className="text-[1.0625rem] leading-relaxed text-[var(--color-text-secondary)]">
           Brand systems drift quietly. This is the record of what moved, so an

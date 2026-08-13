@@ -507,3 +507,59 @@ html.dark .stats-gradient {
   50%  { transform: translateX(194%); }
   100% { transform: translateX(0); }
 }
+
+/* -------------------------------------------------------------------------
+   PORTAL CANVAS — the layout that lets a reference manual breathe.
+   -------------------------------------------------------------------------
+   ONE left edge for everything.
+
+   The hero, the prose, the grids and the full-bleed colour bands all start at
+   the same x position: the left edge of a centred 1180px band. Getting this
+   wrong is what makes a documentation site feel assembled rather than
+   designed — a centred prose column beside a left-aligned hero reads as two
+   different pages stacked.
+
+   `--portal-inset` is that edge, computed once and inherited, so a child
+   inside a full-bleed section can align to it without knowing the maths.
+
+   Prose is capped in CHARACTERS, not pixels, so the measure stays right as the
+   type scale changes. 68ch is about 70 characters here, which is where the eye
+   still finds the next line reliably.
+   ------------------------------------------------------------------------- */
+.portal-canvas {
+  --portal-max: 1180px;
+  --portal-gutter: 1.5rem;
+  --portal-inset: max(var(--portal-gutter), calc((100% - var(--portal-max)) / 2));
+  width: 100%;
+}
+
+.portal-canvas > * {
+  width: min(68ch, calc(100% - var(--portal-inset) * 2));
+  margin-inline-start: var(--portal-inset);
+}
+
+/* Wider than prose, same left edge. For grids, specimens and tables. */
+.portal-canvas > .portal-wide {
+  width: calc(100% - var(--portal-inset) * 2);
+  max-width: var(--portal-max);
+}
+
+/* Edge to edge of the content area — NOT 100vw, which would run under the
+   sidebar and add a horizontal scrollbar. */
+.portal-canvas > .portal-bleed {
+  width: 100%;
+  max-width: none;
+  margin-inline-start: 0;
+}
+
+/* Aligns a block INSIDE a full-bleed section back to the shared left edge. */
+.portal-inset-block {
+  width: min(var(--portal-max), calc(100% - var(--portal-inset) * 2));
+  margin-inline-start: var(--portal-inset);
+}
+
+@media (min-width: 768px) {
+  .portal-canvas {
+    --portal-gutter: 2.5rem;
+  }
+}

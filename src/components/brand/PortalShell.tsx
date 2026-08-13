@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/cn";
 import { PORTAL_BRAND, PORTAL_NAV, type PortalCategory } from "@/data/brand-portal";
+import { assetBySlug } from "@/data/brand-library";
 import { PortalSearch } from "./PortalSearch";
 
 /**
@@ -21,6 +22,23 @@ import { PortalSearch } from "./PortalSearch";
  * On mobile the sidebar collapses into a sheet behind a "Contents" button,
  * because a 3-level tree cannot honestly fit a phone rail.
  */
+/*
+ * Resolved once at module scope. If the mark is ever renamed or dropped from
+ * the library this throws at build time instead of rendering a broken image in
+ * the top-left corner of every page in the portal.
+ */
+function resolveMark(): string {
+  const asset = assetBySlug(PORTAL_BRAND.brand, PORTAL_BRAND.markSlug);
+  if (!asset?.src) {
+    throw new Error(
+      `PortalShell: no asset "${PORTAL_BRAND.markSlug}" for brand "${PORTAL_BRAND.brand}" in brand-assets.json. Run: npm run brand:sync`,
+    );
+  }
+  return asset.src;
+}
+
+const MARK_SRC = resolveMark();
+
 export function PortalShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -46,7 +64,7 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
         <div className="flex items-center gap-4 px-4 sm:px-6 h-14">
           <Link href="/brand" className="flex items-center gap-2.5 shrink-0 group">
             <Image
-              src={PORTAL_BRAND.markSrc}
+              src={MARK_SRC}
               alt=""
               width={26}
               height={26}

@@ -9,6 +9,17 @@ export const metadata: Metadata = {
   description: 'The Itqan Studio mark and wordmark: which version to use where, and the rules that keep it recognisable.',
 };
 
+/*
+ * Named from the ARTWORK, not from the filename.
+ *
+ * The source files are called light-* / dark-*, but `light-icon` and
+ * `light-logo` are drawn in Mauve #cca4c2, not cream. Calling either one
+ * "cream" would send someone to the wrong file — and because mauve on a light
+ * surface is the banned 2.11:1 pairing, every mauve cut is shown on dark here.
+ *
+ * There is deliberately no cream icon. On dark at small sizes the mauve icon
+ * is the one to use.
+ */
 const PRIMARY = [
   {
     slug: 'white-logo',
@@ -23,8 +34,14 @@ const PRIMARY = [
     tile: '#fffbf5',
   },
   {
+    slug: 'light-logo',
+    title: 'Mauve lockup',
+    when: 'Dark surfaces where the mark should carry the accent rather than sit quiet. Never on light.',
+    tile: '#2f1c2c',
+  },
+  {
     slug: 'light-icon',
-    title: 'Cream icon',
+    title: 'Mauve icon',
     when: 'Small spaces on dark: favicon, avatar, video corner.',
     tile: '#2f1c2c',
   },
@@ -38,7 +55,10 @@ const PRIMARY = [
 
 export default function LogoPage() {
   return (
-    <PortalPageBody href="/brand/logo">
+    <PortalPageBody href="/brand/logo"
+      heroImage="/images/hero/hero-main.png"
+      heroAlt="A brand mark at working size"
+    >
       <Section>
         <p className="text-[1.0625rem] leading-relaxed text-[var(--color-text-secondary)]">
           The lockup is the default. The icon exists for the places a lockup
@@ -84,8 +104,9 @@ export default function LogoPage() {
       </Section>
 
       <Callout tone="tip" title="Which one, quickly">
-        Dark background: cream. Light background: plum. Smaller than about
-        120px wide: the icon rather than the lockup.
+        Dark background: cream, or mauve when the mark should carry the accent.
+        Light background: plum, always. Smaller than about 120px wide: the icon
+        rather than the lockup.
       </Callout>
 
       <Section title="Rules">
@@ -95,7 +116,7 @@ export default function LogoPage() {
             { kind: 'do', text: 'Give the mark its clear space — the height of the icon on every side.' },
             { kind: 'do', text: 'Use one colour. The mark is monochrome by design.' },
             { kind: 'do', text: 'Switch to the icon before the lockup becomes unreadable, not after.' },
-            { kind: 'dont', text: 'Do not recolour the mark outside the four approved cuts.' },
+            { kind: 'dont', text: 'Do not recolour the mark outside the five approved cuts.' },
             { kind: 'dont', text: 'Do not add a shadow, glow, gradient or outline.' },
             { kind: 'dont', text: 'Do not stretch, rotate, skew or crop it.' },
             { kind: 'dont', text: 'Do not set the wordmark in Manrope by hand — it is drawn, not typed.' },

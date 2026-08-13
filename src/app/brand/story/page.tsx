@@ -31,7 +31,10 @@ const PRINCIPLES = [
 
 export default function StoryPage() {
   return (
-    <PortalPageBody href="/brand/story">
+    <PortalPageBody href="/brand/story"
+      heroImage="/images/about/excellence.webp"
+      heroAlt="Detail of studio work in progress"
+    >
       <Section>
         <p className="text-[1.0625rem] leading-relaxed text-[var(--color-text-secondary)]">
           Itqan Studio is named after a standard rather than a person or a

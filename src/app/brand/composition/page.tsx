@@ -9,7 +9,10 @@ export const metadata: Metadata = {
 
 export default function CompositionPage() {
   return (
-    <PortalPageBody href="/brand/composition">
+    <PortalPageBody href="/brand/composition"
+      heroImage="/images/portfolio/project-you/landing-dark.webp"
+      heroAlt="A page built on the alternating rhythm"
+    >
       <Section>
         <p className="text-[1.0625rem] leading-relaxed text-[var(--color-text-secondary)]">
           Pages alternate: a plum section, a cream section, plum again. That

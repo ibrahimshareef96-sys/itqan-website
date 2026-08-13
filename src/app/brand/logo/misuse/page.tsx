@@ -34,7 +34,9 @@ const MISUSES: Array<{ title: string; why: string; style: React.CSSProperties; t
 export default function MisusePage() {
   if (!MARK?.src) return null;
   return (
-    <PortalPageBody href="/brand/logo/misuse">
+    <PortalPageBody href="/brand/logo/misuse"
+      heroImage="/images/portfolio/nexilink/cover.png"
+    >
       <Section>
         <p className="text-[1.0625rem] leading-relaxed text-[var(--color-text-secondary)]">
           Every example below is the real mark, broken on purpose with CSS. None

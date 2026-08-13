@@ -52,7 +52,9 @@ const SPECIMENS = [
 
 export default function SpecimensPage() {
   return (
-    <PortalPageBody href="/brand/typography/specimens">
+    <PortalPageBody href="/brand/typography/specimens"
+      heroImage="/images/portfolio/oud-closet/desert-still.webp"
+    >
       <Section>
         <p className="text-[1.0625rem] leading-relaxed text-[var(--color-text-secondary)]">
           Everything below is set in the live webfonts, not exported as images.
