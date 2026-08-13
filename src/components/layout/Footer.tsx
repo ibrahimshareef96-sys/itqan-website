@@ -35,11 +35,23 @@ const socials = [
 export function Footer() {
   const pathname = usePathname();
 
-  // The brand portal closes with its own prev/next and resources. Declared
-  // before any other hook so ordering is trivially stable.
-  if (pathname === '/brand' || pathname.startsWith('/brand/')) {
-    return null;
-  }
+  /*
+   * The brand-portal bail-out used to live HERE, as
+   * `pathname.startsWith('/brand/')`. It is gone on purpose.
+   *
+   * It could not work on the live portal. brand.itqanstudio.com is REWRITTEN to
+   * /brand/*, and a rewrite leaves the browser URL alone — so usePathname()
+   * returned "/positioning" and the guard silently evaluated false. The footer
+   * rendered on every portal page (confirmed 2026-08-13 by
+   * `<nav aria-label="Footer navigation">` in the live HTML).
+   *
+   * The decision now happens once on the server, in the root layout, from a
+   * middleware header. See lib/portal-chrome.ts. Do not add a pathname guard
+   * back here: it would be a second mechanism that disagrees with the first,
+   * and the wrong one would win on the subdomain.
+   *
+   * `pathname` is still used below for the active-link state.
+   */
 
   return (
     <footer className="py-20 border-t border-black/[0.06] dark:border-brand-cream/[0.08]">
