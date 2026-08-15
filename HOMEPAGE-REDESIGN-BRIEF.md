@@ -10,7 +10,7 @@ Itqan Studio is a UAE-based brand and digital agency (RAKEZ Free Zone). The name
 Benchmark: won.agency — dark, minimal, portfolio-forward, single conversion CTA, no homepage testimonial cards.
 
 **Stack:** Next.js 14, TypeScript, Tailwind, Framer Motion, Netlify.
-**Repo:** `ibrahimshareef96-sys/itqan-website`
+**Repo:** `itqanstudio/itqan-website`
 
 Brand tokens live in `CLAUDE.md` at project root. Do not invent new colors. Do not introduce new fonts. If a section needs a token outside the palette, stop and ask.
 

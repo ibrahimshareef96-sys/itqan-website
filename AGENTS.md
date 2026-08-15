@@ -145,3 +145,25 @@ npm run verify:design # Apple-design checks
 - There are no tests. `@playwright/test` is a devDependency but there is no
   `playwright.config.ts` and no specs. Treat "CI is green" as "it compiles and
   builds", not "it works".
+
+---
+
+## Repository home (2026-08-15)
+
+This repo lives in the **`itqanstudio`** GitHub organisation, not on a personal
+account. It moved there on 2026-08-15 along with `itqan-crm` and `itqan-infra`.
+
+```
+https://github.com/itqanstudio/itqan-website
+```
+
+GitHub redirects the old `ibrahimshareef96-sys/...` URLs, so nothing breaks
+immediately — but do not rely on it. A redirect stops working the moment a repo
+with the old name is created on the personal account, and the failure surfaces
+as a deploy that cannot clone. Coolify's git remote was updated explicitly for
+the same reason (`git_repository: itqanstudio/itqan-website`).
+
+If you cloned before the move: `git remote set-url origin https://github.com/itqanstudio/itqan-website.git`
+
+`shareefico-website` deliberately did NOT move — it is Ibrahim's personal brand,
+not the agency's, and it stays on the personal account.
