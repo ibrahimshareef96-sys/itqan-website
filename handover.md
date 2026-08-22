@@ -1,6 +1,43 @@
 # Itqan Studio Website — Handover
 
 
+## 2026-08-22 (LATEST) — Lemon Garden case study LIVE at /work/lemon-garden
+
+Commit `0bd5f51`, deployed via the push webhook, verified live (copy + all six
+images 200, listed on /work). Work file:
+`agent-work/20260822063520_lemon_garden_case_study_and_productization.md`.
+
+- **What it covers:** the seven-city booking platform + staff console (live at
+  boka.lemongarden.se) and the website redesign presented HONESTLY as a
+  concept ("Pitched with an interactive live demo — shown here as designed") —
+  it was never bought, and the copy never claims it shipped.
+- **Mockup pipeline worth reusing:** the Higgsfield MCP's `medias` param on
+  `generate_image` is silently IGNORED (a reference test returned a stock
+  demo image) — GPT Image 2 CANNOT reproduce a supplied screenshot. So: GPT
+  Image 2 generates empty scene BACKDROPS ("NO devices, NO screens, NO text"),
+  and real screenshots are composited as floating browser/phone cards with
+  sharp (rounded corners + chrome bar + soft shadow). Real pixels, AI scene.
+  All screenshots from LOCAL dev with fictional seed data — production was
+  never screenshotted.
+- **Masked by decision:** guest data, credentials, per-city inbox addresses,
+  the console path, all fees, and the client's WP-malware history (never
+  mention that publicly). Client name is used, consistent with the other
+  case studies.
+- **BrandShowcase is now parametrized** (`brandShowcaseCopy` on CaseStudy,
+  defaulting to the original Mutqin copy) — it used to hardcode "Mu, a
+  six-pose companion" for every project with showcase images. Mutqin renders
+  unchanged.
+- **Panel: skipped** per the skill's own skip rule (content/data entry, no
+  logic beyond an optional prop with a default). tsc + 34/34 site tests +
+  build green; page visually verified at three scroll depths.
+- **Behance package for Ibrahim:** `~/Desktop/behance-lemon-garden/` — six
+  ordered boards, a ratio-correct cover, and COPY.md with paste-ready text
+  (including a do-not-mention list).
+- **Productization plan:** `~/Desktop/lemongarden-booking-demo/PRODUCTIZE.md`
+  — subscription tiers in AED, the multi-tenant gap list (tenant timezone is
+  item #1: lib/time pins Europe/Stockholm), and the Dubai first-ten motion.
+
+
 ## 2026-08-13 (LATEST) — portal made human; chrome, logo and marks fixed
 
 Ibrahim: "very empty, very poor, no imagery, super bland... I don't see any
