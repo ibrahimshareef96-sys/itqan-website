@@ -142,7 +142,10 @@ export const caseStudies: CaseStudy[] = [
     category: 'Application Development',
     coverImage: '/images/portfolio/lemon-garden/cover.webp',
     liveUrl: 'https://boka.lemongarden.se',
+    // Website FIRST — the cover collage leads with it and the gallery confirms it
+    // immediately, instead of hiding the concept work at the bottom of the page.
     mockups: [
+      '/images/portfolio/lemon-garden/website.webp',
       '/images/portfolio/lemon-garden/mobile.webp',
       '/images/portfolio/lemon-garden/console.webp',
       '/images/portfolio/lemon-garden/formbuilder.webp',
