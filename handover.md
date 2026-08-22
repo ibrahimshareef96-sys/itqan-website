@@ -1,7 +1,30 @@
 # Itqan Studio Website — Handover
 
 
-## 2026-08-22 (LATEST) — Lemon Garden case study LIVE at /work/lemon-garden
+## 2026-08-22 (LATER) — cover redone won.agency-style; Behance boards designed
+
+Ibrahim's feedback: the website mockups only appeared after heavy scrolling, and he wanted
+the real Behance case study. Reference he loves: won.agency/work/dubai-new — studied it
+(fetched + screenshotted): black canvas, giant product-name headline, then FULL-BLEED
+boldly-cropped device imagery at scale; short confident text blocks between big images;
+service pills only, no stat clutter.
+
+- **New cover (commit `5ab5383`, deployed `ppjksdc41zlqs6ys5h58s7b1`, verified live):**
+  a three-surface collage — website concept LARGE at left bleeding off-frame, booking
+  widget right, phone straddling the seam — replacing the single timid floating card.
+  Built by compositing on an oversized canvas then extracting the frame (sharp requires
+  inputs to fit, so bleed = compose big, crop after). The website ALSO now leads the top
+  mockups gallery (4 items; the gallery handles up to 6 — Project You ships 6).
+- **Behance case study is now DESIGNED BOARDS**, not raw assets:
+  `~/Desktop/behance-lemon-garden/boards/01…06.png` (2800px wide, HTML→CDP-rendered,
+  Poppins + Source Sans 3, pine/lemon palette). Upload guide in COPY.md — Ibrahim
+  uploads in filename order, pastes one short description, done.
+- ⚠️ **OPERATIONAL GOTCHA — local port 8000 is now oMLX.** The Coolify SSM tunnel on
+  localPortNumber 8000 silently binds nothing and curls hit the local oMLX FastAPI
+  instead, which answers `{"detail":"Not Found"}` to every path — looks exactly like a
+  Coolify API problem. Cost 15 minutes today. **Always tunnel Coolify to local 18443.**
+
+## 2026-08-22 — Lemon Garden case study LIVE at /work/lemon-garden
 
 Commit `0bd5f51`, deployed via the push webhook, verified live (copy + all six
 images 200, listed on /work). Work file:
