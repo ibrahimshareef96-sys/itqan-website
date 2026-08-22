@@ -22,6 +22,13 @@ export interface CaseStudy {
   mockups: string[];
   /** Optional brand/character showcase images (e.g. a brand cover + a mascot/expression sheet). Renders an extra "Brand & character" section on the detail page. Only set for projects with a brand system worth showing on its own. */
   brandShowcase?: string[];
+  /** Copy for the brandShowcase section. Optional — defaults to the original Mutqin copy so
+   *  existing entries render unchanged. `title.accent` is the italic accent word(s). */
+  brandShowcaseCopy?: {
+    eyebrow: string;
+    title: { lead: string; accent: string };
+    body: string;
+  };
   challenge: string;
   approach: string;
   result: string;
@@ -123,6 +130,85 @@ export const caseStudies: CaseStudy[] = [
           'An AI coach on Claude that pushes back instead of cheerleading',
           "Investor-grade documents generated from the founder's own answers",
           'A live readiness score plus a shareable public readiness link',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'lemon-garden',
+    title: 'Lemon Garden',
+    subtitle: 'A booking platform for a seven-city restaurant chain',
+    industry: 'Hospitality & F&B',
+    category: 'Application Development',
+    coverImage: '/images/portfolio/lemon-garden/cover.webp',
+    liveUrl: 'https://boka.lemongarden.se',
+    mockups: [
+      '/images/portfolio/lemon-garden/mobile.webp',
+      '/images/portfolio/lemon-garden/console.webp',
+      '/images/portfolio/lemon-garden/formbuilder.webp',
+    ],
+    brandShowcase: [
+      '/images/portfolio/lemon-garden/website.webp',
+      '/images/portfolio/lemon-garden/website-mobile.webp',
+    ],
+    brandShowcaseCopy: {
+      eyebrow: 'The website concept',
+      title: { lead: 'A garden you can', accent: 'feel.' },
+      body: 'Alongside the platform we designed a full website concept for the chain: hand-drawn lemon branches that sketch themselves in as you scroll, postage-stamp buttons, wavy awning bands and a city marquee. Pitched with an interactive live demo — shown here as designed.',
+    },
+    challenge:
+      'Seven brunch restaurants across Sweden, and every table booked by phone or Instagram DM. No shared view of who was coming, no way to cap a sitting before the kitchen drowned, and every "can we cancel?" was a call someone had to answer mid-service. The chain needed real booking infrastructure — and owning it, not renting a per-cover SaaS that charges for every guest.',
+    approach:
+      "We shipped a working demo on day one and a production system within the week: a bilingual booking page where guests pick city, day and time against live availability, and a hidden staff console behind email-code two-factor login. Every rule the restaurant actually runs is in the owner's hands — opening hours per weekday, party-size windows per city, a minimum booking lead time, even the booking form itself: staff add their own fields (like an allergy question) and choose whether each is optional or mandatory, enforced server-side. Then we kept shipping from the owner's feedback, week after week.",
+    result:
+      'Live at boka.lemongarden.se on the client\'s own AWS — no per-booking fees, ever. Guests book, reschedule and cancel themselves through signed email links; the kitchen sees exact covers per 90-minute seating; every location has its own login and inbox routing. Overbooking is impossible by design (capacity is checked atomically at write time), and every release passes a multi-model security review before deploy.',
+    services: [
+      'Full-Stack Engineering',
+      'Product Design',
+      'Cloud Infrastructure',
+      'Web Design Concept',
+    ],
+    testimonialQuote:
+      "Restaurant booking SaaS charges per cover, forever, for what is essentially a calendar with rules. We built Lemon Garden the opposite deal: a system they own outright, on their own server, where the owner changes the rules from a console instead of calling a developer. Demo on day one, production in a week — then we let their real service weeks tell us what to build next.",
+    testimonialName: 'Ibrahim Shareef',
+    testimonialCompany: 'Founder, Itqan Studio',
+    testimonialImage: '/images/testimonials/ibrahim-shareef.png',
+    duration: '1 week to production',
+    industryAverage: '3-6 months',
+    outcomeMetric: 'Live in production — seven cities booking through one system',
+    scope: 'Booking platform · staff console · email layer · website concept',
+    stack: 'Next.js, React, TypeScript, PostgreSQL, AWS',
+    beforeQuote:
+      'Seven restaurants, and every booking lived in a phone call or a DM. Nobody could see the whole day, and nobody could change a rule without asking a developer.',
+    phases: [
+      {
+        pillar: 'identity',
+        days: 'The concept',
+        deliverables: [
+          'A proposed website redesign: hand-drawn lemon branches that sketch themselves in',
+          'Postage-stamp CTAs, wavy awning bands, and a city marquee — a garden you can feel',
+          'Pitched as a full concept with an interactive live demo (shown here as designed)',
+        ],
+      },
+      {
+        pillar: 'system',
+        days: 'Day 1-7',
+        deliverables: [
+          'Guest booking page — live availability per 90-minute seating, bilingual Swedish/English',
+          'Hidden staff console with email-code two-factor login, one account per city',
+          'Atomic capacity checks so two guests can never book past a sitting\'s limit',
+          'Deployed to production on the client\'s own AWS — zero per-booking fees',
+        ],
+      },
+      {
+        pillar: 'automation',
+        days: 'The service weeks',
+        deliverables: [
+          'Confirmation, reminder and cancellation emails routed to each city\'s own inbox',
+          'Self-service reschedule and cancel through signed links — no login, no phone call',
+          'Owner-run form builder: add a field, pick its type, make it optional or mandatory',
+          'Per-weekday opening hours, per-city party-size windows, owner-tunable booking lead time',
+          'GDPR by design: data-retention purge, minimal public API, rate-limited endpoints',
         ],
       },
     ],

@@ -34,6 +34,22 @@ export const projects: Project[] = [
     filters: ['Application Development', 'Brand & Identity', 'UI/UX Design'],
   },
   {
+    id: 'lemon-garden',
+    title: 'Lemon Garden',
+    subtitle: 'A booking platform for a seven-city restaurant chain',
+    category: 'Application Development',
+    coverImage: '/images/portfolio/lemon-garden/cover.webp',
+    mockups: [
+      '/images/portfolio/lemon-garden/mobile.webp',
+      '/images/portfolio/lemon-garden/console.webp',
+      '/images/portfolio/lemon-garden/website.webp',
+    ],
+    description:
+      'A self-hosted booking platform for a Swedish brunch chain with seven locations: live availability per seating, a two-factor staff console, an owner-run form builder, and a full email layer — demo on day one, production within the week, live at boka.lemongarden.se.',
+    tags: ['Application Development', 'Hospitality', 'Booking'],
+    filters: ['Application Development', 'UI/UX Design'],
+  },
+  {
     id: 'shareefico',
     title: 'Shareefico',
     subtitle: 'A personal brand, a 3D-creator site, and a custom CMS',

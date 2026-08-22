@@ -245,7 +245,7 @@ export default function CaseStudyPage({ params }: Props) {
 
       {/* ── Brand & character — optional, gated on brandShowcase ── */}
       {cs.brandShowcase && cs.brandShowcase.length > 0 && (
-        <BrandShowcase title={cs.title} images={cs.brandShowcase} />
+        <BrandShowcase title={cs.title} images={cs.brandShowcase} copy={cs.brandShowcaseCopy} />
       )}
 
       {/* ── Large testimonial ── */}
@@ -595,7 +595,23 @@ function AfterBlock({ cs }: { cs: CaseStudy }) {
 // Renders only when cs.brandShowcase has images. On-brand dark section;
 // reuses the gallery's framing so it sits naturally after "What we shipped".
 // ────────────────────────────────────────────────────────────
-function BrandShowcase({ title, images }: { title: string; images: string[] }) {
+// Defaults preserve the copy this section shipped with (written for Mutqin), so entries
+// without brandShowcaseCopy render exactly as before.
+const BRAND_SHOWCASE_DEFAULT_COPY = {
+  eyebrow: 'Brand & character',
+  title: { lead: 'A product with a', accent: 'face.' },
+  body: 'The personality is built with the product, not added after — a brand kit, an in-repo design system, and Mu, a six-pose companion who asks the questions. That is the Itqan standard.',
+};
+
+function BrandShowcase({
+  title,
+  images,
+  copy = BRAND_SHOWCASE_DEFAULT_COPY,
+}: {
+  title: string;
+  images: string[];
+  copy?: typeof BRAND_SHOWCASE_DEFAULT_COPY;
+}) {
   return (
     <section
       className="bg-[#f5efe6] dark:bg-[#1a0f1c] py-20 md:py-24"
@@ -607,7 +623,7 @@ function BrandShowcase({ title, images }: { title: string; images: string[] }) {
             className="font-sans font-medium text-[0.6875rem] uppercase text-brand-accent-on-light dark:text-brand-accent"
             style={{ letterSpacing: '0.22em' }}
           >
-            Brand & character
+            {copy.eyebrow}
           </p>
         </FadeUp>
 
@@ -617,7 +633,7 @@ function BrandShowcase({ title, images }: { title: string; images: string[] }) {
             className="mt-6 font-sans font-semibold text-text-primary dark:text-brand-cream leading-[1.05] tracking-[-0.02em]"
             style={{ fontSize: 'clamp(2.25rem, 4.5vw, 3.75rem)', maxWidth: '20ch' }}
           >
-            A product with a <span className="accent-italic">face.</span>
+            {copy.title.lead} <span className="accent-italic">{copy.title.accent}</span>
           </h2>
         </FadeUp>
 
@@ -626,9 +642,7 @@ function BrandShowcase({ title, images }: { title: string; images: string[] }) {
             className="mt-6 text-text-secondary dark:text-brand-cream/70 leading-[1.65]"
             style={{ fontSize: 'clamp(1rem, 1.2vw, 1.125rem)', maxWidth: '58ch' }}
           >
-            The personality is built with the product, not added after — a brand
-            kit, an in-repo design system, and Mu, a six-pose companion who asks the
-            questions. That is the Itqan standard.
+            {copy.body}
           </p>
         </FadeUp>
 
