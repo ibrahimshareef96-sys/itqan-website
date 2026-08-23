@@ -1,6 +1,25 @@
 # Itqan Studio Website — Handover
 
 
+## 2026-08-23 (LATER) — feedback form: page-local dark mode + HTML email
+
+Commit `d3c8ef5`, deployment `xcohxpif9wsjiv1x8m7l2k2g`, verified live.
+
+- **Dark mode**: could never activate on the subdomain (site is light-by-default with the
+  only next-themes toggle in the stripped nav). `FeedbackThemer` owns theming for the page
+  alone — a `.dark` wrapper class (Tailwind class strategy matches any ancestor), system
+  preference by default, own toggle, page-scoped storage key `fb-theme`. The global
+  light-first provider decision is untouched.
+- **Email pathway** (documented for Ibrahim): form POST → /api/feedback (validate, per-IP
+  rate-limit keyed on the Traefik-appended LAST XFF value, honeypot) → nodemailer over SES
+  SMTP → **ibrahim.shareef96@gmail.com** (CONTACT_TO_EMAIL), from no-reply@itqanstudio.com,
+  reply-to = the client. No database; the inbox is the store.
+- **HTML email body added**: quote leads big (the case-study artifact), publish permission
+  as a loud green "may publish" / amber "PRIVATE — do not publish" line, private
+  what-to-improve section, meta table. Guest values escaped. Two SAMPLE submissions sent
+  to the inbox (subject `[feedback] ★★★★★ Test Client…` / `★★★★☆ … private variant`) so
+  Ibrahim sees both permission variants.
+
 ## 2026-08-23 (LATEST) — feedback.itqanstudio.com LIVE + cover v2 + uniform Behance boards
 
 Commit `6a5cc6e`, deployment `lvm5ok71uceykm7l7fon9hgs`. All verified live.
