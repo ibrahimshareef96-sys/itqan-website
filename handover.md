@@ -1,6 +1,21 @@
 # Itqan Studio Website — Handover
 
 
+## 2026-08-23 — Millow flagship case study (branch `feat/millow-case-study`, NOT pushed)
+
+On a new branch off `main`; push = production deploy, so it stays local until Ibrahim says go.
+
+- New `millow` entries FIRST in `src/data/case-studies.ts` and `src/data/projects.ts`
+  (drives next-case ordering; next after Millow is Mutqin). Filters: UI/UX Design +
+  Brand & Identity. No industryAverage (ongoing engagement, "6 weeks and counting").
+- Homepage `CasesAxion.tsx` cards now [Millow, Mutqin]; Shareefico card removed from
+  the flagship slot. Millow card uses `cover-collage.webp`, links `/work/millow`.
+- `public/llms.txt`: Millow bullet added first under Selected case studies.
+- 8 staged images in `public/images/portfolio/millow/` committed with the entry.
+- Phase titles ("The language" etc.) merged into the `days` label because
+  `CaseStudyPhase` has no title field and the renderer was not touched.
+- `npm run typecheck` and `npm run build` both green; `/work/millow` prerenders.
+
 ## 2026-08-23 (LATER) — feedback form: page-local dark mode + HTML email
 
 Commit `d3c8ef5`, deployment `xcohxpif9wsjiv1x8m7l2k2g`, verified live.
