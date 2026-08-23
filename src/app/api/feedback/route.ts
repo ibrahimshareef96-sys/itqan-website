@@ -155,6 +155,45 @@ export async function POST(req: NextRequest) {
     `\nTheir words (the testimonial):\n${quote}\n` +
     (improve ? `\nWhat we should do better:\n${improve}\n` : "");
 
+  // HTML version — the quote is the artifact Ibrahim will copy into a case study, so it
+  // leads, big and quoted; logistics follow. All user values escaped: this is guest input
+  // rendered into markup.
+  const esc = (v: string) =>
+    v
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/\n/g, "<br>");
+  const metaRow = (label: string, value: string) =>
+    value
+      ? `<tr><td style="padding:4px 14px 4px 0;color:#8a8577;font-size:13px;white-space:nowrap">${label}</td><td style="padding:4px 0;color:#1a1a1a;font-size:13px">${esc(value)}</td></tr>`
+      : "";
+  const section = (title: string, value: string) =>
+    value
+      ? `<p style="margin:18px 0 4px;color:#8a8577;font-size:12px;letter-spacing:.08em;text-transform:uppercase">${title}</p>
+         <p style="margin:0;color:#1a1a1a;font-size:14px;line-height:1.6">${esc(value)}</p>`
+      : "";
+  const bodyHtml = `<!doctype html><html><body style="margin:0;background:#f4f1ea;font-family:Helvetica,Arial,sans-serif">
+  <div style="max-width:560px;margin:0 auto;padding:28px 22px">
+    <p style="margin:0 0 4px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#8a8577">Itqan Studio — client feedback</p>
+    <p style="margin:0 0 18px;font-size:22px;color:#c9a227">${stars} <span style="color:#8a8577;font-size:14px">(${rating}/5)</span></p>
+    <div style="background:#fff;border-radius:14px;padding:22px 24px;border:1px solid rgba(0,0,0,.07)">
+      <p style="margin:0;font-size:17px;line-height:1.65;color:#1a1a1a">&ldquo;${esc(quote)}&rdquo;</p>
+      <p style="margin:14px 0 0;font-size:13px;color:#8a8577">— ${esc(name)}${company ? `, ${esc(company)}` : ""}</p>
+    </div>
+    <p style="margin:14px 0 0;font-size:13px;font-weight:bold;color:${publishOk ? "#1c7a43" : "#a05a00"}">
+      ${publishOk ? "✔ May be published with their name" : "✱ Private — do NOT publish"}
+    </p>
+    ${section("What we built together", built)}
+    ${section("What changed for them", changed)}
+    ${section("What we should do better", improve)}
+    <table style="margin-top:22px;border-top:1px solid rgba(0,0,0,.08);padding-top:8px;border-collapse:collapse">
+      ${metaRow("Project", project)}${metaRow("Role", role)}${metaRow("Email", email)}
+    </table>
+    <p style="margin:26px 0 0;font-size:11px;color:#b3ada0">Sent from feedback.itqanstudio.com</p>
+  </div></body></html>`;
+
   try {
     await transporter.sendMail({
       from: `Itqan Studio <${fromEmail}>`,
@@ -162,6 +201,7 @@ export async function POST(req: NextRequest) {
       ...(email ? { replyTo: email } : {}),
       subject: `[feedback] ${stars} ${name}${project ? ` · ${project}` : ""}`,
       text: bodyText,
+      html: bodyHtml,
     });
   } catch (err) {
     console.error("[feedback] send failed:", err);

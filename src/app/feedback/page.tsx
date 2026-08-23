@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { FeedbackForm } from '@/components/feedback/FeedbackForm';
+import { FeedbackThemer } from '@/components/feedback/FeedbackThemer';
 
 /**
  * Client-testimonial form — the post-project routine. Reached two ways:
@@ -29,6 +30,7 @@ export default function FeedbackPage({
   const project = typeof p === 'string' ? p.slice(0, 80) : undefined;
 
   return (
+    <FeedbackThemer>
     <main className="min-h-screen bg-brand-cream dark:bg-[#140a16] px-5 py-14 md:py-20">
       <div className="mx-auto w-full max-w-xl">
         <p
@@ -47,5 +49,6 @@ export default function FeedbackPage({
         <FeedbackForm project={project} />
       </div>
     </main>
+    </FeedbackThemer>
   );
 }
