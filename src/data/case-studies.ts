@@ -97,9 +97,9 @@ export const caseStudies: CaseStudy[] = [
     testimonialQuote:
       'Millow is the best thing I have been part of. Every pixel got argued about, tested, and earned its place.',
     testimonialName: 'Ibrahim Shareef',
-    testimonialCompany: 'Founder & CEO, ITQAN Studio · client testimonial in collection',
+    testimonialCompany: "Founder & CEO, ITQAN Studio. The studio's own verdict; the client's testimonial is in collection.",
     testimonialImage: '/images/testimonials/ibrahim-shareef.png',
-    duration: '6 weeks and counting',
+    duration: 'weekly releases since July 2026',
     outcomeMetric:
       '56 tracked design rounds with the founder, every release behind a green 113-test gate',
     scope: 'Design system · Motion · Food Service rebuild · Landing concepts · Partners',
