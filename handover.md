@@ -16,6 +16,15 @@ On a new branch off `main`; push = production deploy, so it stays local until Ib
   `CaseStudyPhase` has no title field and the renderer was not touched.
 - `npm run typecheck` and `npm run build` both green; `/work/millow` prerenders.
 
+## 2026-08-23 (LATEST) — feedback destination → studio inbox
+
+Commit `5f6a521`, deployment `nztf85a2g3kh3hzpbw48utat`. Ibrahim: client feedback must NOT
+land in the private Gmail. The route now reads **FEEDBACK_TO_EMAIL** (set in Coolify to
+**ibrahim@itqanstudio.com**) with CONTACT_TO_EMAIL as fallback. DELIBERATELY SCOPED: the
+contact form still goes to ibrahim.shareef96@gmail.com — flagged to Ibrahim as an open
+choice, not changed unilaterally. A destination-proof test submission was sent live
+(project tag `destination-check`).
+
 ## 2026-08-23 (LATER) — feedback form: page-local dark mode + HTML email
 
 Commit `d3c8ef5`, deployment `xcohxpif9wsjiv1x8m7l2k2g`, verified live.
