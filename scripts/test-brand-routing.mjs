@@ -79,6 +79,16 @@ const cases = [
     '',
     { kind: 'redirect-external', to: SHAREEFICO_PORTAL },
   ],
+  /* ── The client-testimonial form rides the same host-rewrite mechanism ── */
+  ['feedback.itqanstudio.com', '/', '', { kind: 'rewrite', path: '/feedback' }],
+  ['FEEDBACK.ITQANSTUDIO.COM:443', '/', '', { kind: 'rewrite', path: '/feedback' }],
+  // Non-root paths on the feedback host pass through, same contract as the
+  // brand host — only the root is rewritten.
+  ['feedback.itqanstudio.com', '/feedback', '', { kind: 'pass' }],
+  ['feedback.itqanstudio.com', '/work', '', { kind: 'pass' }],
+  // The path also works on the apex, with chrome.
+  ['itqanstudio.com', '/feedback', '', { kind: 'pass' }],
+
   ['itqanstudio.com', '/brand', '', { kind: 'pass' }],
   ['itqanstudio.com', '/work', '', { kind: 'pass' }],
   ['itqanstudio.com', '/', '', { kind: 'pass' }],

@@ -38,7 +38,7 @@ export const projects: Project[] = [
     title: 'Lemon Garden',
     subtitle: 'A booking platform for a seven-city restaurant chain',
     category: 'Application Development',
-    coverImage: '/images/portfolio/lemon-garden/cover.webp',
+    coverImage: '/images/portfolio/lemon-garden/cover-collage.webp',
     mockups: [
       '/images/portfolio/lemon-garden/mobile.webp',
       '/images/portfolio/lemon-garden/console.webp',

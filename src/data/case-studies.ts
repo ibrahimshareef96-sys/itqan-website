@@ -140,7 +140,7 @@ export const caseStudies: CaseStudy[] = [
     subtitle: 'A booking platform for a seven-city restaurant chain',
     industry: 'Hospitality & F&B',
     category: 'Application Development',
-    coverImage: '/images/portfolio/lemon-garden/cover.webp',
+    coverImage: '/images/portfolio/lemon-garden/cover-collage.webp',
     liveUrl: 'https://boka.lemongarden.se',
     // Website FIRST — the cover collage leads with it and the gallery confirms it
     // immediately, instead of hiding the concept work at the bottom of the page.

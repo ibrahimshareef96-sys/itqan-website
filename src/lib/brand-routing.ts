@@ -24,9 +24,15 @@ export const SHAREEFICO_PORTAL = 'https://shareefi.co/brand';
 export const ITQAN_PORTAL_HOST = 'brand.itqanstudio.com';
 export const SHAREEFICO_PORTAL_HOST = 'brand.shareefi.co';
 
+/** The client-testimonial form — the post-project routine. Same host-rewrite mechanism as
+ *  the brand portal: the subdomain root serves /feedback without changing the URL, and the
+ *  portal flag strips the site chrome so clients land on a clean standalone form. */
+export const FEEDBACK_HOST = 'feedback.itqanstudio.com';
+
 /** Hosts served by rewriting to a route in this app. */
 const BRAND_HOSTS: Record<string, string> = {
   [ITQAN_PORTAL_HOST]: '/brand',
+  [FEEDBACK_HOST]: '/feedback',
 };
 
 /** Hosts that belong to another deployment, or to another name. */
