@@ -122,7 +122,10 @@ export async function POST(req: NextRequest) {
   const smtpPort = process.env.SES_SMTP_PORT;
   const smtpUser = process.env.SES_SMTP_USERNAME;
   const smtpPass = process.env.SES_SMTP_PASSWORD;
-  const toEmail = process.env.CONTACT_TO_EMAIL;
+  // Feedback goes to the STUDIO address (Ibrahim: client feedback must not land in the
+  // private Gmail). Own env with a contact fallback, so this route can point somewhere
+  // different from the contact form without forking the rest of the mail config.
+  const toEmail = process.env.FEEDBACK_TO_EMAIL || process.env.CONTACT_TO_EMAIL;
   const fromEmail = process.env.CONTACT_FROM_EMAIL;
   if (!smtpHost || !smtpPort || !smtpUser || !smtpPass || !toEmail || !fromEmail) {
     console.error("[feedback] SES SMTP / contact envs not fully set");
