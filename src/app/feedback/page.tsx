@@ -16,12 +16,15 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function FeedbackPage({
+// Next 14 passes searchParams as a PLAIN OBJECT (the Promise form is Next 15).
+// `await` of a non-promise happens to be identity, so the earlier Promise-typed
+// version worked at runtime — but the type was a lie waiting for the 15 upgrade.
+export default function FeedbackPage({
   searchParams,
 }: {
-  searchParams: Promise<{ p?: string }>;
+  searchParams: { p?: string | string[] };
 }) {
-  const { p } = await searchParams;
+  const { p } = searchParams;
   // Bound + sanitize: this string travels into the submission payload.
   const project = typeof p === 'string' ? p.slice(0, 80) : undefined;
 

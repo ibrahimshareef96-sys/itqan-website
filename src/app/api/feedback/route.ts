@@ -46,9 +46,28 @@ function line(label: string, value: string): string {
   return value ? `${label}: ${value}\n` : "";
 }
 
+/**
+ * The client IP as established by OUR proxy, not by the client.
+ *
+ * Traefik (the only hop in front of this container) APPENDS the real peer address to any
+ * X-Forwarded-For the client sent — so the FIRST value is attacker-writable and the LAST
+ * value is the one our own edge observed. Keying the rate limiter on the first value would
+ * hand out a fresh bucket per spoofed header, which on an endpoint that sends a real email
+ * per request means unbounded sends and SES reputation damage. Deployment assumption
+ * (single Traefik hop) is the same one the in-memory limiter itself already makes.
+ */
+function clientIp(req: NextRequest): string {
+  const forwarded = req.headers.get("x-forwarded-for");
+  if (forwarded) {
+    const parts = forwarded.split(",");
+    const last = parts[parts.length - 1]?.trim();
+    if (last) return last;
+  }
+  return req.headers.get("x-real-ip") ?? "unknown";
+}
+
 export async function POST(req: NextRequest) {
-  const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const ip = clientIp(req);
   // One real email per submission → cap per-IP like the other public senders.
   const limit = rateLimit(`feedback:${ip}`, 5, 10 * 60 * 1000);
   if (!limit.allowed) {

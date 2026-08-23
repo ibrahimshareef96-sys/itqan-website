@@ -1,6 +1,37 @@
 # Itqan Studio Website — Handover
 
 
+## 2026-08-23 (LATEST) — feedback.itqanstudio.com LIVE + cover v2 + uniform Behance boards
+
+Commit `6a5cc6e`, deployment `lvm5ok71uceykm7l7fon9hgs`. All verified live.
+
+- **feedback.itqanstudio.com** — the client-testimonial form, Ibrahim's new post-project
+  routine. Send clients `feedback.itqanstudio.com?p=<project-slug>`; answers arrive at
+  CONTACT_TO_EMAIL with the project tag, the star rating in the subject, and an explicit
+  publish-permission line. Chrome-less on the subdomain (rides the brand-portal
+  BRAND_HOSTS rewrite), with chrome at /feedback on the apex. noindex.
+  - `POST /api/feedback`: same SES SMTP envs as contact, per-IP rate limit 5/10 min,
+    honeypot answers fake success, control chars stripped, subject-bound fields
+    single-lined (header-injection guard), publishOk boolean carried verbatim.
+  - Infra: Route 53 A `feedback` → 52.212.71.212 (zone Z06561092N5NFW89QHZA8), fqdn
+    appended to Coolify app `cybvxnemzusk0yzjcwzrey3v`, cert auto-issued.
+  - VERIFIED: TLS 200, nav absent on subdomain, TEST submission delivered ({"ok":true}),
+    honeypot fake-success, bad rating 400. A test email marked TEST sits in the inbox.
+- **Cover v2** — Ibrahim's screenshot showed the OLD cover: his browser cache (live bytes
+  were already the collage). Fixed deterministically: improved collage (website FULLY
+  readable, co-equal) under a NEW FILENAME `cover-collage.webp`; old cover.webp deleted.
+  Rename-on-change is now the house rule for replacing a same-named public image.
+- **Behance boards all 1400×1750 (4:5)** after "same aspect ratio please" — b2 gained a
+  console strip at its base, b6 bookends with the v2 collage. Direction unchanged
+  (approved). Boards in `~/Desktop/behance-lemon-garden/boards/`.
+- **Testimonial: DRAFTED, NOT PUBLISHED.** No real Sarmad quote exists, and none was
+  invented into the site. `~/Desktop/behance-lemon-garden/TESTIMONIAL-DRAFT.md` holds a
+  fact-true draft (sv + en) + a WhatsApp approval message + the form link. The site keeps
+  the founder-voice quote until Sarmad signs off. NEVER publish the draft unapproved.
+- Routing tests 39/39 (was 34). Panel verdict on the endpoint: see final message /
+  DISPOSITIONS.
+
+
 ## 2026-08-22 (LATER) — cover redone won.agency-style; Behance boards designed
 
 Ibrahim's feedback: the website mockups only appeared after heavy scrolling, and he wanted

@@ -112,6 +112,12 @@ const portalCases = [
   ['itqanstudio.com', '/work', false],
   // `/brands` is the legacy hub, not the portal — it must not suppress chrome.
   ['itqanstudio.com', '/brands', false],
+  // /feedback ON THE APEX keeps site chrome. The chrome-less contract for
+  // feedback.itqanstudio.com's root is NOT decided by isPortalRequest — the
+  // middleware's rewrite branch flags every BRAND_HOSTS rewrite as portal —
+  // so it cannot be pinned here; it is pinned by the rewrite case above plus
+  // the live check in the deploy notes.
+  ['itqanstudio.com', '/feedback', false],
   ['itqanstudio.com', '/branding', false],
   [null, '/brand', true],
   [null, '/work', false],

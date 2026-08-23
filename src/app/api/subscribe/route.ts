@@ -44,8 +44,16 @@ function isRateLimited(ip: string): boolean {
 }
 
 function clientIp(req: NextRequest): string {
+  // LAST value, not first: Traefik appends the real peer to any client-sent
+  // X-Forwarded-For, so the first entry is attacker-writable and would give a
+  // spoofed header a fresh rate-limit bucket per request. (Same fix as
+  // /api/feedback — found by review there, shared by this pre-existing copy.)
   const forwarded = req.headers.get("x-forwarded-for");
-  if (forwarded) return forwarded.split(",")[0].trim();
+  if (forwarded) {
+    const parts = forwarded.split(",");
+    const last = parts[parts.length - 1]?.trim();
+    if (last) return last;
+  }
   return req.headers.get("x-real-ip") ?? "unknown";
 }
 
