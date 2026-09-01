@@ -1,6 +1,38 @@
 # Itqan Studio Website — Handover
 
 
+## 2026-09-01 (SHIP IN FLIGHT) — Millow merged to local main; waiting on Sarmad's testimonial text
+
+Ibrahim's go: ship Millow + Lemon Garden, replace Lemon Garden's self-authored quote
+with the REAL testimonial from **Sarmad Alsadi** (Lemon Garden founder — Ibrahim first
+said "Murad", then corrected to Sarmad), then push main + deploy via Coolify.
+
+State: `feat/millow-case-study` merged into local main (`8bf7283`, incl. the feedback
+investigation docs `29b0ada`). **NOT pushed** — the testimonial swap goes in first.
+Typecheck clean, 40/40 tests pass on the merged tree. The feedback email lives ONLY in
+the studio inbox (ibrahim@itqanstudio.com; no connector, no DB, no payload logs) —
+Ibrahim chose to paste the text into chat (twice selected "paste" in the question
+dialog but no text arrived — waiting on a plain chat reply with Sarmad's words).
+
+Also done this turn, all staged and UNPUSHED on local main:
+- Fixed a real bug from `a905b14`: it deleted `millow/fs-burger.webp` but left it in
+  the Millow `mockups` array ⇒ broken 4th gallery tile. Trimmed to three (the commit's
+  own stated intent).
+- Ibrahim: no client photo needed — use the Lemon Garden LOGO as the testimonial
+  avatar. `logo.png` (black circular badge) copied from `~/Desktop/lemongarden-site/
+  public/brand/logo.png` → `public/images/testimonials/lemon-garden.png`; it is
+  already circular so the rounded-full avatar crop fits with zero rework. The
+  `testimonialImage` field swap goes in TOGETHER with the quote (logo next to
+  Ibrahim's placeholder words would misattribute them).
+- jonny-olejak.png + taste-skill deletions: ALREADY committed upstream in `f971729`;
+  Ibrahim asked for them deleted — confirmed gone, nothing to do.
+- Local production build (Node 22) exit 0; /work/millow + /work/lemon-garden prerender.
+
+Next (one paste away): set lemon-garden testimonialQuote/Name/Company/Image in
+`src/data/case-studies.ts`, code-review the diff, push main, deploy the itqan Coolify
+app only (sequential), verify both case studies live.
+Tracking: `agent-work/20260901092709_ship_millow_lemon_garden_case_studies.md`.
+
 ## 2026-09-01 (LATER) — Murad timeline verified: nothing was "fixed", his email is a NEW send
 
 Ibrahim received Murad's feedback right after the diagnostic and assumed a fix happened.

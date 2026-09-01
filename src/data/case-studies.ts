@@ -71,7 +71,6 @@ export const caseStudies: CaseStudy[] = [
       '/images/portfolio/millow/website.webp',
       '/images/portfolio/millow/fs-hero.webp',
       '/images/portfolio/millow/fs-film.webp',
-      '/images/portfolio/millow/fs-burger.webp',
     ],
     brandShowcase: [
       '/images/portfolio/millow/brand-type.webp',
@@ -249,10 +248,10 @@ export const caseStudies: CaseStudy[] = [
       'Web Design Concept',
     ],
     testimonialQuote:
-      "Restaurant booking SaaS charges per cover, forever, for what is essentially a calendar with rules. We built Lemon Garden the opposite deal: a system they own outright, on their own server, where the owner changes the rules from a console instead of calling a developer. Demo on day one, production in a week — then we let their real service weeks tell us what to build next.",
-    testimonialName: 'Ibrahim Shareef',
-    testimonialCompany: 'Founder, Itqan Studio',
-    testimonialImage: '/images/testimonials/ibrahim-shareef.png',
+      'Ibrahim from Itqan was very professional and easy to communicate with through the whole project. He made my ideas come to reality in a way I had not expected. Really enjoyed the process and happy with the final result!',
+    testimonialName: 'Sarmad Alsadi',
+    testimonialCompany: 'Founder, Lemon Garden',
+    testimonialImage: '/images/testimonials/lemon-garden.png',
     duration: '1 week to production',
     industryAverage: '3-6 months',
     outcomeMetric: 'Live in production — seven cities booking through one system',
