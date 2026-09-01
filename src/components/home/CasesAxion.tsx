@@ -18,13 +18,12 @@ interface CaseCard {
 
 const cards: CaseCard[] = [
   {
-    href: '/work/shareefico',
-    title: 'Shareefico',
-    outcome: 'Brand + content engine, live in under 30 days.',
+    href: '/work/millow',
+    title: 'Millow',
+    outcome: '56 tracked design rounds, every release behind a green 113-test gate.',
     media: {
-      video: '/videos/shareefico-cover.mp4',
-      image: '/images/portfolio/shareefico/cover-poster.jpg',
-      alt: 'Shareefico — personal brand and custom CMS by Itqan Studio',
+      image: '/images/portfolio/millow/cover-collage.webp',
+      alt: "Millow, Sweden's fermented oat protein platform, website designed with Itqan Studio",
     },
     aspect: 'aspect-[329/246]',
     chip: 'light',

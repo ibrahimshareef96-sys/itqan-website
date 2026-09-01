@@ -17,6 +17,21 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: 'millow',
+    title: 'Millow',
+    subtitle: "A living website for Sweden's fermented oat protein platform",
+    category: 'ui-ux',
+    coverImage: '/images/portfolio/millow/cover-collage.webp',
+    mockups: [
+      '/images/portfolio/millow/website.webp',
+      '/images/portfolio/millow/fs-hero.webp',
+      '/images/portfolio/millow/fs-film.webp',
+    ],
+    description: "A living website for Sweden's fermented oat protein platform.",
+    tags: ['UI/UX', 'Web Design', 'Food Tech'],
+    filters: ['UI/UX Design', 'Brand & Identity'],
+  },
+  {
     id: 'mutqin',
     title: 'Mutqin',
     subtitle: 'AI Startup Companion',

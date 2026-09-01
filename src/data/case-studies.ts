@@ -60,6 +60,83 @@ export interface CaseStudy {
 
 export const caseStudies: CaseStudy[] = [
   {
+    id: 'millow',
+    title: 'Millow',
+    subtitle: "A living website for Sweden's fermented oat protein platform",
+    industry: 'Food tech',
+    category: 'UI/UX',
+    coverImage: '/images/portfolio/millow/cover-collage.webp',
+    liveUrl: 'https://millow.co',
+    mockups: [
+      '/images/portfolio/millow/website.webp',
+      '/images/portfolio/millow/fs-hero.webp',
+      '/images/portfolio/millow/fs-film.webp',
+      '/images/portfolio/millow/fs-burger.webp',
+    ],
+    brandShowcase: [
+      '/images/portfolio/millow/brand-type.webp',
+      '/images/portfolio/millow/brand-color.webp',
+    ],
+    brandShowcaseCopy: {
+      eyebrow: 'The design language',
+      title: { lead: 'Six laws,', accent: 'everywhere' },
+      body: "Millow's brand handbook is strict, and we treated that as the point. We translated it into six UI laws: type, color on surfaces, pillow seams, the bare biscuit, hard offset shadows and the du-form voice. Every future page starts from rules, not vibes.",
+    },
+    challenge:
+      'Millow AB ferments Swedish oats and mycelium into clean-label protein in Gothenburg. Their site already worked; the founder wanted it to feel like the product: crafted, warm, alive. The brand book is strict (aubergine on light, mascots never on salmon, headings of eight words or fewer) and the site sells to two rooms at once, a school-kitchen buyer and an investor.',
+    approach:
+      "ITQAN joined as the design partner beside Millow's in-house engineer, working in tracked weekly rounds with the founder. We translated the brand handbook into six UI laws, rebuilt Food Service around the buyer's four numbers and a self-playing 30 fps production film, took the landing hero through three concepts to a cursor-chasing 'biscuit of light', and merged the partner ecosystem into one rolling banner of official marks.",
+    result:
+      "A living site in two languages behind a serious gate: 575 unit tests, 113 end-to-end browser tests, a Lighthouse performance budget and secret scanning on every merge. The first release shipped mid-August; the full V2 lands early September. The client's own words are on their way; until then the founder's verdict stands below.",
+    services: [
+      'Design direction',
+      'Design system & motion',
+      'Page design & build',
+      'Local CI & release gates',
+    ],
+    testimonialQuote:
+      'Millow is the best thing I have been part of. Every pixel got argued about, tested, and earned its place.',
+    testimonialName: 'Ibrahim Shareef',
+    testimonialCompany: "Founder & CEO, ITQAN Studio. The studio's own verdict; the client's testimonial is in collection.",
+    testimonialImage: '/images/testimonials/ibrahim-shareef.png',
+    duration: 'weekly releases since July 2026',
+    outcomeMetric:
+      '56 tracked design rounds with the founder, every release behind a green 113-test gate',
+    scope: 'Design system · Motion · Food Service rebuild · Landing concepts · Partners',
+    stack: 'Next.js · Payload CMS · Tailwind · Playwright · AWS',
+    beforeQuote:
+      'The brief, August 2026: the site is "MVP++" - now take it to one of a kind.',
+    phases: [
+      {
+        pillar: 'identity',
+        days: 'The language · Weeks 1-2',
+        deliverables: [
+          'The brand handbook translated into six UI laws for the build',
+          'Type and color made law: the script always sits under the heading, and every color stays on its approved surfaces',
+          'Pillow seams at every color boundary, the bare biscuit, hard offset shadows, and the du-form voice',
+        ],
+      },
+      {
+        pillar: 'system',
+        days: 'The pages · Weeks 3-5',
+        deliverables: [
+          "Food Service rebuilt: a film hero over oat fields, the buyer's four numbers, and a self-playing 30 fps story film with claim stickers",
+          'Three landing hero concepts, ending in a biscuit of light that chases the cursor',
+          'The partner ecosystem merged into one master banner of official marks',
+        ],
+      },
+      {
+        pillar: 'automation',
+        days: 'The machine · Every week',
+        deliverables: [
+          'A local CI gate on every release: 575 unit tests, 113 end-to-end browser tests, and a Lighthouse performance budget',
+          'The 30 fps pipeline behind the self-playing production film',
+          'Tamed the Liquid Glass bar tinting in iOS 26 Safari',
+        ],
+      },
+    ],
+  },
+  {
     id: 'mutqin',
     title: 'Mutqin',
     subtitle: 'AI Startup Companion',

@@ -1,6 +1,76 @@
 # Itqan Studio Website — Handover
 
 
+## 2026-09-01 (LATER) — Murad timeline verified: nothing was "fixed", his email is a NEW send
+
+Ibrahim received Murad's feedback right after the diagnostic and assumed a fix happened.
+Verified: NO code/config/deploy change occurred (last feedback commit is still `5f6a521`,
+Aug 23). SES shows exactly one active window today — 12:56–13:11 local (08:56Z bucket,
+2 sends): the diagnostic + one more email, i.e. Murad's feedback was SENT in that window
+(fresh resubmission), not released from any queue. His ORIGINAL submission never produced
+an email at all (0 bounces/rejects for 2 weeks; nothing in Gmail or studio inbox).
+
+Root-cause suspects for the original loss, in order: (1) honeypot — the hidden field is
+named `website`, which browser autofill (esp. Chrome address autofill) fills even when
+hidden, and the route returns FAKE SUCCESS **without logging** ⇒ silent invisible drop;
+(2) submit never completed client-side. Cannot distinguish retroactively — that
+unlogged-silent-drop design is the actual defect.
+
+Proposed fix (awaiting go, since push = production deploy and `feat/millow-case-study`
+holds unpushed work): rename honeypot to a non-autofillable name, never silently drop
+(send tagged `[feedback][suspect]` or at least log the hit), optional min-time-on-page +
+BCC/DB persistence. Log:
+`agent-work/completed/20260901092535_verify_murad_feedback_timeline.md`.
+
+## 2026-09-01 — "Missing" client feedback investigated: it goes to the STUDIO inbox
+
+No code changed. A client said they submitted feedback.itqanstudio.com and Ibrahim
+couldn't find it in Gmail. Root cause: working as designed — since 2026-08-23
+(commit `5f6a521`) FEEDBACK_TO_EMAIL routes submissions to **ibrahim@itqanstudio.com**
+(Google Workspace, MX smtp.google.com), at Ibrahim's own request. The contact form
+still goes to the private Gmail, which is why he expected it there.
+
+Verified live 2026-09-01: POST /api/feedback → 200 ok (SMTP accepted); SES eu-west-1
+healthy (prod access, 0 bounces/rejects, no suppression); the diagnostic email
+(subject `[feedback] ★★★★★ DIAGNOSTIC — Claude delivery check · delivery-check-2026-09-01`)
+did NOT appear anywhere in Gmail → it landed in the studio mailbox. Gmail has zero
+client feedback since the switch, only the Aug 23 tests.
+
+Open follow-ups (Ibrahim to decide):
+- If the client's email is not in ibrahim@itqanstudio.com (incl. spam): suspect the
+  honeypot (hidden `website` field + browser autofill = silent fake success) or an
+  incomplete submit; have the client resend while watching.
+- Feedback has NO database — an email is the only copy. Consider persisting
+  submissions (or BCC to a second address) so one lost email is never unrecoverable.
+- Consider Workspace forwarding ibrahim@itqanstudio.com → Gmail, or checking the
+  studio inbox as part of the routine.
+
+Investigation log: `agent-work/completed/20260901085548_investigate_feedback_email_delivery.md`.
+
+## 2026-08-23 — Millow flagship case study (branch `feat/millow-case-study`, NOT pushed)
+
+On a new branch off `main`; push = production deploy, so it stays local until Ibrahim says go.
+
+- New `millow` entries FIRST in `src/data/case-studies.ts` and `src/data/projects.ts`
+  (drives next-case ordering; next after Millow is Mutqin). Filters: UI/UX Design +
+  Brand & Identity. No industryAverage (ongoing engagement, "6 weeks and counting").
+- Homepage `CasesAxion.tsx` cards now [Millow, Mutqin]; Shareefico card removed from
+  the flagship slot. Millow card uses `cover-collage.webp`, links `/work/millow`.
+- `public/llms.txt`: Millow bullet added first under Selected case studies.
+- 8 staged images in `public/images/portfolio/millow/` committed with the entry.
+- Phase titles ("The language" etc.) merged into the `days` label because
+  `CaseStudyPhase` has no title field and the renderer was not touched.
+- `npm run typecheck` and `npm run build` both green; `/work/millow` prerenders.
+
+## 2026-08-23 (LATEST) — feedback destination → studio inbox
+
+Commit `5f6a521`, deployment `nztf85a2g3kh3hzpbw48utat`. Ibrahim: client feedback must NOT
+land in the private Gmail. The route now reads **FEEDBACK_TO_EMAIL** (set in Coolify to
+**ibrahim@itqanstudio.com**) with CONTACT_TO_EMAIL as fallback. DELIBERATELY SCOPED: the
+contact form still goes to ibrahim.shareef96@gmail.com — flagged to Ibrahim as an open
+choice, not changed unilaterally. A destination-proof test submission was sent live
+(project tag `destination-check`).
+
 ## 2026-08-23 (LATER) — feedback form: page-local dark mode + HTML email
 
 Commit `d3c8ef5`, deployment `xcohxpif9wsjiv1x8m7l2k2g`, verified live.
